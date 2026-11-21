@@ -1,0 +1,54 @@
+[
+  {
+    "viewport": "320x800",
+    "status": "PASS",
+    "val_pure": "826.55",
+    "val_abs": "936.98",
+    "table_rows": 50,
+    "doc_scroll_width": 320,
+    "window_inner_width": 320,
+    "horizontal_overflow": false,
+    "charts_rendered": true,
+    "console_errors": [],
+    "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_pure_ui_mobile_320.png"
+  },
+  {
+    "viewport": "390x844",
+    "status": "PASS",
+    "val_pure": "826.55",
+    "val_abs": "936.98",
+    "table_rows": 50,
+    "doc_scroll_width": 390,
+    "window_inner_width": 390,
+    "horizontal_overflow": false,
+    "charts_rendered": true,
+    "console_errors": [],
+    "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_pure_ui_mobile_390.png"
+  },
+  {
+    "viewport": "768x1024",
+    "status": "PASS",
+    "val_pure": "826.55",
+    "val_abs": "936.98",
+    "table_rows": 50,
+    "doc_scroll_width": 768,
+    "window_inner_width": 768,
+    "horizontal_overflow": false,
+    "charts_rendered": true,
+    "console_errors": [],
+    "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_pure_ui_tablet_768.png"
+  },
+  {
+    "viewport": "1280x960",
+    "status": "PASS",
+    "val_pure": "826.55",
+    "val_abs": "936.98",
+    "table_rows": 50,
+    "doc_scroll_width": 1280,
+    "window_inner_width": 1280,
+    "horizontal_overflow": false,
+    "charts_rendered": true,
+    "console_errors": [],
+    "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_pure_ui_desktop_1280.png"
+  }
+]

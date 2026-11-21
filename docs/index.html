@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>개미 지수 | GAEMI 50 PURE</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23141413%22/><text x=%2250%22 y=%2270%22 font-size=%2264%22 font-family=%22monospace%22 font-weight=%22bold%22 fill=%22%23c83e2b%22 text-anchor=%22middle%22>G</text></svg>" />
+  <meta name="description" content="한국 개인투자자 순매수 강도(36개월 누적 순매수대금 / 36개월 평균 시가총액) 상위 50개 보통주 동일가중 주가지수 GAEMI 50 PURE" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-top">
+        <span class="brand-series">DataBrew · KOREAN RETAIL INTENSITY INDEX</span>
+        <span id="header-asof">데이터 기준일: 로딩 중...</span>
+      </div>
+      <div class="masthead-title-row">
+        <div>
+          <h1 class="site-title">개미 지수<span class="en">GAEMI 50 PURE</span></h1>
+          <p class="site-deck">
+            시가총액 규모가 큰 초대형주가 단순 순매수 절대금액 상위를 독식하는 착시를 제거하기 위해, <strong>36개월 개인 누적 순매수대금을 같은 기간 평균 시가총액으로 나눈 ‘순매수 강도(%)’ 상위 50개 보통주</strong>(시총 3,000억+ · 60일 일평균 거래대금 10억+ · 36개월 원자료 확보, 분기 정기 리밸런싱 동일가중 2%)로 산출한 공식 대표지수입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 대표지수 GAEMI 50 PURE 및 코스피·코스닥·기존 절대금액 비교 스코어보드 -->
+      <div class="scoreboard" id="scoreboard">
+        <!-- ① GAEMI 50 PURE (공식 대표지수) -->
+        <div class="score-cell primary-pure">
+          <div>
+            <div class="score-label-row">
+              <span class="score-name">GAEMI 50 PURE</span>
+              <span class="score-badge pure-badge">공식 대표지수 · 순매수 강도</span>
+            </div>
+            <div class="score-sub">36개월 순매수 강도(순매수/평균시총) 상위 50 · 동일가중</div>
+          </div>
+          <div class="score-value-row">
+            <span class="score-value" id="val-pure">-</span>
+            <span class="score-change" id="chg-pure">-</span>
+          </div>
+          <div class="score-meta-grid">
+            <div class="meta-item"><span class="meta-k">누적 수익률</span><span class="meta-v" id="cum-pure">-</span></div>
+            <div class="meta-item"><span class="meta-k">최대낙폭</span><span class="meta-v" id="mdd-pure">-</span></div>
+            <div class="meta-item"><span class="meta-k">연율 변동성</span><span class="meta-v" id="vol-pure">-</span></div>
+            <div class="meta-item"><span class="meta-k">KOSPI/KQ 상관</span><span class="meta-v" id="corr-pure">-</span></div>
+          </div>
+        </div>
+
+        <!-- ② KOSPI (1,000 환산) -->
+        <div class="score-cell bench-kospi">
+          <div>
+            <div class="score-label-row">
+              <span class="score-name">KOSPI (1,000 환산)</span>
+              <span class="score-badge" id="raw-kospi">실제 -</span>
+            </div>
+            <div class="score-sub">2024.09.30 = 1,000.00 기준 비교 벤치마크</div>
+          </div>
+          <div class="score-value-row">
+            <span class="score-value" id="val-kospi">-</span>
+            <span class="score-change" id="chg-kospi">-</span>
+          </div>
+          <div class="score-meta-grid">
+            <div class="meta-item"><span class="meta-k">누적 수익률</span><span class="meta-v" id="cum-kospi">-</span></div>
+            <div class="meta-item"><span class="meta-k">최대낙폭</span><span class="meta-v" id="mdd-kospi">-</span></div>
+            <div class="meta-item"><span class="meta-k">연율 변동성</span><span class="meta-v" id="vol-kospi">-</span></div>
+            <div class="meta-item"><span class="meta-k">PURE 대비</span><span class="meta-v" id="gap-kospi">-</span></div>
+          </div>
+        </div>
+
+        <!-- ③ KOSDAQ (1,000 환산) -->
+        <div class="score-cell bench-kosdaq">
+          <div>
+            <div class="score-label-row">
+              <span class="score-name">KOSDAQ (1,000 환산)</span>
+              <span class="score-badge" id="raw-kosdaq">실제 -</span>
+            </div>
+            <div class="score-sub">2024.09.30 = 1,000.00 기준 비교 벤치마크</div>
+          </div>
+          <div class="score-value-row">
+            <span class="score-value" id="val-kosdaq">-</span>
+            <span class="score-change" id="chg-kosdaq">-</span>
+          </div>
+          <div class="score-meta-grid">
+            <div class="meta-item"><span class="meta-k">누적 수익률</span><span class="meta-v" id="cum-kosdaq">-</span></div>
+            <div class="meta-item"><span class="meta-k">최대낙폭</span><span class="meta-v" id="mdd-kosdaq">-</span></div>
+            <div class="meta-item"><span class="meta-k">연율 변동성</span><span class="meta-v" id="vol-kosdaq">-</span></div>
+            <div class="meta-item"><span class="meta-k">PURE 대비</span><span class="meta-v" id="gap-kosdaq">-</span></div>
+          </div>
+        </div>
+
+        <!-- ④ 기존 GAEMI 50 (절대금액 · 내부 비교지수) -->
+        <div class="score-cell legacy-abs">
+          <div>
+            <div class="score-label-row">
+              <span class="score-name">기존 절대금액 Top 50</span>
+              <span class="score-badge">내부 비교지수</span>
+            </div>
+            <div class="score-sub">시총 보정 없는 36개월 단순 순매수금액 상위 50</div>
+          </div>
+          <div class="score-value-row">
+            <span class="score-value" id="val-abs">-</span>
+            <span class="score-change" id="chg-abs">-</span>
+          </div>
+          <div class="score-meta-grid">
+            <div class="meta-item"><span class="meta-k">누적 수익률</span><span class="meta-v" id="cum-abs">-</span></div>
+            <div class="meta-item"><span class="meta-k">최대낙폭</span><span class="meta-v" id="mdd-abs">-</span></div>
+            <div class="meta-item"><span class="meta-k">KOSPI/KQ 상관</span><span class="meta-v" id="corr-abs">-</span></div>
+            <div class="meta-item"><span class="meta-k">PURE 공통종목</span><span class="meta-v" id="common-abs">21/50 (42%)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-bar" aria-label="섹션 탐색">
+        <a href="#sec-chart">① PURE · 코스피 · 코스닥 비교 차트</a>
+        <a href="#sec-constituents">② PURE 상위 50 종목 (강도 vs 절대순위)</a>
+        <a href="#sec-stock-detail">③ 종목별 상세 분석 (6대 지표 &amp; 추이)</a>
+        <a href="#sec-comparison">④ 기존 지수와 8대 차이 검증 (삼전·하닉·시총·업종)</a>
+        <a href="#sec-sensitivity">⑤ 민감도 분석 &amp; 산출 방법론</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ① GAEMI 50 PURE · 코스피 · 코스닥 비교 차트 -->
+    <section class="section" id="sec-chart">
+      <div class="section-header">
+        <div>
+          <span class="section-num">SECTION 01 · BENCHMARK COMPARISON</span>
+          <h2 class="section-title">GAEMI 50 PURE · 코스피 · 코스닥 비교 차트 및 상관계수 검증</h2>
+          <p class="section-note">기준일 2024년 9월 30일 = 1,000.00 포인트 (36개월 원자료 확보 완료 시점) · 매 분기 말 정기 리밸런싱 동일가중 2.0%</p>
+        </div>
+        <div class="controls-row">
+          <div class="btn-group" id="chart-period-btns">
+            <button type="button" class="btn-toggle active" data-period="ALL">전체 (24.09~)</button>
+            <button type="button" class="btn-toggle" data-period="1Y">최근 1년</button>
+            <button type="button" class="btn-toggle" data-period="6M">6개월</button>
+            <button type="button" class="btn-toggle" data-period="3M">3개월</button>
+            <button type="button" class="btn-toggle" data-period="YTD">2026 YTD</button>
+          </div>
+          <div class="btn-group" id="chart-mode-btns">
+            <button type="button" class="btn-toggle active" data-mode="INDEX">지수 (1,000pt)</button>
+            <button type="button" class="btn-toggle" data-mode="RETURN">누적 수익률 (%)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-legend-bar">
+          <span class="legend-item"><span class="legend-swatch" style="background:#c83e2b"></span>GAEMI 50 PURE (대표 · 순매수 강도 상위 50)</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:#141413"></span>KOSPI (1,000 환산)</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:#1d5b8c"></span>KOSDAQ (1,000 환산)</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:#8c877e"></span>기존 GAEMI 50 (내부 비교 · 절대금액 상위 50)</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="mainIndexChart"></canvas>
+        </div>
+        <div class="chart-caption">
+          <span>* 점선 수직선은 분기 정기 리밸런싱 적용 첫 거래일( 매년 1·4·7·10월 첫 거래일, 종목당 2.0% 동일가중 리셋 )을 나타냅니다.</span>
+          <span>산식: 순매수 강도(%) = 36개월 개인 누적 순매수대금 / 36개월 평균 시가총액 × 100</span>
+        </div>
+      </div>
+
+      <div class="finding-strip">
+        <strong>핵심 분석 결과:</strong> 순매수 절대금액 대신 <strong>36개월 평균 시가총액 대비 순매수 강도(%)</strong>로 종목을 선정하자, 기존 지수에서 32%를 차지하던 10조 원 이상 초대형주 비중이 <strong>12%(6종목)</strong>로 줄고 개인이 시가총액의 15~41%를 집중 매수한 중형주(3,000억~1조) 비중이 <strong>18% → 58%(29종목)</strong>로 확대되었습니다. 그 결과 <strong>GAEMI 50 PURE</strong>의 코스피 일간 상관계수는 <code>0.791 → 0.760</code>으로 낮아진 반면 코스닥 상관계수는 <code>0.894 → 0.943</code>으로 높아졌으며, 누적 수익률 <strong>-17.34%</strong>(826.55pt), 최대낙폭(MDD) <strong>-57.06%</strong>를 기록해 개인 집중 매수 포트폴리오의 고유한 위험·수익 구조를 명확히 드러냅니다.
+      </div>
+    </section>
+
+    <!-- ② GAEMI 50 PURE 구성 종목 50선 (순매수 강도 순위 vs 절대 순매수액 순위 나란히 비교) -->
+    <section class="section" id="sec-constituents">
+      <div class="section-header">
+        <div>
+          <span class="section-num">SECTION 02 · GAEMI 50 PURE CONSTITUENTS</span>
+          <h2 class="section-title">GAEMI 50 PURE 구성 종목 50선 — 순매수 강도 순위 vs 기존 절대 순매수액 순위</h2>
+          <p class="section-note" id="constituent-window-note">2026 Q4 정기 리밸런싱 확정 포트폴리오 (집계기간: 2023.10.01 ~ 2026.09.30 · 시총 3,000억+ · 60일 평균거래대금 10억+ · 36개월 원자료 확보)</p>
+        </div>
+        <div class="controls-row">
+          <div class="btn-group" id="constituent-tab-btns">
+            <button type="button" class="btn-toggle active" data-tab="PURE">GAEMI 50 PURE (순매수 강도 Top 50)</button>
+            <button type="button" class="btn-toggle" data-tab="ABS">기존 절대금액 Top 50 (내부 비교)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="controls-row">
+          <div class="btn-group" id="market-filter-btns">
+            <button type="button" class="btn-toggle active" data-mkt="ALL">전체 (50)</button>
+            <button type="button" class="btn-toggle" data-mkt="KOSPI">KOSPI</button>
+            <button type="button" class="btn-toggle" data-mkt="KOSDAQ">KOSDAQ</button>
+          </div>
+          <input type="search" id="stock-search" class="search-input" placeholder="종목명 또는 종목코드 검색..." aria-label="종목 검색" />
+        </div>
+        <div class="section-note">
+          * 표의 종목을 클릭하면 하단 <strong>③ 종목별 상세 화면 (6대 핵심 지표 및 누적 순매수·주가 추이)</strong>으로 즉시 이동합니다.
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="constituent-table">
+          <thead>
+            <tr>
+              <th>강도 순위</th>
+              <th>전분기 대비</th>
+              <th class="num">절대금액 순위</th>
+              <th>종목명 (코드)</th>
+              <th>시장 · 규모</th>
+              <th class="num">순매수 강도 (%)</th>
+              <th class="bar-cell">강도 시각화</th>
+              <th class="num">36개월 누적 순매수</th>
+              <th class="num">36개월 평균 시총</th>
+              <th class="num">기준일 시총</th>
+              <th>최초 편입 시점</th>
+              <th class="num">편입 이후 수익률</th>
+              <th class="num">현재 비중</th>
+            </tr>
+          </thead>
+          <tbody id="constituent-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ③ 종목별 상세 화면 (Section 5 필수 6대 항목 + 누적 순매수·주가·시총 추이 차트) -->
+    <section class="section" id="sec-stock-detail">
+      <div class="section-header">
+        <div>
+          <span class="section-num">SECTION 03 · STOCK-LEVEL DEEP DIVE</span>
+          <h2 class="section-title">종목별 상세 화면 — 36개월 순매수 강도 6대 지표 및 주가 추이</h2>
+          <p class="section-note">개별 종목의 36개월 누적 순매수대금, 같은 기간 평균 시가총액, 순매수 강도(%), 전체 순위, 전 분기 대비 순위 변화, 편입 시점 및 편입 이후 수익률을 검증합니다.</p>
+        </div>
+        <div class="controls-row">
+          <label for="trajectory-stock-select" class="section-note" style="font-weight:700;color:var(--ink)">상세 조회 종목:</label>
+          <select id="trajectory-stock-select" class="select-input" aria-label="상세 조회 종목 선택"></select>
+          <div class="btn-group" id="traj-right-axis-btns">
+            <button type="button" class="btn-toggle active" data-axis="PRICE">우축: 주가 (원)</button>
+            <button type="button" class="btn-toggle" data-axis="MARCAP">우축: 시가총액 (억 원)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 종목별 상세 6대 필수 지표 카드 -->
+      <div class="detail-metrics-grid" id="stock-detail-cards">
+        <div class="detail-card">
+          <span class="k">① 36개월 개인 누적 순매수대금</span>
+          <span class="v" id="dt-netbuy">-</span>
+          <span class="sub" id="dt-name-sub">-</span>
+        </div>
+        <div class="detail-card">
+          <span class="k">② 같은 기간(36개월) 평균 시가총액</span>
+          <span class="v" id="dt-avgmc">-</span>
+          <span class="sub" id="dt-endmc-sub">기준일 시총: -</span>
+        </div>
+        <div class="detail-card">
+          <span class="k">③ 개인 순매수 강도 (%)</span>
+          <span class="v up" id="dt-intensity">-</span>
+          <span class="sub">순매수대금 / 평균시총 × 100</span>
+        </div>
+        <div class="detail-card">
+          <span class="k">④ 전체 순위 (강도 vs 절대금액)</span>
+          <span class="v" id="dt-ranks">-</span>
+          <span class="sub" id="dt-elig-sub">-</span>
+        </div>
+        <div class="detail-card">
+          <span class="k">⑤ 전 분기 대비 순위 변화</span>
+          <span class="v" id="dt-rankchg">-</span>
+          <span class="sub" id="dt-prevrank-sub">-</span>
+        </div>
+        <div class="detail-card">
+          <span class="k">⑥ 지수 편입 시점 &amp; 편입 이후 수익률</span>
+          <span class="v" id="dt-entryret">-</span>
+          <span class="sub" id="dt-entryq-sub">-</span>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-legend-bar">
+          <span class="legend-item"><span class="legend-swatch" style="background:#c83e2b"></span>36개월 개인 누적 순매수대금 (좌축, 억 원)</span>
+          <span class="legend-item"><span class="legend-swatch" style="background:#141413"></span><span id="traj-right-legend">수정 기준 종가 (우축, 원)</span></span>
+          <span id="traj-stock-summary" style="margin-left:auto;font-family:var(--font-mono);font-size:12.5px;font-weight:700"></span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="stockTrajectoryChart"></canvas>
+        </div>
+        <div class="chart-caption">
+          <span>* 좌축(붉은 영역)은 최근 36개월 동안 개인투자자가 누적 순매수한 금액(억 원)이며, 우축(검은 실선)은 같은 기간 주가 또는 시가총액 추이입니다.</span>
+          <span>출처: KRX 일별 투자자별 매매동향 및 기준가 보정 시가총액 원장</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 기존 지수(절대금액 Top 50)와 새 지수(GAEMI 50 PURE)의 8대 차이 검증 -->
+    <section class="section" id="sec-comparison">
+      <div class="section-header">
+        <div>
+          <span class="section-num">SECTION 04 · 8-POINT DIFFERENCE VERIFICATION</span>
+          <h2 class="section-title">기존 절대금액 지수 vs GAEMI 50 PURE (순매수 강도) 8대 차이 검증</h2>
+          <p class="section-note">삼성전자·SK하이닉스의 선정 여부와 순위 변화, 공통(21)·신규편입(29)·제외(29) 종목, 시가총액 규모별·업종별 구성 변화를 검증합니다.</p>
+        </div>
+      </div>
+
+      <!-- 4-8. 삼성전자 · SK하이닉스 선정 여부 및 순위 심층 검증 -->
+      <div class="giants-grid">
+        <div class="giant-card excluded" id="card-samsung">
+          <div class="giant-header">
+            <span class="giant-title">삼성전자 <span class="stock-code">005930 · KOSPI</span></span>
+            <span class="verdict-tag out">GAEMI 50 PURE 미선정 (탈락)</span>
+          </div>
+          <div class="score-meta-grid" style="border-top:none;padding-top:4px;font-size:13px">
+            <div class="meta-item"><span class="meta-k">36개월 개인 순매수</span><span class="meta-v">30조 1,655억 원</span></div>
+            <div class="meta-item"><span class="meta-k">절대 순매수액 순위</span><span class="meta-v">전체 #2위</span></div>
+            <div class="meta-item"><span class="meta-k">36개월 평균 시가총액</span><span class="meta-v">658조 8,844억 원</span></div>
+            <div class="meta-item"><span class="meta-k">개인 순매수 강도</span><span class="meta-v down">4.58% (강도 순위 #79위)</span></div>
+          </div>
+          <p class="section-note" style="margin-top:8px">
+            * 절대 순매수 금액은 30.2조 원으로 전체 2위이나, 36개월 평균 시가총액(658.9조 원) 대비 순매수 강도는 <strong>4.58%</strong>에 그쳐 적격 종목 중 <strong>79위</strong>로 상위 50위 밖으로 탈락했습니다.
+          </p>
+        </div>
+
+        <div class="giant-card included" id="card-hynix">
+          <div class="giant-header">
+            <span class="giant-title">SK하이닉스 <span class="stock-code">000660 · KOSPI</span></span>
+            <span class="verdict-tag in">GAEMI 50 PURE 선정 (#40위)</span>
+          </div>
+          <div class="score-meta-grid" style="border-top:none;padding-top:4px;font-size:13px">
+            <div class="meta-item"><span class="meta-k">36개월 개인 순매수</span><span class="meta-v">41조 8,631억 원</span></div>
+            <div class="meta-item"><span class="meta-k">절대 순매수액 순위</span><span class="meta-v">전체 #1위</span></div>
+            <div class="meta-item"><span class="meta-k">36개월 평균 시가총액</span><span class="meta-v">385조 4,043억 원</span></div>
+            <div class="meta-item"><span class="meta-k">개인 순매수 강도</span><span class="meta-v up">10.86% (강도 순위 #40위)</span></div>
+          </div>
+          <p class="section-note" style="margin-top:8px">
+            * 36개월 평균 시가총액(385.4조 원)의 <strong>10.86%</strong>(41.9조 원)를 개인이 순매수하여 초대형주 중 유일하게 순매수 강도 10%를 넘기며 <strong>강도 순위 40위</strong>로 PURE 지수에 편입되었습니다(절대순위 1위 → 강도순위 40위).
+          </p>
+        </div>
+      </div>
+
+      <!-- 시가총액 규모별 & 업종별 구성 변화 -->
+      <div class="grid-2col" style="margin-bottom:20px">
+        <div class="panel-box">
+          <div class="panel-title">
+            <span>시가총액 규모별 구성 변화 (초대형주 쏠림 해소 검증)</span>
+            <span class="score-badge">중형주 18% → 58%</span>
+          </div>
+          <div class="chart-canvas-wrap small">
+            <canvas id="sizeComparisonChart"></canvas>
+          </div>
+          <div class="table-wrap" style="margin-top:10px;border:none">
+            <table class="data-table" style="min-width:100%">
+              <thead>
+                <tr>
+                  <th>시가총액 구간</th>
+                  <th class="num">PURE 종목수 (비중)</th>
+                  <th class="num">기존 절대금액 (비중)</th>
+                  <th class="num">변화폭</th>
+                </tr>
+              </thead>
+              <tbody id="size-comp-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-title">
+            <span>업종별 구성 변화 및 삼성전자·SK하이닉스 분기별 강도 순위 추이</span>
+          </div>
+          <div class="table-wrap" style="max-height:210px;overflow-y:auto;margin-bottom:12px">
+            <table class="data-table" style="min-width:100%">
+              <thead>
+                <tr>
+                  <th>업종명 (KSIC)</th>
+                  <th class="num">PURE (비중)</th>
+                  <th class="num">기존 절대금액</th>
+                  <th class="num">증감</th>
+                </tr>
+              </thead>
+              <tbody id="industry-comp-tbody"></tbody>
+            </table>
+          </div>
+          <div class="table-wrap" style="max-height:195px;overflow-y:auto">
+            <table class="data-table" style="min-width:100%">
+              <thead>
+                <tr>
+                  <th>분기</th>
+                  <th class="num">삼성전자 강도 (강도순위/절대순위)</th>
+                  <th class="num">SK하이닉스 강도 (강도순위/절대순위)</th>
+                </tr>
+              </thead>
+              <tbody id="giants-history-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 공통 종목(21) / 새롭게 편입되는 종목(29) / 제외되는 종목(29) 비교 탭 & 분기별 편입·퇴출 -->
+      <div class="grid-2col">
+        <div class="panel-box">
+          <div class="panel-title">
+            <span>기존 절대금액 Top 50 vs PURE Top 50 종목 교체 명단</span>
+            <div class="btn-group" id="diff-group-btns">
+              <button type="button" class="btn-toggle active" data-diff="NEW">신규 편입 (29)</button>
+              <button type="button" class="btn-toggle" data-diff="EXC">제외 종목 (29)</button>
+              <button type="button" class="btn-toggle" data-diff="COM">공통 유지 (21)</button>
+            </div>
+          </div>
+          <p class="section-note" id="diff-group-desc" style="margin-bottom:10px">
+            시총 규모는 작지만 개인이 시가총액의 9.5%~34.8%를 집중 매수하여 PURE 지수에 새롭게 진입한 29개 종목입니다.
+          </p>
+          <div class="table-wrap" style="max-height:340px;overflow-y:auto">
+            <table class="data-table" style="min-width:100%">
+              <thead>
+                <tr>
+                  <th>구분 순위</th>
+                  <th>종목명 (코드)</th>
+                  <th class="num">순매수 강도</th>
+                  <th class="num">36개월 순매수</th>
+                  <th class="num">36개월 평균시총</th>
+                  <th>비고 / 사유</th>
+                </tr>
+              </thead>
+              <tbody id="diff-group-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-title">
+            <span id="inout-panel-title">분기별 GAEMI 50 PURE 정기 편입·퇴출 이력</span>
+            <select id="quarter-select" class="select-input" aria-label="리밸런싱 분기 선택"></select>
+          </div>
+          <p class="section-note" id="inout-meta" style="margin-bottom:12px">-</p>
+          <div class="inout-grid">
+            <div class="inout-col in">
+              <h4 id="added-count-title">신규 편입 (0종목)</h4>
+              <ul class="compact-list" id="added-list"></ul>
+            </div>
+            <div class="inout-col out">
+              <h4 id="removed-count-title">퇴출 (0종목)</h4>
+              <ul class="compact-list" id="removed-list"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 최소 시가총액·거래대금 민감도 분석 & 산출 방법론 -->
+    <section class="section" id="sec-sensitivity">
+      <div class="section-header">
+        <div>
+          <span class="section-num">SECTION 05 · SENSITIVITY ANALYSIS &amp; METHODOLOGY</span>
+          <h2 class="section-title">최소 시가총액·거래대금·신규상장 관측기간 민감도 분석 및 산출 방법론</h2>
+          <p class="section-note">초기 검증 기준(시총 3,000억+ · 60일 거래대금 10억+ · 36개월 완전관측)을 포함한 7개 시나리오별 지수 특성 및 상관계수 검증</p>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-bottom:20px">
+        <table class="data-table" style="min-width:860px">
+          <thead>
+            <tr>
+              <th>민감도 분석 시나리오 (자격 기준 조합)</th>
+              <th class="num">적격 후보 풀</th>
+              <th class="num">Top 50 평균 강도</th>
+              <th class="num">Top 50 중위 시총</th>
+              <th class="num">확정안과 종목 일치율</th>
+              <th class="num">현재 지수 (pt)</th>
+              <th class="num">누적 수익률</th>
+              <th class="num">최대낙폭 (MDD)</th>
+              <th class="num">연율 변동성</th>
+              <th class="num">KOSPI 상관계수</th>
+              <th class="num">KOSDAQ 상관계수</th>
+            </tr>
+          </thead>
+          <tbody id="sensitivity-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="spec-grid">
+        <div class="panel-box">
+          <div class="panel-title"><span>1. GAEMI 50 PURE 종목 선정 및 신규 상장 처리 규칙</span></div>
+          <div class="formula-box">
+            순매수 강도 (%) = [ 36개월 개인 누적 순매수대금 / 36개월 평균 시가총액 ] × 100
+          </div>
+          <table class="spec-table">
+            <tbody>
+              <tr>
+                <th>선정 기준 확정</th>
+                <td>민감도 분석 결과, 시총 하한을 1,000억 원으로 낮추면 중위 시총이 2,692억 원으로 급감해 소형 테마주가 지수를 지배하고, 반대로 1조 원으로 높이면 적격 풀이 59개로 축소되어 사실상 시총 상위 대형주 지수로 회귀합니다. 이에 따라 <strong>① 기준일 시가총액 3,000억 원 이상, ② 최근 60거래일 일평균 거래대금 10억 원 이상, ③ 양수(+) 순매수 보통주</strong>(적격 풀 143개, Top 50 중위 시총 7,485억 원)를 최종 선정 기준으로 확정했습니다.</td>
+              </tr>
+              <tr>
+                <th>신규 상장 처리 규칙</th>
+                <td>신규 상장 종목은 상장 직후 공모주 유통물량 소화 과정에서 개인 순매수가 단기 집중되고 관측일수가 짧아 순매수 강도가 비정상적으로 부풀려지는 왜곡이 발생합니다(관측제한 미적용 시 노타·알지노믹스·세미파이브 등 상장 1년 미만 종목이 상위권에 대거 진입). 이를 방지하기 위해 <strong>36개월 집계 윈도우 전체 영업일의 90% 이상(최소 650거래일 이상) 원자료가 확보된 종목만 편입 자격을 부여하는 완전 관측기간 규칙</strong>을 적용했습니다.</td>
+              </tr>
+              <tr>
+                <th>36개월 평균 시총</th>
+                <td>각 종목의 최신 상장주식수에서 KRX 공식 기준가(<code>base_price</code>)와 전일 종가 비율을 역산하여 액면분할·병합·무상증자·감자 등 자본금 변동이 보정된 일별 시가총액 시계열을 복원한 뒤, 해당 36개월 기간의 일별 시가총액 산술평균으로 계산합니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-title"><span>2. 지수 산출 공식 · 리밸런싱 · 원장 보존</span></div>
+          <div class="formula-box">
+            [일별 수익률] 1 + r_{i,t} = P_{i,t} (정규장 종가) / B_{i,t} (KRX 공식 기준가)<br/>
+            [체인링킹 지수] I_t = I_{t_end}^{(k-1)} × ∑_{i=1}^{50} (0.02 × ∏_{τ=t_1}^{t} (1 + r_{i,τ}))
+          </div>
+          <table class="spec-table">
+            <tbody>
+              <tr>
+                <th>분기별 리밸런싱</th>
+                <td>매년 <strong>3·6·9·12월 마지막 거래일</strong> 시점에 이용 가능한 과거 36개월 자료만 사용하여 순매수 강도 상위 50개 종목을 선정하고, <strong>익분기 첫 거래일</strong>에 종목당 <strong>2.00% 동일가중</strong>으로 리밸런싱합니다(현재 선정 종목의 과거 소급 적용 엄격 금지).</td>
+              </tr>
+              <tr>
+                <th>데이터 기준일</th>
+                <td id="spec-asof">2026-11-20 (기준일 2024-09-30 = 1,000.00 pt · 총 9개 분기 리밸런싱)</td>
+              </tr>
+              <tr>
+                <th>원장 보존 및 출처</th>
+                <td>기존 2,727개 보통주 유니버스(상장 2,545 + 상장폐지 182) 및 1,731,422건의 일별 투자자별 수급 원장(<code>daily_investor_trades.parquet</code>)과 기존 절대금액 기준 비교지수 시계열을 모두 보존하고, 대표지수를 <strong>GAEMI 50 PURE</strong>로 전면 재산출했습니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <div>
+      <strong>개미 지수 | GAEMI 50 PURE</strong> · DataBrew Data Journalism Project · 본 서비스는 투자 권유가 아닌 데이터저널리즘 분석 목적으로 제공됩니다.
+    </div>
+    <div>
+      기준값 1,000.00 (2024-09-30) · GitHub Actions 일별 자동 업데이트
+    </div>
+  </footer>
+
+  <script src="data/gaemi_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
