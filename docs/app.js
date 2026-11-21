@@ -85,6 +85,27 @@
     return `${s}${num.toFixed(d)}%`;
   }
 
+  function isDarkMode() {
+    const curr = document.documentElement.getAttribute("data-theme");
+    return (
+      curr === "dark" ||
+      (!curr && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  }
+
+  function getChartColors() {
+    const dark = isDarkMode();
+    return {
+      dark,
+      kospi: dark ? "#f5c542" : "#1f7a4c", // 다크모드: 선명한 골드(#f5c542), 라이트모드: 선명한 에메랄드 그린(#1f7a4c)
+      priceLine: dark ? "#e8e6df" : "#222220",
+      text: dark ? "#c3c2b7" : "#52514e",
+      grid: dark ? "rgba(255, 255, 255, 0.10)" : "rgba(140, 140, 135, 0.18)",
+      rebLine: dark ? "rgba(210, 208, 200, 0.35)" : "rgba(122, 121, 116, 0.35)",
+      rebText: dark ? "#b5b4ac" : "#7a7974",
+    };
+  }
+
   function clsSign(v) {
     const num = Number(v);
     if (num > 0) return "up";
@@ -251,6 +272,7 @@
     gapKosdaqEl.className = clsSign(gapKosdaq);
 
     // 2) 차트 데이터셋 구성 (기본 3개 + 선택 활성화)
+    const palette = getChartColors();
     const datasets = [
       {
         label: "GAEMI 50 PURE (개미 지수)",
@@ -265,9 +287,9 @@
       {
         label: "코스피 (1,000 환산)",
         data: stKospi.reindexed,
-        borderColor: "#0b0b0b",
+        borderColor: palette.kospi,
         backgroundColor: "transparent",
-        borderWidth: 1.8,
+        borderWidth: 2.2,
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
@@ -275,9 +297,9 @@
       {
         label: "코스닥 (1,000 환산)",
         data: stKosdaq.reindexed,
-        borderColor: "#2a78d6",
+        borderColor: "#3b82f6",
         backgroundColor: "transparent",
-        borderWidth: 1.8,
+        borderWidth: 2.0,
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
@@ -288,9 +310,9 @@
       datasets.push({
         label: "기존 절대금액 GAEMI 50",
         data: stAbs.reindexed,
-        borderColor: "#8a8984",
+        borderColor: "#9ca3af",
         backgroundColor: "transparent",
-        borderWidth: 1.6,
+        borderWidth: 1.7,
         borderDash: [4, 3],
         pointRadius: 0,
         tension: 0.1,
@@ -300,9 +322,9 @@
       datasets.push({
         label: "코스닥 동일가중 비교지수",
         data: stKqEw.reindexed,
-        borderColor: "#1a7f4b",
+        borderColor: "#10b981",
         backgroundColor: "transparent",
-        borderWidth: 1.6,
+        borderWidth: 1.7,
         borderDash: [3, 2],
         pointRadius: 0,
         tension: 0.1,
@@ -312,9 +334,9 @@
       datasets.push({
         label: "시총·업종 유사 50종목 비교 포트폴리오",
         data: stMatched.reindexed,
-        borderColor: "#8e44ad",
+        borderColor: "#a855f7",
         backgroundColor: "transparent",
-        borderWidth: 1.6,
+        borderWidth: 1.7,
         borderDash: [5, 2],
         pointRadius: 0,
         tension: 0.1,
@@ -324,9 +346,9 @@
       datasets.push({
         label: "GAEMI 50 PURE (KRX+NXT 통합)",
         data: stTotal.reindexed,
-        borderColor: "#d35400",
+        borderColor: "#f97316",
         backgroundColor: "transparent",
-        borderWidth: 1.5,
+        borderWidth: 1.6,
         borderDash: [2, 2],
         pointRadius: 0,
         tension: 0.1,
@@ -351,11 +373,11 @@
           if (x >= chartArea.left && x <= chartArea.right) {
             ctx.beginPath();
             ctx.setLineDash([3, 3]);
-            ctx.strokeStyle = "rgba(122, 121, 116, 0.35)";
+            ctx.strokeStyle = palette.rebLine;
             ctx.moveTo(x, chartArea.top);
             ctx.lineTo(x, chartArea.bottom);
             ctx.stroke();
-            ctx.fillStyle = "#7a7974";
+            ctx.fillStyle = palette.rebText;
             ctx.font = "600 10px 'JetBrains Mono', monospace";
             ctx.fillText(m.label, x + 3, chartArea.top + 11);
           }
@@ -378,7 +400,12 @@
           legend: {
             position: "top",
             align: "start",
-            labels: { boxWidth: 14, boxHeight: 3, font: { size: 12 } },
+            labels: {
+              color: palette.text,
+              boxWidth: 14,
+              boxHeight: 3,
+              font: { size: 12, weight: "600" },
+            },
           },
           tooltip: {
             callbacks: {
@@ -394,11 +421,11 @@
         scales: {
           x: {
             grid: { display: false },
-            ticks: { maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
+            ticks: { color: palette.text, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
           },
           y: {
-            grid: { color: "rgba(140, 140, 135, 0.18)" },
-            ticks: { font: { family: "JetBrains Mono", size: 11 } },
+            grid: { color: palette.grid },
+            ticks: { color: palette.text, font: { family: "JetBrains Mono", size: 11 } },
           },
         },
       },
@@ -575,6 +602,7 @@
     document.getElementById("dt-others-sub").textContent =
       `외인 ${fmtEok(t.frg_net_buy_36m_eok)} · 기관 ${fmtEok(t.org_net_buy_36m_eok)}`;
 
+    const palette = getChartColors();
     const ctx = document.getElementById("detailChart").getContext("2d");
     if (detailChart) detailChart.destroy();
     detailChart = new Chart(ctx, {
@@ -596,9 +624,9 @@
           {
             label: "주가 (원)",
             data: t.prices,
-            borderColor: "#0b0b0b",
+            borderColor: palette.priceLine,
             backgroundColor: "transparent",
-            borderWidth: 1.8,
+            borderWidth: 2.0,
             pointRadius: 0,
             yAxisID: "yPrc",
             tension: 0.15,
@@ -614,11 +642,11 @@
         scales: {
           x: {
             grid: { display: false },
-            ticks: { maxTicksLimit: 6, font: { family: "JetBrains Mono", size: 10 } },
+            ticks: { color: palette.text, maxTicksLimit: 6, font: { family: "JetBrains Mono", size: 10 } },
           },
           yNet: {
             position: "left",
-            grid: { color: "rgba(140, 140, 135, 0.15)" },
+            grid: { color: palette.grid },
             ticks: {
               font: { family: "JetBrains Mono", size: 10 },
               color: "#eb6834",
@@ -629,6 +657,7 @@
             position: "right",
             grid: { drawOnChartArea: false },
             ticks: {
+              color: palette.priceLine,
               font: { family: "JetBrains Mono", size: 10 },
               callback: (v) => `${fmtInt(v)}원`,
             },
@@ -814,6 +843,7 @@
       .join("");
 
     // ⑤ 투자 주체별 가상 지수 차트
+    const palette = getChartColors();
     const ts = DATA.timeseries || [];
     const ctx = document.getElementById("investorIndexChart").getContext("2d");
     if (invChart) invChart.destroy();
@@ -833,16 +863,16 @@
           {
             label: `외국인 순매수 강도 상위 50 (${fmtPct(DATA.summary.metrics.FOREIGN_50_PURE.total_return_pct)})`,
             data: ts.map((r) => r.FOREIGN_50_PURE),
-            borderColor: "#2a78d6",
-            borderWidth: 2.0,
+            borderColor: "#3b82f6",
+            borderWidth: 2.1,
             pointRadius: 0,
             tension: 0.1,
           },
           {
             label: `기관(연기금 포함) 순매수 강도 상위 50 (${fmtPct(DATA.summary.metrics.INSTITUTION_50_PURE.total_return_pct)})`,
             data: ts.map((r) => r.INSTITUTION_50_PURE),
-            borderColor: "#1a7f4b",
-            borderWidth: 2.0,
+            borderColor: "#10b981",
+            borderWidth: 2.1,
             pointRadius: 0,
             tension: 0.1,
           },
@@ -854,16 +884,20 @@
         animation: false,
         interaction: { mode: "index", intersect: false },
         plugins: {
-          legend: { position: "top", align: "start", labels: { boxWidth: 14, boxHeight: 3 } },
+          legend: {
+            position: "top",
+            align: "start",
+            labels: { color: palette.text, boxWidth: 14, boxHeight: 3 },
+          },
         },
         scales: {
           x: {
             grid: { display: false },
-            ticks: { maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
+            ticks: { color: palette.text, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
           },
           y: {
-            grid: { color: "rgba(140, 140, 135, 0.18)" },
-            ticks: { font: { family: "JetBrains Mono", size: 11 } },
+            grid: { color: palette.grid },
+            ticks: { color: palette.text, font: { family: "JetBrains Mono", size: 11 } },
           },
         },
       },
@@ -1100,11 +1134,10 @@
     // 테마 전환 버튼
     document.getElementById("themeBtn").addEventListener("click", () => {
       const root = document.documentElement;
-      const curr = root.getAttribute("data-theme");
-      const isDark =
-        curr === "dark" ||
-        (!curr && window.matchMedia("(prefers-color-scheme: dark)").matches);
-      root.setAttribute("data-theme", isDark ? "light" : "dark");
+      root.setAttribute("data-theme", isDarkMode() ? "light" : "dark");
+      renderSection01();
+      renderStockDetailPanel();
+      renderSection04();
     });
 
     // 링크 복사 버튼
