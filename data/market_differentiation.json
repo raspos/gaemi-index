@@ -47,12 +47,12 @@
         "market_weight_pct": 21.92799344518029
       },
       {
-        "rank": 46,
+        "rank": 43,
         "code": "010120",
         "name": "LS ELECTRIC",
         "market": "KOSPI",
         "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
-        "intensity_pct": 9.7265,
+        "intensity_pct": 10.5909,
         "net_buy_eok": 12322.14,
         "end_marcap_eok": 307500.0,
         "marcap_rank_all": 22,
@@ -406,7 +406,7 @@
       "weight_diff_vs_market": 1.995
     },
     {
-      "rank": 24,
+      "rank": 23,
       "code": "446540",
       "name": "메가터치",
       "market": "KOSDAQ",
@@ -418,7 +418,7 @@
       "weight_diff_vs_market": 1.995
     },
     {
-      "rank": 25,
+      "rank": 24,
       "code": "168360",
       "name": "펨트론",
       "market": "KOSDAQ",
@@ -586,7 +586,7 @@
       "market_weight_pct": 2.5397313421225682,
       "net_buy_eok": 12764.81,
       "intensity_pct": 3.0697,
-      "pure_rank_eligible": 106.0,
+      "pure_rank_eligible": 107.0,
       "eligibility_note": "적격"
     },
     {
@@ -599,7 +599,7 @@
       "market_weight_pct": 1.9101308901827156,
       "net_buy_eok": -9402.49,
       "intensity_pct": -3.4373,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -625,7 +625,7 @@
       "market_weight_pct": 1.0883372232855144,
       "net_buy_eok": -7721.27,
       "intensity_pct": -1.1682,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -638,7 +638,7 @@
       "market_weight_pct": 1.0119495513115762,
       "net_buy_eok": -9645.47,
       "intensity_pct": -2.5039,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -651,7 +651,7 @@
       "market_weight_pct": 0.9532775253610584,
       "net_buy_eok": -10100.32,
       "intensity_pct": -3.4516,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -664,7 +664,7 @@
       "market_weight_pct": 0.936041268983753,
       "net_buy_eok": -22534.89,
       "intensity_pct": -6.7859,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -677,7 +677,7 @@
       "market_weight_pct": 0.8834683616785108,
       "net_buy_eok": -17605.2,
       "intensity_pct": -5.7617,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -690,7 +690,7 @@
       "market_weight_pct": 0.8776296263051646,
       "net_buy_eok": -28659.33,
       "intensity_pct": -8.343,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -703,7 +703,7 @@
       "market_weight_pct": 0.8418703195089293,
       "net_buy_eok": -16502.61,
       "intensity_pct": -5.389,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -716,7 +716,7 @@
       "market_weight_pct": 0.769056492100108,
       "net_buy_eok": -2993.41,
       "intensity_pct": -0.8257,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -729,7 +729,7 @@
       "market_weight_pct": 0.7443438732044637,
       "net_buy_eok": -11354.94,
       "intensity_pct": -2.5426,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {
@@ -742,7 +742,7 @@
       "market_weight_pct": 0.7205626952326727,
       "net_buy_eok": -19262.18,
       "intensity_pct": -10.6379,
-      "pure_rank_eligible": NaN,
+      "pure_rank_eligible": null,
       "eligibility_note": "순매도(음수)"
     },
     {

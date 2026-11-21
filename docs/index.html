@@ -37,26 +37,42 @@
     </div>
   </header>
 
-  <!-- 상단 고정 스코어 스트립 (대표 지수값·수익률 → 코스피·코스닥 동일 기간 수익률) -->
-  <section class="top-strip" aria-label="대표지수 및 코스피·코스닥 수익률 비교">
+  <!-- 상단 고정 스코어 스트립 (개미 지수 · 비슷한 주식 50개 · 코스피 · 코스닥 4대 핵심 비교 카드) -->
+  <section class="top-strip" aria-label="개미 지수 및 비교지수 수익률">
     <div class="score-strip">
-      <!-- 개미 지수 -->
+      <!-- 1. 개미 지수 (가장 강조) -->
       <div class="tile hero">
         <div class="tile-top">
           <span class="tile-k">개미 지수 (GAEMI 50 PURE · 잠정)</span>
-          <span class="tile-tag" id="period-label-pure">기준일 2024-09-30 = 1,000</span>
+          <span class="tile-tag" id="period-label-pure">시작일 2024-09-30 = 1,000</span>
         </div>
         <div class="tile-main">
           <span class="tile-v" id="val-pure">-</span>
           <span class="tile-chg" id="chg-pure">-</span>
         </div>
         <div class="tile-foot">
-          <span>동일 기간 수익률</span>
+          <span>동일 기간 누적 수익률</span>
           <strong id="cum-pure" style="font-family:var(--font-mono)">-</strong>
         </div>
       </div>
 
-      <!-- 코스피 -->
+      <!-- 2. 비슷한 주식 50개 (두 번째 강조) -->
+      <div class="tile matched-hero">
+        <div class="tile-top">
+          <span class="tile-k">비슷한 주식 50개 (시총·업종 유사)</span>
+          <span class="tile-tag" id="tag-matched">미편입 1:1 매칭</span>
+        </div>
+        <div class="tile-main">
+          <span class="tile-v" id="val-matched">-</span>
+          <span class="tile-chg" id="cum-matched">-</span>
+        </div>
+        <div class="tile-foot">
+          <span>개미 지수와의 수익률 차이</span>
+          <strong id="gap-matched" style="font-family:var(--font-mono)">-</strong>
+        </div>
+      </div>
+
+      <!-- 3. 코스피 (보조) -->
       <div class="tile">
         <div class="tile-top">
           <span class="tile-k">코스피 (1,000 환산)</span>
@@ -72,7 +88,7 @@
         </div>
       </div>
 
-      <!-- 코스닥 -->
+      <!-- 4. 코스닥 (보조) -->
       <div class="tile">
         <div class="tile-top">
           <span class="tile-k">코스닥 (1,000 환산)</span>
@@ -114,8 +130,7 @@
             <button type="button" data-period="YTD">연초 이후</button>
           </div>
           <div class="opt-checks" role="group" aria-label="보조 비교지수 표시 선택">
-            <span>비교 추가:</span>
-            <label><input type="checkbox" id="chk-matched" /> 비슷한 주식 50개</label>
+            <span>보조 비교:</span>
             <label><input type="checkbox" id="chk-kqew" /> 코스닥 동일가중</label>
             <label><input type="checkbox" id="chk-abs" /> 단순 순매수금액 상위 50</label>
             <label><input type="checkbox" id="chk-total" /> KRX+NXT 합산</label>
@@ -123,17 +138,14 @@
         </div>
 
         <div class="chart-wrap">
-          <canvas id="mainChart" role="img" aria-label="개미 지수와 코스피·코스닥 수익률 비교 차트"></canvas>
+          <canvas id="mainChart" role="img" aria-label="개미 지수와 비슷한 주식 50개, 코스피, 코스닥 수익률 비교 차트"></canvas>
         </div>
 
         <div class="chart-note">
-          <span id="chart-reindexed-note">* 선택한 기간 첫 거래일을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다. 세로 점선은 분기 리밸런싱 시점입니다.</span>
+          <span id="chart-reindexed-note">* 선택한 기간 첫 거래일을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다. 범례를 클릭하면 개별 선을 숨기거나 표시할 수 있습니다.</span>
           <span>순매수 강도(%) = 36개월 누적 추정 순매수대금 ÷ 36개월 평균 시가총액 × 100</span>
         </div>
       </div>
-
-      <!-- 핵심 발견 세 가지 (데이터에서 자동 갱신) -->
-      <div class="facts-bar" id="facts-bar" aria-label="핵심 발견 세 가지"></div>
 
       <!-- 상세 성과 지표 (접기) -->
       <details class="more">
@@ -613,26 +625,71 @@
         </div>
       </details>
 
-      <!-- 접기 2: 50위 경계 종목(41~50위) 체결단가 가정 민감도 및 원자료 감사 -->
+      <!-- 접기 2: PHASE 4 순매수대금 추정 방식 비교 (전체 후보군 A안 vs B안 독립 재선정 및 9개 분기 백테스트) -->
       <details class="more">
-        <summary>원자료 감사 상세 및 41~50위 경계 종목의 단가 가정 민감도 (종가 vs 평균가)</summary>
-        <div id="audit-detail-box" style="font-size:12.5px;line-height:1.6;margin-bottom:10px"></div>
-        <div class="tbl-wrap">
+        <summary>순매수대금 추정 방식 비교 — 전체 후보군 A안(당일 종가) vs B안(기준가·종가 평균) 독립 재선정 검증</summary>
+        <div id="phase4-ab-summary" style="font-size:12.5px;line-height:1.6;margin-bottom:10px"></div>
+        <div class="grid-2" style="margin-bottom:10px">
+          <div>
+            <h4 style="font-size:13px;margin-bottom:6px">9개 분기별 A안 · B안 상위 50 공통 종목 수 및 단독 편입 종목</h4>
+            <div class="tbl-wrap" style="max-height:240px;overflow-y:auto">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>분기</th>
+                    <th class="r">공통 종목</th>
+                    <th>A안(종가)에만 편입</th>
+                    <th>B안(평균가)에만 편입</th>
+                  </tr>
+                </thead>
+                <tbody id="phase4-ab-quarterly-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h4 style="font-size:13px;margin-bottom:6px">2026 Q4 40~60위 경계 종목 순위 및 강도 변화</h4>
+            <div class="tbl-wrap" style="max-height:240px;overflow-y:auto">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>종목명</th>
+                    <th class="r">A안 순위(강도)</th>
+                    <th class="r">B안 순위(강도)</th>
+                    <th class="r">강도 차이</th>
+                  </tr>
+                </thead>
+                <tbody id="boundary-sens-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 접기 3: PHASE 4 과거 시가총액 복원 독립 검증 (SKC, LS ELECTRIC, SK증권, 피노, 대한광통신 등) -->
+      <details class="more">
+        <summary>과거 시가총액 및 상장주식수 변동 종목 독립 검증 (SKC · LS ELECTRIC · SK증권 · 피노 · 대한광통신 등)</summary>
+        <div id="phase4-marcap-note" style="font-size:12.5px;line-height:1.6;margin-bottom:10px"></div>
+        <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
           <table class="tbl">
             <thead>
               <tr>
-                <th>순위</th>
-                <th>종목명 (코드)</th>
-                <th class="r">당일 종가 기준 강도</th>
-                <th class="r">(기준가+종가)/2 기준 강도</th>
-                <th class="r">강도 차이 (%p)</th>
-                <th class="r">종가 기준 추정 순매수</th>
-                <th class="r">평균가 기준 추정 순매수</th>
+                <th>종목명 (26Q4 순위)</th>
+                <th class="r">2026.03 주식수</th>
+                <th class="r">2026.09 주식수 (변화율)</th>
+                <th>확인된 자본금 이벤트</th>
+                <th class="r">보정 후 평균시총 (강도)</th>
+                <th class="r">±10% 오차 시 강도 범위</th>
               </tr>
             </thead>
-            <tbody id="boundary-sens-tbody"></tbody>
+            <tbody id="phase4-marcap-tbody"></tbody>
           </table>
         </div>
+      </details>
+
+      <!-- 접기 4: '비슷한 주식 50개' 유사성 검증 및 데이터 매니페스트(버전·체크섬) -->
+      <details class="more">
+        <summary>비슷한 주식 50개(시가총액·업종 유사 비교 포트폴리오) 유사성 검증 및 원자료 버전 매니페스트</summary>
+        <div id="audit-detail-box" style="font-size:12.5px;line-height:1.6"></div>
       </details>
 
       <!-- 접기 3: 최소 시가총액·거래대금·관측기간 민감도 분석 -->

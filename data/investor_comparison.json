@@ -310,19 +310,6 @@
       },
       {
         "rank": 23,
-        "code": "001510",
-        "name": "SK증권",
-        "market": "KOSPI",
-        "industry": "금융 지원 서비스업",
-        "intensity_pct": 16.1507,
-        "net_buy_eok": 589.51,
-        "avg_marcap_36m_eok": 3650.08,
-        "end_marcap_eok": 5250.4,
-        "since_entry_return_pct": -56.27,
-        "rank_change_str": "▲ +24"
-      },
-      {
-        "rank": 24,
         "code": "446540",
         "name": "메가터치",
         "market": "KOSDAQ",
@@ -335,7 +322,7 @@
         "rank_change_str": "NEW"
       },
       {
-        "rank": 25,
+        "rank": 24,
         "code": "168360",
         "name": "펨트론",
         "market": "KOSDAQ",
@@ -345,7 +332,20 @@
         "avg_marcap_36m_eok": 2609.3,
         "end_marcap_eok": 3096.89,
         "since_entry_return_pct": -65.45,
-        "rank_change_str": "▲ +20"
+        "rank_change_str": "▲ +21"
+      },
+      {
+        "rank": 25,
+        "code": "001510",
+        "name": "SK증권",
+        "market": "KOSPI",
+        "industry": "금융 지원 서비스업",
+        "intensity_pct": 15.6857,
+        "net_buy_eok": 589.51,
+        "avg_marcap_36m_eok": 3758.26,
+        "end_marcap_eok": 5250.4,
+        "since_entry_return_pct": -56.27,
+        "rank_change_str": "▲ +23"
       },
       {
         "rank": 26,
@@ -423,7 +423,7 @@
         "avg_marcap_36m_eok": 5797.55,
         "end_marcap_eok": 7682.91,
         "since_entry_return_pct": -11.68,
-        "rank_change_str": "▼ -8"
+        "rank_change_str": "▼ -7"
       },
       {
         "rank": 32,
@@ -449,7 +449,7 @@
         "avg_marcap_36m_eok": 5576.87,
         "end_marcap_eok": 7245.28,
         "since_entry_return_pct": 37.5,
-        "rank_change_str": "▼ -6"
+        "rank_change_str": "▼ -5"
       },
       {
         "rank": 34,
@@ -475,7 +475,7 @@
         "avg_marcap_36m_eok": 4155.69,
         "end_marcap_eok": 4368.59,
         "since_entry_return_pct": -45.26,
-        "rank_change_str": "▼ -3"
+        "rank_change_str": "▼ -2"
       },
       {
         "rank": 36,
@@ -514,7 +514,7 @@
         "avg_marcap_36m_eok": 68674.5,
         "end_marcap_eok": 133482.48,
         "since_entry_return_pct": -72.73,
-        "rank_change_str": "▼ -10"
+        "rank_change_str": "▼ -9"
       },
       {
         "rank": 39,
@@ -553,7 +553,7 @@
         "avg_marcap_36m_eok": 3913118.48,
         "end_marcap_eok": 12973544.4,
         "since_entry_return_pct": -58.0,
-        "rank_change_str": "▼ -17"
+        "rank_change_str": "▼ -16"
       },
       {
         "rank": 42,
@@ -561,15 +561,28 @@
         "name": "SKC",
         "market": "KOSPI",
         "industry": "기타 화학제품 제조업",
-        "intensity_pct": 10.6657,
+        "intensity_pct": 10.6685,
         "net_buy_eok": 4727.7,
-        "avg_marcap_36m_eok": 44326.11,
+        "avg_marcap_36m_eok": 44314.37,
         "end_marcap_eok": 49251.11,
         "since_entry_return_pct": -36.28,
-        "rank_change_str": "▼ -11"
+        "rank_change_str": "▼ -10"
       },
       {
         "rank": 43,
+        "code": "010120",
+        "name": "LS ELECTRIC",
+        "market": "KOSPI",
+        "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+        "intensity_pct": 10.5909,
+        "net_buy_eok": 12322.14,
+        "avg_marcap_36m_eok": 116346.59,
+        "end_marcap_eok": 307500.0,
+        "since_entry_return_pct": -53.91,
+        "rank_change_str": "▼ -21"
+      },
+      {
+        "rank": 44,
         "code": "100090",
         "name": "SK오션플랜트",
         "market": "KOSPI",
@@ -582,7 +595,7 @@
         "rank_change_str": "NEW"
       },
       {
-        "rank": 44,
+        "rank": 45,
         "code": "178320",
         "name": "서진시스템",
         "market": "KOSDAQ",
@@ -595,7 +608,7 @@
         "rank_change_str": "▼ -18"
       },
       {
-        "rank": 45,
+        "rank": 46,
         "code": "204270",
         "name": "제이앤티씨",
         "market": "KOSDAQ",
@@ -606,19 +619,6 @@
         "end_marcap_eok": 12871.28,
         "since_entry_return_pct": -22.78,
         "rank_change_str": "NEW"
-      },
-      {
-        "rank": 46,
-        "code": "010120",
-        "name": "LS ELECTRIC",
-        "market": "KOSPI",
-        "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
-        "intensity_pct": 9.7265,
-        "net_buy_eok": 12322.14,
-        "avg_marcap_36m_eok": 126686.7,
-        "end_marcap_eok": 307500.0,
-        "since_entry_return_pct": -53.91,
-        "rank_change_str": "▼ -13"
       },
       {
         "rank": 47,
@@ -692,9 +692,9 @@
         "name": "엘앤씨바이오",
         "market": "KOSDAQ",
         "industry": "의약품 제조업",
-        "frg_intensity_pct": 37.9877,
+        "frg_intensity_pct": 38.1095,
         "frg_net_buy_eok": 3755.76,
-        "avg_marcap_36m_eok": 9886.76,
+        "avg_marcap_36m_eok": 9855.18,
         "end_marcap_eok": 13970.31,
         "since_entry_return_pct": -38.79
       },
@@ -1024,6 +1024,18 @@
       },
       {
         "rank": 30,
+        "code": "327260",
+        "name": "RF머트리얼즈",
+        "market": "KOSDAQ",
+        "industry": "전자부품 제조업",
+        "frg_intensity_pct": 14.9622,
+        "frg_net_buy_eok": 296.27,
+        "avg_marcap_36m_eok": 1980.11,
+        "end_marcap_eok": 8858.8,
+        "since_entry_return_pct": -1.88
+      },
+      {
+        "rank": 31,
         "code": "218410",
         "name": "RFHIC",
         "market": "KOSDAQ",
@@ -1033,18 +1045,6 @@
         "avg_marcap_36m_eok": 7989.57,
         "end_marcap_eok": 15546.63,
         "since_entry_return_pct": 75.76
-      },
-      {
-        "rank": 31,
-        "code": "327260",
-        "name": "RF머트리얼즈",
-        "market": "KOSDAQ",
-        "industry": "전자부품 제조업",
-        "frg_intensity_pct": 14.2741,
-        "frg_net_buy_eok": 296.27,
-        "avg_marcap_36m_eok": 2075.55,
-        "end_marcap_eok": 8858.8,
-        "since_entry_return_pct": -1.88
       },
       {
         "rank": 32,
@@ -1100,9 +1100,9 @@
         "name": "한화",
         "market": "KOSPI",
         "industry": "기타 화학제품 제조업",
-        "frg_intensity_pct": 13.5188,
+        "frg_intensity_pct": 13.3751,
         "frg_net_buy_eok": 6114.34,
-        "avg_marcap_36m_eok": 45228.36,
+        "avg_marcap_36m_eok": 45714.46,
         "end_marcap_eok": 66927.77,
         "since_entry_return_pct": -47.41
       },
@@ -1390,9 +1390,9 @@
         "name": "한솔테크닉스",
         "market": "KOSPI",
         "industry": "전자부품 제조업",
-        "org_intensity_pct": 28.7342,
+        "org_intensity_pct": 28.9077,
         "org_net_buy_eok": 638.19,
-        "avg_marcap_36m_eok": 2221.01,
+        "avg_marcap_36m_eok": 2207.68,
         "end_marcap_eok": 5829.48,
         "since_entry_return_pct": -53.82
       },
@@ -1482,6 +1482,18 @@
       },
       {
         "rank": 18,
+        "code": "356860",
+        "name": "티엘비",
+        "market": "KOSDAQ",
+        "industry": "전자부품 제조업",
+        "org_intensity_pct": 23.1766,
+        "org_net_buy_eok": 901.1,
+        "avg_marcap_36m_eok": 3887.97,
+        "end_marcap_eok": 10819.63,
+        "since_entry_return_pct": 73.29
+      },
+      {
+        "rank": 19,
         "code": "131290",
         "name": "티에스이",
         "market": "KOSDAQ",
@@ -1493,7 +1505,7 @@
         "since_entry_return_pct": -41.87
       },
       {
-        "rank": 19,
+        "rank": 20,
         "code": "403870",
         "name": "HPSP",
         "market": "KOSDAQ",
@@ -1505,7 +1517,7 @@
         "since_entry_return_pct": -7.58
       },
       {
-        "rank": 20,
+        "rank": 21,
         "code": "252990",
         "name": "샘씨엔에스",
         "market": "KOSDAQ",
@@ -1517,7 +1529,7 @@
         "since_entry_return_pct": -29.13
       },
       {
-        "rank": 21,
+        "rank": 22,
         "code": "080220",
         "name": "제주반도체",
         "market": "KOSDAQ",
@@ -1527,18 +1539,6 @@
         "avg_marcap_36m_eok": 9717.88,
         "end_marcap_eok": 26968.74,
         "since_entry_return_pct": 36.75
-      },
-      {
-        "rank": 22,
-        "code": "356860",
-        "name": "티엘비",
-        "market": "KOSDAQ",
-        "industry": "전자부품 제조업",
-        "org_intensity_pct": 22.2889,
-        "org_net_buy_eok": 901.1,
-        "avg_marcap_36m_eok": 4042.81,
-        "end_marcap_eok": 10819.63,
-        "since_entry_return_pct": 73.29
       },
       {
         "rank": 23,
@@ -1674,6 +1674,18 @@
       },
       {
         "rank": 34,
+        "code": "003350",
+        "name": "한국화장품제조",
+        "market": "KOSPI",
+        "industry": "기타 화학제품 제조업",
+        "org_intensity_pct": 19.52,
+        "org_net_buy_eok": 427.52,
+        "avg_marcap_36m_eok": 2190.17,
+        "end_marcap_eok": 3405.8,
+        "since_entry_return_pct": -18.76
+      },
+      {
+        "rank": 35,
         "code": "037460",
         "name": "삼지전자",
         "market": "KOSDAQ",
@@ -1685,7 +1697,7 @@
         "since_entry_return_pct": -1.67
       },
       {
-        "rank": 35,
+        "rank": 36,
         "code": "010060",
         "name": "OCI홀딩스",
         "market": "KOSPI",
@@ -1697,7 +1709,7 @@
         "since_entry_return_pct": 168.37
       },
       {
-        "rank": 36,
+        "rank": 37,
         "code": "138930",
         "name": "BNK금융지주",
         "market": "KOSPI",
@@ -1707,18 +1719,6 @@
         "avg_marcap_36m_eok": 37612.89,
         "end_marcap_eok": 48848.89,
         "since_entry_return_pct": -12.27
-      },
-      {
-        "rank": 37,
-        "code": "003350",
-        "name": "한국화장품제조",
-        "market": "KOSPI",
-        "industry": "기타 화학제품 제조업",
-        "org_intensity_pct": 18.2773,
-        "org_net_buy_eok": 427.52,
-        "avg_marcap_36m_eok": 2339.08,
-        "end_marcap_eok": 3405.8,
-        "since_entry_return_pct": -18.76
       },
       {
         "rank": 38,
@@ -1910,13 +1910,13 @@
     {
       "industry": "반도체 제조업",
       "stock_count": 22,
-      "total_avg_marcap_eok": 4059413.53,
+      "total_avg_marcap_eok": 4059691.48,
       "ind_net_buy_eok": 398741.26,
       "frg_net_buy_eok": -852846.9,
       "org_net_buy_eok": 128512.67,
-      "ind_mean_intensity": -10.857104545454545,
-      "frg_mean_intensity": 6.6338136363636355,
-      "org_mean_intensity": 4.471295454545454,
+      "ind_mean_intensity": -10.840809090909092,
+      "frg_mean_intensity": 6.607368181818182,
+      "org_mean_intensity": 4.48075,
       "ind_sector_intensity_pct": 9.82,
       "frg_sector_intensity_pct": -21.01,
       "org_sector_intensity_pct": 3.17
@@ -2008,13 +2008,13 @@
     {
       "industry": "금융 지원 서비스업",
       "stock_count": 14,
-      "total_avg_marcap_eok": 418006.14,
+      "total_avg_marcap_eok": 418114.32,
       "ind_net_buy_eok": 7801.69,
       "frg_net_buy_eok": -17604.74,
       "org_net_buy_eok": 11860.32,
-      "ind_mean_intensity": -0.46692857142857136,
-      "frg_mean_intensity": -2.9545071428571426,
-      "org_mean_intensity": 4.845121428571429,
+      "ind_mean_intensity": -0.5001428571428571,
+      "frg_mean_intensity": -2.92435,
+      "org_mean_intensity": 4.844628571428571,
       "ind_sector_intensity_pct": 1.87,
       "frg_sector_intensity_pct": -4.21,
       "org_sector_intensity_pct": 2.84
@@ -2064,13 +2064,13 @@
     {
       "industry": "기초 화학물질 제조업",
       "stock_count": 21,
-      "total_avg_marcap_eok": 526380.15,
+      "total_avg_marcap_eok": 526101.12,
       "ind_net_buy_eok": 4148.450000000001,
       "frg_net_buy_eok": -13769.96,
       "org_net_buy_eok": 8275.85,
-      "ind_mean_intensity": -1.3575238095238096,
-      "frg_mean_intensity": 2.5140333333333333,
-      "org_mean_intensity": -0.021061904761904865,
+      "ind_mean_intensity": -1.3579380952380955,
+      "frg_mean_intensity": 2.513295238095238,
+      "org_mean_intensity": -0.020061904761904826,
       "ind_sector_intensity_pct": 0.79,
       "frg_sector_intensity_pct": -2.62,
       "org_sector_intensity_pct": 1.57
@@ -2134,16 +2134,16 @@
     {
       "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
       "stock_count": 9,
-      "total_avg_marcap_eok": 472269.79000000004,
+      "total_avg_marcap_eok": 461929.68,
       "ind_net_buy_eok": -2831.6400000000003,
       "frg_net_buy_eok": 11606.289999999997,
       "org_net_buy_eok": -7252.49,
-      "ind_mean_intensity": -7.262588888888889,
-      "frg_mean_intensity": 2.9741222222222223,
-      "org_mean_intensity": 5.715644444444445,
-      "ind_sector_intensity_pct": -0.6,
-      "frg_sector_intensity_pct": 2.46,
-      "org_sector_intensity_pct": -1.54
+      "ind_mean_intensity": -7.166544444444445,
+      "frg_mean_intensity": 2.8986555555555555,
+      "org_mean_intensity": 5.693088888888889,
+      "ind_sector_intensity_pct": -0.61,
+      "frg_sector_intensity_pct": 2.51,
+      "org_sector_intensity_pct": -1.57
     },
     {
       "industry": "은행 및 저축기관",
@@ -2302,13 +2302,13 @@
     {
       "industry": "의약품 제조업",
       "stock_count": 20,
-      "total_avg_marcap_eok": 369363.64,
+      "total_avg_marcap_eok": 369332.06,
       "ind_net_buy_eok": -12277.51,
       "frg_net_buy_eok": 12210.560000000001,
       "org_net_buy_eok": 2211.3399999999997,
-      "ind_mean_intensity": -5.509015,
-      "frg_mean_intensity": 4.251965,
-      "org_mean_intensity": 1.75466,
+      "ind_mean_intensity": -5.515245,
+      "frg_mean_intensity": 4.258055000000001,
+      "org_mean_intensity": 1.7548549999999998,
       "ind_sector_intensity_pct": -3.32,
       "frg_sector_intensity_pct": 3.31,
       "org_sector_intensity_pct": 0.6
@@ -2330,16 +2330,16 @@
     {
       "industry": "소프트웨어 개발 및 공급업",
       "stock_count": 23,
-      "total_avg_marcap_eok": 445447.39,
+      "total_avg_marcap_eok": 445032.98,
       "ind_net_buy_eok": -15664.519999999999,
       "frg_net_buy_eok": 5570.51,
       "org_net_buy_eok": 9598.36,
-      "ind_mean_intensity": -2.7892,
-      "frg_mean_intensity": -0.09670434782608694,
-      "org_mean_intensity": 3.5246782608695653,
+      "ind_mean_intensity": -2.790804347826087,
+      "frg_mean_intensity": -0.1040391304347825,
+      "org_mean_intensity": 3.532817391304348,
       "ind_sector_intensity_pct": -3.52,
       "frg_sector_intensity_pct": 1.25,
-      "org_sector_intensity_pct": 2.15
+      "org_sector_intensity_pct": 2.16
     },
     {
       "industry": "기타 금속 가공제품 제조업",
@@ -2372,13 +2372,13 @@
     {
       "industry": "의료용품 및 기타 의약 관련제품 제조업",
       "stock_count": 6,
-      "total_avg_marcap_eok": 141168.41,
+      "total_avg_marcap_eok": 141019.16999999998,
       "ind_net_buy_eok": -5376.48,
       "frg_net_buy_eok": 1438.4299999999998,
       "org_net_buy_eok": 4265.34,
-      "ind_mean_intensity": -3.8999833333333336,
-      "frg_mean_intensity": 1.178583333333333,
-      "org_mean_intensity": 2.77815,
+      "ind_mean_intensity": -3.92695,
+      "frg_mean_intensity": 1.1729333333333332,
+      "org_mean_intensity": 2.8121666666666667,
       "ind_sector_intensity_pct": -3.81,
       "frg_sector_intensity_pct": 1.02,
       "org_sector_intensity_pct": 3.02
@@ -2414,27 +2414,27 @@
     {
       "industry": "기타 화학제품 제조업",
       "stock_count": 22,
-      "total_avg_marcap_eok": 426297.95,
+      "total_avg_marcap_eok": 426623.4,
       "ind_net_buy_eok": -19393.89,
       "frg_net_buy_eok": 18193.1,
       "org_net_buy_eok": 61.479999999999905,
-      "ind_mean_intensity": -7.614822727272728,
-      "frg_mean_intensity": 6.474600000000001,
-      "org_mean_intensity": 0.8034181818181818,
+      "ind_mean_intensity": -7.658859090909091,
+      "frg_mean_intensity": 6.4634136363636365,
+      "org_mean_intensity": 0.8604772727272727,
       "ind_sector_intensity_pct": -4.55,
-      "frg_sector_intensity_pct": 4.27,
+      "frg_sector_intensity_pct": 4.26,
       "org_sector_intensity_pct": 0.01
     },
     {
       "industry": "기타 금융업",
       "stock_count": 41,
-      "total_avg_marcap_eok": 3054308.99,
+      "total_avg_marcap_eok": 3053587.29,
       "ind_net_buy_eok": -140601.75,
       "frg_net_buy_eok": -73340.69,
       "org_net_buy_eok": 237053.75,
-      "ind_mean_intensity": -6.790146341463415,
-      "frg_mean_intensity": 1.6654121951219514,
-      "org_mean_intensity": 5.505578048780488,
+      "ind_mean_intensity": -6.772939024390244,
+      "frg_mean_intensity": 1.6312609756097562,
+      "org_mean_intensity": 5.518446341463415,
       "ind_sector_intensity_pct": -4.6,
       "frg_sector_intensity_pct": -2.4,
       "org_sector_intensity_pct": 7.76
@@ -2442,13 +2442,13 @@
     {
       "industry": "전자부품 제조업",
       "stock_count": 44,
-      "total_avg_marcap_eok": 906814.75,
+      "total_avg_marcap_eok": 906717.25,
       "ind_net_buy_eok": -43035.47,
       "frg_net_buy_eok": 37010.85,
       "org_net_buy_eok": 11248.43,
-      "ind_mean_intensity": -7.359302272727273,
-      "frg_mean_intensity": 3.3858863636363634,
-      "org_mean_intensity": 5.83859090909091,
+      "ind_mean_intensity": -7.425397727272727,
+      "frg_mean_intensity": 3.4025113636363638,
+      "org_mean_intensity": 5.877331818181818,
       "ind_sector_intensity_pct": -4.75,
       "frg_sector_intensity_pct": 4.08,
       "org_sector_intensity_pct": 1.24
@@ -2470,16 +2470,16 @@
     {
       "industry": "기초 의약물질 제조업",
       "stock_count": 10,
-      "total_avg_marcap_eok": 1270952.18,
+      "total_avg_marcap_eok": 1269712.8,
       "ind_net_buy_eok": -62244.41,
       "frg_net_buy_eok": 19269.92,
       "org_net_buy_eok": 8450.05,
-      "ind_mean_intensity": -3.1751899999999997,
-      "frg_mean_intensity": 1.1326,
-      "org_mean_intensity": 1.3317400000000001,
+      "ind_mean_intensity": -3.17898,
+      "frg_mean_intensity": 1.13291,
+      "org_mean_intensity": 1.33244,
       "ind_sector_intensity_pct": -4.9,
       "frg_sector_intensity_pct": 1.52,
-      "org_sector_intensity_pct": 0.66
+      "org_sector_intensity_pct": 0.67
     },
     {
       "industry": "무기 및 총포탄 제조업",
@@ -2498,16 +2498,16 @@
     {
       "industry": "자연과학 및 공학 연구개발업",
       "stock_count": 15,
-      "total_avg_marcap_eok": 388585.9,
+      "total_avg_marcap_eok": 386950.58,
       "ind_net_buy_eok": -22234.04,
       "frg_net_buy_eok": 19848.940000000002,
       "org_net_buy_eok": 9049.64,
-      "ind_mean_intensity": -1.0159133333333337,
-      "frg_mean_intensity": 4.7189000000000005,
-      "org_mean_intensity": 0.10587999999999977,
-      "ind_sector_intensity_pct": -5.72,
-      "frg_sector_intensity_pct": 5.11,
-      "org_sector_intensity_pct": 2.33
+      "ind_mean_intensity": -1.0196333333333334,
+      "frg_mean_intensity": 4.722066666666667,
+      "org_mean_intensity": 0.1070733333333331,
+      "ind_sector_intensity_pct": -5.75,
+      "frg_sector_intensity_pct": 5.13,
+      "org_sector_intensity_pct": 2.34
     },
     {
       "industry": "석유 정제품 제조업",
@@ -2554,16 +2554,16 @@
     {
       "industry": "절연선 및 케이블 제조업",
       "stock_count": 5,
-      "total_avg_marcap_eok": 80204.44,
+      "total_avg_marcap_eok": 78501.45999999999,
       "ind_net_buy_eok": -5554.900000000001,
       "frg_net_buy_eok": 4469.33,
       "org_net_buy_eok": 4047.13,
-      "ind_mean_intensity": 1.2276000000000002,
-      "frg_mean_intensity": -1.78966,
-      "org_mean_intensity": 3.3287800000000005,
-      "ind_sector_intensity_pct": -6.93,
-      "frg_sector_intensity_pct": 5.57,
-      "org_sector_intensity_pct": 5.05
+      "ind_mean_intensity": 0.9960600000000003,
+      "frg_mean_intensity": -1.6683799999999998,
+      "org_mean_intensity": 3.4052999999999995,
+      "ind_sector_intensity_pct": -7.08,
+      "frg_sector_intensity_pct": 5.69,
+      "org_sector_intensity_pct": 5.16
     },
     {
       "industry": "항공기,우주선 및 부품 제조업",
@@ -2638,16 +2638,16 @@
     {
       "industry": "특수 목적용 기계 제조업",
       "stock_count": 49,
-      "total_avg_marcap_eok": 714461.94,
+      "total_avg_marcap_eok": 712691.81,
       "ind_net_buy_eok": -60064.17,
       "frg_net_buy_eok": 13120.68,
       "org_net_buy_eok": 70984.0,
-      "ind_mean_intensity": -9.787477551020409,
-      "frg_mean_intensity": 2.663144897959184,
-      "org_mean_intensity": 10.399251020408164,
-      "ind_sector_intensity_pct": -8.41,
+      "ind_mean_intensity": -9.810142857142857,
+      "frg_mean_intensity": 2.692473469387755,
+      "org_mean_intensity": 10.398379591836735,
+      "ind_sector_intensity_pct": -8.43,
       "frg_sector_intensity_pct": 1.84,
-      "org_sector_intensity_pct": 9.94
+      "org_sector_intensity_pct": 9.96
     },
     {
       "industry": "종합 소매업",
@@ -2902,7 +2902,7 @@
         "frg_net_buy_eok": -78.72,
         "org_intensity_pct": -10.3775,
         "org_net_buy_eok": -132.35,
-        "pure_rank_eligible": 24.0
+        "pure_rank_eligible": 23.0
       },
       {
         "code": "168360",
@@ -2916,7 +2916,7 @@
         "frg_net_buy_eok": -83.13,
         "org_intensity_pct": -3.8591,
         "org_net_buy_eok": -100.69,
-        "pure_rank_eligible": 25.0
+        "pure_rank_eligible": 24.0
       },
       {
         "code": "005380",
@@ -2969,11 +2969,11 @@
         "market": "KOSDAQ",
         "industry": "의약품 제조업",
         "end_marcap_eok": 13970.31,
-        "intensity_pct": -38.8681,
+        "intensity_pct": -38.9927,
         "net_buy_eok": -3842.8,
-        "frg_intensity_pct": 37.9877,
+        "frg_intensity_pct": 38.1095,
         "frg_net_buy_eok": 3755.76,
-        "org_intensity_pct": 1.2224,
+        "org_intensity_pct": 1.2263,
         "org_net_buy_eok": 120.86,
         "frg_pure_rank": 2.0,
         "org_pure_rank": 321.0
@@ -3006,7 +3006,7 @@
         "org_intensity_pct": 22.5643,
         "org_net_buy_eok": 6976.26,
         "frg_pure_rank": 25.0,
-        "org_pure_rank": 19.0
+        "org_pure_rank": 20.0
       },
       {
         "code": "236200",
@@ -3035,7 +3035,7 @@
         "frg_net_buy_eok": 272.62,
         "org_intensity_pct": 28.5788,
         "org_net_buy_eok": 960.64,
-        "frg_pure_rank": 98.0,
+        "frg_pure_rank": 99.0,
         "org_pure_rank": 11.0
       },
       {
@@ -3095,7 +3095,7 @@
         "frg_net_buy_eok": 90.88,
         "org_intensity_pct": 26.3884,
         "org_net_buy_eok": 451.05,
-        "frg_pure_rank": 168.0,
+        "frg_pure_rank": 169.0,
         "org_pure_rank": 12.0
       },
       {
@@ -3110,8 +3110,8 @@
         "frg_net_buy_eok": 364.14,
         "org_intensity_pct": 22.4904,
         "org_net_buy_eok": 1001.9,
-        "frg_pure_rank": 95.0,
-        "org_pure_rank": 20.0
+        "frg_pure_rank": 96.0,
+        "org_pure_rank": 21.0
       },
       {
         "code": "098120",
@@ -3127,6 +3127,21 @@
         "org_net_buy_eok": 229.26,
         "frg_pure_rank": 35.0,
         "org_pure_rank": 45.0
+      },
+      {
+        "code": "327260",
+        "name": "RF머트리얼즈",
+        "market": "KOSDAQ",
+        "industry": "전자부품 제조업",
+        "end_marcap_eok": 8858.8,
+        "intensity_pct": -31.1096,
+        "net_buy_eok": -616.0,
+        "frg_intensity_pct": 14.9622,
+        "frg_net_buy_eok": 296.27,
+        "org_intensity_pct": 14.7379,
+        "org_net_buy_eok": 291.83,
+        "frg_pure_rank": 30.0,
+        "org_pure_rank": 55.0
       },
       {
         "code": "059090",
@@ -3155,23 +3170,8 @@
         "frg_net_buy_eok": 146.72,
         "org_intensity_pct": 22.0029,
         "org_net_buy_eok": 437.69,
-        "frg_pure_rank": 112.0,
+        "frg_pure_rank": 111.0,
         "org_pure_rank": 23.0
-      },
-      {
-        "code": "417840",
-        "name": "저스템",
-        "market": "KOSDAQ",
-        "industry": "특수 목적용 기계 제조업",
-        "end_marcap_eok": 4261.2,
-        "intensity_pct": -28.1921,
-        "net_buy_eok": -349.36,
-        "frg_intensity_pct": 7.9201,
-        "frg_net_buy_eok": 98.15,
-        "org_intensity_pct": 21.0251,
-        "org_net_buy_eok": 260.55,
-        "frg_pure_rank": 102.0,
-        "org_pure_rank": 28.0
       }
     ]
   },

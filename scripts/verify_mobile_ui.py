@@ -163,12 +163,10 @@ def run_ui_verification():
                 elif theme_mode == "light" and auto_detected_dark:
                     page.click("#themeBtn")
 
-                # 보조 비교지수 체크박스 활성화 시 차트 데이터셋 추가 동작 확인
-                page.check("#chk-matched")
+                # 보조 비교지수 체크박스 활성화 시 차트 데이터셋 추가 동작 확인 (기본 4개 + 보조 1개 = 5개)
                 page.check("#chk-kqew")
                 dataset_cnt = page.evaluate("() => Chart.getChart('mainChart').data.datasets.length")
                 aux_chart_ok = (dataset_cnt == 5)
-                page.uncheck("#chk-matched")
                 page.uncheck("#chk-kqew")
 
                 # 라이트·다크 테마별 스크린샷 저장
@@ -180,13 +178,15 @@ def run_ui_verification():
                 contrast_ok = (contrast_info["minTextRatio"] >= 4.5 and contrast_info["minChartRatio"] >= 3.0)
 
                 val_pure = page.inner_text("#val-pure").strip()
+                val_matched = page.inner_text("#val-matched").strip()
                 val_kospi = page.inner_text("#val-kospi").strip()
                 val_kosdaq = page.inner_text("#val-kosdaq").strip()
 
                 # 기간 선택(1Y) 버튼 동작 및 재인덱싱 확인
                 page.click('#period-btns button[data-period="1Y"]')
                 val_1y = page.inner_text("#val-pure").strip()
-                period_filter_ok = (val_1y != val_pure and val_1y != "-")
+                gap_matched_1y = page.inner_text("#gap-matched").strip()
+                period_filter_ok = (val_1y != val_pure and val_1y != "-" and gap_matched_1y != "-")
                 page.click('#period-btns button[data-period="ALL"]')
 
                 tab_isolation_ok = True
@@ -213,7 +213,7 @@ def run_ui_verification():
                         if (activeId === 'sec-01') {
                             chartBox = document.getElementById('mainChart').getBoundingClientRect();
                             const c = Chart.getChart('mainChart');
-                            chartKospiColor = c ? c.data.datasets[1].borderColor : '';
+                            chartKospiColor = c ? c.data.datasets[2].borderColor : '';
                         }
                         if (activeId === 'sec-02') chartBox = document.getElementById('detailChart').getBoundingClientRect();
                         if (activeId === 'sec-04') chartBox = document.getElementById('investorIndexChart').getBoundingClientRect();
@@ -252,9 +252,9 @@ def run_ui_verification():
 
                 # 테마 전환 버튼 클릭 시 Chart.js 선 색상 즉시 변경 및 새로고침 후 유지 확인
                 page.click('#tabs button[data-tab="sec-01"]')
-                before_kospi_color = page.evaluate("() => Chart.getChart('mainChart').data.datasets[1].borderColor")
+                before_kospi_color = page.evaluate("() => Chart.getChart('mainChart').data.datasets[2].borderColor")
                 page.click("#themeBtn")
-                after_kospi_color = page.evaluate("() => Chart.getChart('mainChart').data.datasets[1].borderColor")
+                after_kospi_color = page.evaluate("() => Chart.getChart('mainChart').data.datasets[2].borderColor")
                 instant_theme_switch_ok = (before_kospi_color != after_kospi_color)
 
                 toggled_theme = page.evaluate("() => document.documentElement.getAttribute('data-theme')")
@@ -264,6 +264,7 @@ def run_ui_verification():
 
                 passed = (
                     val_pure == "757.28" and
+                    val_matched != "-" and
                     val_kospi == "1,877.92" and
                     val_kosdaq == "845.26" and
                     rows_cnt == 50 and

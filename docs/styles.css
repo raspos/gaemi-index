@@ -290,7 +290,7 @@ button.on {
 
 .score-strip {
   display: grid;
-  grid-template-columns: 1.35fr 1fr 1fr;
+  grid-template-columns: 1.25fr 1.1fr 1fr 1fr;
   gap: 8px;
   margin-bottom: 6px;
 }
@@ -299,11 +299,16 @@ button.on {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 10px 13px;
+  padding: 10px 12px;
 }
 
 .tile.hero {
   border-color: var(--hike);
+  border-width: 1.5px;
+}
+
+.tile.matched-hero {
+  border-color: var(--chart-institution);
   border-width: 1.5px;
 }
 

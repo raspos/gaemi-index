@@ -57,6 +57,24 @@ def load_official_krx_snapshots():
     return snapshots
 
 
+def load_raw_ledger(needed_cols=None):
+    """
+    PHASE 4: 영속 저장소인 data/ledger_shards/trades_YYYY.parquet 분할 원장에서 원자료를 우선 로드하고,
+    로컬 캐시 파일(daily_investor_trades.parquet)이 없을 때도 100% 동일하게 원장을 복원한다.
+    """
+    sh_dir = os.path.join(DATA_DIR, "ledger_shards")
+    single_path = os.path.join(DATA_DIR, "daily_investor_trades.parquet")
+    if os.path.exists(sh_dir) and any(f.endswith(".parquet") for f in os.listdir(sh_dir)):
+        files = sorted([os.path.join(sh_dir, f) for f in os.listdir(sh_dir) if f.endswith(".parquet")])
+        dfs = [pd.read_parquet(f, columns=needed_cols) for f in files]
+        trades = pd.concat(dfs, ignore_index=True)
+    elif os.path.exists(single_path):
+        trades = pd.read_parquet(single_path, columns=needed_cols)
+    else:
+        raise FileNotFoundError("영속 원장(data/ledger_shards/*.parquet)을 찾을 수 없습니다.")
+    return trades
+
+
 def prepare_audited_ledger():
     print("[PHASE 0] 원장 로드 및 공식 스냅샷 결합 시가총액·자본금 변동 정밀 복원 중...")
     universe = pd.read_parquet(os.path.join(DATA_DIR, "universe.parquet"))
@@ -65,7 +83,7 @@ def prepare_audited_ledger():
         'krx_ind_net_vol', 'krx_frg_net_vol', 'krx_org_net_vol',
         'nxt_ind_net_vol', 'nxt_close', 'nxt_vol'
     ]
-    trades = pd.read_parquet(os.path.join(DATA_DIR, "daily_investor_trades.parquet"), columns=needed_cols)
+    trades = load_raw_ledger(needed_cols=needed_cols)
     trades.sort_values(['code', 'date'], inplace=True, ignore_index=True)
     bench = pd.read_parquet(os.path.join(DATA_DIR, "benchmarks.parquet"))
 
@@ -95,22 +113,34 @@ def prepare_audited_ledger():
 
     valid_ca = (prev_close > 0) & (base_p > 0)
     raw_ratio = np.where(valid_ca, prev_close / np.maximum(base_p, 1), 1.0)
-    # 2026-03-08 이전 발생한 분할/병합/무상증자/감자(|ratio-1| >= 0.03)만 2026-03-08 앵커 주식수에서 역산
-    ca_mult_pre = np.where((dt_vals <= "2026-03-08") & (np.abs(raw_ratio - 1.0) >= 0.03), raw_ratio, 1.0)
-    ca_mult_pre = np.clip(ca_mult_pre, 0.02, 50.0)
-    trades['ca_mult_pre'] = ca_mult_pre
+    # 2026-03-08 이후 발생한 액면분할/병합/무상증자/감자(|ratio-1| >= 0.15)도 각 스냅샷 시점(03-31, 06-30, 09-30) 대비 역산 보정
+    # 예: LS ELECTRIC(2026-04-13 5:1 액면분할), SK증권(2026-04-27 1:2 병합) 등이 04-01~04-27 구간에서 분할 후 주식수와 분할 전 주가가 곱해지는 현상 방지
+    ca_mult_all = np.where(np.abs(raw_ratio - 1.0) >= 0.03, raw_ratio, 1.0)
+    ca_mult_all = np.clip(ca_mult_all, 0.02, 50.0)
+    trades['ca_mult_all'] = ca_mult_all
 
-    rev_cum = trades.iloc[::-1].groupby('code')['ca_mult_pre'].cumprod().iloc[::-1]
-    future_split_pre = (rev_cum / trades['ca_mult_pre']).values
-    trades.drop(columns=['ca_mult_pre'], inplace=True)
+    # 각 기준 스냅샷 시점까지의 누적 분할 배율 계산 함수
+    def get_shares_before_anchor(anchor_dt, anchor_sh_arr):
+        m = np.where((dt_vals <= anchor_dt) & (np.abs(raw_ratio - 1.0) >= 0.03), raw_ratio, 1.0)
+        trades['_m'] = np.clip(m, 0.02, 50.0)
+        rc = trades.iloc[::-1].groupby('code')['_m'].cumprod().iloc[::-1]
+        f_split = (rc / trades['_m']).values
+        return anchor_sh_arr / f_split
+
+    sh_pre_0308 = get_shares_before_anchor("2026-03-08", sh_0308)
+    sh_pre_0331 = get_shares_before_anchor("2026-03-31", sh_0331)
+    sh_pre_0630 = get_shares_before_anchor("2026-06-30", sh_0630)
+    sh_pre_0930 = get_shares_before_anchor("2026-09-30", sh_0930)
+    sh_pre_latest = get_shares_before_anchor("2099-12-31", sh_latest)
+    trades.drop(columns=['ca_mult_all', '_m'], inplace=True)
 
     pit_shares = np.where(
-        dt_vals <= "2026-03-08", sh_0308 / future_split_pre,
+        dt_vals <= "2026-03-08", sh_pre_0308,
         np.where(
-            dt_vals <= "2026-03-31", sh_0331,
+            dt_vals <= "2026-03-31", sh_pre_0331,
             np.where(
-                dt_vals <= "2026-06-30", sh_0630,
-                np.where(dt_vals <= "2026-09-30", sh_0930, sh_latest)
+                dt_vals <= "2026-06-30", sh_pre_0630,
+                np.where(dt_vals <= "2026-09-30", sh_pre_0930, sh_pre_latest)
             )
         )
     )
@@ -180,6 +210,28 @@ def get_rebalance_schedule(trading_dates):
             "window_mkt_days": window_mkt_days,
         })
     return schedule
+
+
+def sanitize_for_json(obj):
+    """
+    PHASE 4 Section 6: 표준 JSON 문법 준수 (NaN, Infinity, -Infinity를 null로 변환하고 allow_nan=False 검증 통과 보장)
+    """
+    if isinstance(obj, float):
+        if np.isnan(obj) or np.isinf(obj):
+            return None
+        return obj
+    elif isinstance(obj, (np.floating,)):
+        v = float(obj)
+        return None if (np.isnan(v) or np.isinf(v)) else v
+    elif isinstance(obj, (np.integer,)):
+        return int(obj)
+    elif isinstance(obj, (np.bool_,)):
+        return bool(obj)
+    elif isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [sanitize_for_json(v) for v in obj]
+    return obj
 
 
 def classify_size(mc_eok):
@@ -1121,14 +1173,19 @@ def main():
         "metrics": metrics,
     }
 
+    summary = sanitize_for_json(summary)
+    phase0_audit_report = sanitize_for_json(phase0_audit_report)
+    market_differentiation = sanitize_for_json(market_differentiation)
+    investor_comparison = sanitize_for_json(investor_comparison)
+
     with open(os.path.join(DATA_DIR, "index_summary.json"), "w", encoding="utf-8") as f:
-        json.dump(summary, f, ensure_ascii=False, indent=2)
+        json.dump(summary, f, ensure_ascii=False, indent=2, allow_nan=False)
     with open(os.path.join(DATA_DIR, "phase0_audit_report.json"), "w", encoding="utf-8") as f:
-        json.dump(phase0_audit_report, f, ensure_ascii=False, indent=2)
+        json.dump(phase0_audit_report, f, ensure_ascii=False, indent=2, allow_nan=False)
     with open(os.path.join(DATA_DIR, "market_differentiation.json"), "w", encoding="utf-8") as f:
-        json.dump(market_differentiation, f, ensure_ascii=False, indent=2)
+        json.dump(market_differentiation, f, ensure_ascii=False, indent=2, allow_nan=False)
     with open(os.path.join(DATA_DIR, "investor_comparison.json"), "w", encoding="utf-8") as f:
-        json.dump(investor_comparison, f, ensure_ascii=False, indent=2)
+        json.dump(investor_comparison, f, ensure_ascii=False, indent=2, allow_nan=False)
 
     sens_path = os.path.join(DATA_DIR, "sensitivity_analysis.json")
     sens_data = json.load(open(sens_path, encoding="utf-8")) if os.path.exists(sens_path) else []
@@ -1136,11 +1193,17 @@ def main():
     comp_data = json.load(open(comp_path, encoding="utf-8")) if os.path.exists(comp_path) else {}
     p3_rel_path = os.path.join(DATA_DIR, "phase3_reliability_audit.json")
     p3_rel_data = json.load(open(p3_rel_path, encoding="utf-8")) if os.path.exists(p3_rel_path) else {}
+    p4_aud_path = os.path.join(DATA_DIR, "phase4_audit_report.json")
+    p4_aud_data = json.load(open(p4_aud_path, encoding="utf-8")) if os.path.exists(p4_aud_path) else {}
+    manifest_path = os.path.join(DATA_DIR, "data_manifest.json")
+    manifest_data = json.load(open(manifest_path, encoding="utf-8")) if os.path.exists(manifest_path) else {}
 
-    web_payload = {
+    web_payload = sanitize_for_json({
         "summary": summary,
+        "manifest": manifest_data,
         "phase0_audit": phase0_audit_report,
         "phase3_reliability": p3_rel_data,
+        "phase4_audit": p4_aud_data,
         "market_diff": market_differentiation,
         "investor_comp": investor_comparison,
         "comparison": comp_data,
@@ -1149,16 +1212,20 @@ def main():
         "gaemi50_pure_constituents": latest_pure.to_dict(orient="records"),
         "gaemi50_abs_constituents": latest_abs.to_dict(orient="records"),
         "stock_trajectories": stock_trajectories,
-    }
+    })
 
     web_data_dir = os.path.join(BASE_DIR, "docs", "data")
     os.makedirs(web_data_dir, exist_ok=True)
-    with open(os.path.join(web_data_dir, "gaemi_data.json"), "w", encoding="utf-8") as f:
-        json.dump(web_payload, f, ensure_ascii=False)
-    with open(os.path.join(web_data_dir, "gaemi_data.js"), "w", encoding="utf-8") as f:
+    tmp_json = os.path.join(web_data_dir, "gaemi_data.json.tmp")
+    tmp_js = os.path.join(web_data_dir, "gaemi_data.js.tmp")
+    with open(tmp_json, "w", encoding="utf-8") as f:
+        json.dump(web_payload, f, ensure_ascii=False, allow_nan=False)
+    with open(tmp_js, "w", encoding="utf-8") as f:
         f.write("window.GAEMI_DATA = ")
-        json.dump(web_payload, f, ensure_ascii=False)
+        json.dump(web_payload, f, ensure_ascii=False, allow_nan=False)
         f.write(";\n")
+    os.replace(tmp_json, os.path.join(web_data_dir, "gaemi_data.json"))
+    os.replace(tmp_js, os.path.join(web_data_dir, "gaemi_data.js"))
 
     print("\n=== PHASE 0 ~ PHASE 6 핵심 분석 결과 요약 ===")
     for k in ["GAEMI_50_PURE", "GAEMI_50_TOTAL", "GAEMI_50_ABS", "MATCHED_50_EW", "KOSDAQ_EW", "FOREIGN_50_PURE", "INSTITUTION_50_PURE", "KOSPI", "KOSDAQ"]:

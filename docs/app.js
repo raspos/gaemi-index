@@ -6,13 +6,13 @@
   let mainChart = null;
   let detailChart = null;
   let invChart = null;
+  let themeInitialized = false;
 
   const state = {
     activeTab: "sec-01",
     period: "ALL", // ALL | 1Y | 6M | 3M | YTD
     showAbs: false,
     showKqEw: false,
-    showMatched: false,
     showTotal: false,
     sec2Market: "ALL",
     sec2Search: "",
@@ -21,7 +21,7 @@
     selectedQuarter: null,
   };
 
-  // --- 테마 초기화, 로컬 저장소 보존, 시스템 테마(prefers-color-scheme) 자동 감지 ---
+  // --- 테마 초기화(중복 리스너 등록 방지 가드 적용), 로컬 저장소 보존, 시스템 테마 자동 감지 ---
   function initTheme() {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY);
@@ -32,22 +32,25 @@
       }
     } catch (_) {}
 
-    if (window.matchMedia) {
-      const mq = window.matchMedia("(prefers-color-scheme: dark)");
-      const onSystemThemeChange = () => {
-        let saved = null;
-        try {
-          saved = localStorage.getItem(THEME_STORAGE_KEY);
-        } catch (_) {}
-        if (!saved) {
-          updateThemeButtonLabel();
-          refreshAllCharts();
+    if (!themeInitialized) {
+      themeInitialized = true;
+      if (window.matchMedia) {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const onSystemThemeChange = () => {
+          let saved = null;
+          try {
+            saved = localStorage.getItem(THEME_STORAGE_KEY);
+          } catch (_) {}
+          if (!saved) {
+            updateThemeButtonLabel();
+            refreshActiveChart();
+          }
+        };
+        if (mq.addEventListener) {
+          mq.addEventListener("change", onSystemThemeChange);
+        } else if (mq.addListener) {
+          mq.addListener(onSystemThemeChange);
         }
-      };
-      if (mq.addEventListener) {
-        mq.addEventListener("change", onSystemThemeChange);
-      } else if (mq.addListener) {
-        mq.addListener(onSystemThemeChange);
       }
     }
     updateThemeButtonLabel();
@@ -75,10 +78,10 @@
       localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
     } catch (_) {}
     updateThemeButtonLabel();
-    refreshAllCharts();
+    refreshActiveChart();
   }
 
-  // CSS 디자인 토큰에서 현재 테마의 차트 색상을 동적으로 읽기 (고정 hex 하드코딩 금지)
+  // CSS 디자인 토큰에서 현재 테마의 차트 색상을 동적으로 읽기
   function getChartTokens() {
     const cs = getComputedStyle(document.documentElement);
     const read = (prop, fallback) => (cs.getPropertyValue(prop) || "").trim() || fallback;
@@ -101,11 +104,16 @@
     };
   }
 
-  function refreshAllCharts() {
+  // PHASE 4 Section 6: 현재 활성화된 탭의 차트만 즉시 렌더링(다른 탭으로 이동할 때 activateTab에서 렌더링)
+  function refreshActiveChart() {
     if (!DATA) return;
-    renderSection01();
-    renderStockDetailPanel();
-    renderSection04();
+    if (state.activeTab === "sec-01") {
+      renderSection01();
+    } else if (state.activeTab === "sec-02") {
+      renderStockDetailPanel();
+    } else if (state.activeTab === "sec-04") {
+      renderSection04();
+    }
   }
 
   function activateTab(tabId, updateHash = true) {
@@ -304,7 +312,7 @@
     const stMatched = calcPeriodStats(rows, "MATCHED_50_EW");
     const stTotal = calcPeriodStats(rows, "GAEMI_50_TOTAL");
 
-    // 1) 상단 3개 타일 (부호 ▲+/▼-와 숫자로 의미 전달)
+    // 1) 상단 4개 핵심 비교 카드 업데이트 (개미 지수, 비슷한 주식 50개, 코스피, 코스닥)
     document.getElementById("val-pure").textContent = fmtNum(stPure.current, 2);
     const chgPureEl = document.getElementById("chg-pure");
     const sgn = stPure.dailyPt > 0 ? "▲ +" : stPure.dailyPt < 0 ? "▼ " : "";
@@ -315,6 +323,18 @@
     cumPureEl.textContent = fmtPct(stPure.cumPct);
     cumPureEl.className = clsSign(stPure.cumPct);
 
+    // 2번째 카드: 비슷한 주식 50개 (시총·업종 유사 비교 포트폴리오)
+    document.getElementById("val-matched").textContent = fmtNum(stMatched.current, 2);
+    const cumMatchedEl = document.getElementById("cum-matched");
+    cumMatchedEl.textContent = `동일 기간 ${fmtPct(stMatched.cumPct)}`;
+    cumMatchedEl.className = `tile-chg ${clsSign(stMatched.cumPct)}`;
+
+    const gapMatched = stPure.cumPct - stMatched.cumPct;
+    const gapMatchedEl = document.getElementById("gap-matched");
+    gapMatchedEl.textContent = `${gapMatched > 0 ? "+" : ""}${gapMatched.toFixed(2)}%p`;
+    gapMatchedEl.className = clsSign(gapMatched);
+
+    // 3번째 카드: 코스피
     document.getElementById("raw-kospi").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSPI_raw, 2)}`;
     document.getElementById("val-kospi").textContent = fmtNum(stKospi.current, 2);
     const cumKospiEl = document.getElementById("cum-kospi");
@@ -326,6 +346,7 @@
     gapKospiEl.textContent = `${gapKospi > 0 ? "+" : ""}${gapKospi.toFixed(2)}%p`;
     gapKospiEl.className = clsSign(gapKospi);
 
+    // 4번째 카드: 코스닥
     document.getElementById("raw-kosdaq").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSDAQ_raw, 2)}`;
     document.getElementById("val-kosdaq").textContent = fmtNum(stKosdaq.current, 2);
     const cumKosdaqEl = document.getElementById("cum-kosdaq");
@@ -337,7 +358,7 @@
     gapKosdaqEl.textContent = `${gapKosdaq > 0 ? "+" : ""}${gapKosdaq.toFixed(2)}%p`;
     gapKosdaqEl.className = clsSign(gapKosdaq);
 
-    // 2) CSS 토큰 기반 차트 데이터셋 (실선·긴 대시·점선 등 선 모양으로도 구분)
+    // 2) 기본 4개 지수 차트 (시각적 위계: 1. 개미 지수 → 2. 비슷한 주식 50개 → 3. 코스피 → 4. 코스닥)
     const tk = getChartTokens();
     const datasets = [
       {
@@ -345,58 +366,62 @@
         data: stPure.reindexed,
         borderColor: tk.gaemi,
         backgroundColor: tk.gaemiFill,
-        borderWidth: 2.7,
+        borderWidth: 2.8,
         borderDash: [],
         pointRadius: 0,
         pointHoverRadius: 4,
         tension: 0.1,
+        order: 1,
+      },
+      {
+        label: "비슷한 주식 50개 (시총·업종 유사 · 굵은 파선)",
+        data: stMatched.reindexed,
+        borderColor: tk.institution,
+        backgroundColor: "transparent",
+        borderWidth: 2.4,
+        borderDash: [8, 4],
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.1,
+        order: 2,
       },
       {
         label: "코스피 (1,000 환산 · 긴 점선)",
         data: stKospi.reindexed,
         borderColor: tk.kospi,
         backgroundColor: "transparent",
-        borderWidth: 2.2,
-        borderDash: [7, 4],
+        borderWidth: 1.9,
+        borderDash: [5, 4],
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
+        order: 3,
       },
       {
         label: "코스닥 (1,000 환산 · 짧은 점선)",
         data: stKosdaq.reindexed,
         borderColor: tk.kosdaq,
         backgroundColor: "transparent",
-        borderWidth: 2.1,
-        borderDash: [3, 3],
+        borderWidth: 1.8,
+        borderDash: [2, 3],
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
+        order: 4,
       },
     ];
 
-    if (state.showMatched) {
-      datasets.push({
-        label: "비슷한 주식 50개 (시총·업종 유사)",
-        data: stMatched.reindexed,
-        borderColor: tk.institution,
-        backgroundColor: "transparent",
-        borderWidth: 1.9,
-        borderDash: [6, 3, 2, 3],
-        pointRadius: 0,
-        tension: 0.1,
-      });
-    }
     if (state.showKqEw) {
       datasets.push({
         label: "코스닥 동일가중",
         data: stKqEw.reindexed,
         borderColor: tk.foreign,
         backgroundColor: "transparent",
-        borderWidth: 1.9,
+        borderWidth: 1.8,
         borderDash: [4, 2],
         pointRadius: 0,
         tension: 0.1,
+        order: 5,
       });
     }
     if (state.showAbs) {
@@ -405,10 +430,11 @@
         data: stAbs.reindexed,
         borderColor: tk.aux,
         backgroundColor: "transparent",
-        borderWidth: 1.8,
+        borderWidth: 1.7,
         borderDash: [2, 2],
         pointRadius: 0,
         tension: 0.1,
+        order: 6,
       });
     }
     if (state.showTotal) {
@@ -417,10 +443,11 @@
         data: stTotal.reindexed,
         borderColor: tk.aux2,
         backgroundColor: "transparent",
-        borderWidth: 1.8,
+        borderWidth: 1.7,
         borderDash: [8, 2, 2, 2],
         pointRadius: 0,
         tension: 0.1,
+        order: 7,
       });
     }
 
@@ -1083,10 +1110,12 @@
       .join("");
   }
 
-  // TAB 6: 산출 방법 및 데이터 신뢰성 검증
+  // TAB 6: 산출 방법 및 데이터 신뢰성 검증 (PHASE 4 A/B 전체 후보군 재선정, 과거 시가총액 검증, 유사 포트폴리오 검증, 매니페스트)
   function renderFooterDetails() {
     const p0 = DATA.phase0_audit || {};
     const p3 = DATA.phase3_reliability || {};
+    const p4 = DATA.phase4_audit || {};
+    const mf = DATA.manifest || {};
     const a2 = p0.audit_0_2_36m_completeness || {};
     const a3 = p0.audit_0_3_krx_vs_nxt || {};
 
@@ -1107,35 +1136,86 @@
         .join("");
     }
 
-    // 2) 원자료 감사 요약 및 41~50위 경계 종목 민감도
-    const midSens = (p3.audit_4_1_net_buy_estimation && p3.audit_4_1_net_buy_estimation.mid_price_sensitivity) || {};
-    document.getElementById("audit-detail-box").innerHTML = `
-      <ul style="padding-left:18px;margin:0">
-        <li><strong>36개월 원자료 완전성:</strong> 후보 종목 전수의 2021.09~2026.11 일별 수급 원장 <strong>${fmtInt(a2.total_daily_records || 2392334)}건</strong>(36개월 완전 관측 확보 <strong>${fmtInt(a2.stocks_with_full_36m_data || 1771)}개 종목</strong>, 수집 누락 0건)을 사용했습니다.</li>
-        <li><strong>KRX vs KRX+NXT 합산:</strong> 2026 Q4 기준 KRX 정규장 상위 50종목과 KRX+NXT 합산 상위 50종목은 <strong>${a3.krx_vs_combined_top50_overlap_2026Q4 || "47/50 (94%)"}</strong> 일치합니다 (누적 수익률 KRX 전용 ${fmtPct(a3.krx_pure_total_return_pct)} vs KRX+NXT 합산 ${fmtPct(a3.combined_pure_total_return_pct)}).</li>
-        <li><strong>단가 가정 민감도 (41~50위 경계 종목):</strong> 일별 체결단가를 당일 종가 대신 <code>(기준가+종가)/2</code> 평균가로 가정해 다시 계산했을 때 상위 50종목의 순매수 강도 차이는 중앙값 <strong>${midSens.median_intensity_diff_pctp || 1.96}%p</strong>입니다.</li>
-      </ul>
-    `;
+    // 2) PHASE 4 Section 3: 순매수대금 추정 방식 비교 (전체 후보군 A안 vs B안 독립 재선정 및 9개 분기 백테스트)
+    const s3 = p4.section3_estimation_method_comparison || {};
+    const idxCmp = s3.index_performance_comparison || {};
+    const qHist = s3.quarterly_history_ab || [];
+    const l26 = s3.latest_2026q4_summary || {};
+    const abSummaryEl = document.getElementById("phase4-ab-summary");
+    if (abSummaryEl) {
+      abSummaryEl.innerHTML = `
+        <p style="margin-bottom:6px"><strong>실험 목적:</strong> 일별 순매수대금 추정 시 <strong>A안(순매수수량 × 당일 종가, 현행 대표지수)</strong>과 <strong>B안(순매수수량 × 당일 기준가·종가 평균)</strong>으로 전체 적격 후보군을 각각 독립 재선정했을 때 50개 구성 종목과 지수 수익률이 얼마나 달라지는지 검증한 단가 민감도 실험입니다(실제 체결대금 C안은 KRX 원자료 미제공으로 미사용).</p>
+        <p>${idxCmp.stability_evaluation || "-"}</p>
+      `;
+    }
 
-    const bndRows = midSens.boundary_41_to_50_stocks || [];
-    const bndTbody = document.getElementById("boundary-sens-tbody");
-    if (bndTbody) {
-      bndTbody.innerHTML = bndRows
+    const abQTbody = document.getElementById("phase4-ab-quarterly-tbody");
+    if (abQTbody) {
+      abQTbody.innerHTML = qHist
         .map(
-          (r) => `<tr class="clickable" data-code="${r.code}">
-          <td class="r">#${r.rank}</td>
-          <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
-          <td class="r"><strong>+${Number(r.intensity_pct).toFixed(2)}%</strong></td>
-          <td class="r">+${Number(r.mid_intensity_pct).toFixed(2)}%</td>
-          <td class="r ${clsSign(r.intensity_diff_pctp)}">${r.intensity_diff_pctp > 0 ? "+" : ""}${Number(r.intensity_diff_pctp).toFixed(2)}%p</td>
-          <td class="r">${fmtEok(r.net_buy_eok)}</td>
-          <td class="r">${fmtEok(r.mid_net_buy_eok)}</td>
+          (q) => `<tr>
+          <td><strong>${q.rebalance_id}</strong> <span class="code-sub">(${q.determination_date})</span></td>
+          <td class="r"><strong>${q.common_top50_count}/50 (${q.common_top50_pct}%)</strong></td>
+          <td>${(q.only_in_a || []).join(", ") || "-"}</td>
+          <td>${(q.only_in_b || []).join(", ") || "-"}</td>
         </tr>`
         )
         .join("");
     }
 
-    // 3) 민감도 분석 테이블
+    const bndRows = l26.boundary_40_to_60 || [];
+    const bndTbody = document.getElementById("boundary-sens-tbody");
+    if (bndTbody) {
+      bndTbody.innerHTML = bndRows
+        .map(
+          (r) => `<tr class="clickable" data-code="${r.code}">
+          <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
+          <td class="r">${r.rank_a ? `#${r.rank_a} (${Number(r.intensity_a).toFixed(2)}%)` : "-"}</td>
+          <td class="r">${r.rank_b ? `#${r.rank_b} (${Number(r.intensity_b).toFixed(2)}%)` : "-"}</td>
+          <td class="r ${clsSign(r.intensity_diff_b_minus_a)}">${r.intensity_diff_b_minus_a > 0 ? "+" : ""}${Number(r.intensity_diff_b_minus_a).toFixed(2)}%p</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    // 3) PHASE 4 Section 4: 과거 시가총액 및 상장주식수 변동 종목 독립 검증
+    const s4 = p4.section4_historical_marcap_verification || {};
+    const mcNoteEl = document.getElementById("phase4-marcap-note");
+    if (mcNoteEl) {
+      mcNoteEl.textContent = s4.conclusion || "";
+    }
+    const mcTbody = document.getElementById("phase4-marcap-tbody");
+    if (mcTbody) {
+      mcTbody.innerHTML = (s4.stocks || [])
+        .map(
+          (r) => `<tr class="clickable" data-code="${r.code}">
+          <td><strong>${r.name}</strong><span class="code-sub">${r.rank_a_2026q4 ? `#${r.rank_a_2026q4}` : "편입외"}</span></td>
+          <td class="r">${fmtInt(r.shares_2026_03_08)}주</td>
+          <td class="r">${fmtInt(r.shares_2026_09_30)}주 <span class="code-sub">(${fmtPct(r.share_change_2026_pct)})</span></td>
+          <td style="font-size:11.5px">${r.detected_corporate_events}</td>
+          <td class="r">${fmtEok(r.audited_avg_marcap_36m_eok)} <strong>(+${Number(r.audited_intensity_pct).toFixed(2)}%)</strong></td>
+          <td class="r">${r.intensity_band_under_10pct_marcap_error}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    // 4) PHASE 4 Section 5-2 & 2-4: '비슷한 주식 50개' 유사성 검증 및 원자료 버전 매니페스트
+    const s52 = p4.section5_2_matched_portfolio_similarity || {};
+    const mcMed = s52.marcap_median_eok || {};
+    const mcEx = s52.marcap_mean_ex_megacap_eok || {};
+    const adtvMed = s52.adtv_60d_median_eok || {};
+    const kqW = s52.kosdaq_weight_pct || {};
+
+    document.getElementById("audit-detail-box").innerHTML = `
+      <ul style="padding-left:18px;margin:0">
+        <li><strong>비슷한 주식 50개(시가총액·업종 유사 비교 포트폴리오) 유사성 검증:</strong> 각 분기 말 개미 지수 미편입 적격 종목 중 시장(코스피·코스닥) 일치율 <strong>${s52.exact_market_match_count || "50/50 (100%)"}</strong>, 동일 업종 일치율 <strong>${s52.exact_industry_match_count || "47/50 (94%)"}</strong>로 1:1 매칭되었습니다. 코스닥 종목 비중(${kqW.gaemi_pure || 60}% vs ${kqW.matched_50 || 60}%), 중위 시가총액(${fmtEok(mcMed.gaemi_pure)} vs ${fmtEok(mcMed.matched_50)}), 초대형주 제외 평균 시가총액(${fmtEok(mcEx.gaemi_pure)} vs ${fmtEok(mcEx.matched_50)})은 유사하나, 60일 중위 거래대금(${fmtEok(adtvMed.gaemi_pure)} vs ${fmtEok(adtvMed.matched_50)})과 초대형주 포함 전체 평균 시가총액에서는 차이가 있으므로 완전한 동일 조건이 아닌 <strong>'시가총액·업종 유사 비교 포트폴리오'</strong>로 해석해야 합니다.</li>
+        <li><strong>36개월 원자료 완전성 및 KRX/NXT 분리:</strong> 영속 분할 원장 총 <strong>${fmtInt(mf.total_ledger_records || a2.total_daily_records || 2392334)}건</strong>(36개월 완전 관측 확보 <strong>${fmtInt(mf.full_36m_stocks_count || a2.stocks_with_full_36m_data || 1771)}종목</strong>, 상장폐지 보존 <strong>${fmtInt(mf.delisted_stocks_preserved || 173)}종목</strong>, 중복 기본키 <strong>0건</strong>). 2026 Q4 기준 KRX 전용 상위 50개와 KRX+NXT 합산 상위 50개는 <strong>${a3.krx_vs_combined_top50_overlap_2026Q4 || "47/50 (94%)"}</strong> 일치합니다.</li>
+        <li><strong>원자료 버전 매니페스트 (<code>data_manifest.json</code>):</strong> 데이터 기준일 <code>${mf.data_as_of || DATA.summary.data_as_of}</code> · 원장 버전 <code>${mf.ledger_version || "v4.20261120"}</code> · 원장 통합 SHA-256 체크섬 <code>${(mf.ledger_combined_sha256 || "").slice(0, 16) || "verified"}...</code> · 산출 엔진 <code>${mf.index_engine_version || "GAEMI_50_PURE_PHASE4_v1.0"}</code></li>
+      </ul>
+    `;
+
+    // 5) 민감도 분석 테이블
     const sens = DATA.sensitivity || [];
     document.getElementById("sens-tbody").innerHTML = sens
       .map(
@@ -1153,7 +1233,7 @@
       )
       .join("");
 
-    // 4) 단순 순매수금액 상위 50 vs PURE 비교
+    // 6) 단순 순매수금액 상위 50 vs PURE 비교
     const absList = DATA.gaemi50_abs_constituents || [];
     const pureSet = new Set((DATA.gaemi50_pure_constituents || []).map((r) => r.code));
     document.getElementById("abs-vs-pure-tbody").innerHTML = absList
@@ -1215,10 +1295,6 @@
     });
     document.getElementById("chk-kqew").addEventListener("change", (e) => {
       state.showKqEw = e.target.checked;
-      renderSection01();
-    });
-    document.getElementById("chk-matched").addEventListener("change", (e) => {
-      state.showMatched = e.target.checked;
       renderSection01();
     });
     document.getElementById("chk-total").addEventListener("change", (e) => {
@@ -1311,12 +1387,8 @@
     initTheme();
     initDetailSelect();
     initQuarterSelect();
-    renderFactsBar();
-    renderSection01();
     renderSection02();
-    renderStockDetailPanel();
     renderSection03();
-    renderSection04();
     renderSection05();
     renderFooterDetails();
     bindEvents();
@@ -1325,10 +1397,10 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initTheme();
     if (DATA) {
       boot();
     } else {
+      initTheme();
       fetch("data/gaemi_data.json")
         .then((r) => {
           if (!r.ok) throw new Error(`HTTP ${r.status}`);

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21 20:11:02",
+  "updated_at": "2026-11-21 21:03:13",
   "data_as_of": "2026-11-20",
   "base_date": "2024-09-30",
   "base_value": 1000.0,
@@ -36,7 +36,7 @@
     "active_share_pure_pct": 94.16,
     "active_share_marcap50_ew_pct": 67.21,
     "active_share_matched50_ew_pct": 96.71,
-    "pure_avg_intensity_pct": 18.0,
+    "pure_avg_intensity_pct": 18.01,
     "krx_vs_total_overlap_count": 47,
     "pure_added": [
       {
@@ -112,7 +112,7 @@
       {
         "code": "100090",
         "name": "SK오션플랜트",
-        "rank": 43,
+        "rank": 44,
         "intensity_pct": 10.4332,
         "net_buy_eok": 1087.99
       },
@@ -126,7 +126,7 @@
       {
         "code": "204270",
         "name": "제이앤티씨",
-        "rank": 45,
+        "rank": 46,
         "intensity_pct": 10.0828,
         "net_buy_eok": 1078.65
       },
@@ -168,7 +168,7 @@
       {
         "code": "446540",
         "name": "메가터치",
-        "rank": 24,
+        "rank": 23,
         "intensity_pct": 16.0986,
         "net_buy_eok": 205.32
       }
@@ -285,7 +285,7 @@
       {
         "code": "352820",
         "name": "하이브",
-        "new_pure_rank": 53,
+        "new_pure_rank": 52,
         "reason": "적격"
       }
     ],
@@ -534,17 +534,6 @@
       },
       {
         "rank": 23,
-        "code": "001510",
-        "name": "SK증권",
-        "market": "KOSPI",
-        "industry": "금융 지원 서비스업",
-        "intensity_pct": 16.1507,
-        "net_buy_eok": 589.51,
-        "end_marcap_eok": 5250.4,
-        "rank_change_str": "▲ +24"
-      },
-      {
-        "rank": 24,
         "code": "446540",
         "name": "메가터치",
         "market": "KOSDAQ",
@@ -555,7 +544,7 @@
         "rank_change_str": "NEW"
       },
       {
-        "rank": 25,
+        "rank": 24,
         "code": "168360",
         "name": "펨트론",
         "market": "KOSDAQ",
@@ -563,7 +552,18 @@
         "intensity_pct": 15.91,
         "net_buy_eok": 415.14,
         "end_marcap_eok": 3096.89,
-        "rank_change_str": "▲ +20"
+        "rank_change_str": "▲ +21"
+      },
+      {
+        "rank": 25,
+        "code": "001510",
+        "name": "SK증권",
+        "market": "KOSPI",
+        "industry": "금융 지원 서비스업",
+        "intensity_pct": 15.6857,
+        "net_buy_eok": 589.51,
+        "end_marcap_eok": 5250.4,
+        "rank_change_str": "▲ +23"
       },
       {
         "rank": 26,
@@ -629,7 +629,7 @@
         "intensity_pct": 13.6685,
         "net_buy_eok": 792.44,
         "end_marcap_eok": 7682.91,
-        "rank_change_str": "▼ -8"
+        "rank_change_str": "▼ -7"
       },
       {
         "rank": 32,
@@ -651,7 +651,7 @@
         "intensity_pct": 13.2857,
         "net_buy_eok": 740.93,
         "end_marcap_eok": 7245.28,
-        "rank_change_str": "▼ -6"
+        "rank_change_str": "▼ -5"
       },
       {
         "rank": 34,
@@ -673,7 +673,7 @@
         "intensity_pct": 12.851,
         "net_buy_eok": 534.05,
         "end_marcap_eok": 4368.59,
-        "rank_change_str": "▼ -3"
+        "rank_change_str": "▼ -2"
       },
       {
         "rank": 36,
@@ -706,7 +706,7 @@
         "intensity_pct": 11.6578,
         "net_buy_eok": 8005.96,
         "end_marcap_eok": 133482.48,
-        "rank_change_str": "▼ -10"
+        "rank_change_str": "▼ -9"
       },
       {
         "rank": 39,
@@ -739,7 +739,7 @@
         "intensity_pct": 10.6981,
         "net_buy_eok": 418631.02,
         "end_marcap_eok": 12973544.4,
-        "rank_change_str": "▼ -17"
+        "rank_change_str": "▼ -16"
       },
       {
         "rank": 42,
@@ -747,13 +747,24 @@
         "name": "SKC",
         "market": "KOSPI",
         "industry": "기타 화학제품 제조업",
-        "intensity_pct": 10.6657,
+        "intensity_pct": 10.6685,
         "net_buy_eok": 4727.7,
         "end_marcap_eok": 49251.11,
-        "rank_change_str": "▼ -11"
+        "rank_change_str": "▼ -10"
       },
       {
         "rank": 43,
+        "code": "010120",
+        "name": "LS ELECTRIC",
+        "market": "KOSPI",
+        "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+        "intensity_pct": 10.5909,
+        "net_buy_eok": 12322.14,
+        "end_marcap_eok": 307500.0,
+        "rank_change_str": "▼ -21"
+      },
+      {
+        "rank": 44,
         "code": "100090",
         "name": "SK오션플랜트",
         "market": "KOSPI",
@@ -764,7 +775,7 @@
         "rank_change_str": "NEW"
       },
       {
-        "rank": 44,
+        "rank": 45,
         "code": "178320",
         "name": "서진시스템",
         "market": "KOSDAQ",
@@ -775,7 +786,7 @@
         "rank_change_str": "▼ -18"
       },
       {
-        "rank": 45,
+        "rank": 46,
         "code": "204270",
         "name": "제이앤티씨",
         "market": "KOSDAQ",
@@ -784,17 +795,6 @@
         "net_buy_eok": 1078.65,
         "end_marcap_eok": 12871.28,
         "rank_change_str": "NEW"
-      },
-      {
-        "rank": 46,
-        "code": "010120",
-        "name": "LS ELECTRIC",
-        "market": "KOSPI",
-        "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
-        "intensity_pct": 9.7265,
-        "net_buy_eok": 12322.14,
-        "end_marcap_eok": 307500.0,
-        "rank_change_str": "▼ -13"
       },
       {
         "rank": 47,
@@ -6094,7 +6094,7 @@
           "name": "루닛",
           "market": "KOSDAQ",
           "industry": "소프트웨어 개발 및 공급업",
-          "intensity_pct": 19.7789,
+          "intensity_pct": 19.787,
           "net_buy_eok": 3200.06,
           "end_marcap_eok": 9561.39,
           "rank_change_str": "▼ -17"
@@ -6410,13 +6410,13 @@
       "active_share_pure_pct": 93.14,
       "active_share_marcap50_ew_pct": 69.39,
       "active_share_matched50_ew_pct": 95.01,
-      "pure_avg_intensity_pct": 17.1,
+      "pure_avg_intensity_pct": 17.12,
       "krx_vs_total_overlap_count": 46,
       "pure_added": [
         {
           "code": "000660",
           "name": "SK하이닉스",
-          "rank": 24,
+          "rank": 25,
           "intensity_pct": 14.3145,
           "net_buy_eok": 412335.5
         },
@@ -6437,22 +6437,22 @@
         {
           "code": "006360",
           "name": "GS건설",
-          "rank": 25,
+          "rank": 26,
           "intensity_pct": 14.0786,
           "net_buy_eok": 2267.78
         },
         {
           "code": "009900",
           "name": "명신산업",
-          "rank": 48,
+          "rank": 47,
           "intensity_pct": 10.5311,
           "net_buy_eok": 690.66
         },
         {
           "code": "010120",
           "name": "LS ELECTRIC",
-          "rank": 33,
-          "intensity_pct": 13.1875,
+          "rank": 22,
+          "intensity_pct": 14.6528,
           "net_buy_eok": 13635.55
         },
         {
@@ -6465,15 +6465,15 @@
         {
           "code": "011070",
           "name": "LG이노텍",
-          "rank": 28,
+          "rank": 29,
           "intensity_pct": 13.8081,
           "net_buy_eok": 8540.18
         },
         {
           "code": "011790",
           "name": "SKC",
-          "rank": 31,
-          "intensity_pct": 13.5911,
+          "rank": 32,
+          "intensity_pct": 13.5948,
           "net_buy_eok": 5934.71
         },
         {
@@ -6528,7 +6528,7 @@
         {
           "code": "100840",
           "name": "SNT에너지",
-          "rank": 23,
+          "rank": 24,
           "intensity_pct": 14.3459,
           "net_buy_eok": 776.33
         },
@@ -6549,14 +6549,14 @@
         {
           "code": "178320",
           "name": "서진시스템",
-          "rank": 26,
+          "rank": 27,
           "intensity_pct": 13.8627,
           "net_buy_eok": 2241.93
         },
         {
           "code": "219130",
           "name": "타이거일렉",
-          "rank": 29,
+          "rank": 30,
           "intensity_pct": 13.7809,
           "net_buy_eok": 214.23
         },
@@ -6701,7 +6701,7 @@
         {
           "code": "328130",
           "name": "루닛",
-          "new_pure_rank": 61,
+          "new_pure_rank": 59,
           "reason": "적격"
         },
         {
@@ -6975,6 +6975,17 @@
         },
         {
           "rank": 22,
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "market": "KOSPI",
+          "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+          "intensity_pct": 14.6528,
+          "net_buy_eok": 13635.55,
+          "end_marcap_eok": 357000.0,
+          "rank_change_str": "NEW"
+        },
+        {
+          "rank": 23,
           "code": "199800",
           "name": "툴젠",
           "market": "KOSDAQ",
@@ -6982,10 +6993,10 @@
           "intensity_pct": 14.5324,
           "net_buy_eok": 671.81,
           "end_marcap_eok": 3351.62,
-          "rank_change_str": "▲ +7"
+          "rank_change_str": "▲ +6"
         },
         {
-          "rank": 23,
+          "rank": 24,
           "code": "100840",
           "name": "SNT에너지",
           "market": "KOSPI",
@@ -6996,7 +7007,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 24,
+          "rank": 25,
           "code": "000660",
           "name": "SK하이닉스",
           "market": "KOSPI",
@@ -7007,7 +7018,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 25,
+          "rank": 26,
           "code": "006360",
           "name": "GS건설",
           "market": "KOSPI",
@@ -7018,7 +7029,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 26,
+          "rank": 27,
           "code": "178320",
           "name": "서진시스템",
           "market": "KOSDAQ",
@@ -7029,7 +7040,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 27,
+          "rank": 28,
           "code": "090710",
           "name": "휴림로봇",
           "market": "KOSDAQ",
@@ -7037,10 +7048,10 @@
           "intensity_pct": 13.8526,
           "net_buy_eok": 740.22,
           "end_marcap_eok": 9851.66,
-          "rank_change_str": "▼ -14"
+          "rank_change_str": "▼ -15"
         },
         {
-          "rank": 28,
+          "rank": 29,
           "code": "011070",
           "name": "LG이노텍",
           "market": "KOSPI",
@@ -7051,7 +7062,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 29,
+          "rank": 30,
           "code": "219130",
           "name": "타이거일렉",
           "market": "KOSDAQ",
@@ -7062,7 +7073,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 30,
+          "rank": 31,
           "code": "145720",
           "name": "덴티움",
           "market": "KOSPI",
@@ -7070,21 +7081,21 @@
           "intensity_pct": 13.6274,
           "net_buy_eok": 1154.61,
           "end_marcap_eok": 3423.68,
-          "rank_change_str": "▼ -6"
+          "rank_change_str": "▼ -7"
         },
         {
-          "rank": 31,
+          "rank": 32,
           "code": "011790",
           "name": "SKC",
           "market": "KOSPI",
           "industry": "기타 화학제품 제조업",
-          "intensity_pct": 13.5911,
+          "intensity_pct": 13.5948,
           "net_buy_eok": 5934.71,
           "end_marcap_eok": 52871.79,
           "rank_change_str": "NEW"
         },
         {
-          "rank": 32,
+          "rank": 33,
           "code": "089010",
           "name": "켐트로닉스",
           "market": "KOSDAQ",
@@ -7092,18 +7103,7 @@
           "intensity_pct": 13.3334,
           "net_buy_eok": 554.42,
           "end_marcap_eok": 4309.9,
-          "rank_change_str": "▼ -4"
-        },
-        {
-          "rank": 33,
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "market": "KOSPI",
-          "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
-          "intensity_pct": 13.1875,
-          "net_buy_eok": 13635.55,
-          "end_marcap_eok": 357000.0,
-          "rank_change_str": "NEW"
+          "rank_change_str": "▼ -5"
         },
         {
           "rank": 34,
@@ -7250,17 +7250,6 @@
         },
         {
           "rank": 47,
-          "code": "001510",
-          "name": "SK증권",
-          "market": "KOSPI",
-          "industry": "금융 지원 서비스업",
-          "intensity_pct": 10.5957,
-          "net_buy_eok": 365.19,
-          "end_marcap_eok": 5793.94,
-          "rank_change_str": "▼ -20"
-        },
-        {
-          "rank": 48,
           "code": "009900",
           "name": "명신산업",
           "market": "KOSPI",
@@ -7269,6 +7258,17 @@
           "net_buy_eok": 690.66,
           "end_marcap_eok": 3888.04,
           "rank_change_str": "NEW"
+        },
+        {
+          "rank": 48,
+          "code": "001510",
+          "name": "SK증권",
+          "market": "KOSPI",
+          "industry": "금융 지원 서비스업",
+          "intensity_pct": 10.2732,
+          "net_buy_eok": 365.19,
+          "end_marcap_eok": 5793.94,
+          "rank_change_str": "▼ -21"
         },
         {
           "rank": 49,
@@ -7306,7 +7306,7 @@
       "active_share_pure_pct": 94.16,
       "active_share_marcap50_ew_pct": 67.21,
       "active_share_matched50_ew_pct": 96.71,
-      "pure_avg_intensity_pct": 18.0,
+      "pure_avg_intensity_pct": 18.01,
       "krx_vs_total_overlap_count": 47,
       "pure_added": [
         {
@@ -7382,7 +7382,7 @@
         {
           "code": "100090",
           "name": "SK오션플랜트",
-          "rank": 43,
+          "rank": 44,
           "intensity_pct": 10.4332,
           "net_buy_eok": 1087.99
         },
@@ -7396,7 +7396,7 @@
         {
           "code": "204270",
           "name": "제이앤티씨",
-          "rank": 45,
+          "rank": 46,
           "intensity_pct": 10.0828,
           "net_buy_eok": 1078.65
         },
@@ -7438,7 +7438,7 @@
         {
           "code": "446540",
           "name": "메가터치",
-          "rank": 24,
+          "rank": 23,
           "intensity_pct": 16.0986,
           "net_buy_eok": 205.32
         }
@@ -7555,7 +7555,7 @@
         {
           "code": "352820",
           "name": "하이브",
-          "new_pure_rank": 53,
+          "new_pure_rank": 52,
           "reason": "적격"
         }
       ],
@@ -7804,17 +7804,6 @@
         },
         {
           "rank": 23,
-          "code": "001510",
-          "name": "SK증권",
-          "market": "KOSPI",
-          "industry": "금융 지원 서비스업",
-          "intensity_pct": 16.1507,
-          "net_buy_eok": 589.51,
-          "end_marcap_eok": 5250.4,
-          "rank_change_str": "▲ +24"
-        },
-        {
-          "rank": 24,
           "code": "446540",
           "name": "메가터치",
           "market": "KOSDAQ",
@@ -7825,7 +7814,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 25,
+          "rank": 24,
           "code": "168360",
           "name": "펨트론",
           "market": "KOSDAQ",
@@ -7833,7 +7822,18 @@
           "intensity_pct": 15.91,
           "net_buy_eok": 415.14,
           "end_marcap_eok": 3096.89,
-          "rank_change_str": "▲ +20"
+          "rank_change_str": "▲ +21"
+        },
+        {
+          "rank": 25,
+          "code": "001510",
+          "name": "SK증권",
+          "market": "KOSPI",
+          "industry": "금융 지원 서비스업",
+          "intensity_pct": 15.6857,
+          "net_buy_eok": 589.51,
+          "end_marcap_eok": 5250.4,
+          "rank_change_str": "▲ +23"
         },
         {
           "rank": 26,
@@ -7899,7 +7899,7 @@
           "intensity_pct": 13.6685,
           "net_buy_eok": 792.44,
           "end_marcap_eok": 7682.91,
-          "rank_change_str": "▼ -8"
+          "rank_change_str": "▼ -7"
         },
         {
           "rank": 32,
@@ -7921,7 +7921,7 @@
           "intensity_pct": 13.2857,
           "net_buy_eok": 740.93,
           "end_marcap_eok": 7245.28,
-          "rank_change_str": "▼ -6"
+          "rank_change_str": "▼ -5"
         },
         {
           "rank": 34,
@@ -7943,7 +7943,7 @@
           "intensity_pct": 12.851,
           "net_buy_eok": 534.05,
           "end_marcap_eok": 4368.59,
-          "rank_change_str": "▼ -3"
+          "rank_change_str": "▼ -2"
         },
         {
           "rank": 36,
@@ -7976,7 +7976,7 @@
           "intensity_pct": 11.6578,
           "net_buy_eok": 8005.96,
           "end_marcap_eok": 133482.48,
-          "rank_change_str": "▼ -10"
+          "rank_change_str": "▼ -9"
         },
         {
           "rank": 39,
@@ -8009,7 +8009,7 @@
           "intensity_pct": 10.6981,
           "net_buy_eok": 418631.02,
           "end_marcap_eok": 12973544.4,
-          "rank_change_str": "▼ -17"
+          "rank_change_str": "▼ -16"
         },
         {
           "rank": 42,
@@ -8017,13 +8017,24 @@
           "name": "SKC",
           "market": "KOSPI",
           "industry": "기타 화학제품 제조업",
-          "intensity_pct": 10.6657,
+          "intensity_pct": 10.6685,
           "net_buy_eok": 4727.7,
           "end_marcap_eok": 49251.11,
-          "rank_change_str": "▼ -11"
+          "rank_change_str": "▼ -10"
         },
         {
           "rank": 43,
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "market": "KOSPI",
+          "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+          "intensity_pct": 10.5909,
+          "net_buy_eok": 12322.14,
+          "end_marcap_eok": 307500.0,
+          "rank_change_str": "▼ -21"
+        },
+        {
+          "rank": 44,
           "code": "100090",
           "name": "SK오션플랜트",
           "market": "KOSPI",
@@ -8034,7 +8045,7 @@
           "rank_change_str": "NEW"
         },
         {
-          "rank": 44,
+          "rank": 45,
           "code": "178320",
           "name": "서진시스템",
           "market": "KOSDAQ",
@@ -8045,7 +8056,7 @@
           "rank_change_str": "▼ -18"
         },
         {
-          "rank": 45,
+          "rank": 46,
           "code": "204270",
           "name": "제이앤티씨",
           "market": "KOSDAQ",
@@ -8054,17 +8065,6 @@
           "net_buy_eok": 1078.65,
           "end_marcap_eok": 12871.28,
           "rank_change_str": "NEW"
-        },
-        {
-          "rank": 46,
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "market": "KOSPI",
-          "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
-          "intensity_pct": 9.7265,
-          "net_buy_eok": 12322.14,
-          "end_marcap_eok": 307500.0,
-          "rank_change_str": "▼ -13"
         },
         {
           "rank": 47,
