@@ -307,9 +307,7 @@
 
     // 1) 상단 자동 생성 핵심 메시지 배너
     const hlTextEl = document.getElementById("down-headline-text");
-    const hlSubEl = document.getElementById("down-headline-sub");
     if (hlTextEl) hlTextEl.textContent = hl.headline || "";
-    if (hlSubEl) hlSubEl.textContent = hl.sub_fact || "";
 
     // 2) '증시가 떨어질 때' 4대 성적표
     const setEl = (id, txt) => {
@@ -1256,9 +1254,13 @@
     const md = DATA.market_diff;
     const as = md.active_share;
 
-    document.getElementById("as-mc50-txt").textContent = `${as.marcap_top50_ew_vs_market_pct.toFixed(1)}%`;
-    document.getElementById("as-pure-txt").textContent = `${as.gaemi_pure_vs_market_pct.toFixed(1)}%`;
-    document.getElementById("as-matched-txt").textContent = `${as.matched_size_sector_50_ew_vs_market_pct.toFixed(1)}%`;
+    const setIf = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    };
+    setIf("as-mc50-txt", `${as.marcap_top50_ew_vs_market_pct.toFixed(1)}%`);
+    setIf("as-pure-txt", `${as.gaemi_pure_vs_market_pct.toFixed(1)}%`);
+    setIf("as-matched-txt", `${as.matched_size_sector_50_ew_vs_market_pct.toFixed(1)}%`);
 
     const asItems = [
       {
@@ -1296,8 +1298,10 @@
       .join("");
 
     const kqSim = md.kosdaq_similarity;
-    document.getElementById("kq-sim-summary").textContent = kqSim.diagnosis_category;
-    document.getElementById("kq-sim-detail").textContent = kqSim.diagnosis_detail;
+    const simSumEl = document.getElementById("kq-sim-summary");
+    if (simSumEl) simSumEl.textContent = kqSim.diagnosis_category;
+    const simDetEl = document.getElementById("kq-sim-detail");
+    if (simDetEl) simDetEl.textContent = kqSim.diagnosis_detail;
 
     document.getElementById("kq-sim-tbody").innerHTML = kqSim.comparison_table
       .map((r) => {
