@@ -1,0 +1,840 @@
+{
+  "active_share": {
+    "gaemi_pure_vs_market_pct": 94.16,
+    "marcap_top50_ew_vs_market_pct": 67.21,
+    "matched_size_sector_50_ew_vs_market_pct": 96.71,
+    "gaemi_abs_vs_market_pct": 85.14,
+    "pure_excess_active_share_over_marcap50_ew_pct": 26.95
+  },
+  "marcap_top50_overlap": {
+    "overlap_count": 5,
+    "overlap_pct": 10.0,
+    "overlapping_stocks": [
+      {
+        "rank": 26,
+        "code": "005380",
+        "name": "현대차",
+        "market": "KOSPI",
+        "industry": "자동차용 엔진 및 자동차 제조업",
+        "intensity_pct": 15.6241,
+        "net_buy_eok": 92935.72,
+        "end_marcap_eok": 701959.4,
+        "marcap_rank_all": 6,
+        "market_weight_pct": 1.186457654711723
+      },
+      {
+        "rank": 30,
+        "code": "035420",
+        "name": "NAVER",
+        "market": "KOSPI",
+        "industry": "자료처리, 호스팅, 포털 및 기타 인터넷 정보매개 서비스업",
+        "intensity_pct": 13.8256,
+        "net_buy_eok": 45229.6,
+        "end_marcap_eok": 294606.79,
+        "marcap_rank_all": 23,
+        "market_weight_pct": 0.4979468694151384
+      },
+      {
+        "rank": 41,
+        "code": "000660",
+        "name": "SK하이닉스",
+        "market": "KOSPI",
+        "industry": "반도체 제조업",
+        "intensity_pct": 10.6981,
+        "net_buy_eok": 418631.02,
+        "end_marcap_eok": 12973544.4,
+        "marcap_rank_all": 2,
+        "market_weight_pct": 21.92799344518029
+      },
+      {
+        "rank": 46,
+        "code": "010120",
+        "name": "LS ELECTRIC",
+        "market": "KOSPI",
+        "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+        "intensity_pct": 9.7265,
+        "net_buy_eok": 12322.14,
+        "end_marcap_eok": 307500.0,
+        "marcap_rank_all": 22,
+        "market_weight_pct": 0.5197390763271729
+      },
+      {
+        "rank": 47,
+        "code": "042660",
+        "name": "한화오션",
+        "market": "KOSPI",
+        "industry": "선박 및 보트 건조업",
+        "intensity_pct": 9.6895,
+        "net_buy_eok": 21057.39,
+        "end_marcap_eok": 241453.75,
+        "marcap_rank_all": 30,
+        "market_weight_pct": 0.4081071587805049
+      }
+    ]
+  },
+  "sector_vs_market": [
+    {
+      "industry": "전자부품 제조업",
+      "pure_count": 5,
+      "pure_weight_pct": 10.0,
+      "market_weight_pct": 3.89,
+      "matched_weight_pct": 12.0,
+      "diff_weight_pct": 6.11
+    },
+    {
+      "industry": "특수 목적용 기계 제조업",
+      "pure_count": 4,
+      "pure_weight_pct": 8.0,
+      "market_weight_pct": 2.31,
+      "matched_weight_pct": 8.0,
+      "diff_weight_pct": 5.69
+    },
+    {
+      "industry": "자연과학 및 공학 연구개발업",
+      "pure_count": 3,
+      "pure_weight_pct": 6.0,
+      "market_weight_pct": 0.82,
+      "matched_weight_pct": 6.0,
+      "diff_weight_pct": 5.18
+    },
+    {
+      "industry": "기초 화학물질 제조업",
+      "pure_count": 3,
+      "pure_weight_pct": 6.0,
+      "market_weight_pct": 0.92,
+      "matched_weight_pct": 8.0,
+      "diff_weight_pct": 5.08
+    },
+    {
+      "industry": "일반 목적용 기계 제조업",
+      "pure_count": 3,
+      "pure_weight_pct": 6.0,
+      "market_weight_pct": 1.26,
+      "matched_weight_pct": 6.0,
+      "diff_weight_pct": 4.74
+    },
+    {
+      "industry": "건물 건설업",
+      "pure_count": 2,
+      "pure_weight_pct": 4.0,
+      "market_weight_pct": 0.27,
+      "matched_weight_pct": 4.0,
+      "diff_weight_pct": 3.73
+    },
+    {
+      "industry": "일차전지 및 이차전지 제조업",
+      "pure_count": 3,
+      "pure_weight_pct": 6.0,
+      "market_weight_pct": 2.84,
+      "matched_weight_pct": 6.0,
+      "diff_weight_pct": 3.16
+    },
+    {
+      "industry": "소프트웨어 개발 및 공급업",
+      "pure_count": 2,
+      "pure_weight_pct": 4.0,
+      "market_weight_pct": 0.95,
+      "matched_weight_pct": 4.0,
+      "diff_weight_pct": 3.05
+    },
+    {
+      "industry": "금융 지원 서비스업",
+      "pure_count": 2,
+      "pure_weight_pct": 4.0,
+      "market_weight_pct": 0.97,
+      "matched_weight_pct": 4.0,
+      "diff_weight_pct": 3.03
+    },
+    {
+      "industry": "기타 화학제품 제조업",
+      "pure_count": 2,
+      "pure_weight_pct": 4.0,
+      "market_weight_pct": 1.23,
+      "matched_weight_pct": 4.0,
+      "diff_weight_pct": 2.77
+    },
+    {
+      "industry": "전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 제조업",
+      "pure_count": 2,
+      "pure_weight_pct": 4.0,
+      "market_weight_pct": 1.69,
+      "matched_weight_pct": 4.0,
+      "diff_weight_pct": 2.31
+    },
+    {
+      "industry": "일반 및 생활 숙박시설 운영업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.02,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.98
+    },
+    {
+      "industry": "기타 상품 전문 소매업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.03,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": 1.97
+    },
+    {
+      "industry": "기타 금속 가공제품 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.05,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.95
+    },
+    {
+      "industry": "기타 전기장비 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.06,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": 1.94
+    },
+    {
+      "industry": "오디오물 출판 및 원판 녹음업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.18,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.82
+    },
+    {
+      "industry": "의료용 기기 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.22,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.78
+    },
+    {
+      "industry": "토목 건설업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.33,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.67
+    },
+    {
+      "industry": "절연선 및 케이블 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.39,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": 1.61
+    },
+    {
+      "industry": "해상 운송업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.41,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.59
+    },
+    {
+      "industry": "기타 식품 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.41,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.59
+    },
+    {
+      "industry": "1차 비철금속 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.48,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.52
+    },
+    {
+      "industry": "1차 철강 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.69,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.31
+    },
+    {
+      "industry": "의약품 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.78,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.22
+    },
+    {
+      "industry": "자료처리, 호스팅, 포털 및 기타 인터넷 정보매개 서비스업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 0.82,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 1.18
+    },
+    {
+      "industry": "기타 전문 도매업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 1.06,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 0.94
+    },
+    {
+      "industry": "선박 및 보트 건조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 1.54,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 0.46
+    },
+    {
+      "industry": "자동차용 엔진 및 자동차 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 1.94,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": 0.06
+    },
+    {
+      "industry": "보험업",
+      "pure_count": 0,
+      "pure_weight_pct": 0.0,
+      "market_weight_pct": 1.9,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": -1.9
+    },
+    {
+      "industry": "기초 의약물질 제조업",
+      "pure_count": 0,
+      "pure_weight_pct": 0.0,
+      "market_weight_pct": 2.13,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": -2.13
+    },
+    {
+      "industry": "기타 금융업",
+      "pure_count": 0,
+      "pure_weight_pct": 0.0,
+      "market_weight_pct": 9.53,
+      "matched_weight_pct": 0.0,
+      "diff_weight_pct": -9.53
+    },
+    {
+      "industry": "반도체 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 22.49,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": -20.49
+    },
+    {
+      "industry": "통신 및 방송 장비 제조업",
+      "pure_count": 1,
+      "pure_weight_pct": 2.0,
+      "market_weight_pct": 27.33,
+      "matched_weight_pct": 2.0,
+      "diff_weight_pct": -25.33
+    }
+  ],
+  "size_vs_market": [
+    {
+      "size_bucket": "초대형주 (10조 이상)",
+      "pure_count": 6,
+      "pure_weight_pct": 12.0,
+      "market_weight_pct": 81.32,
+      "abs_weight_pct": 32.0,
+      "matched_weight_pct": 12.0,
+      "diff_vs_market_pct": -69.32,
+      "diff_vs_abs_pct": -20.0
+    },
+    {
+      "size_bucket": "대형주 (1조~10조)",
+      "pure_count": 15,
+      "pure_weight_pct": 30.0,
+      "market_weight_pct": 12.5,
+      "abs_weight_pct": 46.0,
+      "matched_weight_pct": 36.0,
+      "diff_vs_market_pct": 17.5,
+      "diff_vs_abs_pct": -16.0
+    },
+    {
+      "size_bucket": "중형주 (3,000억~1조)",
+      "pure_count": 29,
+      "pure_weight_pct": 58.0,
+      "market_weight_pct": 3.28,
+      "abs_weight_pct": 18.0,
+      "matched_weight_pct": 52.0,
+      "diff_vs_market_pct": 54.72,
+      "diff_vs_abs_pct": 40.0
+    },
+    {
+      "size_bucket": "소형주 (3,000억 미만)",
+      "pure_count": 0,
+      "pure_weight_pct": 0.0,
+      "market_weight_pct": 2.9,
+      "abs_weight_pct": 4.0,
+      "matched_weight_pct": 0.0,
+      "diff_vs_market_pct": -2.9,
+      "diff_vs_abs_pct": -4.0
+    }
+  ],
+  "overweight_in_gaemi_top15": [
+    {
+      "rank": 5,
+      "code": "425040",
+      "name": "티이엠씨",
+      "market": "KOSDAQ",
+      "industry": "기초 화학물질 제조업",
+      "intensity_pct": 35.5813,
+      "net_buy_eok": 926.41,
+      "end_marcap_eok": 3115.24,
+      "market_weight_pct": 0.005265411181009556,
+      "weight_diff_vs_market": 1.995
+    },
+    {
+      "rank": 15,
+      "code": "046970",
+      "name": "우리로",
+      "market": "KOSDAQ",
+      "industry": "기타 전문 도매업",
+      "intensity_pct": 20.7795,
+      "net_buy_eok": 215.6,
+      "end_marcap_eok": 3251.81,
+      "market_weight_pct": 0.005496244832267337,
+      "weight_diff_vs_market": 1.995
+    },
+    {
+      "rank": 24,
+      "code": "446540",
+      "name": "메가터치",
+      "market": "KOSDAQ",
+      "industry": "일차전지 및 이차전지 제조업",
+      "intensity_pct": 16.0986,
+      "net_buy_eok": 205.32,
+      "end_marcap_eok": 3233.6,
+      "market_weight_pct": 0.0054654529834827735,
+      "weight_diff_vs_market": 1.995
+    },
+    {
+      "rank": 25,
+      "code": "168360",
+      "name": "펨트론",
+      "market": "KOSDAQ",
+      "industry": "특수 목적용 기계 제조업",
+      "intensity_pct": 15.91,
+      "net_buy_eok": 415.14,
+      "end_marcap_eok": 3096.89,
+      "market_weight_pct": 0.005234390494743634,
+      "weight_diff_vs_market": 1.995
+    },
+    {
+      "rank": 6,
+      "code": "393890",
+      "name": "더블유씨피",
+      "market": "KOSDAQ",
+      "industry": "일차전지 및 이차전지 제조업",
+      "intensity_pct": 29.0233,
+      "net_buy_eok": 1850.11,
+      "end_marcap_eok": 3397.85,
+      "market_weight_pct": 0.005743077339895209,
+      "weight_diff_vs_market": 1.994
+    },
+    {
+      "rank": 10,
+      "code": "117730",
+      "name": "티로보틱스",
+      "market": "KOSDAQ",
+      "industry": "특수 목적용 기계 제조업",
+      "intensity_pct": 24.3925,
+      "net_buy_eok": 811.98,
+      "end_marcap_eok": 3340.85,
+      "market_weight_pct": 0.005646726184271273,
+      "weight_diff_vs_market": 1.994
+    },
+    {
+      "rank": 14,
+      "code": "064260",
+      "name": "다날",
+      "market": "KOSDAQ",
+      "industry": "소프트웨어 개발 및 공급업",
+      "intensity_pct": 21.6405,
+      "net_buy_eok": 830.45,
+      "end_marcap_eok": 3283.01,
+      "market_weight_pct": 0.005548975797754362,
+      "weight_diff_vs_market": 1.994
+    },
+    {
+      "rank": 19,
+      "code": "389470",
+      "name": "인벤티지랩",
+      "market": "KOSDAQ",
+      "industry": "자연과학 및 공학 연구개발업",
+      "intensity_pct": 17.5514,
+      "net_buy_eok": 754.57,
+      "end_marcap_eok": 3433.39,
+      "market_weight_pct": 0.005803142285852182,
+      "weight_diff_vs_market": 1.994
+    },
+    {
+      "rank": 12,
+      "code": "332570",
+      "name": "PS일렉트로닉스",
+      "market": "KOSDAQ",
+      "industry": "전자부품 제조업",
+      "intensity_pct": 21.8197,
+      "net_buy_eok": 458.68,
+      "end_marcap_eok": 4102.5,
+      "market_weight_pct": 0.006934072854060514,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 13,
+      "code": "003280",
+      "name": "흥아해운",
+      "market": "KOSPI",
+      "industry": "해상 운송업",
+      "intensity_pct": 21.7785,
+      "net_buy_eok": 1095.22,
+      "end_marcap_eok": 4351.69,
+      "market_weight_pct": 0.007355264033414245,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 21,
+      "code": "278280",
+      "name": "천보",
+      "market": "KOSDAQ",
+      "industry": "기초 화학물질 제조업",
+      "intensity_pct": 16.9121,
+      "net_buy_eok": 1188.12,
+      "end_marcap_eok": 4325.32,
+      "market_weight_pct": 0.007310688426624248,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 35,
+      "code": "089010",
+      "name": "켐트로닉스",
+      "market": "KOSDAQ",
+      "industry": "기타 화학제품 제조업",
+      "intensity_pct": 12.851,
+      "net_buy_eok": 534.05,
+      "end_marcap_eok": 4368.59,
+      "market_weight_pct": 0.007383830856395238,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 36,
+      "code": "249420",
+      "name": "일동제약",
+      "market": "KOSPI",
+      "industry": "의약품 제조업",
+      "intensity_pct": 12.4549,
+      "net_buy_eok": 732.06,
+      "end_marcap_eok": 4413.54,
+      "market_weight_pct": 0.007459795785419652,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 39,
+      "code": "272290",
+      "name": "이녹스첨단소재",
+      "market": "KOSDAQ",
+      "industry": "전자부품 제조업",
+      "intensity_pct": 11.0287,
+      "net_buy_eok": 599.53,
+      "end_marcap_eok": 4256.66,
+      "market_weight_pct": 0.00719463930502739,
+      "weight_diff_vs_market": 1.993
+    },
+    {
+      "rank": 7,
+      "code": "069540",
+      "name": "빛과전자",
+      "market": "KOSDAQ",
+      "industry": "통신 및 방송 장비 제조업",
+      "intensity_pct": 28.3202,
+      "net_buy_eok": 588.79,
+      "end_marcap_eok": 4637.27,
+      "market_weight_pct": 0.007837955245782971,
+      "weight_diff_vs_market": 1.992
+    }
+  ],
+  "missing_large_caps_top15": [
+    {
+      "marcap_rank_all": 1,
+      "code": "005930",
+      "name": "삼성전자",
+      "market": "KOSPI",
+      "industry": "통신 및 방송 장비 제조업",
+      "end_marcap_eok": 15697258.06,
+      "market_weight_pct": 26.53163709353698,
+      "net_buy_eok": 301654.93,
+      "intensity_pct": 4.5441,
+      "pure_rank_eligible": 80.0,
+      "eligibility_note": "적격"
+    },
+    {
+      "marcap_rank_all": 3,
+      "code": "402340",
+      "name": "SK스퀘어",
+      "market": "KOSPI",
+      "industry": "기타 금융업",
+      "end_marcap_eok": 1502614.34,
+      "market_weight_pct": 2.5397313421225682,
+      "net_buy_eok": 12764.81,
+      "intensity_pct": 3.0697,
+      "pure_rank_eligible": 106.0,
+      "eligibility_note": "적격"
+    },
+    {
+      "marcap_rank_all": 4,
+      "code": "009150",
+      "name": "삼성전기",
+      "market": "KOSPI",
+      "industry": "전자부품 제조업",
+      "end_marcap_eok": 1130115.62,
+      "market_weight_pct": 1.9101308901827156,
+      "net_buy_eok": -9402.49,
+      "intensity_pct": -3.4373,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 5,
+      "code": "373220",
+      "name": "LG에너지솔루션",
+      "market": "KOSPI",
+      "industry": "일차전지 및 이차전지 제조업",
+      "end_marcap_eok": 835380.0,
+      "market_weight_pct": 1.4119662750640445,
+      "net_buy_eok": 2623.12,
+      "intensity_pct": 0.2953,
+      "pure_rank_eligible": 135.0,
+      "eligibility_note": "적격"
+    },
+    {
+      "marcap_rank_all": 7,
+      "code": "207940",
+      "name": "삼성바이오로직스",
+      "market": "KOSPI",
+      "industry": "기초 의약물질 제조업",
+      "end_marcap_eok": 643907.13,
+      "market_weight_pct": 1.0883372232855144,
+      "net_buy_eok": -7721.27,
+      "intensity_pct": -1.1682,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 8,
+      "code": "105560",
+      "name": "KB금융",
+      "market": "KOSPI",
+      "industry": "기타 금융업",
+      "end_marcap_eok": 598712.89,
+      "market_weight_pct": 1.0119495513115762,
+      "net_buy_eok": -9645.47,
+      "intensity_pct": -2.5039,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 9,
+      "code": "032830",
+      "name": "삼성생명",
+      "market": "KOSPI",
+      "industry": "보험업",
+      "end_marcap_eok": 564000.0,
+      "market_weight_pct": 0.9532775253610584,
+      "net_buy_eok": -10100.32,
+      "intensity_pct": -3.4516,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 10,
+      "code": "028260",
+      "name": "삼성물산",
+      "market": "KOSPI",
+      "industry": "기타 전문 도매업",
+      "end_marcap_eok": 553802.29,
+      "market_weight_pct": 0.936041268983753,
+      "net_buy_eok": -22534.89,
+      "intensity_pct": -6.7859,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 11,
+      "code": "034020",
+      "name": "두산에너빌리티",
+      "market": "KOSPI",
+      "industry": "일반 목적용 기계 제조업",
+      "end_marcap_eok": 522697.9,
+      "market_weight_pct": 0.8834683616785108,
+      "net_buy_eok": -17605.2,
+      "intensity_pct": -5.7617,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 12,
+      "code": "012450",
+      "name": "한화에어로스페이스",
+      "market": "KOSPI",
+      "industry": "항공기,우주선 및 부품 제조업",
+      "end_marcap_eok": 519243.45,
+      "market_weight_pct": 0.8776296263051646,
+      "net_buy_eok": -28659.33,
+      "intensity_pct": -8.343,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 13,
+      "code": "055550",
+      "name": "신한지주",
+      "market": "KOSPI",
+      "industry": "기타 금융업",
+      "end_marcap_eok": 498086.7,
+      "market_weight_pct": 0.8418703195089293,
+      "net_buy_eok": -16502.61,
+      "intensity_pct": -5.389,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 14,
+      "code": "329180",
+      "name": "HD현대중공업",
+      "market": "KOSPI",
+      "industry": "선박 및 보트 건조업",
+      "end_marcap_eok": 455006.91,
+      "market_weight_pct": 0.769056492100108,
+      "net_buy_eok": -2993.41,
+      "intensity_pct": -0.8257,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 15,
+      "code": "000270",
+      "name": "기아",
+      "market": "KOSPI",
+      "industry": "자동차용 엔진 및 자동차 제조업",
+      "end_marcap_eok": 440385.86,
+      "market_weight_pct": 0.7443438732044637,
+      "net_buy_eok": -11354.94,
+      "intensity_pct": -2.5426,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 16,
+      "code": "034730",
+      "name": "SK",
+      "market": "KOSPI",
+      "industry": "기타 금융업",
+      "end_marcap_eok": 426315.89,
+      "market_weight_pct": 0.7205626952326727,
+      "net_buy_eok": -19262.18,
+      "intensity_pct": -10.6379,
+      "pure_rank_eligible": NaN,
+      "eligibility_note": "순매도(음수)"
+    },
+    {
+      "marcap_rank_all": 17,
+      "code": "006400",
+      "name": "삼성SDI",
+      "market": "KOSPI",
+      "industry": "일차전지 및 이차전지 제조업",
+      "end_marcap_eok": 415015.48,
+      "market_weight_pct": 0.7014626405749876,
+      "net_buy_eok": 24839.95,
+      "intensity_pct": 8.7576,
+      "pure_rank_eligible": 54.0,
+      "eligibility_note": "적격"
+    }
+  ],
+  "kosdaq_similarity": {
+    "pure_kosdaq_stock_count": 28,
+    "pure_kosdaq_weight_pct": 56.0,
+    "pure_overlap_with_kosdaq_top50_marcap_count": 3,
+    "pure_overlap_with_kosdaq_top50_marcap_pct": 6.0,
+    "pure_overlap_with_kosdaq_ew_count": 28,
+    "kosdaq_ew_universe_count": 240,
+    "comparison_table": [
+      {
+        "name": "GAEMI 50 PURE (개미 지수)",
+        "rule": "코스피·코스닥 적격 보통주 중 36개월 개인 순매수 강도 상위 50 동일가중",
+        "stock_overlap_with_pure_pct": 100.0,
+        "active_share_vs_market_pct": 94.16,
+        "current": 757.28,
+        "daily_change_pt": -47.87,
+        "daily_change_pct": -5.95,
+        "total_return_pct": -24.27,
+        "mdd_pct": -57.07,
+        "ann_volatility_pct": 38.72,
+        "corr_kospi": 0.7602,
+        "corr_kosdaq": 0.9389,
+        "high": 1764.01,
+        "low": 757.28
+      },
+      {
+        "name": "코스닥 (시가총액 가중)",
+        "rule": "코스닥 상장 전 종목 시가총액 가중 지수",
+        "stock_overlap_with_pure_pct": 6.0,
+        "active_share_vs_market_pct": null,
+        "current": 845.26,
+        "daily_change_pt": -51.23,
+        "daily_change_pct": -5.71,
+        "total_return_pct": -15.47,
+        "mdd_pct": -47.89,
+        "ann_volatility_pct": 38.96,
+        "corr_kospi": 0.7634,
+        "corr_kosdaq": 1.0,
+        "high": 1605.2,
+        "low": 820.82
+      },
+      {
+        "name": "코스닥 동일가중 비교지수",
+        "rule": "적격 조건(시총 3,000억+·거래대금 10억+·36개월 관측) 충족 코스닥 240종목 전체 동일가중",
+        "stock_overlap_with_pure_pct": 11.7,
+        "active_share_vs_market_pct": 94.44,
+        "current": 1156.85,
+        "daily_change_pt": -73.69,
+        "daily_change_pct": -5.99,
+        "total_return_pct": 15.68,
+        "mdd_pct": -46.15,
+        "ann_volatility_pct": 40.36,
+        "corr_kospi": 0.7708,
+        "corr_kosdaq": 0.9875,
+        "high": 1989.65,
+        "low": 826.81,
+        "corr_with_pure": 0.9391
+      },
+      {
+        "name": "시가총액·업종 유사 50종목 비교 포트폴리오",
+        "rule": "GAEMI 50 PURE 제외 적격 종목 중 각 PURE 종목과 동일 시장·동일 업종·최근접 시가총액 1:1 매칭 50종목 동일가중",
+        "stock_overlap_with_pure_pct": 0.0,
+        "active_share_vs_market_pct": 96.71,
+        "current": 964.95,
+        "daily_change_pt": -49.37,
+        "daily_change_pct": -4.87,
+        "total_return_pct": -3.5,
+        "mdd_pct": -42.97,
+        "ann_volatility_pct": 34.88,
+        "corr_kospi": 0.7498,
+        "corr_kosdaq": 0.9481,
+        "high": 1688.62,
+        "low": 831.31,
+        "corr_with_pure": 0.9361
+      }
+    ],
+    "diagnosis_category": "종목 구성은 다르지만 주가 흐름(일간 변동 방향)은 유사하고 누적 성과는 차별화됨",
+    "diagnosis_detail": "GAEMI 50 PURE 구성 50종목 중 코스닥 시가총액 상위 50개와 겹치는 종목은 3개(6%)에 불과하며, 시가총액·업종 유사 50종목 비교 포트폴리오와는 중복 종목이 0개(Active Share 94.16% vs 96.71%)입니다. 그럼에도 일간 수익률 상관계수가 코스닥과 0.939(코스닥 동일가중과 0.939)로 높은 이유는 개인이 집중 순매수한 50종목 중 중형주(3,000억~1조)가 29종목(58%), 코스닥 종목이 28종목(56%)을 차지해 국내 중소형주 공통 시장 요인(베타)의 영향을 함께 받기 때문입니다. 반면 누적 수익률은 GAEMI 50 PURE(-24.27%)가 시가총액·업종 유사 비교 포트폴리오(-3.50%) 및 코스닥 동일가중(+15.68%)과 뚜렷한 격차를 보입니다."
+  }
+}

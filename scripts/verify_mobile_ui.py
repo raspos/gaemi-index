@@ -1,5 +1,5 @@
 """
-PHASE 6: 웹사이트 렌더링 및 모바일 반응형(320px, 390px, 768px, 1280px) 자동 검증 스크립트
+PHASE 6 & 7: 웹사이트 렌더링 및 모바일 반응형(320px, 390px, 768px, 1280px) 자동 검증 스크립트
 """
 
 import os
@@ -53,25 +53,28 @@ def run_ui_verification():
             page.goto(url, wait_until="networkidle")
             page.wait_for_timeout(800)
 
-            # 1. 지수 값 렌더링 확인
+            # 1. 지수 값 및 구성 종목 렌더링 확인
             val_pure = page.inner_text("#val-pure").strip()
-            val_abs = page.inner_text("#val-abs").strip()
-            rows_cnt = page.locator("#constituent-tbody tr").count()
+            val_kospi = page.inner_text("#val-kospi").strip()
+            val_kosdaq = page.inner_text("#val-kosdaq").strip()
+            rows_cnt = page.locator("#pure50-tbody tr").count()
 
-            # 2. 가로 스크롤 오버플로우 여부 확인
+            # 2. 가로 스크롤 오버플로우 및 캔버스, 개미 SVG 로고 확인
             overflow_info = page.evaluate("""() => {
                 const docW = document.documentElement.scrollWidth;
                 const winW = window.innerWidth;
-                const c1 = document.getElementById('mainIndexChart').getBoundingClientRect();
-                const c2 = document.getElementById('sizeComparisonChart').getBoundingClientRect();
-                const c3 = document.getElementById('stockTrajectoryChart').getBoundingClientRect();
+                const c1 = document.getElementById('mainChart').getBoundingClientRect();
+                const c2 = document.getElementById('detailChart').getBoundingClientRect();
+                const c3 = document.getElementById('investorIndexChart').getBoundingClientRect();
+                const logo = document.querySelector('img.logo').getBoundingClientRect();
                 return {
                     docWidth: docW,
                     winWidth: winW,
                     hasHorizontalOverflow: docW > winW,
                     mainChartReady: c1.width > 50 && c1.height > 50,
-                    sizeChartReady: c2.width > 50 && c2.height > 50,
-                    trajChartReady: c3.width > 50 && c3.height > 50
+                    detailChartReady: c2.width > 50 && c2.height > 50,
+                    investorChartReady: c3.width > 50 && c3.height > 50,
+                    antLogoReady: logo.width >= 20 && logo.height >= 20
                 };
             }""")
 
@@ -79,13 +82,15 @@ def run_ui_verification():
             page.screenshot(path=shot_path, full_page=False)
 
             passed = (
-                val_pure == "826.55" and
-                val_abs == "936.98" and
+                val_pure == "757.28" and
+                val_kospi == "1,877.92" and
+                val_kosdaq == "845.26" and
                 rows_cnt == 50 and
                 not overflow_info["hasHorizontalOverflow"] and
                 overflow_info["mainChartReady"] and
-                overflow_info["sizeChartReady"] and
-                overflow_info["trajChartReady"] and
+                overflow_info["detailChartReady"] and
+                overflow_info["investorChartReady"] and
+                overflow_info["antLogoReady"] and
                 len(console_errors) == 0
             )
 
@@ -93,21 +98,23 @@ def run_ui_verification():
                 "viewport": f"{vp['width']}x{vp['height']}",
                 "status": "PASS" if passed else "FAIL",
                 "val_pure": val_pure,
-                "val_abs": val_abs,
+                "val_kospi": val_kospi,
+                "val_kosdaq": val_kosdaq,
                 "table_rows": rows_cnt,
                 "doc_scroll_width": overflow_info["docWidth"],
                 "window_inner_width": overflow_info["winWidth"],
                 "horizontal_overflow": overflow_info["hasHorizontalOverflow"],
                 "charts_rendered": (
                     overflow_info["mainChartReady"] and
-                    overflow_info["sizeChartReady"] and
-                    overflow_info["trajChartReady"]
+                    overflow_info["detailChartReady"] and
+                    overflow_info["investorChartReady"]
                 ),
+                "ant_logo_rendered": overflow_info["antLogoReady"],
                 "console_errors": console_errors,
                 "screenshot": shot_path,
             }
             ui_report.append(res_item)
-            print(f"  [{res_item['status']}] Viewport {vp['width']}px | docWidth={overflow_info['docWidth']}px | PURE={val_pure} | ABS={val_abs} | rows={rows_cnt} | errors={len(console_errors)}")
+            print(f"  [{res_item['status']}] Viewport {vp['width']}px | docWidth={overflow_info['docWidth']}px | PURE={val_pure} | KOSPI={val_kospi} | KOSDAQ={val_kosdaq} | rows={rows_cnt} | antLogo={overflow_info['antLogoReady']} | errors={len(console_errors)}")
             context.close()
 
         browser.close()

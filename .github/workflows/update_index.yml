@@ -32,8 +32,7 @@ jobs:
       - name: Run data collection & GAEMI 50 PURE calculation
         run: |
           python scripts/collect_data.py
-          python scripts/calculate_index.py
-          python scripts/calculate_pure_index.py
+          python scripts/build_phase2_analytics.py
           python scripts/verify_pipeline.py
 
       - name: Commit and push updated index data
