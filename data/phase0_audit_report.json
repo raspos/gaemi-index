@@ -38,13 +38,9 @@
   "audit_0_4_historical_marcap_and_recalculation": {
     "anchor_method": "2026-03-08, 2026-03-31, 2026-06-30, 2026-09-30, 2026-11-20 KRX 공식 상장주식수(LIST_SHRS) 스냅샷 직접 앵커링 + 2026-03-08 이전 자본금 이벤트(|전일종가/기준가 - 1| >= 3%: 액면분할·병합·무상증자·감자) 역산 복원",
     "recalculation_constituent_change_2026Q4": {
-      "overlap_with_pre_audit_count": 49,
-      "newly_entered_after_audit": [
-        "SKC"
-      ],
-      "removed_after_audit": [
-        "유한양행"
-      ]
+      "overlap_with_pre_audit_count": 50,
+      "newly_entered_after_audit": [],
+      "removed_after_audit": []
     }
   }
 }

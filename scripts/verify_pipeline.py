@@ -84,25 +84,34 @@ def run_verification():
         f"개인/외국인/기관 각 50종목 선정 완료 | 중복률(개인∩외인={ic['overlaps']['ind_vs_frg_count']}개, 개인∩기관={ic['overlaps']['ind_vs_org_count']}개) | 521거래일 시계열 결측치 0건"
     )
 
-    # 6. PHASE 5: AI식 금지 문구 제거 검증
+    # 6. PHASE 3 & 5: AI식 금지 문구 및 번호 매김 표현 제거 검증
     forbidden_phrases = [
         "공식 대표지수",
         "8대 차이 검증",
         "6대 핵심 지표",
-        "고유한 위험·수익 구조를 명확히 드러냅니다",
+        "고유한 위험·수익 구조",
         "초대형주 쏠림 해소 검증",
         "구조적 동조화",
+        "구조적 차별성",
         "민감도 분석 결과를 통해 확인했습니다",
         "본 서비스는 다음과 같은 분석을 제공합니다",
         "주목할 만한 결과입니다",
+        "A. 개미 차별성 지수",
+        "개미 차별성 지수",
+        "B-1. 시장 대비 시가총액 규모별 비중 차이",
+        "B-2. 시장 대비 업종별 비중 차이",
+        "C. 코스닥 및 유사 규모 포트폴리오와의 비교",
+        "①-1. 개인 순매수 강도 상위 50",
+        "판별 결과",
+        "순수 초과 차별성",
     ]
     html_txt = open(os.path.join(DOCS_DIR, "index.html"), encoding="utf-8").read()
     js_txt = open(os.path.join(DOCS_DIR, "app.js"), encoding="utf-8").read()
     found_forbidden = [p for p in forbidden_phrases if (p in html_txt or p in js_txt)]
     check(
-        "PHASE 5 AI식 장황한 설명 및 금지 문구 제거 검증",
+        "PHASE 3 & 5 AI식 장황한 설명 및 금지 문구 제거 검증",
         len(found_forbidden) == 0,
-        f"금지 표현 9종 검출 건수={len(found_forbidden)}건"
+        f"금지 표현 {len(forbidden_phrases)}종 검출 건수={len(found_forbidden)}건"
     )
 
     report = {

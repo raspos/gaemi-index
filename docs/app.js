@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  const THEME_STORAGE_KEY = "gaemi_theme";
   let DATA = window.GAEMI_DATA || null;
   let mainChart = null;
   let detailChart = null;
@@ -16,9 +17,96 @@
     sec2Market: "ALL",
     sec2Search: "",
     selectedStock: "417200",
-    divergentMode: "IND_BUY", // IND_BUY | OTH_BUY
+    invListMode: "IND", // IND | FRG | ORG | DIV_IND | DIV_OTH
     selectedQuarter: null,
   };
+
+  // --- 테마 초기화, 로컬 저장소 보존, 시스템 테마(prefers-color-scheme) 자동 감지 ---
+  function initTheme() {
+    try {
+      const saved = localStorage.getItem(THEME_STORAGE_KEY);
+      if (saved === "light" || saved === "dark") {
+        document.documentElement.setAttribute("data-theme", saved);
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+      }
+    } catch (_) {}
+
+    if (window.matchMedia) {
+      const mq = window.matchMedia("(prefers-color-scheme: dark)");
+      const onSystemThemeChange = () => {
+        let saved = null;
+        try {
+          saved = localStorage.getItem(THEME_STORAGE_KEY);
+        } catch (_) {}
+        if (!saved) {
+          updateThemeButtonLabel();
+          refreshAllCharts();
+        }
+      };
+      if (mq.addEventListener) {
+        mq.addEventListener("change", onSystemThemeChange);
+      } else if (mq.addListener) {
+        mq.addListener(onSystemThemeChange);
+      }
+    }
+    updateThemeButtonLabel();
+  }
+
+  function isDarkMode() {
+    const curr = document.documentElement.getAttribute("data-theme");
+    if (curr === "dark") return true;
+    if (curr === "light") return false;
+    return Boolean(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+
+  function updateThemeButtonLabel() {
+    const btn = document.getElementById("themeBtn");
+    if (!btn) return;
+    const dark = isDarkMode();
+    btn.textContent = dark ? "라이트" : "다크";
+    btn.setAttribute("aria-pressed", dark ? "true" : "false");
+  }
+
+  function toggleTheme() {
+    const nextTheme = isDarkMode() ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    } catch (_) {}
+    updateThemeButtonLabel();
+    refreshAllCharts();
+  }
+
+  // CSS 디자인 토큰에서 현재 테마의 차트 색상을 동적으로 읽기 (고정 hex 하드코딩 금지)
+  function getChartTokens() {
+    const cs = getComputedStyle(document.documentElement);
+    const read = (prop, fallback) => (cs.getPropertyValue(prop) || "").trim() || fallback;
+    return {
+      gaemi: read("--chart-gaemi", "#d84b17"),
+      gaemiFill: read("--chart-gaemi-fill", "rgba(216, 75, 23, 0.12)"),
+      kospi: read("--chart-kospi", "#161615"),
+      kosdaq: read("--chart-kosdaq", "#1862c4"),
+      foreign: read("--chart-foreign", "#137a47"),
+      institution: read("--chart-institution", "#7928ca"),
+      aux: read("--chart-aux", "#5e5d58"),
+      aux2: read("--chart-aux-2", "#8c4a08"),
+      grid: read("--chart-grid", "rgba(90, 89, 84, 0.18)"),
+      axis: read("--chart-axis", "#43423f"),
+      rebLine: read("--chart-reb-line", "rgba(90, 89, 84, 0.35)"),
+      rebText: read("--chart-reb-text", "#595853"),
+      tooltipBg: read("--chart-tooltip-bg", "rgba(18, 18, 17, 0.94)"),
+      tooltipInk: read("--chart-tooltip-ink", "#f6f6f4"),
+      tooltipBorder: read("--chart-tooltip-border", "#34342f"),
+    };
+  }
+
+  function refreshAllCharts() {
+    if (!DATA) return;
+    renderSection01();
+    renderStockDetailPanel();
+    renderSection04();
+  }
 
   function activateTab(tabId, updateHash = true) {
     const validTabs = ["sec-01", "sec-02", "sec-03", "sec-04", "sec-05", "sec-footer"];
@@ -42,7 +130,6 @@
       history.replaceState(null, "", `#${target}`);
     }
 
-    // 숨겨져 있던 캔버스가 표시될 때 Chart.js 리사이즈 및 재렌더링
     if (target === "sec-01") {
       renderSection01();
     } else if (target === "sec-02") {
@@ -85,27 +172,6 @@
     return `${s}${num.toFixed(d)}%`;
   }
 
-  function isDarkMode() {
-    const curr = document.documentElement.getAttribute("data-theme");
-    return (
-      curr === "dark" ||
-      (!curr && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
-  }
-
-  function getChartColors() {
-    const dark = isDarkMode();
-    return {
-      dark,
-      kospi: dark ? "#f5c542" : "#1f7a4c", // 다크모드: 선명한 골드(#f5c542), 라이트모드: 선명한 에메랄드 그린(#1f7a4c)
-      priceLine: dark ? "#e8e6df" : "#222220",
-      text: dark ? "#c3c2b7" : "#52514e",
-      grid: dark ? "rgba(255, 255, 255, 0.10)" : "rgba(140, 140, 135, 0.18)",
-      rebLine: dark ? "rgba(210, 208, 200, 0.35)" : "rgba(122, 121, 116, 0.35)",
-      rebText: dark ? "#b5b4ac" : "#7a7974",
-    };
-  }
-
   function clsSign(v) {
     const num = Number(v);
     if (num > 0) return "up";
@@ -113,10 +179,11 @@
     return "";
   }
 
-  // PHASE 6: 3가지 짧은 데이터 팩트 배너
+  // 핵심 발견 세 가지 (데이터 기반 자동 갱신)
   function renderFactsBar() {
-    const facts = DATA.summary.key_facts || [];
+    const facts = (DATA.summary && DATA.summary.key_facts) || [];
     const el = document.getElementById("facts-bar");
+    if (!el) return;
     el.innerHTML = facts
       .map(
         (f) => `<div class="fact-tile">
@@ -130,7 +197,7 @@
       .join("");
   }
 
-  // 기간 필터링 및 기간 시작일=1,000 재정규화 계산
+  // 기간 필터링 및 선택 구간 첫 거래일 = 1,000 정규화
   function getPeriodRows() {
     const ts = DATA.timeseries || [];
     if (!ts.length) return [];
@@ -163,17 +230,15 @@
     const reindexed = rawVals.map((v) => (v / b0) * 1000.0);
     const cur = reindexed[reindexed.length - 1];
     const prev = reindexed[reindexed.length - 2] || cur;
-    const dailyPct = ((cur / prev - 1) * 100);
+    const dailyPct = (cur / prev - 1) * 100;
     const dailyPt = cur - prev;
-    const cumPct = ((cur / 1000.0 - 1) * 100);
+    const cumPct = (cur / 1000.0 - 1) * 100;
 
-    // 일별 수익률 시계열
     const rets = [];
     for (let i = 1; i < reindexed.length; i++) {
       rets.push(reindexed[i] / reindexed[i - 1] - 1);
     }
 
-    // MDD
     let peak = reindexed[0];
     let mdd = 0;
     for (let i = 0; i < reindexed.length; i++) {
@@ -182,7 +247,6 @@
       if (dd < mdd) mdd = dd;
     }
 
-    // 연율 변동성
     const mean = rets.reduce((a, b) => a + b, 0) / Math.max(rets.length, 1);
     const variance =
       rets.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / Math.max(rets.length - 1, 1);
@@ -218,17 +282,19 @@
     return da > 0 && db > 0 ? num / Math.sqrt(da * db) : 0;
   }
 
-  // SECTION 01 렌더링 (상단 타일 + 비교 차트 + 접기 상세표)
+  // TAB 1: 개미 지수 (상단 고정 스트립 + 메인 비교 차트 + 상세 성과 표)
   function renderSection01() {
     const rows = getPeriodRows();
     if (!rows.length) return;
     const startDt = rows[0].date;
     const endDt = rows[rows.length - 1].date;
+    const baseDt = DATA.summary.base_date || "2024-09-30";
 
-    document.getElementById("header-asof").textContent = `기준일: ${endDt}`;
-    document.getElementById("period-label-pure").textContent = `${startDt} = 1,000`;
+    document.getElementById("header-asof").textContent =
+      `기준일 ${baseDt}=1,000 · 최신 ${endDt}(잠정)`;
+    document.getElementById("period-label-pure").textContent = `시작일 ${startDt} = 1,000`;
     document.getElementById("chart-reindexed-note").textContent =
-      `* 선택한 기간 시작일(${startDt})을 1,000.00으로 정규화한 가격지수(배당 미포함) 추이입니다 (${startDt} ~ ${endDt}).`;
+      `* 선택한 기간 첫 거래일(${startDt})을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다 (${startDt} ~ ${endDt}).`;
 
     const stPure = calcPeriodStats(rows, "GAEMI_50_PURE");
     const stKospi = calcPeriodStats(rows, "KOSPI_norm");
@@ -238,7 +304,7 @@
     const stMatched = calcPeriodStats(rows, "MATCHED_50_EW");
     const stTotal = calcPeriodStats(rows, "GAEMI_50_TOTAL");
 
-    // 1) 상단 3개 타일 업데이트
+    // 1) 상단 3개 타일 (부호 ▲+/▼-와 숫자로 의미 전달)
     document.getElementById("val-pure").textContent = fmtNum(stPure.current, 2);
     const chgPureEl = document.getElementById("chg-pure");
     const sgn = stPure.dailyPt > 0 ? "▲ +" : stPure.dailyPt < 0 ? "▼ " : "";
@@ -252,7 +318,7 @@
     document.getElementById("raw-kospi").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSPI_raw, 2)}`;
     document.getElementById("val-kospi").textContent = fmtNum(stKospi.current, 2);
     const cumKospiEl = document.getElementById("cum-kospi");
-    cumKospiEl.textContent = `기간 ${fmtPct(stKospi.cumPct)}`;
+    cumKospiEl.textContent = `동일 기간 ${fmtPct(stKospi.cumPct)}`;
     cumKospiEl.className = `tile-chg ${clsSign(stKospi.cumPct)}`;
 
     const gapKospi = stPure.cumPct - stKospi.cumPct;
@@ -263,7 +329,7 @@
     document.getElementById("raw-kosdaq").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSDAQ_raw, 2)}`;
     document.getElementById("val-kosdaq").textContent = fmtNum(stKosdaq.current, 2);
     const cumKosdaqEl = document.getElementById("cum-kosdaq");
-    cumKosdaqEl.textContent = `기간 ${fmtPct(stKosdaq.cumPct)}`;
+    cumKosdaqEl.textContent = `동일 기간 ${fmtPct(stKosdaq.cumPct)}`;
     cumKosdaqEl.className = `tile-chg ${clsSign(stKosdaq.cumPct)}`;
 
     const gapKosdaq = stPure.cumPct - stKosdaq.cumPct;
@@ -271,85 +337,88 @@
     gapKosdaqEl.textContent = `${gapKosdaq > 0 ? "+" : ""}${gapKosdaq.toFixed(2)}%p`;
     gapKosdaqEl.className = clsSign(gapKosdaq);
 
-    // 2) 차트 데이터셋 구성 (기본 3개 + 선택 활성화)
-    const palette = getChartColors();
+    // 2) CSS 토큰 기반 차트 데이터셋 (실선·긴 대시·점선 등 선 모양으로도 구분)
+    const tk = getChartTokens();
     const datasets = [
       {
-        label: "GAEMI 50 PURE (개미 지수)",
+        label: "개미 지수 (GAEMI 50 PURE · 실선)",
         data: stPure.reindexed,
-        borderColor: "#eb6834",
-        backgroundColor: "rgba(235, 104, 52, 0.08)",
-        borderWidth: 2.6,
+        borderColor: tk.gaemi,
+        backgroundColor: tk.gaemiFill,
+        borderWidth: 2.7,
+        borderDash: [],
         pointRadius: 0,
         pointHoverRadius: 4,
         tension: 0.1,
       },
       {
-        label: "코스피 (1,000 환산)",
+        label: "코스피 (1,000 환산 · 긴 점선)",
         data: stKospi.reindexed,
-        borderColor: palette.kospi,
+        borderColor: tk.kospi,
         backgroundColor: "transparent",
         borderWidth: 2.2,
+        borderDash: [7, 4],
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
       },
       {
-        label: "코스닥 (1,000 환산)",
+        label: "코스닥 (1,000 환산 · 짧은 점선)",
         data: stKosdaq.reindexed,
-        borderColor: "#3b82f6",
+        borderColor: tk.kosdaq,
         backgroundColor: "transparent",
-        borderWidth: 2.0,
+        borderWidth: 2.1,
+        borderDash: [3, 3],
         pointRadius: 0,
         pointHoverRadius: 3,
         tension: 0.1,
       },
     ];
 
-    if (state.showAbs) {
+    if (state.showMatched) {
       datasets.push({
-        label: "기존 절대금액 GAEMI 50",
-        data: stAbs.reindexed,
-        borderColor: "#9ca3af",
+        label: "비슷한 주식 50개 (시총·업종 유사)",
+        data: stMatched.reindexed,
+        borderColor: tk.institution,
         backgroundColor: "transparent",
-        borderWidth: 1.7,
-        borderDash: [4, 3],
+        borderWidth: 1.9,
+        borderDash: [6, 3, 2, 3],
         pointRadius: 0,
         tension: 0.1,
       });
     }
     if (state.showKqEw) {
       datasets.push({
-        label: "코스닥 동일가중 비교지수",
+        label: "코스닥 동일가중",
         data: stKqEw.reindexed,
-        borderColor: "#10b981",
+        borderColor: tk.foreign,
         backgroundColor: "transparent",
-        borderWidth: 1.7,
-        borderDash: [3, 2],
+        borderWidth: 1.9,
+        borderDash: [4, 2],
         pointRadius: 0,
         tension: 0.1,
       });
     }
-    if (state.showMatched) {
+    if (state.showAbs) {
       datasets.push({
-        label: "시총·업종 유사 50종목 비교 포트폴리오",
-        data: stMatched.reindexed,
-        borderColor: "#a855f7",
+        label: "단순 순매수금액 상위 50",
+        data: stAbs.reindexed,
+        borderColor: tk.aux,
         backgroundColor: "transparent",
-        borderWidth: 1.7,
-        borderDash: [5, 2],
+        borderWidth: 1.8,
+        borderDash: [2, 2],
         pointRadius: 0,
         tension: 0.1,
       });
     }
     if (state.showTotal) {
       datasets.push({
-        label: "GAEMI 50 PURE (KRX+NXT 통합)",
+        label: "개미 지수 (KRX+NXT 합산)",
         data: stTotal.reindexed,
-        borderColor: "#f97316",
+        borderColor: tk.aux2,
         backgroundColor: "transparent",
-        borderWidth: 1.6,
-        borderDash: [2, 2],
+        borderWidth: 1.8,
+        borderDash: [8, 2, 2, 2],
         pointRadius: 0,
         tension: 0.1,
       });
@@ -367,19 +436,23 @@
       afterDraw(chart) {
         const { ctx, chartArea, scales } = chart;
         if (!chartArea) return;
+        const chartW = chartArea.right - chartArea.left;
+        const showText = chartW >= 420;
         ctx.save();
         rebMarkers.forEach((m) => {
           const x = scales.x.getPixelForValue(m.index);
           if (x >= chartArea.left && x <= chartArea.right) {
             ctx.beginPath();
             ctx.setLineDash([3, 3]);
-            ctx.strokeStyle = palette.rebLine;
+            ctx.strokeStyle = tk.rebLine;
             ctx.moveTo(x, chartArea.top);
             ctx.lineTo(x, chartArea.bottom);
             ctx.stroke();
-            ctx.fillStyle = palette.rebText;
-            ctx.font = "600 10px 'JetBrains Mono', monospace";
-            ctx.fillText(m.label, x + 3, chartArea.top + 11);
+            if (showText) {
+              ctx.fillStyle = tk.rebText;
+              ctx.font = "600 10px 'JetBrains Mono', monospace";
+              ctx.fillText(m.label, x + 3, chartArea.top + 11);
+            }
           }
         });
         ctx.restore();
@@ -401,13 +474,18 @@
             position: "top",
             align: "start",
             labels: {
-              color: palette.text,
-              boxWidth: 14,
+              color: tk.axis,
+              boxWidth: 18,
               boxHeight: 3,
               font: { size: 12, weight: "600" },
             },
           },
           tooltip: {
+            backgroundColor: tk.tooltipBg,
+            titleColor: tk.tooltipInk,
+            bodyColor: tk.tooltipInk,
+            borderColor: tk.tooltipBorder,
+            borderWidth: 1,
             callbacks: {
               label(c) {
                 const v = c.parsed.y;
@@ -421,26 +499,26 @@
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: palette.text, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
+            ticks: { color: tk.axis, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
           },
           y: {
-            grid: { color: palette.grid },
-            ticks: { color: palette.text, font: { family: "JetBrains Mono", size: 11 } },
+            grid: { color: tk.grid },
+            ticks: { color: tk.axis, font: { family: "JetBrains Mono", size: 11 } },
           },
         },
       },
       plugins: [rebPlugin],
     });
 
-    // 3) 접기 상세 성과 테이블 렌더링
+    // 3) 접기 상세 성과 테이블
     const tableConfigs = [
-      { name: "개미 지수 (GAEMI 50 PURE)", st: stPure },
+      { name: "개미 지수 (GAEMI 50 PURE · 잠정)", st: stPure },
       { name: "코스피 (1,000 환산)", st: stKospi },
       { name: "코스닥 (1,000 환산)", st: stKosdaq },
-      { name: "코스닥 동일가중 비교지수", st: stKqEw },
-      { name: "시총·업종 유사 50종목 비교 포트폴리오", st: stMatched },
-      { name: "기존 절대금액 GAEMI 50", st: stAbs },
-      { name: "GAEMI 50 PURE (KRX+NXT 통합)", st: stTotal },
+      { name: "비슷한 주식 50개 (시총·업종 유사)", st: stMatched },
+      { name: "코스닥 동일가중", st: stKqEw },
+      { name: "단순 순매수금액 상위 50", st: stAbs },
+      { name: "개미 지수 (KRX+NXT 합산)", st: stTotal },
     ];
 
     const perfTbody = document.getElementById("perf-detail-tbody");
@@ -467,7 +545,7 @@
       .join("");
   }
 
-  // SECTION 02: 개미는 무엇을 샀나
+  // TAB 2: 개미가 산 50종목
   function renderSection02() {
     const rawList = DATA.gaemi50_pure_constituents || [];
     const kospiCnt = rawList.filter((r) => r.market === "KOSPI").length;
@@ -488,37 +566,28 @@
     });
 
     const tbody = document.getElementById("pure50-tbody");
-    tbody.innerHTML = filtered
-      .map((r) => {
-        const isAct = r.code === state.selectedStock ? "active-row" : "";
-        const rChg = r.rank_change_str || "-";
-        const badgeCls = rChg === "NEW" ? "new" : "";
-        const retCls = clsSign(r.since_entry_return_pct);
-        return `<tr class="clickable ${isAct}" data-code="${r.code}">
-          <td class="r"><strong>${r.rank}</strong></td>
-          <td>
-            <strong>${r.name}</strong><span class="code-sub">${r.code}</span>
-            <span class="badge-sm ${badgeCls}" style="margin-left:4px">${rChg}</span>
-          </td>
-          <td class="r"><strong class="up">${Number(r.intensity_pct).toFixed(2)}%</strong></td>
-          <td class="r ${retCls}">${fmtPct(r.since_entry_return_pct)}</td>
-        </tr>`;
-      })
-      .join("");
+    if (!filtered.length) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--ink-3);padding:18px">조건에 맞는 종목이 없습니다.</td></tr>`;
+    } else {
+      tbody.innerHTML = filtered
+        .map((r) => {
+          const isAct = r.code === state.selectedStock ? "active-row" : "";
+          const rChg = r.rank_change_str || "-";
+          const badgeCls = rChg === "NEW" ? "new" : "";
+          const retCls = clsSign(r.since_entry_return_pct);
+          return `<tr class="clickable ${isAct}" data-code="${r.code}">
+            <td class="r"><strong>${r.rank}</strong></td>
+            <td>
+              <strong>${r.name}</strong><span class="code-sub">${r.code}</span>
+              <span class="badge-sm ${badgeCls}" style="margin-left:4px">${rChg}</span>
+            </td>
+            <td class="r"><strong class="up">+${Number(r.intensity_pct).toFixed(2)}%</strong></td>
+            <td class="r ${retCls}">${fmtPct(r.since_entry_return_pct)}</td>
+          </tr>`;
+        })
+        .join("");
+    }
 
-    tbody.querySelectorAll("tr").forEach((tr) => {
-      tr.addEventListener("click", () => {
-        const c = tr.getAttribute("data-code");
-        if (c) {
-          state.selectedStock = c;
-          document.getElementById("dt-stock-select").value = c;
-          renderSection02();
-          renderStockDetailPanel();
-        }
-      });
-    });
-
-    // 업종별 구성 및 시가총액 구간별 구성
     const secRows = (DATA.market_diff.sector_vs_market || []).filter((r) => r.pure_count > 0);
     document.getElementById("sec2-sector-tbody").innerHTML = secRows
       .map(
@@ -569,15 +638,15 @@
   }
 
   function renderStockDetailPanel() {
-    const t = DATA.stock_trajectories[state.selectedStock];
+    const t = DATA.stock_trajectories && DATA.stock_trajectories[state.selectedStock];
     if (!t) return;
 
     document.getElementById("dt-code-mkt").textContent = `${t.code} · ${t.market} · ${t.size_bucket}`;
     document.getElementById("dt-title").textContent = t.name;
 
     const pRank = t.pure_rank ? `강도 순위 #${t.pure_rank}위` : "적격 50위 밖";
-    document.getElementById("dt-intensity").textContent = `${Number(t.intensity_pct).toFixed(2)}%`;
-    document.getElementById("dt-rank-sub").textContent = `${pRank} · 절대금액 #${t.abs_rank}위 · 시총 #${t.marcap_rank}위`;
+    document.getElementById("dt-intensity").textContent = `+${Number(t.intensity_pct).toFixed(2)}%`;
+    document.getElementById("dt-rank-sub").textContent = `${pRank} · 금액 순위 #${t.abs_rank}위 · 시총 #${t.marcap_rank}위`;
 
     document.getElementById("dt-netbuy").textContent = fmtEok(t.net_buy_36m_eok);
     document.getElementById("dt-marcap").textContent = `평균 ${fmtEok(t.avg_marcap_36m_eok)}`;
@@ -590,7 +659,7 @@
     if (t.since_entry_return_pct !== null && t.since_entry_return_pct !== undefined) {
       retEl.textContent = fmtPct(t.since_entry_return_pct);
       retEl.className = `v ${clsSign(t.since_entry_return_pct)}`;
-      document.getElementById("dt-entry-sub").textContent = `최초 편입: ${t.entry_quarter} (${t.entry_date}) · 총 ${t.included_quarters.length}개 분기 편입`;
+      document.getElementById("dt-entry-sub").textContent = `최초 편입: ${t.entry_quarter} (${t.entry_date}) · 총 ${t.included_quarters.length}개 분기 포함`;
     } else {
       retEl.textContent = "미편입";
       retEl.className = "v";
@@ -602,7 +671,7 @@
     document.getElementById("dt-others-sub").textContent =
       `외인 ${fmtEok(t.frg_net_buy_36m_eok)} · 기관 ${fmtEok(t.org_net_buy_36m_eok)}`;
 
-    const palette = getChartColors();
+    const tk = getChartTokens();
     const ctx = document.getElementById("detailChart").getContext("2d");
     if (detailChart) detailChart.destroy();
     detailChart = new Chart(ctx, {
@@ -611,22 +680,23 @@
         labels: t.dates,
         datasets: [
           {
-            label: "개인 누적 추정 순매수대금 (억 원)",
+            label: "개인 누적 추정 순매수대금 (억 원 · 실선)",
             data: t.cum_net_buy_eok,
-            borderColor: "#eb6834",
-            backgroundColor: "rgba(235, 104, 52, 0.14)",
+            borderColor: tk.gaemi,
+            backgroundColor: tk.gaemiFill,
             fill: true,
-            borderWidth: 2,
+            borderWidth: 2.2,
             pointRadius: 0,
             yAxisID: "yNet",
             tension: 0.15,
           },
           {
-            label: "주가 (원)",
+            label: "주가 (원 · 점선)",
             data: t.prices,
-            borderColor: palette.priceLine,
+            borderColor: tk.kospi,
             backgroundColor: "transparent",
             borderWidth: 2.0,
+            borderDash: [5, 3],
             pointRadius: 0,
             yAxisID: "yPrc",
             tension: 0.15,
@@ -638,18 +708,32 @@
         maintainAspectRatio: false,
         animation: false,
         interaction: { mode: "index", intersect: false },
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            align: "start",
+            labels: { color: tk.axis, boxWidth: 14, boxHeight: 3, font: { size: 11 } },
+          },
+          tooltip: {
+            backgroundColor: tk.tooltipBg,
+            titleColor: tk.tooltipInk,
+            bodyColor: tk.tooltipInk,
+            borderColor: tk.tooltipBorder,
+            borderWidth: 1,
+          },
+        },
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: palette.text, maxTicksLimit: 6, font: { family: "JetBrains Mono", size: 10 } },
+            ticks: { color: tk.axis, maxTicksLimit: 6, font: { family: "JetBrains Mono", size: 10 } },
           },
           yNet: {
             position: "left",
-            grid: { color: palette.grid },
+            grid: { color: tk.grid },
             ticks: {
               font: { family: "JetBrains Mono", size: 10 },
-              color: "#eb6834",
+              color: tk.gaemi,
               callback: (v) => `${fmtInt(v)}억`,
             },
           },
@@ -657,7 +741,7 @@
             position: "right",
             grid: { drawOnChartArea: false },
             ticks: {
-              color: palette.priceLine,
+              color: tk.kospi,
               font: { family: "JetBrains Mono", size: 10 },
               callback: (v) => `${fmtInt(v)}원`,
             },
@@ -667,33 +751,33 @@
     });
   }
 
-  // SECTION 03: 개미는 시장과 얼마나 다른가
+  // TAB 3: 시장과의 차이 (PHASE 3 Section 3 & 5 반영)
   function renderSection03() {
     const md = DATA.market_diff;
     const as = md.active_share;
 
     document.getElementById("as-mc50-txt").textContent = `${as.marcap_top50_ew_vs_market_pct.toFixed(1)}%`;
     document.getElementById("as-pure-txt").textContent = `${as.gaemi_pure_vs_market_pct.toFixed(1)}%`;
-    document.getElementById("as-excess-txt").textContent = `+${as.pure_excess_active_share_over_marcap50_ew_pct.toFixed(1)}%p`;
+    document.getElementById("as-matched-txt").textContent = `${as.matched_size_sector_50_ew_vs_market_pct.toFixed(1)}%`;
 
     const asItems = [
+      {
+        label: "비슷한 주식 50개 (시총·업종 유사 동일가중)",
+        val: as.matched_size_sector_50_ew_vs_market_pct,
+        cls: "blue",
+      },
       {
         label: "개미 지수 (GAEMI 50 PURE · 50종목 동일가중)",
         val: as.gaemi_pure_vs_market_pct,
         cls: "",
       },
       {
-        label: "시가총액·업종 유사 50종목 비교 포트폴리오 (동일가중)",
-        val: as.matched_size_sector_50_ew_vs_market_pct,
-        cls: "blue",
-      },
-      {
-        label: "기존 절대금액 GAEMI 50 (50종목 동일가중)",
+        label: "단순 순매수금액 상위 50 (50종목 동일가중)",
         val: as.gaemi_abs_vs_market_pct,
         cls: "muted",
       },
       {
-        label: "시장 시가총액 상위 50 동일가중 (순수 동일가중 구조 효과)",
+        label: "시가총액 상위 50종목 동일가중 (동일가중 기본 차이)",
         val: as.marcap_top50_ew_vs_market_pct,
         cls: "muted",
       },
@@ -711,10 +795,8 @@
       )
       .join("");
 
-    // C. 코스닥 유사성 비교
     const kqSim = md.kosdaq_similarity;
-    document.getElementById("kq-sim-summary").textContent =
-      `판별 결과: ${kqSim.diagnosis_category}`;
+    document.getElementById("kq-sim-summary").textContent = kqSim.diagnosis_category;
     document.getElementById("kq-sim-detail").textContent = kqSim.diagnosis_detail;
 
     document.getElementById("kq-sim-tbody").innerHTML = kqSim.comparison_table
@@ -730,7 +812,6 @@
       })
       .join("");
 
-    // B-1. 시가총액 규모별 비중 차이
     document.getElementById("sec3-size-diff-tbody").innerHTML = md.size_vs_market
       .map((r) => {
         const dCls = clsSign(r.diff_vs_market_pct);
@@ -744,7 +825,6 @@
       })
       .join("");
 
-    // B-2. 업종별 비중 차이
     document.getElementById("sec3-sector-diff-tbody").innerHTML = md.sector_vs_market
       .map((r) => {
         const dCls = clsSign(r.diff_weight_pct);
@@ -758,20 +838,6 @@
       })
       .join("");
 
-    // 개미 지수에만 높은 비중으로 포함된 종목
-    document.getElementById("sec3-overweight-tbody").innerHTML = md.overweight_in_gaemi_top15
-      .map(
-        (r) => `<tr class="clickable" data-code="${r.code}">
-        <td class="r">#${r.rank}</td>
-        <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
-        <td class="r up">${r.intensity_pct.toFixed(2)}%</td>
-        <td class="r"><strong>2.00%</strong></td>
-        <td class="r">${r.market_weight_pct.toFixed(3)}%</td>
-      </tr>`
-      )
-      .join("");
-
-    // 시장 대형주 중 개미 지수에 없는 종목
     document.getElementById("mc50-ov-cnt").textContent =
       `${md.marcap_top50_overlap.overlap_count}개(${md.marcap_top50_overlap.overlap_pct}%)`;
 
@@ -789,47 +855,28 @@
       .join("");
   }
 
-  // SECTION 04: 누가 무엇을 샀나
+  // TAB 4: 개미·외국인·기관의 선택
   function renderSection04() {
     const ic = DATA.investor_comp;
     const ov = ic.overlaps;
 
     document.getElementById("ov-ind-frg").textContent = `${ov.ind_vs_frg_count}종목 (${ov.ind_vs_frg_pct}%)`;
     document.getElementById("ov-ind-frg-names").textContent = ov.ind_vs_frg_stocks.length
-      ? `공통 종목: ${ov.ind_vs_frg_stocks.join(", ")}`
-      : "공통 종목 없음";
+      ? `겹치는 종목: ${ov.ind_vs_frg_stocks.join(", ")}`
+      : "겹치는 종목 없음";
 
     document.getElementById("ov-ind-org").textContent = `${ov.ind_vs_org_count}종목 (${ov.ind_vs_org_pct}%)`;
     document.getElementById("ov-ind-org-names").textContent = ov.ind_vs_org_stocks.length
-      ? `공통 종목: ${ov.ind_vs_org_stocks.join(", ")}`
-      : "50개 중 겹치는 종목이 1개도 없습니다.";
+      ? `겹치는 종목: ${ov.ind_vs_org_stocks.join(", ")}`
+      : "50개 중 겹치는 종목이 없습니다.";
 
     document.getElementById("ov-frg-org").textContent = `${ov.frg_vs_org_count}종목 (${ov.frg_vs_org_pct}%)`;
     document.getElementById("ov-frg-org-names").textContent = ov.frg_vs_org_stocks.length
-      ? `공통 종목: ${ov.frg_vs_org_stocks.join(", ")}`
-      : "공통 종목 없음";
+      ? `겹치는 종목: ${ov.frg_vs_org_stocks.join(", ")}`
+      : "겹치는 종목 없음";
 
-    // 주체별 상위 50 테이블
-    function fillInvTable(tbodyId, list, intCol, valCol) {
-      document.getElementById(tbodyId).innerHTML = list
-        .map(
-          (r) => `<tr class="clickable" data-code="${r.code}">
-          <td class="r"><strong>${r.rank}</strong></td>
-          <td><strong>${r.name}</strong><span class="code-sub">${r.market}</span></td>
-          <td class="r up"><strong>${Number(r[intCol]).toFixed(2)}%</strong></td>
-          <td class="r">${fmtEok(r[valCol])}</td>
-        </tr>`
-        )
-        .join("");
-    }
+    renderUnifiedInvestorTable();
 
-    fillInvTable("inv-ind-tbody", ic.top50_by_investor.individual, "intensity_pct", "net_buy_eok");
-    fillInvTable("inv-frg-tbody", ic.top50_by_investor.foreign, "frg_intensity_pct", "frg_net_buy_eok");
-    fillInvTable("inv-org-tbody", ic.top50_by_investor.institution, "org_intensity_pct", "org_net_buy_eok");
-
-    renderDivergentTable();
-
-    // 업종별 차이
     document.getElementById("inv-sector-tbody").innerHTML = (ic.sector_comparison || [])
       .slice(0, 18)
       .map(
@@ -842,8 +889,8 @@
       )
       .join("");
 
-    // ⑤ 투자 주체별 가상 지수 차트
-    const palette = getChartColors();
+    // 투자 주체별 가상 지수 차트 (CSS 토큰 사용 + 선 모양 구분)
+    const tk = getChartTokens();
     const ts = DATA.timeseries || [];
     const ctx = document.getElementById("investorIndexChart").getContext("2d");
     if (invChart) invChart.destroy();
@@ -853,26 +900,29 @@
         labels: ts.map((r) => r.date),
         datasets: [
           {
-            label: `개인 순매수 강도 상위 50 (${fmtPct(DATA.summary.metrics.GAEMI_50_PURE.total_return_pct)})`,
+            label: `개미 순매수 강도 50 (${fmtPct(DATA.summary.metrics.GAEMI_50_PURE.total_return_pct)} · 실선)`,
             data: ts.map((r) => r.GAEMI_50_PURE),
-            borderColor: "#eb6834",
-            borderWidth: 2.4,
+            borderColor: tk.gaemi,
+            borderWidth: 2.5,
+            borderDash: [],
             pointRadius: 0,
             tension: 0.1,
           },
           {
-            label: `외국인 순매수 강도 상위 50 (${fmtPct(DATA.summary.metrics.FOREIGN_50_PURE.total_return_pct)})`,
+            label: `외국인 순매수 강도 50 (${fmtPct(DATA.summary.metrics.FOREIGN_50_PURE.total_return_pct)} · 긴 점선)`,
             data: ts.map((r) => r.FOREIGN_50_PURE),
-            borderColor: "#3b82f6",
-            borderWidth: 2.1,
+            borderColor: tk.foreign,
+            borderWidth: 2.2,
+            borderDash: [7, 4],
             pointRadius: 0,
             tension: 0.1,
           },
           {
-            label: `기관(연기금 포함) 순매수 강도 상위 50 (${fmtPct(DATA.summary.metrics.INSTITUTION_50_PURE.total_return_pct)})`,
+            label: `기관 순매수 강도 50 (${fmtPct(DATA.summary.metrics.INSTITUTION_50_PURE.total_return_pct)} · 짧은 점선)`,
             data: ts.map((r) => r.INSTITUTION_50_PURE),
-            borderColor: "#10b981",
-            borderWidth: 2.1,
+            borderColor: tk.institution,
+            borderWidth: 2.2,
+            borderDash: [3, 3],
             pointRadius: 0,
             tension: 0.1,
           },
@@ -887,39 +937,78 @@
           legend: {
             position: "top",
             align: "start",
-            labels: { color: palette.text, boxWidth: 14, boxHeight: 3 },
+            labels: { color: tk.axis, boxWidth: 18, boxHeight: 3, font: { size: 12, weight: "600" } },
+          },
+          tooltip: {
+            backgroundColor: tk.tooltipBg,
+            titleColor: tk.tooltipInk,
+            bodyColor: tk.tooltipInk,
+            borderColor: tk.tooltipBorder,
+            borderWidth: 1,
           },
         },
         scales: {
           x: {
             grid: { display: false },
-            ticks: { color: palette.text, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
+            ticks: { color: tk.axis, maxTicksLimit: 8, font: { family: "JetBrains Mono", size: 11 } },
           },
           y: {
-            grid: { color: palette.grid },
-            ticks: { color: palette.text, font: { family: "JetBrains Mono", size: 11 } },
+            grid: { color: tk.grid },
+            ticks: { color: tk.axis, font: { family: "JetBrains Mono", size: 11 } },
           },
         },
       },
     });
   }
 
-  function renderDivergentTable() {
-    const db = DATA.investor_comp.divergent_bets;
-    const list = state.divergentMode === "IND_BUY" ? db.ind_buy_others_sell : db.others_buy_ind_sell;
-    document.getElementById("divergent-tbody").innerHTML = list
-      .map(
-        (r) => `<tr class="clickable" data-code="${r.code}">
-        <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
-        <td class="r ${clsSign(r.intensity_pct)}"><strong>${fmtPct(r.intensity_pct)}</strong> <span class="code-sub">(${fmtEok(r.net_buy_eok)})</span></td>
-        <td class="r ${clsSign(r.frg_intensity_pct)}">${fmtPct(r.frg_intensity_pct)} <span class="code-sub">(${fmtEok(r.frg_net_buy_eok)})</span></td>
-        <td class="r ${clsSign(r.org_intensity_pct)}">${fmtPct(r.org_intensity_pct)} <span class="code-sub">(${fmtEok(r.org_net_buy_eok)})</span></td>
-      </tr>`
-      )
+  function renderUnifiedInvestorTable() {
+    const ic = DATA.investor_comp;
+    const trajs = DATA.stock_trajectories || {};
+    let list = [];
+    let title = "";
+
+    if (state.invListMode === "IND") {
+      list = ic.top50_by_investor.individual || [];
+      title = "개미 순매수 강도 상위 50종목 (2026 Q4)";
+    } else if (state.invListMode === "FRG") {
+      list = ic.top50_by_investor.foreign || [];
+      title = "외국인 순매수 강도 상위 50종목 (2026 Q4)";
+    } else if (state.invListMode === "ORG") {
+      list = ic.top50_by_investor.institution || [];
+      title = "기관(연기금 포함) 순매수 강도 상위 50종목 (2026 Q4)";
+    } else if (state.invListMode === "DIV_IND") {
+      list = ic.divergent_bets.ind_buy_others_sell || [];
+      title = "개미는 순매수하고 외국인·기관은 모두 순매도한 종목 (상위 15)";
+    } else {
+      list = ic.divergent_bets.others_buy_ind_sell || [];
+      title = "외국인·기관은 순매수하고 개미는 순매도한 종목 (상위 15)";
+    }
+
+    document.getElementById("inv-list-title").textContent = title;
+    document.getElementById("inv-unified-tbody").innerHTML = list
+      .map((r, idx) => {
+        const t = trajs[r.code] || {};
+        const rankNum = r.rank || idx + 1;
+        const indInt = r.intensity_pct !== undefined ? r.intensity_pct : t.intensity_pct;
+        const indVal = r.net_buy_eok !== undefined ? r.net_buy_eok : t.net_buy_36m_eok;
+        const frgInt = r.frg_intensity_pct !== undefined ? r.frg_intensity_pct : t.frg_intensity_pct;
+        const frgVal = r.frg_net_buy_eok !== undefined ? r.frg_net_buy_eok : t.frg_net_buy_36m_eok;
+        const orgInt = r.org_intensity_pct !== undefined ? r.org_intensity_pct : t.org_intensity_pct;
+        const orgVal = r.org_net_buy_eok !== undefined ? r.org_net_buy_eok : t.org_net_buy_36m_eok;
+
+        return `<tr class="clickable" data-code="${r.code}">
+          <td class="r"><strong>${rankNum}</strong></td>
+          <td><strong>${r.name}</strong><span class="code-sub">${r.code} · ${r.market}</span></td>
+          <td>${r.industry || t.industry || "-"}</td>
+          <td class="r ${clsSign(indInt)}"><strong>${fmtPct(indInt)}</strong> <span class="code-sub">(${fmtEok(indVal)})</span></td>
+          <td class="r ${clsSign(frgInt)}"><strong>${fmtPct(frgInt)}</strong> <span class="code-sub">(${fmtEok(frgVal)})</span></td>
+          <td class="r ${clsSign(orgInt)}"><strong>${fmtPct(orgInt)}</strong> <span class="code-sub">(${fmtEok(orgVal)})</span></td>
+        </tr>`;
+      })
       .join("");
   }
 
-  // SECTION 05: 개미의 선택은 바뀌었나
+  // TAB 5: 분기별 변화
   function initQuarterSelect() {
     const hist = DATA.summary.rebalance_history || [];
     const sel = document.getElementById("q-select");
@@ -944,9 +1033,9 @@
     const removed = qObj.pure_removed || [];
     const snap = qObj.constituents_snapshot || [];
 
-    document.getElementById("q-inout-title").textContent = `${qObj.rebalance_id} 정기 리밸런싱 편입 · 퇴출 종목`;
+    document.getElementById("q-inout-title").textContent = `${qObj.rebalance_id} 리밸런싱 편입 · 퇴출 종목`;
     document.getElementById("q-inout-meta").textContent =
-      `36개월 집계 구간: ${qObj.window_36m_start} ~ ${qObj.determination_date} · 리밸런싱 적용일: ${qObj.effective_start}`;
+      `36개월 집계: ${qObj.window_36m_start} ~ ${qObj.determination_date} · 적용일: ${qObj.effective_start}`;
     document.getElementById("q-add-head").textContent = `신규 편입 (${added.length}종목)`;
     document.getElementById("q-rem-head").textContent = `퇴출 (${removed.length}종목)`;
 
@@ -963,7 +1052,7 @@
           (r) => `<tr class="clickable" data-code="${r.code}">
           <td class="r">#${r.rank}</td>
           <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
-          <td class="r up">${r.intensity_pct.toFixed(2)}%</td>
+          <td class="r up">+${r.intensity_pct.toFixed(2)}%</td>
         </tr>`
         )
         .join("");
@@ -987,32 +1076,66 @@
         <td><span class="badge-sm ${r.rank_change_str === "NEW" ? "new" : ""}">${r.rank_change_str}</span></td>
         <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
         <td>${r.market}</td>
-        <td class="r up"><strong>${Number(r.intensity_pct).toFixed(2)}%</strong></td>
+        <td class="r up"><strong>+${Number(r.intensity_pct).toFixed(2)}%</strong></td>
         <td class="r">${fmtEok(r.net_buy_eok)}</td>
       </tr>`
       )
       .join("");
   }
 
-  // FOOTER 접기 영역 렌더링
+  // TAB 6: 산출 방법 및 데이터 신뢰성 검증
   function renderFooterDetails() {
     const p0 = DATA.phase0_audit || {};
-    const a1 = p0.audit_0_1_net_buy_estimation || {};
+    const p3 = DATA.phase3_reliability || {};
     const a2 = p0.audit_0_2_36m_completeness || {};
     const a3 = p0.audit_0_3_krx_vs_nxt || {};
-    const a4 = p0.audit_0_4_historical_marcap_and_recalculation || {};
-    const rec = a4.recalculation_constituent_change_2026Q4 || {};
 
+    // 1) 비교지수 산출 기준 대조표
+    const benchList = p3.audit_4_4_benchmark_consistency || [];
+    const benchTbody = document.getElementById("bench-consistency-tbody");
+    if (benchTbody) {
+      benchTbody.innerHTML = benchList
+        .map(
+          (b) => `<tr>
+          <td><strong>${b.index}</strong></td>
+          <td>${b.base_date}</td>
+          <td>${b.rebalancing}</td>
+          <td>${b.price_adj}</td>
+          <td>${b.dividend}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    // 2) 원자료 감사 요약 및 41~50위 경계 종목 민감도
+    const midSens = (p3.audit_4_1_net_buy_estimation && p3.audit_4_1_net_buy_estimation.mid_price_sensitivity) || {};
     document.getElementById("audit-detail-box").innerHTML = `
       <ul style="padding-left:18px;margin:0">
-        <li><strong>0-1. 순매수대금 산출 및 오차 검증:</strong> ${a1.method || "-"} (${a1.validation_against_execution_amount || "-"})</li>
-        <li><strong>0-2. 36개월 원자료 완전성 보강:</strong> 기존 200일만 수집되었던 시가총액 후보군 ${a2.expanded_stock_count || 669}개 종목의 2021.09~2026.11 전체 기간 원자료를 추가 수집하여 총 <strong>${fmtInt(a2.total_daily_records || 2392334)}건</strong>(36개월 완전 관측 확보 <strong>${fmtInt(a2.stocks_with_full_36m_data || 1771)}개 종목</strong>) 원장으로 재산출했습니다.</li>
-        <li><strong>0-3. KRX 전용 vs KRX+NXT 통합 비교:</strong> KRX 통계에 NXT(2025.03.04 출범) 거래는 포함되지 않으며 중복은 0건입니다. 2026 Q4 기준 KRX 전용 상위 50개와 KRX+NXT 통합 상위 50개는 <strong>${a3.krx_vs_combined_top50_overlap_2026Q4 || "47/50 (94%)"}</strong> 일치하며, 누적 수익률은 KRX 전용 <strong>${fmtPct(a3.krx_pure_total_return_pct)}</strong>(${a3.krx_pure_final_index}pt) vs KRX+NXT 통합 <strong>${fmtPct(a3.combined_pure_total_return_pct)}</strong>(${a3.combined_pure_final_index}pt)입니다.</li>
-        <li><strong>0-4. 과거 시가총액 공식 스냅샷 보정 및 재산출 전후 변화:</strong> ${a4.anchor_method || "-"} 보정 결과, 2026 Q4 구성 종목은 보정 전과 <strong>${rec.overlap_with_pre_audit_count || 49}/50개 일치</strong>(신규 진입: ${(rec.newly_entered_after_audit || []).join(", ") || "없음"} / 제외: ${(rec.removed_after_audit || []).join(", ") || "없음"})하며, 과거 분기 중형주 완전 반영으로 2024.09.30 이후 지수는 <strong>757.28pt(-24.27%)</strong>로 산출되었습니다.</li>
+        <li><strong>36개월 원자료 완전성:</strong> 후보 종목 전수의 2021.09~2026.11 일별 수급 원장 <strong>${fmtInt(a2.total_daily_records || 2392334)}건</strong>(36개월 완전 관측 확보 <strong>${fmtInt(a2.stocks_with_full_36m_data || 1771)}개 종목</strong>, 수집 누락 0건)을 사용했습니다.</li>
+        <li><strong>KRX vs KRX+NXT 합산:</strong> 2026 Q4 기준 KRX 정규장 상위 50종목과 KRX+NXT 합산 상위 50종목은 <strong>${a3.krx_vs_combined_top50_overlap_2026Q4 || "47/50 (94%)"}</strong> 일치합니다 (누적 수익률 KRX 전용 ${fmtPct(a3.krx_pure_total_return_pct)} vs KRX+NXT 합산 ${fmtPct(a3.combined_pure_total_return_pct)}).</li>
+        <li><strong>단가 가정 민감도 (41~50위 경계 종목):</strong> 일별 체결단가를 당일 종가 대신 <code>(기준가+종가)/2</code> 평균가로 가정해 다시 계산했을 때 상위 50종목의 순매수 강도 차이는 중앙값 <strong>${midSens.median_intensity_diff_pctp || 1.96}%p</strong>입니다.</li>
       </ul>
     `;
 
-    // 민감도 분석 테이블
+    const bndRows = midSens.boundary_41_to_50_stocks || [];
+    const bndTbody = document.getElementById("boundary-sens-tbody");
+    if (bndTbody) {
+      bndTbody.innerHTML = bndRows
+        .map(
+          (r) => `<tr class="clickable" data-code="${r.code}">
+          <td class="r">#${r.rank}</td>
+          <td><strong>${r.name}</strong><span class="code-sub">${r.code}</span></td>
+          <td class="r"><strong>+${Number(r.intensity_pct).toFixed(2)}%</strong></td>
+          <td class="r">+${Number(r.mid_intensity_pct).toFixed(2)}%</td>
+          <td class="r ${clsSign(r.intensity_diff_pctp)}">${r.intensity_diff_pctp > 0 ? "+" : ""}${Number(r.intensity_diff_pctp).toFixed(2)}%p</td>
+          <td class="r">${fmtEok(r.net_buy_eok)}</td>
+          <td class="r">${fmtEok(r.mid_net_buy_eok)}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    // 3) 민감도 분석 테이블
     const sens = DATA.sensitivity || [];
     document.getElementById("sens-tbody").innerHTML = sens
       .map(
@@ -1030,14 +1153,14 @@
       )
       .join("");
 
-    // 기존 절대금액 상위 50 vs PURE 비교
+    // 4) 단순 순매수금액 상위 50 vs PURE 비교
     const absList = DATA.gaemi50_abs_constituents || [];
     const pureSet = new Set((DATA.gaemi50_pure_constituents || []).map((r) => r.code));
     document.getElementById("abs-vs-pure-tbody").innerHTML = absList
       .map((r) => {
         const inP = pureSet.has(r.code);
         const pStr = inP
-          ? `<strong class="up">PURE 편입 (#${r.pure_rank_eligible}위)</strong>`
+          ? `<strong class="up">편입 (#${r.pure_rank_eligible}위)</strong>`
           : `<span class="down">미편입 (${r.pure_rank_eligible ? `강도 #${r.pure_rank_eligible}위` : r.eligibility_note})</span>`;
         return `<tr class="clickable" data-code="${r.code}">
           <td class="r">#${r.rank}</td>
@@ -1053,11 +1176,20 @@
   }
 
   function bindEvents() {
-    // 상단 카테고리 탭 전환 (해당 카테고리만 화면에 표시)
-    document.querySelectorAll('#tabs button[role="tab"]').forEach((btn) => {
+    // 상단 카테고리 탭 전환 + 키보드 좌우 화살표 접근성 지원
+    const tabBtns = Array.from(document.querySelectorAll('#tabs button[role="tab"]'));
+    tabBtns.forEach((btn, idx) => {
       btn.addEventListener("click", () => {
-        const targetTab = btn.getAttribute("data-tab");
-        activateTab(targetTab, true);
+        activateTab(btn.getAttribute("data-tab"), true);
+      });
+      btn.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          const dir = e.key === "ArrowRight" ? 1 : -1;
+          const nextIdx = (idx + dir + tabBtns.length) % tabBtns.length;
+          tabBtns[nextIdx].focus();
+          activateTab(tabBtns[nextIdx].getAttribute("data-tab"), true);
+        }
       });
     });
 
@@ -1115,13 +1247,13 @@
       renderStockDetailPanel();
     });
 
-    // Section 04 반대편에 선 종목 버튼
-    document.querySelectorAll("#divergent-btns button").forEach((btn) => {
+    // Section 04 통합 투자 주체 목록 전환 버튼
+    document.querySelectorAll("#inv-tab-btns button").forEach((btn) => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll("#divergent-btns button").forEach((b) => b.classList.remove("on"));
+        document.querySelectorAll("#inv-tab-btns button").forEach((b) => b.classList.remove("on"));
         btn.classList.add("on");
-        state.divergentMode = btn.getAttribute("data-div");
-        renderDivergentTable();
+        state.invListMode = btn.getAttribute("data-inv");
+        renderUnifiedInvestorTable();
       });
     });
 
@@ -1132,13 +1264,7 @@
     });
 
     // 테마 전환 버튼
-    document.getElementById("themeBtn").addEventListener("click", () => {
-      const root = document.documentElement;
-      root.setAttribute("data-theme", isDarkMode() ? "light" : "dark");
-      renderSection01();
-      renderStockDetailPanel();
-      renderSection04();
-    });
+    document.getElementById("themeBtn").addEventListener("click", toggleTheme);
 
     // 링크 복사 버튼
     document.getElementById("copyLinkBtn").addEventListener("click", () => {
@@ -1151,12 +1277,12 @@
       }, 1500);
     });
 
-    // 전체 테이블 행 클릭 시 종목 상세로 연결 (다른 탭에서 클릭 시 02 탭으로 자동 전환)
+    // 전체 테이블 행 클릭 시 종목 상세로 연결
     document.body.addEventListener("click", (e) => {
       const tr = e.target.closest("tr.clickable");
       if (!tr) return;
       const code = tr.getAttribute("data-code");
-      if (code && DATA.stock_trajectories[code]) {
+      if (code && DATA.stock_trajectories && DATA.stock_trajectories[code]) {
         state.selectedStock = code;
         document.getElementById("dt-stock-select").value = code;
         if (state.activeTab !== "sec-02") {
@@ -1168,7 +1294,21 @@
     });
   }
 
+  function showLoadError(msg) {
+    const wrap = document.querySelector("main.wrap");
+    if (!wrap) return;
+    wrap.innerHTML = `<div class="card" style="margin-top:16px;border-color:var(--hike)">
+      <h2 class="sec-title">데이터를 불러오지 못했습니다</h2>
+      <p class="sec-sub" style="margin-top:6px">${msg || "잠시 후 페이지를 새로고침해 주세요."}</p>
+    </div>`;
+  }
+
   function boot() {
+    if (!DATA || !DATA.summary || !DATA.timeseries) {
+      showLoadError("지수 데이터 파일(gaemi_data.js)이 비어 있거나 손상되었습니다.");
+      return;
+    }
+    initTheme();
     initDetailSelect();
     initQuarterSelect();
     renderFactsBar();
@@ -1185,14 +1325,21 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
     if (DATA) {
       boot();
     } else {
       fetch("data/gaemi_data.json")
-        .then((r) => r.json())
+        .then((r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        })
         .then((d) => {
           DATA = d;
           boot();
+        })
+        .catch((err) => {
+          showLoadError(`데이터 로드 실패 (${err.message})`);
         });
     }
   });

@@ -1,0 +1,317 @@
+{
+  "audit_4_1_net_buy_estimation": {
+    "definition": "일별 개인 순매수수량 × 당일 KRX 정규장 종가 (추정 순매수대금)",
+    "limitation_notice": "KRX가 종목별·일자별 투자자 실제 매수·매도 체결대금 원자료를 무료 공개하지 않아 수량×종가 추정치를 사용합니다. 기관(중앙값 오차 0.62%)·외국인(중앙값 오차 1.70%)의 3개월 실체결대금 교차검증 결과는 참고 지표일 뿐이며, 일중 회전율이 높은 개인투자자의 실제 체결단가 오차로 일반화할 수 없습니다.",
+    "mid_price_sensitivity": {
+      "description": "체결단가를 당일 종가 대신 (기준가+당일종가)/2 평균가로 가정했을 때 GAEMI 50 PURE 50종목의 순매수 강도(%p) 차이",
+      "median_intensity_diff_pctp": 1.96,
+      "max_intensity_diff_pctp": 17.96,
+      "boundary_41_to_50_stocks": [
+        {
+          "rank": 41,
+          "code": "000660",
+          "name": "SK하이닉스",
+          "intensity_pct": 10.6981,
+          "mid_intensity_pct": 12.36,
+          "intensity_diff_pctp": 1.66,
+          "net_buy_eok": 418631.02,
+          "mid_net_buy_eok": 483821.54
+        },
+        {
+          "rank": 42,
+          "code": "011790",
+          "name": "SKC",
+          "intensity_pct": 10.6657,
+          "mid_intensity_pct": 12.06,
+          "intensity_diff_pctp": 1.39,
+          "net_buy_eok": 4727.7,
+          "mid_net_buy_eok": 5346.13
+        },
+        {
+          "rank": 43,
+          "code": "100090",
+          "name": "SK오션플랜트",
+          "intensity_pct": 10.4332,
+          "mid_intensity_pct": 11.87,
+          "intensity_diff_pctp": 1.44,
+          "net_buy_eok": 1087.99,
+          "mid_net_buy_eok": 1238.25
+        },
+        {
+          "rank": 44,
+          "code": "178320",
+          "name": "서진시스템",
+          "intensity_pct": 10.1104,
+          "mid_intensity_pct": 12.66,
+          "intensity_diff_pctp": 2.55,
+          "net_buy_eok": 1759.38,
+          "mid_net_buy_eok": 2202.59
+        },
+        {
+          "rank": 45,
+          "code": "204270",
+          "name": "제이앤티씨",
+          "intensity_pct": 10.0828,
+          "mid_intensity_pct": 11.51,
+          "intensity_diff_pctp": 1.43,
+          "net_buy_eok": 1078.65,
+          "mid_net_buy_eok": 1231.72
+        },
+        {
+          "rank": 46,
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "intensity_pct": 9.7265,
+          "mid_intensity_pct": 11.36,
+          "intensity_diff_pctp": 1.63,
+          "net_buy_eok": 12322.14,
+          "mid_net_buy_eok": 14391.75
+        },
+        {
+          "rank": 47,
+          "code": "042660",
+          "name": "한화오션",
+          "intensity_pct": 9.6895,
+          "mid_intensity_pct": 11.67,
+          "intensity_diff_pctp": 1.98,
+          "net_buy_eok": 21057.39,
+          "mid_net_buy_eok": 25353.09
+        },
+        {
+          "rank": 48,
+          "code": "047040",
+          "name": "대우건설",
+          "intensity_pct": 9.6059,
+          "mid_intensity_pct": 14.73,
+          "intensity_diff_pctp": 5.12,
+          "net_buy_eok": 2828.55,
+          "mid_net_buy_eok": 4338.77
+        },
+        {
+          "rank": 49,
+          "code": "445680",
+          "name": "큐리옥스바이오시스템즈",
+          "intensity_pct": 9.5858,
+          "mid_intensity_pct": 11.6,
+          "intensity_diff_pctp": 2.01,
+          "net_buy_eok": 706.41,
+          "mid_net_buy_eok": 854.6
+        },
+        {
+          "rank": 50,
+          "code": "377300",
+          "name": "카카오페이",
+          "intensity_pct": 9.453,
+          "mid_intensity_pct": 10.54,
+          "intensity_diff_pctp": 1.09,
+          "net_buy_eok": 5424.19,
+          "mid_net_buy_eok": 6050.02
+        }
+      ]
+    }
+  },
+  "audit_4_2_historical_marcap": {
+    "exact_snapshot_period": "2026-03-08 ~ 2026-11-20 (KRX 공식 일자별 상장주식수 스냅샷 5개 시점 직접 반영)",
+    "reconstructed_period": "2021-09-01 ~ 2026-03-07 (2026-03-08 공식 상장주식수에서 |전일종가/기준가 - 1| >= 3% 자본금 변동 이벤트를 역산한 복원 시가총액)",
+    "limitation_notice": "2026년 3월 이전 구간은 액면분할·병합·무상증자·감자 등 기준가가 조정되는 이벤트는 역산 반영되나, 기준가 조정이 없는 소규모 전환사채(CB) 전환·유상증자·자사주 소각은 2026-03-08 주식수를 기준으로 역산되므로 당시 실제 상장주식수와 일부 차이가 있을 수 있는 복원 추정치입니다.",
+    "share_count_stability_2026": {
+      "unchanged_under_0_1pct_ratio": 64.5,
+      "within_5pct_ratio": 80.0,
+      "changed_over_5pct_stock_count": 565,
+      "pure50_stocks_with_share_change_over_1pct_in_2026": [
+        {
+          "code": "033790",
+          "name": "피노",
+          "shares_2026_03_08": 68037321,
+          "shares_2026_09_30": 83321887,
+          "change_pct": 22.46
+        },
+        {
+          "code": "010170",
+          "name": "대한광통신",
+          "shares_2026_03_08": 131985660,
+          "shares_2026_09_30": 155485660,
+          "change_pct": 17.8
+        },
+        {
+          "code": "347700",
+          "name": "스피어",
+          "shares_2026_03_08": 47186524,
+          "shares_2026_09_30": 51551362,
+          "change_pct": 9.25
+        },
+        {
+          "code": "425040",
+          "name": "티이엠씨",
+          "shares_2026_03_08": 21329082,
+          "shares_2026_09_30": 21922898,
+          "change_pct": 2.78
+        },
+        {
+          "code": "069540",
+          "name": "빛과전자",
+          "shares_2026_03_08": 97114947,
+          "shares_2026_09_30": 112691897,
+          "change_pct": 16.04
+        },
+        {
+          "code": "117730",
+          "name": "티로보틱스",
+          "shares_2026_03_08": 22183914,
+          "shares_2026_09_30": 22558043,
+          "change_pct": 1.69
+        },
+        {
+          "code": "032820",
+          "name": "우리기술",
+          "shares_2026_03_08": 166773554,
+          "shares_2026_09_30": 172784612,
+          "change_pct": 3.6
+        },
+        {
+          "code": "332570",
+          "name": "PS일렉트로닉스",
+          "shares_2026_03_08": 47265016,
+          "shares_2026_09_30": 45940603,
+          "change_pct": -2.8
+        },
+        {
+          "code": "278280",
+          "name": "천보",
+          "shares_2026_03_08": 11944814,
+          "shares_2026_09_30": 12253025,
+          "change_pct": 2.58
+        },
+        {
+          "code": "001510",
+          "name": "SK증권",
+          "shares_2026_03_08": 472590171,
+          "shares_2026_09_30": 231295085,
+          "change_pct": -51.06
+        },
+        {
+          "code": "446540",
+          "name": "메가터치",
+          "shares_2026_03_08": 25963749,
+          "shares_2026_09_30": 29079111,
+          "change_pct": 12.0
+        },
+        {
+          "code": "168360",
+          "name": "펨트론",
+          "shares_2026_03_08": 21288284,
+          "shares_2026_09_30": 22392557,
+          "change_pct": 5.19
+        },
+        {
+          "code": "025980",
+          "name": "아난티",
+          "shares_2026_03_08": 94699536,
+          "shares_2026_09_30": 97300990,
+          "change_pct": 2.75
+        },
+        {
+          "code": "035420",
+          "name": "NAVER",
+          "shares_2026_03_08": 156852638,
+          "shares_2026_09_30": 152094369,
+          "change_pct": -3.03
+        },
+        {
+          "code": "187660",
+          "name": "페니트리움바이오",
+          "shares_2026_03_08": 55466253,
+          "shares_2026_09_30": 63966253,
+          "change_pct": 15.32
+        },
+        {
+          "code": "089010",
+          "name": "켐트로닉스",
+          "shares_2026_03_08": 16339323,
+          "shares_2026_09_30": 16770027,
+          "change_pct": 2.64
+        },
+        {
+          "code": "000660",
+          "name": "SK하이닉스",
+          "shares_2026_03_08": 712702365,
+          "shares_2026_09_30": 730492365,
+          "change_pct": 2.5
+        },
+        {
+          "code": "011790",
+          "name": "SKC",
+          "shares_2026_03_08": 37868298,
+          "shares_2026_09_30": 49598298,
+          "change_pct": 30.98
+        },
+        {
+          "code": "178320",
+          "name": "서진시스템",
+          "shares_2026_03_08": 58304877,
+          "shares_2026_09_30": 63723489,
+          "change_pct": 9.29
+        },
+        {
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "shares_2026_03_08": 30000000,
+          "shares_2026_09_30": 150000000,
+          "change_pct": 400.0
+        },
+        {
+          "code": "047040",
+          "name": "대우건설",
+          "shares_2026_03_08": 415622638,
+          "shares_2026_09_30": 410907638,
+          "change_pct": -1.13
+        }
+      ]
+    }
+  },
+  "audit_4_3_delisting_and_missing_returns": {
+    "holding_period_delisted_count": 0,
+    "holding_period_missing_return_days": 0,
+    "holding_period_zero_close_days": 0,
+    "holding_period_clipping_0_3_to_4_0_hits": 0,
+    "market_wide_clipping_hits_since_2024_09": 55,
+    "verification_conclusion": "2024-09-30 이후 9개 분기 동안 GAEMI 50 PURE 편입 50종목 중 보유 분기 내 상장폐지·주가 결측·거래정지(종가 0원)·수익배율 클리핑(0.3~4.0배)에 해당한 사례는 모두 0건이어서, 결측치를 0% 수익률(1.0배)로 대체하거나 클리핑하여 발생한 지수값 왜곡은 0.00pt입니다. 거래정지 시에는 KRX 종가가 직전가로 유지되어 수익률 0%가 실제 시장가와 일치하며, 상장폐지 발생 시에는 정리매매 마지막 거래일까지의 일별 가격 하락률(종가/기준가)이 지수에 그대로 반영됩니다."
+  },
+  "audit_4_4_benchmark_consistency": [
+    {
+      "index": "개미 지수 (GAEMI 50 PURE)",
+      "base_date": "2024-09-30 = 1,000",
+      "rebalancing": "분기별 (3·6·9·12월 말 선정, 익분기 첫 거래일 2% 동일가중)",
+      "price_adj": "KRX 기준가 대비 종가 (자본금 이벤트 반영)",
+      "dividend": "미포함 (가격지수)"
+    },
+    {
+      "index": "코스피 / 코스닥 (1,000 환산)",
+      "base_date": "2024-09-30 = 1,000",
+      "rebalancing": "상시 시가총액 가중 (KRX 공식 지수)",
+      "price_adj": "KRX 공식 기준시가총액 조정",
+      "dividend": "미포함 (가격지수)"
+    },
+    {
+      "index": "비슷한 주식 50개 (시총·업종 유사 50)",
+      "base_date": "2024-09-30 = 1,000",
+      "rebalancing": "분기별 (개미 지수와 동일 시점·동일가중 2%)",
+      "price_adj": "KRX 기준가 대비 종가",
+      "dividend": "미포함 (가격지수)"
+    },
+    {
+      "index": "코스닥 동일가중",
+      "base_date": "2024-09-30 = 1,000",
+      "rebalancing": "분기별 (적격 코스닥 보통주 전체 동일가중)",
+      "price_adj": "KRX 기준가 대비 종가",
+      "dividend": "미포함 (가격지수)"
+    },
+    {
+      "index": "외국인 / 기관 순매수 강도 50",
+      "base_date": "2024-09-30 = 1,000",
+      "rebalancing": "분기별 (개미 지수와 동일 자격·동일가중 2%)",
+      "price_adj": "KRX 기준가 대비 종가",
+      "dividend": "미포함 (가격지수)"
+    }
+  ]
+}

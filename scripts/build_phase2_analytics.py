@@ -910,15 +910,17 @@ def main():
                 **metrics["MATCHED_50_EW"]
             }
         ],
-        "diagnosis_category": "종목 구성은 다르지만 주가 흐름(일간 변동 방향)은 유사하고 누적 성과는 차별화됨",
+        "diagnosis_category": "종목은 다르지만 일간 등락 방향은 비슷하고 누적 수익률은 차이 남",
         "diagnosis_detail": (
-            f"GAEMI 50 PURE 구성 50종목 중 코스닥 시가총액 상위 50개와 겹치는 종목은 {pure_in_kosdaq_top50_cnt}개({pure_in_kosdaq_top50_cnt*2}%)에 불과하며, "
-            f"시가총액·업종 유사 50종목 비교 포트폴리오와는 중복 종목이 0개(Active Share {as_pure_vs_mkt}% vs {as_matched_vs_mkt}%)입니다. "
-            f"그럼에도 일간 수익률 상관계수가 코스닥과 {metrics['GAEMI_50_PURE']['corr_kosdaq']:.3f}(코스닥 동일가중과 {metrics['KOSDAQ_EW']['corr_with_pure']:.3f})로 높은 이유는 "
-            f"개인이 집중 순매수한 50종목 중 중형주(3,000억~1조)가 {int(pure_size_w.get('중형주 (3,000억~1조)', 0)//2)}종목({pure_size_w.get('중형주 (3,000억~1조)', 0):.0f}%), "
-            f"코스닥 종목이 {pure_in_kosdaq_cnt}종목({pure_in_kosdaq_cnt*2}%)을 차지해 국내 중소형주 공통 시장 요인(베타)의 영향을 함께 받기 때문입니다. "
-            f"반면 누적 수익률은 GAEMI 50 PURE({metrics['GAEMI_50_PURE']['total_return_pct']:+.2f}%)가 시가총액·업종 유사 비교 포트폴리오({metrics['MATCHED_50_EW']['total_return_pct']:+.2f}%) 및 "
-            f"코스닥 동일가중({metrics['KOSDAQ_EW']['total_return_pct']:+.2f}%)과 뚜렷한 격차를 보입니다."
+            f"개미 지수 50종목 중 코스닥 시가총액 상위 50개와 겹치는 종목은 {pure_in_kosdaq_top50_cnt}개({pure_in_kosdaq_top50_cnt*2}%)이고, "
+            f"비슷한 주식 50개(시총·업종 유사 포트폴리오)와는 겹치는 종목이 0개(시장 구성 차이 {as_pure_vs_mkt}% vs {as_matched_vs_mkt}%)입니다. "
+            f"일간 수익률 상관계수가 코스닥과 {metrics['GAEMI_50_PURE']['corr_kosdaq']:.3f}로 높은 이유는 "
+            f"개미 지수 50종목 중 중형주(3,000억~1조)가 {int(pure_size_w.get('중형주 (3,000억~1조)', 0)//2)}종목({pure_size_w.get('중형주 (3,000억~1조)', 0):.0f}%), "
+            f"코스닥 종목이 {pure_in_kosdaq_cnt}종목({pure_in_kosdaq_cnt*2}%)이어서 중소형주 장세의 영향을 함께 받기 때문입니다. "
+            f"반면 누적 수익률(잠정)은 개미 지수({metrics['GAEMI_50_PURE']['total_return_pct']:+.2f}%)가 비슷한 주식 50개({metrics['MATCHED_50_EW']['total_return_pct']:+.2f}%)보다 "
+            f"{abs(metrics['GAEMI_50_PURE']['total_return_pct'] - metrics['MATCHED_50_EW']['total_return_pct']):.2f}%p, "
+            f"코스닥 동일가중({metrics['KOSDAQ_EW']['total_return_pct']:+.2f}%)보다 "
+            f"{abs(metrics['GAEMI_50_PURE']['total_return_pct'] - metrics['KOSDAQ_EW']['total_return_pct']):.2f}%p 낮았습니다."
         )
     }
 
@@ -966,26 +968,27 @@ def main():
         }
     }
 
-    # --- PHASE 6: 메인 화면 3대 데이터 팩트 문장 (과장·단정 배제, 순수 수치 기반) ---
+    # --- PHASE 3: 핵심 발견 3가지 (데이터 기반 자동 갱신, 잠정치 명시, 투자자 능력 단정 금지) ---
     gap_vs_kospi = round(metrics["GAEMI_50_PURE"]["total_return_pct"] - metrics["KOSPI"]["total_return_pct"], 2)
+    gap_vs_matched = round(metrics["GAEMI_50_PURE"]["total_return_pct"] - metrics["MATCHED_50_EW"]["total_return_pct"], 2)
     key_facts_banner = [
         {
             "id": "fact-1",
-            "label": "수익률 격차 (2024.09.30 ~ 2026.11.20)",
-            "value": f"{gap_vs_kospi:+.2f}%p",
-            "sentence": f"2024년 9월 말 이후 GAEMI 50 PURE 누적 수익률은 {metrics['GAEMI_50_PURE']['total_return_pct']:+.2f}%로, 같은 기간 코스피({metrics['KOSPI']['total_return_pct']:+.2f}%)보다 {abs(gap_vs_kospi):.2f}%p 낮고 코스닥({metrics['KOSDAQ']['total_return_pct']:+.2f}%)과는 {abs(metrics['GAEMI_50_PURE']['total_return_pct'] - metrics['KOSDAQ']['total_return_pct']):.2f}%p 차이 났다."
+            "label": f"코스피·코스닥과 비교하면 ({base_date} ~ {max_date}, 잠정)",
+            "value": f"개미 {metrics['GAEMI_50_PURE']['total_return_pct']:+.2f}%",
+            "sentence": f"기준일({base_date}=1,000) 이후 개미 지수는 {metrics['GAEMI_50_PURE']['total_return_pct']:+.2f}%를 기록해 같은 기간 코스피({metrics['KOSPI']['total_return_pct']:+.2f}%)와 {abs(gap_vs_kospi):.2f}%p, 코스닥({metrics['KOSDAQ']['total_return_pct']:+.2f}%)과 {abs(metrics['GAEMI_50_PURE']['total_return_pct'] - metrics['KOSDAQ']['total_return_pct']):.2f}%p 차이가 났습니다."
         },
         {
             "id": "fact-2",
-            "label": "시장과의 구성 차이 (2026 Q4 Active Share)",
-            "value": f"{as_pure_vs_mkt:.1f}%",
-            "sentence": f"국내 주식시장(코스피·코스닥 시가총액 가중) 대비 GAEMI 50 PURE의 비중 차이(Active Share)는 {as_pure_vs_mkt:.1f}%이며, 시장 시가총액 상위 50개 종목과 겹치는 종목은 50개 중 {mc50_overlap_count}개({mc50_overlap_pct}%)다."
+            "label": "비슷한 주식 50개와 비교하면 (잠정)",
+            "value": f"유사 50종목 {metrics['MATCHED_50_EW']['total_return_pct']:+.2f}%",
+            "sentence": f"개미 지수에 없는 종목 중 시장·업종·시가총액이 비슷한 50종목 동일가중 포트폴리오는 {metrics['MATCHED_50_EW']['total_return_pct']:+.2f}%, 코스닥 적격 종목 전체 동일가중은 {metrics['KOSDAQ_EW']['total_return_pct']:+.2f}%를 기록했습니다."
         },
         {
             "id": "fact-3",
-            "label": "투자 주체 간 종목 중복률 (2026 Q4, 36개월)",
-            "value": f"외국인 {len(ind_frg_common)}개 · 기관 {len(ind_org_common)}개",
-            "sentence": f"개인 순매수 강도 상위 50개 종목 중 외국인 상위 50개와 겹치는 종목은 {len(ind_frg_common)}개({len(ind_frg_common)*2}%), 기관(연기금 포함) 상위 50개와 겹치는 종목은 {len(ind_org_common)}개({len(ind_org_common)*2}%)다."
+            "label": "개미·외국인·기관의 선택 (36개월 순매수 강도 50, 잠정)",
+            "value": f"외국인 {metrics['FOREIGN_50_PURE']['total_return_pct']:+.2f}% · 기관 {metrics['INSTITUTION_50_PURE']['total_return_pct']:+.2f}%",
+            "sentence": f"동일한 방식으로 산출한 외국인 순매수 강도 50종목 가상지수는 {metrics['FOREIGN_50_PURE']['total_return_pct']:+.2f}%(개미와 겹치는 종목 {len(ind_frg_common)}개), 기관은 {metrics['INSTITUTION_50_PURE']['total_return_pct']:+.2f}%(겹치는 종목 {len(ind_org_common)}개)입니다."
         }
     ]
 
@@ -1131,10 +1134,13 @@ def main():
     sens_data = json.load(open(sens_path, encoding="utf-8")) if os.path.exists(sens_path) else []
     comp_path = os.path.join(DATA_DIR, "pure_vs_abs_comparison.json")
     comp_data = json.load(open(comp_path, encoding="utf-8")) if os.path.exists(comp_path) else {}
+    p3_rel_path = os.path.join(DATA_DIR, "phase3_reliability_audit.json")
+    p3_rel_data = json.load(open(p3_rel_path, encoding="utf-8")) if os.path.exists(p3_rel_path) else {}
 
     web_payload = {
         "summary": summary,
         "phase0_audit": phase0_audit_report,
+        "phase3_reliability": p3_rel_data,
         "market_diff": market_differentiation,
         "investor_comp": investor_comparison,
         "comparison": comp_data,

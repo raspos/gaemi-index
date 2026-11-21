@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>개미 지수 | GAEMI 50 PURE</title>
-  <meta name="description" content="한국 개인투자자가 집중적으로 사들인 50개 주식. 시장 및 외국인·기관과의 선택 비교와 수익률 추적." />
+  <meta name="description" content="한국 개인투자자가 집중적으로 사들인 50개 주식. 개미들은 어떤 주식을 선택했고, 그 결과는 어땠을까?" />
   <link rel="icon" href="logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -12,7 +12,7 @@
 </head>
 <body>
   <!-- 상단 DataBrew 시리즈 전환 바 -->
-  <nav class="svc" aria-label="DataBrew 서비스">
+  <nav class="svc" aria-label="DataBrew 서비스 전환">
     <span class="svc-l">DataBrew</span>
     <a href="https://raspos.github.io/databrew/" rel="noopener">허브 ↗</a>
     <a class="svc-on" href="./" aria-current="page">개미 지수 · 개인 순매수 50</a>
@@ -20,10 +20,10 @@
     <a href="https://raspos.github.io/fx-odds/" rel="noopener">FX워치 · 환율의 확률과 압력 ↗</a>
   </nav>
 
-  <!-- HEADER -->
+  <!-- HEADER: 개미 지수 / GAEMI 50 PURE / 한국 개인투자자가 집중적으로 사들인 50개 주식 -->
   <header class="top">
     <a class="brand" href="./" title="개미 지수 처음 화면">
-      <img class="logo" src="logo.svg" alt="개미 지수 로고" width="42" height="42" />
+      <img class="logo" src="logo.svg" alt="개미 지수 로고" width="40" height="40" />
       <div class="brand-text">
         <h1>개미 지수</h1>
         <span class="en">GAEMI 50 PURE</span>
@@ -31,27 +31,27 @@
     </a>
     <p class="brand-sub">한국 개인투자자가 집중적으로 사들인 50개 주식</p>
     <div class="tools">
-      <span class="asof-pill" id="header-asof">기준일: 2026-11-20</span>
-      <button id="copyLinkBtn" type="button">링크 복사</button>
-      <button id="themeBtn" type="button" aria-label="화면 테마 전환">테마</button>
+      <span class="asof-pill" id="header-asof">기준일 2024-09-30=1,000 · 최신 2026-11-20(잠정)</span>
+      <button id="copyLinkBtn" type="button" aria-label="현재 화면 링크 복사">링크 복사</button>
+      <button id="themeBtn" type="button" aria-label="라이트·다크 화면 테마 전환">테마</button>
     </div>
   </header>
 
-  <!-- 상단 고정 스코어 스트립 (개미 지수 vs 코스피 vs 코스닥) -->
-  <section class="top-strip">
+  <!-- 상단 고정 스코어 스트립 (대표 지수값·수익률 → 코스피·코스닥 동일 기간 수익률) -->
+  <section class="top-strip" aria-label="대표지수 및 코스피·코스닥 수익률 비교">
     <div class="score-strip">
       <!-- 개미 지수 -->
       <div class="tile hero">
         <div class="tile-top">
-          <span class="tile-k">개미 지수 (GAEMI 50 PURE)</span>
-          <span class="tile-tag" id="period-label-pure">2024.09.30 = 1,000</span>
+          <span class="tile-k">개미 지수 (GAEMI 50 PURE · 잠정)</span>
+          <span class="tile-tag" id="period-label-pure">기준일 2024-09-30 = 1,000</span>
         </div>
         <div class="tile-main">
           <span class="tile-v" id="val-pure">-</span>
           <span class="tile-chg" id="chg-pure">-</span>
         </div>
         <div class="tile-foot">
-          <span>선택 기간 누적 수익률</span>
+          <span>동일 기간 수익률</span>
           <strong id="cum-pure" style="font-family:var(--font-mono)">-</strong>
         </div>
       </div>
@@ -60,14 +60,14 @@
       <div class="tile">
         <div class="tile-top">
           <span class="tile-k">코스피 (1,000 환산)</span>
-          <span class="tile-tag" id="raw-kospi">원지수 -</span>
+          <span class="tile-tag" id="raw-kospi">실제 -</span>
         </div>
         <div class="tile-main">
           <span class="tile-v" id="val-kospi">-</span>
           <span class="tile-chg" id="cum-kospi">-</span>
         </div>
         <div class="tile-foot">
-          <span>개미 지수와의 수익률 격차</span>
+          <span>개미 지수와의 수익률 차이</span>
           <strong id="gap-kospi" style="font-family:var(--font-mono)">-</strong>
         </div>
       </div>
@@ -76,14 +76,14 @@
       <div class="tile">
         <div class="tile-top">
           <span class="tile-k">코스닥 (1,000 환산)</span>
-          <span class="tile-tag" id="raw-kosdaq">원지수 -</span>
+          <span class="tile-tag" id="raw-kosdaq">실제 -</span>
         </div>
         <div class="tile-main">
           <span class="tile-v" id="val-kosdaq">-</span>
           <span class="tile-chg" id="cum-kosdaq">-</span>
         </div>
         <div class="tile-foot">
-          <span>개미 지수와의 수익률 격차</span>
+          <span>개미 지수와의 수익률 차이</span>
           <strong id="gap-kosdaq" style="font-family:var(--font-mono)">-</strong>
         </div>
       </div>
@@ -91,68 +91,65 @@
   </section>
 
   <!-- 카테고리 탭 (선택한 카테고리 패널만 표시) -->
-  <nav class="tabs" role="tablist" id="tabs" aria-label="카테고리 선택">
-    <span class="area" aria-hidden="true">GAEMI WATCH</span>
-    <button type="button" role="tab" data-tab="sec-01" aria-selected="true">01 개미 지수</button>
-    <button type="button" role="tab" data-tab="sec-02" aria-selected="false">02 개미는 무엇을 샀나</button>
-    <span class="area" aria-hidden="true">GAEMI ANALYSIS</span>
-    <button type="button" role="tab" data-tab="sec-03" aria-selected="false">03 개미는 시장과 얼마나 다른가</button>
-    <button type="button" role="tab" data-tab="sec-04" aria-selected="false">04 누가 무엇을 샀나</button>
-    <button type="button" role="tab" data-tab="sec-05" aria-selected="false">05 개미의 선택은 바뀌었나</button>
-    <span class="area" aria-hidden="true">GAEMI LAB</span>
-    <button type="button" role="tab" data-tab="sec-footer" aria-selected="false">산출 방법</button>
+  <nav class="tabs" role="tablist" id="tabs" aria-label="분석 카테고리">
+    <button type="button" role="tab" id="tab-btn-sec-01" aria-controls="sec-01" data-tab="sec-01" aria-selected="true">개미 지수</button>
+    <button type="button" role="tab" id="tab-btn-sec-02" aria-controls="sec-02" data-tab="sec-02" aria-selected="false">개미가 산 50종목</button>
+    <button type="button" role="tab" id="tab-btn-sec-03" aria-controls="sec-03" data-tab="sec-03" aria-selected="false">시장과의 차이</button>
+    <button type="button" role="tab" id="tab-btn-sec-04" aria-controls="sec-04" data-tab="sec-04" aria-selected="false">개미·외국인·기관</button>
+    <button type="button" role="tab" id="tab-btn-sec-05" aria-controls="sec-05" data-tab="sec-05" aria-selected="false">분기별 변화</button>
+    <button type="button" role="tab" id="tab-btn-sec-footer" aria-controls="sec-footer" data-tab="sec-footer" aria-selected="false">산출 방법·검증</button>
   </nav>
 
   <main class="wrap">
-    <!-- SECTION 01 — 개미 지수 -->
-    <section class="sec tab-panel" id="sec-01" role="tabpanel">
-      <!-- PHASE 6: 현재 데이터가 말해주는 3가지 사실 -->
-      <div class="facts-bar" id="facts-bar" aria-label="데이터 요약"></div>
-
-      <!-- 비교 차트 -->
+    <!-- TAB 1 — 개미 지수 (비교 차트 최우선 배치 + 핵심 발견 세 가지) -->
+    <section class="sec tab-panel" id="sec-01" role="tabpanel" aria-labelledby="tab-btn-sec-01">
+      <!-- 비교 차트 (첫 화면 최상단 배치) -->
       <div class="card">
         <div class="chart-toolbar">
-          <div class="btn-row" id="period-btns">
+          <div class="btn-row" id="period-btns" role="group" aria-label="조회 기간 선택">
             <button type="button" class="on" data-period="ALL">전체 (24.09~)</button>
             <button type="button" data-period="1Y">1년</button>
             <button type="button" data-period="6M">6개월</button>
             <button type="button" data-period="3M">3개월</button>
             <button type="button" data-period="YTD">연초 이후</button>
           </div>
-          <div class="opt-checks">
-            <span>비교지수 추가:</span>
-            <label><input type="checkbox" id="chk-abs" /> 기존 절대금액 GAEMI 50</label>
+          <div class="opt-checks" role="group" aria-label="보조 비교지수 표시 선택">
+            <span>비교 추가:</span>
+            <label><input type="checkbox" id="chk-matched" /> 비슷한 주식 50개</label>
             <label><input type="checkbox" id="chk-kqew" /> 코스닥 동일가중</label>
-            <label><input type="checkbox" id="chk-matched" /> 시총·업종 유사 50종목</label>
-            <label><input type="checkbox" id="chk-total" /> KRX+NXT 통합</label>
+            <label><input type="checkbox" id="chk-abs" /> 단순 순매수금액 상위 50</label>
+            <label><input type="checkbox" id="chk-total" /> KRX+NXT 합산</label>
           </div>
         </div>
 
         <div class="chart-wrap">
-          <canvas id="mainChart"></canvas>
+          <canvas id="mainChart" role="img" aria-label="개미 지수와 코스피·코스닥 수익률 비교 차트"></canvas>
         </div>
 
         <div class="chart-note">
-          <span id="chart-reindexed-note">* 선택한 기간의 시작 거래일을 1,000.00으로 다시 정규화한 가격지수(배당 미포함) 추이입니다. 점선은 분기 리밸런싱 시점입니다.</span>
-          <span>순매수 강도 = 36개월 누적 추정 순매수대금 / 36개월 평균 시가총액 × 100</span>
+          <span id="chart-reindexed-note">* 선택한 기간 첫 거래일을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다. 세로 점선은 분기 리밸런싱 시점입니다.</span>
+          <span>순매수 강도(%) = 36개월 누적 추정 순매수대금 ÷ 36개월 평균 시가총액 × 100</span>
         </div>
       </div>
 
-      <!-- 상관계수·최대낙폭·변동성 상세 보기 (접기) -->
+      <!-- 핵심 발견 세 가지 (데이터에서 자동 갱신) -->
+      <div class="facts-bar" id="facts-bar" aria-label="핵심 발견 세 가지"></div>
+
+      <!-- 상세 성과 지표 (접기) -->
       <details class="more">
-        <summary>상세 성과 지표 보기 (초과수익률 · 일간 상관계수 · 최대 낙폭 · 연율 변동성)</summary>
+        <summary>지수별 수익률 · 상관계수 · 최대 낙폭 · 변동성 표 보기</summary>
         <div class="tbl-wrap">
           <table class="tbl">
             <thead>
               <tr>
                 <th>지수 / 포트폴리오</th>
-                <th class="r">기간 시작일=1,000 현재값</th>
-                <th class="r">기간 누적 수익률</th>
-                <th class="r">코스피 대비 초과수익률</th>
-                <th class="r">코스닥 대비 초과수익률</th>
-                <th class="r">코스피 일간 상관계수</th>
-                <th class="r">코스닥 일간 상관계수</th>
-                <th class="r">기간 최대 낙폭 (MDD)</th>
+                <th class="r">기간 시작=1,000 현재값</th>
+                <th class="r">기간 수익률</th>
+                <th class="r">코스피와 차이</th>
+                <th class="r">코스닥과 차이</th>
+                <th class="r">코스피 상관계수</th>
+                <th class="r">코스닥 상관계수</th>
+                <th class="r">최대 낙폭</th>
                 <th class="r">연율 변동성</th>
               </tr>
             </thead>
@@ -162,26 +159,25 @@
       </details>
     </section>
 
-    <!-- SECTION 02 — 개미는 무엇을 샀나 -->
-    <section class="sec tab-panel" id="sec-02" role="tabpanel" hidden>
+    <!-- TAB 2 — 개미가 산 50종목 -->
+    <section class="sec tab-panel" id="sec-02" role="tabpanel" aria-labelledby="tab-btn-sec-02" hidden>
       <div class="sec-head">
         <div>
-          <span class="sec-tag">SECTION 02</span>
-          <h2 class="sec-title">개미는 무엇을 샀나</h2>
-          <p class="sec-sub">36개월 개인 누적 추정 순매수대금을 같은 기간 평균 시가총액으로 나눈 순매수 강도 상위 50개 종목 (2026 Q4, 집계: 2023.10.01 ~ 2026.09.30)</p>
+          <h2 class="sec-title">개미가 산 50종목</h2>
+          <p class="sec-sub">최근 36개월(2023.10~2026.09) 개인 추정 순매수대금을 평균 시가총액으로 나눈 순매수 강도 상위 50개 보통주</p>
         </div>
         <div class="btn-row">
-          <div class="btn-row" id="sec2-mkt-btns">
+          <div class="btn-row" id="sec2-mkt-btns" role="group" aria-label="시장 필터">
             <button type="button" class="on" data-mkt="ALL">전체 (50)</button>
             <button type="button" data-mkt="KOSPI">KOSPI</button>
             <button type="button" data-mkt="KOSDAQ">KOSDAQ</button>
           </div>
-          <input type="search" id="sec2-search" placeholder="종목명·코드 검색..." aria-label="종목 검색" />
+          <input type="search" id="sec2-search" placeholder="종목명·코드 검색..." aria-label="종목명 또는 종목코드 검색" />
         </div>
       </div>
 
       <div class="split-2">
-        <!-- 좌측: 기본 4컬럼 간결 순위표 (순위·종목명·순매수 강도·수익률) -->
+        <!-- 좌측: 4컬럼 간결 순위표 -->
         <div>
           <div class="tbl-wrap scroll-y">
             <table class="tbl" id="pure50-table">
@@ -190,20 +186,20 @@
                   <th style="width:52px">순위</th>
                   <th>종목명</th>
                   <th class="r">순매수 강도</th>
-                  <th class="r">편입 이후 수익률</th>
+                  <th class="r">편입 후 수익률</th>
                 </tr>
               </thead>
               <tbody id="pure50-tbody"></tbody>
             </table>
           </div>
-          <p class="sec-sub" style="margin-top:6px">* 표에서 종목을 클릭하면 우측 상세 보기에 36개월 누적 순매수대금, 시가총액, 업종, 순위 변화 및 주가 추이가 표시됩니다.</p>
+          <p class="sec-sub" style="margin-top:6px">* 종목을 누르면 오른쪽에 36개월 추정 순매수대금, 시가총액, 주가 흐름이 나타납니다.</p>
         </div>
 
         <!-- 우측: 선택 종목 상세 보기 -->
         <div class="card" id="stock-detail-panel">
           <div class="sec-head" style="margin-bottom:8px">
             <div>
-              <span class="sec-tag" id="dt-code-mkt">417200 · KOSDAQ</span>
+              <span class="tile-tag" id="dt-code-mkt">417200 · KOSDAQ</span>
               <h3 style="font-size:18px;font-weight:800" id="dt-title">LS머트리얼즈</h3>
             </div>
             <select id="dt-stock-select" aria-label="상세 보기 종목 선택"></select>
@@ -211,117 +207,118 @@
 
           <div class="kv-grid">
             <div class="kv-box">
-              <span class="k">순매수 강도 (순위)</span>
+              <span class="k">개인 순매수 강도 (순위)</span>
               <span class="v up" id="dt-intensity">-</span>
               <span class="s" id="dt-rank-sub">-</span>
             </div>
             <div class="kv-box">
-              <span class="k">36개월 개인 누적 추정 순매수대금</span>
+              <span class="k">36개월 개인 추정 순매수대금</span>
               <span class="v" id="dt-netbuy">-</span>
-              <span class="s">일별 순매수수량 × 종가 합산</span>
+              <span class="s">일별 순매수수량 × 종가 합산 (잠정)</span>
             </div>
             <div class="kv-box">
-              <span class="k">36개월 평균 시가총액 / 기준일 시가총액</span>
+              <span class="k">36개월 평균 시가총액 (복원)</span>
               <span class="v" id="dt-marcap">-</span>
               <span class="s" id="dt-marcap-sub">-</span>
             </div>
             <div class="kv-box">
-              <span class="k">업종 / 전 분기 대비 순위 변화</span>
+              <span class="k">전 분기 대비 순위 / 업종</span>
               <span class="v" id="dt-chg">-</span>
               <span class="s" id="dt-industry">-</span>
             </div>
             <div class="kv-box">
-              <span class="k">지수 편입 이후 주가 수익률</span>
+              <span class="k">편입 이후 주가 수익률</span>
               <span class="v" id="dt-ret">-</span>
               <span class="s" id="dt-entry-sub">-</span>
             </div>
             <div class="kv-box">
-              <span class="k">36개월 외국인 · 기관 순매수 강도</span>
+              <span class="k">외국인 · 기관 순매수 강도</span>
               <span class="v" id="dt-others">-</span>
               <span class="s" id="dt-others-sub">-</span>
             </div>
           </div>
 
           <div class="chart-wrap sm">
-            <canvas id="detailChart"></canvas>
+            <canvas id="detailChart" role="img" aria-label="선택 종목의 36개월 개인 누적 순매수대금과 주가 추이"></canvas>
           </div>
           <div class="chart-note">
-            <span>좌축(주황 영역): 36개월 개인 누적 추정 순매수대금(억 원) · 우축(실선): 주가(원)</span>
+            <span>좌축(주황 영역): 36개월 개인 누적 추정 순매수대금(억 원) · 우축(점선): 주가(원)</span>
           </div>
         </div>
       </div>
 
-      <!-- 업종별 구성 & 시가총액 구간별 구성 -->
-      <div class="grid-2" style="margin-top:14px">
-        <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">업종별 구성 (상위 50종목 내 분포)</h3>
-          <div class="tbl-wrap" style="max-height:220px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>업종</th>
-                  <th class="r">편입 종목 수</th>
-                  <th class="r">지수 내 비중</th>
-                </tr>
-              </thead>
-              <tbody id="sec2-sector-tbody"></tbody>
-            </table>
+      <!-- 세부 구성(업종·시가총액 구간)은 접기로 제공 -->
+      <details class="more">
+        <summary>50종목의 업종별 · 시가총액 규모별 분포 보기</summary>
+        <div class="grid-2">
+          <div>
+            <h3 style="font-size:14px;font-weight:700;margin-bottom:6px">업종별 분포</h3>
+            <div class="tbl-wrap" style="max-height:220px;overflow-y:auto">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>업종</th>
+                    <th class="r">종목 수</th>
+                    <th class="r">지수 내 비중</th>
+                  </tr>
+                </thead>
+                <tbody id="sec2-sector-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-size:14px;font-weight:700;margin-bottom:6px">시가총액 규모별 분포 (기준일 시총)</h3>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>시가총액 구간</th>
+                    <th class="r">종목 수</th>
+                    <th class="r">지수 내 비중</th>
+                  </tr>
+                </thead>
+                <tbody id="sec2-size-tbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
-
-        <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">시가총액 구간별 구성 (기준일 시가총액 기준)</h3>
-          <div class="tbl-wrap">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>시가총액 구간</th>
-                  <th class="r">편입 종목 수</th>
-                  <th class="r">지수 내 비중</th>
-                </tr>
-              </thead>
-              <tbody id="sec2-size-tbody"></tbody>
-            </table>
-          </div>
-          <div class="notice-box">
-            * 개인 순매수 강도(36개월 누적 추정 순매수대금 ÷ 36개월 평균 시가총액)는 기간 중 거래 유입 규모를 기업 크기로 표준화한 지표이며, 실제 개인투자자의 보유 지분율을 의미하지 않습니다.
-          </div>
+        <div class="notice-box">
+          * 순매수 강도는 36개월 동안 유입된 추정 순매수대금을 평균 시가총액과 비교한 값이며, 실제 개인투자자의 보유 지분율이 아닙니다.
         </div>
-      </div>
+      </details>
     </section>
 
-    <!-- SECTION 03 — 개미는 시장과 얼마나 다른가 -->
-    <section class="sec tab-panel" id="sec-03" role="tabpanel" hidden>
+    <!-- TAB 3 — 시장과의 차이 (PHASE 3 Section 3 & 5 반영) -->
+    <section class="sec tab-panel" id="sec-03" role="tabpanel" aria-labelledby="tab-btn-sec-03" hidden>
       <div class="sec-head">
         <div>
-          <span class="sec-tag">SECTION 03</span>
-          <h2 class="sec-title">개미는 시장과 얼마나 다른가</h2>
-          <p class="sec-sub">국내 주식시장(코스피·코스닥 합산 시가총액 가중 포트폴리오)과 개미 지수의 종목·업종·시가총액 구성 차이를 측정합니다.</p>
+          <h2 class="sec-title">시장과의 차이</h2>
+          <p class="sec-sub">전체 주식시장(코스피+코스닥 시가총액 가중) 및 비슷한 규모의 주식 50개와 구성·수익률을 비교합니다.</p>
         </div>
       </div>
 
-      <!-- A. 개미 차별성 지수 (Active Share) & 동일가중 효과 분리 -->
-      <div class="grid-2" style="margin-bottom:14px">
+      <div class="grid-2" style="margin-bottom:12px">
+        <!-- 시장 구성 차이 (Active Share) -->
         <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">A. 개미 차별성 지수 (Active Share)</h3>
-          <p class="sec-sub" style="margin-bottom:10px">Active Share = 1/2 × Σ |포트폴리오 종목 비중 - 비교시장(코스피+코스닥 시총가중) 종목 비중| (0~100%)</p>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">시장 구성 차이 (Active Share)</h3>
+          <p class="sec-sub" style="margin-bottom:10px">포트폴리오와 전체 시장(코스피·코스닥 시가총액 가중)의 종목별 비중 차이를 합산한 기존 통계 지표(Active Share, 0~100%)입니다.</p>
           <div class="as-bar-list" id="active-share-bars"></div>
           <div class="notice-box">
-            * 시가총액 상위 50개 종목을 동일가중(2%)으로만 묶어도 Active Share는 <strong id="as-mc50-txt">67.2%</strong>가 됩니다. 개미 지수의 Active Share(<strong id="as-pure-txt">94.2%</strong>)는 여기서 <strong id="as-excess-txt">+27.0%p</strong> 더 높으며, 이는 시총 상위 대형주 대신 중소형주를 선택한 효과입니다. 이 값은 GAEMI 50 PURE 가상 포트폴리오의 구성 차이를 측정한 값이며 개인투자자 전체의 실제 보유 포트폴리오를 뜻하지 않습니다.
+            * 개미 지수의 시장 구성 차이는 <strong id="as-pure-txt">94.2%</strong>이지만, 개미 지수에 없는 종목으로 구성한 비슷한 주식 50개(시총·업종 유사 동일가중)도 <strong id="as-matched-txt">96.7%</strong>, 시가총액 상위 50종목 동일가중도 <strong id="as-mc50-txt">67.2%</strong>입니다. 따라서 이 수치가 높다는 사실만으로 개인이 시장과 특별히 다른 선택을 했다고 단정할 수 없으며, <strong>50종목 동일가중 방식과 중소형주 비중이 결합된 결과</strong>로 봐야 합니다.
           </div>
         </div>
 
-        <!-- C. 코스닥과의 유사성 검증 -->
+        <!-- 비슷한 주식 50개와 비교하면? -->
         <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">C. 코스닥 및 유사 규모 포트폴리오와의 비교</h3>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">비슷한 주식 50개와 비교하면?</h3>
           <p class="sec-sub" id="kq-sim-summary" style="margin-bottom:10px">-</p>
           <div class="tbl-wrap">
             <table class="tbl">
               <thead>
                 <tr>
-                  <th>비교 대상</th>
-                  <th class="r">PURE와 종목 중복</th>
-                  <th class="r">누적 수익률</th>
+                  <th>비교 포트폴리오</th>
+                  <th class="r">개미 지수와 중복</th>
+                  <th class="r">누적 수익률(잠정)</th>
                   <th class="r">코스닥 상관계수</th>
                   <th class="r">최대 낙폭</th>
                 </tr>
@@ -333,18 +330,18 @@
         </div>
       </div>
 
-      <!-- B. 시장과 얼마나 다른 종목인가 (시총 상위 50 중복, 업종/규모 비중 차이, 개미 전용 종목 vs 시장 대형주 미포함 종목) -->
-      <div class="grid-2" style="margin-bottom:14px">
+      <!-- 시가총액 규모 및 개미가 더 많이 선택한 업종 -->
+      <div class="grid-2">
         <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">B-1. 시장 대비 시가총액 규모별 비중 차이</h3>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">시가총액 규모별 비중 비교</h3>
           <div class="tbl-wrap">
             <table class="tbl">
               <thead>
                 <tr>
                   <th>시가총액 규모</th>
-                  <th class="r">개미 지수 비중</th>
+                  <th class="r">개미 지수</th>
                   <th class="r">전체 시장(시총가중)</th>
-                  <th class="r">비중 차이 (개미 - 시장)</th>
+                  <th class="r">비중 차이</th>
                 </tr>
               </thead>
               <tbody id="sec3-size-diff-tbody"></tbody>
@@ -353,14 +350,14 @@
         </div>
 
         <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">B-2. 시장 대비 업종별 비중 차이 (상위 편차 업종)</h3>
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">개미가 더 많이 선택한 업종</h3>
           <div class="tbl-wrap" style="max-height:210px;overflow-y:auto">
             <table class="tbl">
               <thead>
                 <tr>
                   <th>업종</th>
-                  <th class="r">개미 지수 비중</th>
-                  <th class="r">전체 시장 비중</th>
+                  <th class="r">개미 지수</th>
+                  <th class="r">전체 시장</th>
                   <th class="r">비중 차이</th>
                 </tr>
               </thead>
@@ -370,208 +367,133 @@
         </div>
       </div>
 
-      <div class="grid-2">
-        <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">개미 지수에만 높은 비중으로 포함된 종목 (상위 15)</h3>
-          <p class="sec-sub" style="margin-bottom:8px">전체 시장 시가총액 비중은 0.01~0.08%이나 개미 지수에는 2.00%로 편입된 종목</p>
-          <div class="tbl-wrap" style="max-height:250px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>강도 순위</th>
-                  <th>종목명</th>
-                  <th class="r">순매수 강도</th>
-                  <th class="r">개미 비중</th>
-                  <th class="r">시장 비중</th>
-                </tr>
-              </thead>
-              <tbody id="sec3-overweight-tbody"></tbody>
-            </table>
-          </div>
+      <!-- 대형주 미편입 내역은 접기로 통합 (순위표 중복 노출 방지) -->
+      <details class="more">
+        <summary>시가총액 상위 대형주 중 개미 지수에 없는 종목 보기 (시총 상위 50개 중 <span id="mc50-ov-cnt">5개</span>만 포함)</summary>
+        <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>시총 순위</th>
+                <th>종목명</th>
+                <th class="r">시장 시총 비중</th>
+                <th class="r">36개월 개인 추정 순매수</th>
+                <th class="r">순매수 강도 (순위)</th>
+              </tr>
+            </thead>
+            <tbody id="sec3-missing-large-tbody"></tbody>
+          </table>
         </div>
-
-        <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">시장 시가총액 상위 대형주 중 개미 지수에 없는 종목</h3>
-          <p class="sec-sub" style="margin-bottom:8px">코스피·코스닥 시가총액 상위 50개 중 개미 지수와 겹치는 종목은 <strong id="mc50-ov-cnt">5개(10.0%)</strong>입니다 (SK하이닉스는 강도 10.86%, #40위로 포함).</p>
-          <div class="tbl-wrap" style="max-height:250px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>시총 순위</th>
-                  <th>종목명</th>
-                  <th class="r">시장 비중</th>
-                  <th class="r">36개월 개인 순매수</th>
-                  <th class="r">순매수 강도 (순위)</th>
-                </tr>
-              </thead>
-              <tbody id="sec3-missing-large-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      </details>
     </section>
 
-    <!-- SECTION 04 — 누가 무엇을 샀나 (개인·외국인·기관 비교) -->
-    <section class="sec tab-panel" id="sec-04" role="tabpanel" hidden>
+    <!-- TAB 4 — 개미·외국인·기관 -->
+    <section class="sec tab-panel" id="sec-04" role="tabpanel" aria-labelledby="tab-btn-sec-04" hidden>
       <div class="sec-head">
         <div>
-          <span class="sec-tag">SECTION 04</span>
-          <h2 class="sec-title">누가 무엇을 샀나</h2>
-          <p class="sec-sub">동일한 36개월(2023.10~2026.09) 및 동일한 자격 기준(시총 3,000억+ · 60일 거래대금 10억+ · 36개월 관측 확보)으로 산출한 개인 · 외국인 · 기관(연기금 포함 KRX 기관합계)의 순매수 강도 비교</p>
+          <h2 class="sec-title">개미·외국인·기관의 선택</h2>
+          <p class="sec-sub">같은 기간(36개월)과 같은 기준(시총 3,000억+ · 거래대금 10억+ · 650거래일 이상)으로 뽑은 세 투자 주체의 순매수 강도 상위 50종목 비교</p>
         </div>
       </div>
 
-      <!-- ② 투자 주체 간 상위 50 종목 중복률 요약 -->
-      <div class="facts-bar" style="margin-top:0;margin-bottom:14px">
+      <!-- 주체별 가상 지수 차트 최상단 배치 -->
+      <div class="card" style="margin-bottom:12px">
+        <div class="sec-head" style="margin-bottom:6px">
+          <div>
+            <h3 style="font-size:15.5px;font-weight:700">개미 · 외국인 · 기관 순매수 강도 50종목 가상지수 추이 (2024.09.30 = 1,000, 잠정)</h3>
+            <p class="sec-sub">분기마다 각 주체의 직전 36개월 순매수 강도 상위 50종목을 동일가중(2%)으로 편입했을 때의 주가 흐름입니다.</p>
+          </div>
+        </div>
+        <div class="chart-wrap sm">
+          <canvas id="investorIndexChart" role="img" aria-label="개미, 외국인, 기관 순매수 강도 상위 50종목 가상지수 비교 차트"></canvas>
+        </div>
+        <div class="notice-box">
+          * 이 차트는 각 투자 주체의 실제 계좌 수익률이나 투자 실력을 뜻하지 않으며, 직전 36개월 순매수 강도 상위 50종목을 다음 분기에 동일가중으로 보유한 가상 포트폴리오의 사후 주가 추이입니다.
+        </div>
+      </div>
+
+      <!-- 상위 50 종목 중복률 요약 -->
+      <div class="facts-bar" style="margin-top:0;margin-bottom:12px">
         <div class="fact-tile">
           <div class="fact-head">
-            <span class="fact-label">개인 상위 50 ∩ 외국인 상위 50</span>
+            <span class="fact-label">개미 50종목 ∩ 외국인 50종목</span>
             <span class="fact-val" id="ov-ind-frg">4종목 (8.0%)</span>
           </div>
           <p class="fact-desc" id="ov-ind-frg-names">공통 종목: -</p>
         </div>
         <div class="fact-tile">
           <div class="fact-head">
-            <span class="fact-label">개인 상위 50 ∩ 기관(연기금 포함) 상위 50</span>
+            <span class="fact-label">개미 50종목 ∩ 기관 50종목</span>
             <span class="fact-val" id="ov-ind-org">0종목 (0.0%)</span>
           </div>
-          <p class="fact-desc" id="ov-ind-org-names">공통 종목 없음</p>
+          <p class="fact-desc" id="ov-ind-org-names">겹치는 종목 없음</p>
         </div>
         <div class="fact-tile">
           <div class="fact-head">
-            <span class="fact-label">외국인 상위 50 ∩ 기관(연기금 포함) 상위 50</span>
+            <span class="fact-label">외국인 50종목 ∩ 기관 50종목</span>
             <span class="fact-val" id="ov-frg-org">3종목 (6.0%)</span>
           </div>
           <p class="fact-desc" id="ov-frg-org-names">공통 종목: -</p>
         </div>
       </div>
 
-      <!-- ① 투자 주체별 순매수 강도 상위 종목 나란히 비교 -->
-      <div class="grid-3" style="margin-bottom:14px">
-        <div class="card">
-          <h3 style="font-size:14.5px;font-weight:700;margin-bottom:8px">①-1. 개인 순매수 강도 상위 50</h3>
-          <div class="tbl-wrap" style="max-height:280px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>순위</th>
-                  <th>종목명</th>
-                  <th class="r">순매수 강도</th>
-                  <th class="r">추정 순매수</th>
-                </tr>
-              </thead>
-              <tbody id="inv-ind-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="font-size:14.5px;font-weight:700;margin-bottom:8px">①-2. 외국인 순매수 강도 상위 50</h3>
-          <div class="tbl-wrap" style="max-height:280px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>순위</th>
-                  <th>종목명</th>
-                  <th class="r">순매수 강도</th>
-                  <th class="r">추정 순매수</th>
-                </tr>
-              </thead>
-              <tbody id="inv-frg-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="font-size:14.5px;font-weight:700;margin-bottom:8px">①-3. 기관(연기금 포함) 순매수 강도 상위 50</h3>
-          <div class="tbl-wrap" style="max-height:280px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>순위</th>
-                  <th>종목명</th>
-                  <th class="r">순매수 강도</th>
-                  <th class="r">추정 순매수</th>
-                </tr>
-              </thead>
-              <tbody id="inv-org-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ④ 반대편에 선 종목 & ③ 업종별 차이 -->
-      <div class="grid-2" style="margin-bottom:14px">
-        <div class="card">
-          <div class="chart-toolbar" style="margin-bottom:8px">
-            <h3 style="font-size:15px;font-weight:700">④ 반대편에 선 종목 (36개월 누적)</h3>
-            <div class="btn-row" id="divergent-btns">
-              <button type="button" class="on" data-div="IND_BUY">개인 순매수 · 외인+기관 순매도</button>
-              <button type="button" data-div="OTH_BUY">외인+기관 순매수 · 개인 순매도</button>
-            </div>
-          </div>
-          <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>종목명</th>
-                  <th class="r">개인 강도 (순매수)</th>
-                  <th class="r">외국인 강도 (순매수)</th>
-                  <th class="r">기관 강도 (순매수)</th>
-                </tr>
-              </thead>
-              <tbody id="divergent-tbody"></tbody>
-            </table>
-          </div>
-          <p class="sec-sub" style="margin-top:6px">* 투자자 집단별 순매수·순매도는 시장 내 상호 대응 거래의 결과이며, 특정 주체의 판단이 옳았음을 의미하지 않습니다.</p>
-        </div>
-
-        <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:8px">③ 업종별 투자 주체 차이 (순매수 강도 vs 추정 순매수대금)</h3>
-          <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
-            <table class="tbl">
-              <thead>
-                <tr>
-                  <th>업종 (적격 2종목+)</th>
-                  <th class="r">개인 업종 강도 (대금)</th>
-                  <th class="r">외국인 업종 강도 (대금)</th>
-                  <th class="r">기관 업종 강도 (대금)</th>
-                </tr>
-              </thead>
-              <tbody id="inv-sector-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ⑤ 선택 이후 수익률 비교 (개인·외국인·기관 순매수 강도 상위 50 가상 지수) -->
+      <!-- 하나의 통합 전환 테이블로 주체별 50종목 및 반대 매매 종목 조회 (중복 순위표 제거) -->
       <div class="card">
-        <div class="sec-head" style="margin-bottom:8px">
-          <div>
-            <h3 style="font-size:15.5px;font-weight:700">⑤ 개인 · 외국인 · 기관 순매수 강도 상위 50 가상 지수 추이 (2024.09.30 = 1,000)</h3>
-            <p class="sec-sub">매 분기 말 각 주체의 직전 36개월 순매수 강도 상위 50개 종목을 동일한 규칙(익분기 첫 거래일 2.0% 동일가중)으로 리밸런싱한 가상 포트폴리오 비교입니다.</p>
+        <div class="chart-toolbar" style="margin-bottom:8px">
+          <h3 style="font-size:15px;font-weight:700" id="inv-list-title">주체별 순매수 강도 상위 50종목</h3>
+          <div class="btn-row" id="inv-tab-btns" role="group" aria-label="투자 주체별 목록 선택">
+            <button type="button" class="on" data-inv="IND">개미 상위 50</button>
+            <button type="button" data-inv="FRG">외국인 상위 50</button>
+            <button type="button" data-inv="ORG">기관 상위 50</button>
+            <button type="button" data-inv="DIV_IND">개미 매수 · 외인+기관 매도</button>
+            <button type="button" data-inv="DIV_OTH">외인+기관 매수 · 개미 매도</button>
           </div>
         </div>
-        <div class="chart-wrap sm">
-          <canvas id="investorIndexChart"></canvas>
-        </div>
-        <div class="notice-box">
-          * 본 가상 지수는 각 투자 주체의 실제 계좌 투자수익률이 아니며, 각 주체가 직전 36개월 동안 높은 강도로 순매수한 상위 50개 종목을 다음 분기 동일가중으로 보유했을 때의 사후 주가 흐름을 추적한 지표입니다.
+        <div class="tbl-wrap" style="max-height:340px;overflow-y:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th style="width:56px">순위</th>
+                <th>종목명</th>
+                <th>업종</th>
+                <th class="r">개인 강도 (추정 순매수)</th>
+                <th class="r">외국인 강도 (추정 순매수)</th>
+                <th class="r">기관 강도 (추정 순매수)</th>
+              </tr>
+            </thead>
+            <tbody id="inv-unified-tbody"></tbody>
+          </table>
         </div>
       </div>
+
+      <details class="more">
+        <summary>업종별 개미 · 외국인 · 기관 순매수 강도 비교 보기</summary>
+        <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>업종 (적격 2종목+)</th>
+                <th class="r">개미 업종 강도 (대금)</th>
+                <th class="r">외국인 업종 강도 (대금)</th>
+                <th class="r">기관 업종 강도 (대금)</th>
+              </tr>
+            </thead>
+            <tbody id="inv-sector-tbody"></tbody>
+          </table>
+        </div>
+      </details>
     </section>
 
-    <!-- SECTION 05 — 개미의 선택은 바뀌었나 -->
-    <section class="sec tab-panel" id="sec-05" role="tabpanel" hidden>
+    <!-- TAB 5 — 분기별 변화 -->
+    <section class="sec tab-panel" id="sec-05" role="tabpanel" aria-labelledby="tab-btn-sec-05" hidden>
       <div class="sec-head">
         <div>
-          <span class="sec-tag">SECTION 05</span>
-          <h2 class="sec-title">개미의 선택은 바뀌었나</h2>
-          <p class="sec-sub">2024 Q4부터 2026 Q4까지 9개 분기 정기 리밸런싱 시점의 실제 종목 편입·퇴출 기록과 과거 분기별 구성 종목 50선을 조회합니다.</p>
+          <h2 class="sec-title">분기별 종목 변화</h2>
+          <p class="sec-sub">2024 Q4부터 2026 Q4까지 9개 분기 리밸런싱 시점의 편입·퇴출 종목과 당시 50종목을 조회합니다.</p>
         </div>
         <div class="btn-row">
           <label for="q-select" class="sec-sub" style="font-weight:700;color:var(--ink)">조회 분기:</label>
-          <select id="q-select" aria-label="분기 선택"></select>
+          <select id="q-select" aria-label="조회 분기 선택"></select>
         </div>
       </div>
 
@@ -582,7 +504,7 @@
           <div class="grid-2">
             <div>
               <h4 style="font-size:12.5px;margin-bottom:6px;color:var(--hike)" id="q-add-head">신규 편입 (0)</h4>
-              <div class="tbl-wrap" style="max-height:240px;overflow-y:auto">
+              <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
                 <table class="tbl">
                   <thead><tr><th>순위</th><th>종목명</th><th class="r">순매수 강도</th></tr></thead>
                   <tbody id="q-add-tbody"></tbody>
@@ -591,9 +513,9 @@
             </div>
             <div>
               <h4 style="font-size:12.5px;margin-bottom:6px;color:var(--cut)" id="q-rem-head">퇴출 (0)</h4>
-              <div class="tbl-wrap" style="max-height:240px;overflow-y:auto">
+              <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
                 <table class="tbl">
-                  <thead><tr><th>종목명</th><th class="r">변동 상태</th></tr></thead>
+                  <thead><tr><th>종목명</th><th class="r">퇴출 사유 / 순위</th></tr></thead>
                   <tbody id="q-rem-tbody"></tbody>
                 </table>
               </div>
@@ -602,9 +524,9 @@
         </div>
 
         <div class="card">
-          <h3 style="font-size:15px;font-weight:700;margin-bottom:6px" id="q-snap-title">해당 분기 구성 종목 50선 및 순위 변화</h3>
-          <p class="sec-sub" style="margin-bottom:10px">전 분기 대비 순위 상승(▲)·하락(▼) 및 신규 진입(NEW) 내역</p>
-          <div class="tbl-wrap" style="max-height:270px;overflow-y:auto">
+          <h3 style="font-size:15px;font-weight:700;margin-bottom:6px" id="q-snap-title">해당 분기 50종목</h3>
+          <p class="sec-sub" style="margin-bottom:10px">전 분기 대비 순위 상승(▲)·하락(▼) 및 신규 편입(NEW)</p>
+          <div class="tbl-wrap" style="max-height:290px;overflow-y:auto">
             <table class="tbl">
               <thead>
                 <tr>
@@ -623,12 +545,12 @@
       </div>
     </section>
 
-    <!-- SECTION 06 — 지수 산출 방법 및 상세 검증 자료 -->
-    <section class="sec tab-panel" id="sec-footer" role="tabpanel" hidden>
+    <!-- TAB 6 — 산출 방법 및 데이터 신뢰성 검증 -->
+    <section class="sec tab-panel" id="sec-footer" role="tabpanel" aria-labelledby="tab-btn-sec-footer" hidden>
       <div class="sec-head" style="margin-bottom:10px">
         <div>
-          <span class="sec-tag">METHODOLOGY &amp; DATA</span>
-          <h2 class="sec-title">지수 산출 방법</h2>
+          <h2 class="sec-title">산출 방법 및 원자료 한계</h2>
+          <p class="sec-sub">개미 지수(GAEMI 50 PURE)와 비교지수의 산출 규칙 및 원자료 검증 내역입니다.</p>
         </div>
       </div>
 
@@ -637,16 +559,16 @@
           <table class="tbl">
             <tbody>
               <tr>
-                <th style="width:120px">지수 정의</th>
-                <td><strong>GAEMI 50 PURE</strong> — 최근 36개월 개인 누적 추정 순매수대금을 같은 기간 평균 시가총액으로 나눈 <strong>순매수 강도(%) 상위 50개 보통주</strong> 동일가중 가격지수(기준일 2024-09-30 = 1,000.00)</td>
+                <th style="width:125px">지수 정의</th>
+                <td><strong>GAEMI 50 PURE</strong> — 최근 36개월 개인 누적 추정 순매수대금을 같은 기간 평균 시가총액(복원)으로 나눈 <strong>순매수 강도(%) 상위 50개 보통주</strong> 동일가중 가격지수 (기준일 2024-09-30 = 1,000.00, 잠정)</td>
               </tr>
               <tr>
-                <th>종목 자격 조건</th>
-                <td>① 코스피·코스닥 상장 일반 보통주(ETF·ETN·SPAC·우선주·리츠·외국기업·인프라펀드 제외), ② 36개월 누적 순매수 양수(+), ③ 기준일 시가총액 3,000억 원 이상, ④ 최근 60거래일 일평균 거래대금 10억 원 이상, ⑤ 36개월 집계 구간 영업일의 90% 이상(≥650거래일) 원자료 확보</td>
+                <th>선정 기준</th>
+                <td>① 코스피·코스닥 일반 보통주(ETF·ETN·SPAC·우선주·리츠·외국기업·인프라펀드 제외), ② 36개월 누적 순매수 양수(+), ③ 기준일 시가총액 3,000억 원 이상, ④ 최근 60거래일 평균 거래대금 10억 원 이상, ⑤ 36개월 영업일의 90% 이상(≥650거래일) 원자료 확보</td>
               </tr>
               <tr>
-                <th>리밸런싱 규칙</th>
-                <td>매년 3·6·9·12월 마지막 거래일 시점에 확인 가능한 직전 36개월 자료로 50개 종목을 선정하고, 익분기 첫 거래일에 종목당 2.00% 동일가중 적용(과거 소급 적용 금지, 상장폐지 종목182개 과거 데이터 포함)</td>
+                <th>리밸런싱</th>
+                <td>매년 3·6·9·12월 마지막 거래일 기준 직전 36개월 자료로 50종목을 선정해 다음 분기 첫 거래일에 종목당 2.00% 동일가중 적용 (과거 소급 적용 금지)</td>
               </tr>
             </tbody>
           </table>
@@ -656,29 +578,64 @@
           <table class="tbl">
             <tbody>
               <tr>
-                <th style="width:120px">일별 수익률 산식</th>
-                <td><code>1 + r_{i,t} = 정규장 종가(P_{i,t}) / KRX 기준가(B_{i,t})</code><br/>액면분할·병합·무상증자·유상증자·감자 발생 시 KRX 기준가 조정으로 가격 연속성 유지 (배당 미포함 가격지수)</td>
+                <th style="width:125px">추정 순매수대금 한계</th>
+                <td>KRX가 종목별·일별 투자자 실제 체결대금 원자료를 무료 공개하지 않아 <strong>일별 순매수수량 × 당일 정규장 종가</strong> 추정치를 사용합니다. 기관(중앙값 오차 0.62%)·외국인(1.70%)의 3개월 실체결대금 교차검증 결과는 참고치이며, 일중 매매 회전이 잦은 개인의 실제 체결대금 오차로 일반화할 수 없습니다.</td>
               </tr>
               <tr>
-                <th>데이터 출처</th>
-                <td>KRX 상장·상장폐지 공시(KIND / FinanceDataReader), Npay 증권 일별 투자자별 매매동향 API(KRX 및 NXT 분리 원장 2,392,334건), KRX 공식 상장주식수 스냅샷</td>
+                <th>과거 시가총액 복원 한계</th>
+                <td>2026-03-08 이후는 KRX 공식 일자별 상장주식수 스냅샷(5개 시점)을 직접 적용하고, 2026-03-08 이전은 기준가 조정 이벤트(|전일종가/기준가-1|≥3%: 분할·병합·무상증자·감자)를 역산한 <strong>복원 시가총액</strong>을 사용합니다. 기준가 조정이 없는 과거 소규모 CB 전환·유상증자·자사주 소각은 당시 실제 주식수와 일부 차이가 있을 수 있습니다.</td>
               </tr>
               <tr>
-                <th>이용 한계</th>
-                <td>KRX 정보데이터시스템(<code>MDCSTAT024</code>)의 비로그인 API 차단(<code>HTTP 400 LOGOUT</code>)으로 인해, 종목별 일별 순매수수량에 당일 정규장 종가를 곱한 <strong>추정 순매수대금</strong>을 사용합니다(공시 체결대금 대비 중앙값 오차 0.62~1.70%).</td>
+                <th>상장폐지·결측 처리</th>
+                <td>일별 수익률은 <code>종가 / KRX 기준가</code>로 산출합니다. 2024-09-30 이후 9개 분기 동안 편입 50종목 중 보유 기간 내 상장폐지·주가 결측·거래정지(종가 0원)·수익배율 제한(0.3~4.0배)에 해당한 사례는 <strong>0건</strong>이어서 이로 인한 지수 왜곡은 0.00pt입니다.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- 접기 1: PHASE 0 원자료 감사 · 재산출 전후 비교 · KRX/NXT 통합 비교 -->
-      <details class="more">
-        <summary>원자료 감사 · 재산출 전후 비교 · KRX vs KRX+NXT 통합 비교</summary>
-        <div id="audit-detail-box" style="font-size:12.5px;line-height:1.6"></div>
+      <!-- 접기 1: 비교지수 산출 기준 대조표 -->
+      <details class="more" open>
+        <summary>개미 지수 및 비교지수 6종의 산출 기준 대조표</summary>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>지수명</th>
+                <th>기준일 (=1,000)</th>
+                <th>리밸런싱 및 가중 방식</th>
+                <th>주가 조정 및 결측 처리</th>
+                <th>배당 반영</th>
+              </tr>
+            </thead>
+            <tbody id="bench-consistency-tbody"></tbody>
+          </table>
+        </div>
       </details>
 
-      <!-- 접기 2: 최소 시가총액·거래대금·관측기간 민감도 분석 -->
+      <!-- 접기 2: 50위 경계 종목(41~50위) 체결단가 가정 민감도 및 원자료 감사 -->
+      <details class="more">
+        <summary>원자료 감사 상세 및 41~50위 경계 종목의 단가 가정 민감도 (종가 vs 평균가)</summary>
+        <div id="audit-detail-box" style="font-size:12.5px;line-height:1.6;margin-bottom:10px"></div>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>종목명 (코드)</th>
+                <th class="r">당일 종가 기준 강도</th>
+                <th class="r">(기준가+종가)/2 기준 강도</th>
+                <th class="r">강도 차이 (%p)</th>
+                <th class="r">종가 기준 추정 순매수</th>
+                <th class="r">평균가 기준 추정 순매수</th>
+              </tr>
+            </thead>
+            <tbody id="boundary-sens-tbody"></tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- 접기 3: 최소 시가총액·거래대금·관측기간 민감도 분석 -->
       <details class="more">
         <summary>최소 시가총액 · 거래대금 · 관측기간 민감도 분석 (7개 시나리오)</summary>
         <div class="tbl-wrap">
@@ -686,10 +643,10 @@
             <thead>
               <tr>
                 <th>시나리오</th>
-                <th class="r">적격 풀</th>
+                <th class="r">적격 종목 수</th>
                 <th class="r">평균 강도</th>
                 <th class="r">중위 시총</th>
-                <th class="r">기준안 일치율</th>
+                <th class="r">기준안과 일치</th>
                 <th class="r">누적 수익률</th>
                 <th class="r">최대 낙폭</th>
                 <th class="r">KOSPI 상관</th>
@@ -701,20 +658,20 @@
         </div>
       </details>
 
-      <!-- 접기 3: 기존 순매수 절대금액 상위 50 vs 순매수 강도 상위 50 비교 -->
+      <!-- 접기 4: 단순 순매수금액 상위 50 vs 순매수 강도 상위 50 비교 -->
       <details class="more">
-        <summary>기존 순매수 절대금액 상위 50 vs 순매수 강도 상위 50 (GAEMI 50 PURE) 종목 비교</summary>
-        <div class="tbl-wrap" style="max-height:300px;overflow-y:auto">
+        <summary>단순 순매수금액 상위 50종목 vs 순매수 강도 상위 50종목(GAEMI 50 PURE) 비교</summary>
+        <div class="tbl-wrap" style="max-height:280px;overflow-y:auto">
           <table class="tbl">
             <thead>
               <tr>
-                <th>절대금액 순위</th>
+                <th>금액 순위</th>
                 <th>종목명 (코드)</th>
                 <th>시장</th>
                 <th class="r">36개월 추정 순매수</th>
                 <th class="r">36개월 평균 시총</th>
                 <th class="r">순매수 강도</th>
-                <th class="r">강도 순위 (PURE 편입 여부)</th>
+                <th class="r">강도 순위 (편입 여부)</th>
               </tr>
             </thead>
             <tbody id="abs-vs-pure-tbody"></tbody>
