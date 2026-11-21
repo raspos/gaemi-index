@@ -321,22 +321,22 @@
     setEl("sc-gaemi-down-mean", fmtPct(sc.gaemi_mean_in_kosdaq_down_pct));
     setEl(
       "sc-gaemi-down-sub",
-      `중앙값 ${fmtPct(sc.gaemi_median_in_kosdaq_down_pct)} · 기하평균 ${fmtPct(sc.gaemi_geo_in_kosdaq_down_pct)}`
+      `중앙값 ${fmtPct(sc.gaemi_median_in_kosdaq_down_pct)} · 기하 ${fmtPct(sc.gaemi_geo_in_kosdaq_down_pct)}`
     );
     setEl("sc-kosdaq-down-mean", fmtPct(sc.kosdaq_mean_in_kosdaq_down_pct));
     setEl(
       "sc-kosdaq-down-sub",
-      `개미 지수가 월평균 ${fmtPct(sc.gap_vs_kosdaq_mean_pctp)}p ${sc.gap_vs_kosdaq_mean_pctp < 0 ? "더 하락" : "방어"}`
+      `개미가 ${fmtPct(sc.gap_vs_kosdaq_mean_pctp)}p ${sc.gap_vs_kosdaq_mean_pctp < 0 ? "더 하락" : "방어"}`
     );
     setEl("sc-matched-down-mean", fmtPct(sc.matched50_mean_in_kosdaq_down_pct));
     setEl(
       "sc-matched-down-sub",
-      `개미 지수가 월평균 ${fmtPct(sc.gap_vs_matched50_mean_pctp)}p ${sc.gap_vs_matched50_mean_pctp < 0 ? "더 하락" : "방어"}`
+      `개미가 ${fmtPct(sc.gap_vs_matched50_mean_pctp)}p ${sc.gap_vs_matched50_mean_pctp < 0 ? "더 하락" : "방어"}`
     );
     setEl("sc-worse-ratio", `${sc.worse_than_kosdaq_months_pct}% (${sc.worse_than_kosdaq_months_count}/${sc.kosdaq_down_months_count}개월)`);
     setEl(
       "sc-worse-matched-sub",
-      `비슷한 주식 50개보다 더 떨어진 달: ${sc.worse_than_matched50_in_kosdaq_down_pct}% (${sc.worse_than_matched50_in_kosdaq_down_count}/${sc.kosdaq_down_months_count}개월)`
+      `유사 50 대비: ${sc.worse_than_matched50_in_kosdaq_down_pct}% (${sc.worse_than_matched50_in_kosdaq_down_count}/${sc.kosdaq_down_months_count}개월)`
     );
 
     // 3) 하락장 포착률 가로 막대그래프 (100% 기준선 = 0~150% 스케일에서 66.67% 위치)
@@ -349,27 +349,27 @@
     if (capBarsEl) {
       const barItems = [
         {
-          label: `코스닥 하락월(${cKq.down_months_count || 10}개월)의 개미 지수 포착률`,
+          label: `개미 지수 (vs 코스닥 ${cKq.down_months_count || 10}개월)`,
           ratio: cKq.downside_capture_geo_pct || 115.9,
-          gapText: `개미 평균 ${fmtPct(cKq.port_down_arith_mean_pct)} vs 코스닥 ${fmtPct(cKq.bench_down_arith_mean_pct)} (${fmtPct(cKq.mean_gap_in_down_months_pctp)}p)`,
+          gapText: `개미 ${fmtPct(cKq.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKq.bench_down_arith_mean_pct)} (${fmtPct(cKq.mean_gap_in_down_months_pctp)}p)`,
           colorVar: "var(--chart-gaemi)",
         },
         {
-          label: `같은 코스닥 하락월(${cKqMatched.down_months_count || 10}개월)의 비슷한 주식 50개 포착률`,
+          label: `유사 50종목 (vs 코스닥 ${cKqMatched.down_months_count || 10}개월)`,
           ratio: cKqMatched.downside_capture_geo_pct || 84.2,
-          gapText: `유사50 평균 ${fmtPct(cKqMatched.port_down_arith_mean_pct)} vs 코스닥 ${fmtPct(cKqMatched.bench_down_arith_mean_pct)} (+${Number(cKqMatched.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+          gapText: `유사50 ${fmtPct(cKqMatched.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKqMatched.bench_down_arith_mean_pct)} (+${Number(cKqMatched.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
           colorVar: "var(--chart-institution)",
         },
         {
-          label: `비슷한 주식 50개 하락월(${cMt.down_months_count || 12}개월) 기준 개미 지수 포착률`,
+          label: `개미 지수 (vs 유사 50종목 ${cMt.down_months_count || 12}개월)`,
           ratio: cMt.downside_capture_geo_pct || 137.0,
-          gapText: `개미 평균 ${fmtPct(cMt.port_down_arith_mean_pct)} vs 유사50 ${fmtPct(cMt.bench_down_arith_mean_pct)} (${fmtPct(cMt.mean_gap_in_down_months_pctp)}p)`,
+          gapText: `개미 ${fmtPct(cMt.port_down_arith_mean_pct)} · 유사50 ${fmtPct(cMt.bench_down_arith_mean_pct)} (${fmtPct(cMt.mean_gap_in_down_months_pctp)}p)`,
           colorVar: "var(--chart-gaemi)",
         },
         {
-          label: `코스피 하락월(${cKp.down_months_count || 10}개월)의 개미 지수 포착률`,
+          label: `개미 지수 (vs 코스피 ${cKp.down_months_count || 10}개월)`,
           ratio: cKp.downside_capture_geo_pct || 97.5,
-          gapText: `개미 평균 ${fmtPct(cKp.port_down_arith_mean_pct)} vs 코스피 ${fmtPct(cKp.bench_down_arith_mean_pct)} (+${Number(cKp.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+          gapText: `개미 ${fmtPct(cKp.port_down_arith_mean_pct)} · 코스피 ${fmtPct(cKp.bench_down_arith_mean_pct)} (+${Number(cKp.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
           colorVar: "var(--chart-kospi)",
         },
       ];
@@ -614,31 +614,31 @@
     if (cardsEl) {
       cardsEl.innerHTML = `
         <div class="down-box">
-          <span class="dk">개미 지수 (${ep.start_date} ~ ${ep.end_date})</span>
+          <span class="dk">개미 지수 (${ep.start_date}~${ep.end_date})</span>
           <span class="dv down">${fmtPct(r.GAEMI_50_PURE)}</span>
-          <span class="ds">전고점 회복: ${rec.GAEMI_50_PURE.status_label}</span>
+          <span class="ds">회복: ${rec.GAEMI_50_PURE.status_label}</span>
         </div>
         <div class="down-box">
-          <span class="dk">같은 기간 비슷한 주식 50개</span>
+          <span class="dk">유사 50종목</span>
           <span class="dv down">${fmtPct(r.MATCHED_50_EW)}</span>
-          <span class="ds">개미 지수와의 차이: <strong>${g.vs_MATCHED_50 > 0 ? "+" : ""}${g.vs_MATCHED_50.toFixed(2)}%p</strong> (${rec.MATCHED_50_EW.status_label})</span>
+          <span class="ds">개미 대비 <strong>${g.vs_MATCHED_50 > 0 ? "+" : ""}${g.vs_MATCHED_50.toFixed(2)}%p</strong> · ${rec.MATCHED_50_EW.status_label}</span>
         </div>
         <div class="down-box">
-          <span class="dk">같은 기간 코스닥</span>
+          <span class="dk">코스닥</span>
           <span class="dv down">${fmtPct(r.KOSDAQ)}</span>
-          <span class="ds">개미 지수와의 차이: <strong>${g.vs_KOSDAQ > 0 ? "+" : ""}${g.vs_KOSDAQ.toFixed(2)}%p</strong> (${rec.KOSDAQ.status_label})</span>
+          <span class="ds">개미 대비 <strong>${g.vs_KOSDAQ > 0 ? "+" : ""}${g.vs_KOSDAQ.toFixed(2)}%p</strong> · ${rec.KOSDAQ.status_label}</span>
         </div>
         <div class="down-box">
-          <span class="dk">같은 기간 코스피</span>
+          <span class="dk">코스피</span>
           <span class="dv ${clsSign(r.KOSPI)}">${fmtPct(r.KOSPI)}</span>
-          <span class="ds">개미 지수와의 차이: <strong>${g.vs_KOSPI > 0 ? "+" : ""}${g.vs_KOSPI.toFixed(2)}%p</strong> (${rec.KOSPI.status_label})</span>
+          <span class="ds">개미 대비 <strong>${g.vs_KOSPI > 0 ? "+" : ""}${g.vs_KOSPI.toFixed(2)}%p</strong> · ${rec.KOSPI.status_label}</span>
         </div>
       `;
     }
 
     const noteEl = document.getElementById("episode-chart-note");
     if (noteEl) {
-      noteEl.textContent = `* ${ep.title} — 하락 시작일(${ep.start_date})을 100.00으로 맞춘 동일 기간 추이입니다. 세로 점선은 코스닥 저점(${ep.end_date}, ${ep.trading_days_to_trough}거래일)입니다.`;
+      noteEl.textContent = `* ${ep.title} (${ep.start_date} = 100) · 점선: 코스닥 저점(${ep.end_date}, ${ep.trading_days_to_trough}거래일)`;
     }
 
     const tr = ep.trajectory_base100;
