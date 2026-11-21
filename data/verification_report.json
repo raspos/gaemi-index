@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-11-21 21:03:37",
+  "verified_at": "2026-11-21 21:48:57",
   "all_passed": true,
   "total_tests": 7,
   "results": [
@@ -34,9 +34,9 @@
       "detail": "2026 Q4 공통=47/50개(94.0%) | A안=-24.27% vs B안=-13.59% (상관=0.99382)"
     },
     {
-      "test": "테스트 H (JSON 유효성 NaN/Infinity 0건 및 원장·배포 번들 버전 일치)",
+      "test": "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",
       "status": "PASS",
-      "detail": "검사 JSON 파일=8개 (NaN/Infinity=0건), 배포 번들 기준일=2026-11-20, 체크섬 일치=True"
+      "detail": "검사 JSON 파일=9개 (NaN/Infinity=0건), 하락장 포착률=115.9%, 배포 번들 기준일=2026-11-20, 체크섬 일치=True"
     }
   ]
 }

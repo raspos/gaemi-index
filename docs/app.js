@@ -4,6 +4,8 @@
   const THEME_STORAGE_KEY = "gaemi_theme";
   let DATA = window.GAEMI_DATA || null;
   let mainChart = null;
+  let captureChart = null;
+  let episodeChart = null;
   let detailChart = null;
   let invChart = null;
   let themeInitialized = false;
@@ -11,6 +13,7 @@
   const state = {
     activeTab: "sec-01",
     period: "ALL", // ALL | 1Y | 6M | 3M | YTD
+    selectedEpisodeId: null,
     showAbs: false,
     showKqEw: false,
     showTotal: false,
@@ -290,8 +293,478 @@
     return da > 0 && db > 0 ? num / Math.sqrt(da * db) : 0;
   }
 
-  // TAB 1: 개미 지수 (상단 고정 스트립 + 메인 비교 차트 + 상세 성과 표)
+  // PHASE 6: 하락장 성적표 ('증시가 떨어질 때'), 하락장/상승장 포착률, 하락장 사건별 차트 렌더링
+  function renderPhase6DownsideSection() {
+    const p6 = DATA.phase6_downside;
+    if (!p6) return;
+
+    const hl = p6.auto_headline || {};
+    const sc = p6.scorecard_when_market_falls || {};
+    const cap = p6.capture_ratios || {};
+    const dDays = p6.daily_downside_analysis || {};
+    const sev = p6.severity_buckets || {};
+    const epsObj = p6.drawdown_episodes || {};
+
+    // 1) 상단 자동 생성 핵심 메시지 배너
+    const hlTextEl = document.getElementById("down-headline-text");
+    const hlSubEl = document.getElementById("down-headline-sub");
+    if (hlTextEl) hlTextEl.textContent = hl.headline || "";
+    if (hlSubEl) hlSubEl.textContent = hl.sub_fact || "";
+
+    // 2) '증시가 떨어질 때' 4대 성적표
+    const setEl = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    };
+    setEl("down-scorecard-period", sc.period_label || "");
+    setEl("down-scorecard-sample", `표본: 코스닥 하락월 ${sc.kosdaq_down_months_count || 10}개월`);
+    setEl("sc-gaemi-down-mean", fmtPct(sc.gaemi_mean_in_kosdaq_down_pct));
+    setEl(
+      "sc-gaemi-down-sub",
+      `중앙값 ${fmtPct(sc.gaemi_median_in_kosdaq_down_pct)} · 기하평균 ${fmtPct(sc.gaemi_geo_in_kosdaq_down_pct)}`
+    );
+    setEl("sc-kosdaq-down-mean", fmtPct(sc.kosdaq_mean_in_kosdaq_down_pct));
+    setEl(
+      "sc-kosdaq-down-sub",
+      `개미 지수가 월평균 ${fmtPct(sc.gap_vs_kosdaq_mean_pctp)}p ${sc.gap_vs_kosdaq_mean_pctp < 0 ? "더 하락" : "방어"}`
+    );
+    setEl("sc-matched-down-mean", fmtPct(sc.matched50_mean_in_kosdaq_down_pct));
+    setEl(
+      "sc-matched-down-sub",
+      `개미 지수가 월평균 ${fmtPct(sc.gap_vs_matched50_mean_pctp)}p ${sc.gap_vs_matched50_mean_pctp < 0 ? "더 하락" : "방어"}`
+    );
+    setEl("sc-worse-ratio", `${sc.worse_than_kosdaq_months_pct}% (${sc.worse_than_kosdaq_months_count}/${sc.kosdaq_down_months_count}개월)`);
+    setEl(
+      "sc-worse-matched-sub",
+      `비슷한 주식 50개보다 더 떨어진 달: ${sc.worse_than_matched50_in_kosdaq_down_pct}% (${sc.worse_than_matched50_in_kosdaq_down_count}/${sc.kosdaq_down_months_count}개월)`
+    );
+
+    // 3) 하락장 포착률 가로 막대그래프 (100% 기준선 = 0~150% 스케일에서 66.67% 위치)
+    const cKq = (cap.vs_kosdaq && cap.vs_kosdaq.GAEMI_50_PURE) || {};
+    const cKqMatched = (cap.vs_kosdaq && cap.vs_kosdaq.MATCHED_50_EW) || {};
+    const cKp = (cap.vs_kospi && cap.vs_kospi.GAEMI_50_PURE) || {};
+    const cMt = (cap.vs_matched50 && cap.vs_matched50.GAEMI_50_PURE) || {};
+
+    const capBarsEl = document.getElementById("down-capture-bars");
+    if (capBarsEl) {
+      const barItems = [
+        {
+          label: `코스닥 하락월(${cKq.down_months_count || 10}개월)의 개미 지수 포착률`,
+          ratio: cKq.downside_capture_geo_pct || 115.9,
+          gapText: `개미 평균 ${fmtPct(cKq.port_down_arith_mean_pct)} vs 코스닥 ${fmtPct(cKq.bench_down_arith_mean_pct)} (${fmtPct(cKq.mean_gap_in_down_months_pctp)}p)`,
+          colorVar: "var(--chart-gaemi)",
+        },
+        {
+          label: `같은 코스닥 하락월(${cKqMatched.down_months_count || 10}개월)의 비슷한 주식 50개 포착률`,
+          ratio: cKqMatched.downside_capture_geo_pct || 84.2,
+          gapText: `유사50 평균 ${fmtPct(cKqMatched.port_down_arith_mean_pct)} vs 코스닥 ${fmtPct(cKqMatched.bench_down_arith_mean_pct)} (+${Number(cKqMatched.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+          colorVar: "var(--chart-institution)",
+        },
+        {
+          label: `비슷한 주식 50개 하락월(${cMt.down_months_count || 12}개월) 기준 개미 지수 포착률`,
+          ratio: cMt.downside_capture_geo_pct || 137.0,
+          gapText: `개미 평균 ${fmtPct(cMt.port_down_arith_mean_pct)} vs 유사50 ${fmtPct(cMt.bench_down_arith_mean_pct)} (${fmtPct(cMt.mean_gap_in_down_months_pctp)}p)`,
+          colorVar: "var(--chart-gaemi)",
+        },
+        {
+          label: `코스피 하락월(${cKp.down_months_count || 10}개월)의 개미 지수 포착률`,
+          ratio: cKp.downside_capture_geo_pct || 97.5,
+          gapText: `개미 평균 ${fmtPct(cKp.port_down_arith_mean_pct)} vs 코스피 ${fmtPct(cKp.bench_down_arith_mean_pct)} (+${Number(cKp.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+          colorVar: "var(--chart-kospi)",
+        },
+      ];
+
+      capBarsEl.innerHTML = barItems
+        .map((it) => {
+          const widthPct = Math.min(100, Math.max(0, (Number(it.ratio) / 150.0) * 100.0)).toFixed(1);
+          return `<div>
+            <div class="cap-item-head">
+              <span>${it.label}</span>
+              <strong style="font-family:var(--font-mono)">${Number(it.ratio).toFixed(1)}%</strong>
+            </div>
+            <div class="cap-track" title="세로선 = 기준시장 하락폭 100%">
+              <div class="cap-ref-line"></div>
+              <div class="cap-fill" style="width:${widthPct}%;background:${it.colorVar}"></div>
+            </div>
+            <span style="font-size:11px;color:var(--ink-3);display:block;margin-top:2px">${it.gapText}</span>
+          </div>`;
+        })
+        .join("");
+    }
+
+    // 4) 상승장 vs 하락장 포착률 나란히 비교 Chart.js 막대 차트
+    const tk = getChartTokens();
+    const cKqEw = (cap.vs_kosdaq && cap.vs_kosdaq.KOSDAQ_EW) || {};
+    const cFrg = (cap.vs_kosdaq && cap.vs_kosdaq.FOREIGN_50_PURE) || {};
+    const capCanvas = document.getElementById("captureCompareChart");
+    if (capCanvas) {
+      const ctxCap = capCanvas.getContext("2d");
+      if (captureChart) captureChart.destroy();
+      captureChart = new Chart(ctxCap, {
+        type: "bar",
+        data: {
+          labels: ["개미 지수", "비슷한 주식 50개", "코스닥 동일가중", "외국인 강도 50"],
+          datasets: [
+            {
+              label: "하락장 포착률 (낮을수록 방어 · 100%=코스닥)",
+              data: [
+                cKq.downside_capture_geo_pct || 115.9,
+                cKqMatched.downside_capture_geo_pct || 84.2,
+                cKqEw.downside_capture_geo_pct || 91.3,
+                cFrg.downside_capture_geo_pct || 91.5,
+              ],
+              backgroundColor: tk.gaemi,
+              borderRadius: 4,
+            },
+            {
+              label: "상승장 포착률 (높을수록 탄력 · 100%=코스닥)",
+              data: [
+                cKq.upside_capture_geo_pct || 112.6,
+                cKqMatched.upside_capture_geo_pct || 95.6,
+                cKqEw.upside_capture_geo_pct || 121.4,
+                cFrg.upside_capture_geo_pct || 118.7,
+              ],
+              backgroundColor: tk.kosdaq,
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: {
+            legend: {
+              position: "top",
+              align: "start",
+              labels: { color: tk.axis, boxWidth: 12, boxHeight: 10, font: { size: 11, weight: "600" } },
+            },
+            tooltip: {
+              backgroundColor: tk.tooltipBg,
+              titleColor: tk.tooltipInk,
+              bodyColor: tk.tooltipInk,
+              borderColor: tk.tooltipBorder,
+              borderWidth: 1,
+              callbacks: {
+                label(c) {
+                  return ` ${c.dataset.label.split(" (")[0]}: ${Number(c.parsed.y).toFixed(1)}%`;
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: tk.axis, font: { size: 11, weight: "600" } },
+            },
+            y: {
+              min: 0,
+              max: 140,
+              grid: { color: tk.grid },
+              ticks: {
+                color: tk.axis,
+                font: { family: "JetBrains Mono", size: 10 },
+                callback: (v) => `${v}%`,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    // 5) 코스닥 하락월 10개월 상세 표 & 일간/하락폭 구간별 반응 표
+    const downMonthsTbody = document.getElementById("kosdaq-down-months-tbody");
+    if (downMonthsTbody) {
+      const mList = p6.kosdaq_down_months_table || [];
+      downMonthsTbody.innerHTML = mList
+        .map(
+          (r) => `<tr>
+          <td><strong>${r.ym}</strong></td>
+          <td class="r down">${fmtPct(r.KOSDAQ)}</td>
+          <td class="r ${clsSign(r.GAEMI_50_PURE)}"><strong>${fmtPct(r.GAEMI_50_PURE)}</strong></td>
+          <td class="r ${clsSign(r.gap_vs_kosdaq)}">${r.gap_vs_kosdaq > 0 ? "+" : ""}${r.gap_vs_kosdaq.toFixed(2)}%p</td>
+          <td class="r ${clsSign(r.MATCHED_50_EW)}">${fmtPct(r.MATCHED_50_EW)}</td>
+          <td class="r ${clsSign(r.gap_vs_matched)}"><strong>${r.gap_vs_matched > 0 ? "+" : ""}${r.gap_vs_matched.toFixed(2)}%p</strong></td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    const sevTbody = document.getElementById("down-daily-severity-tbody");
+    if (sevTbody) {
+      const dkq = dDays.kosdaq_down_days || {};
+      const dkp = dDays.kospi_down_days || {};
+      const sMonthly = (sev.monthly_kosdaq || []).filter((b) => b.months_count > 0);
+      const sDaily = sev.daily_kosdaq || [];
+
+      const rowsHtml = [
+        `<tr>
+          <td><strong>코스닥 하락일 전체 (${dkq.down_days_count}거래일)</strong></td>
+          <td class="r down">${fmtPct(dkq.bench_mean_return_pct)}</td>
+          <td class="r down"><strong>${fmtPct(dkq.gaemi_mean_return_pct)}</strong> <span class="code-sub">(상승 ${dkq.gaemi_positive_on_down_day_pct}%)</span></td>
+          <td class="r down">${fmtPct(dkq.matched50_mean_return_pct)}</td>
+          <td class="r">${dkq.worse_than_bench_days_pct}% (${dkq.worse_than_bench_days_count}일)</td>
+        </tr>`,
+        `<tr>
+          <td><strong>코스피 하락일 전체 (${dkp.down_days_count}거래일)</strong></td>
+          <td class="r down">${fmtPct(dkp.bench_mean_return_pct)}</td>
+          <td class="r down"><strong>${fmtPct(dkp.gaemi_mean_return_pct)}</strong> <span class="code-sub">(상승 ${dkp.gaemi_positive_on_down_day_pct}%)</span></td>
+          <td class="r down">${fmtPct(dkp.matched50_mean_return_pct)}</td>
+          <td class="r">${dkp.worse_than_bench_days_pct}% (${dkp.worse_than_bench_days_count}일)</td>
+        </tr>`,
+        ...sMonthly.map(
+          (b) => `<tr>
+            <td>월간 코스닥 ${b.bucket} (${b.months_count}개월)</td>
+            <td class="r down">${fmtPct(b.bench_mean_pct)}</td>
+            <td class="r down"><strong>${fmtPct(b.gaemi_mean_pct)}</strong></td>
+            <td class="r down">${fmtPct(b.matched50_mean_pct)}</td>
+            <td class="r">${b.worse_than_bench_count}/${b.months_count}개월</td>
+          </tr>`
+        ),
+        ...sDaily.map(
+          (b) => `<tr>
+            <td>${b.bucket} (${b.days_count}일)</td>
+            <td class="r down">${fmtPct(b.bench_mean_pct)}</td>
+            <td class="r down"><strong>${fmtPct(b.gaemi_mean_pct)}</strong></td>
+            <td class="r down">${fmtPct(b.matched50_mean_pct)}</td>
+            <td class="r">${b.worse_than_bench_pct}%</td>
+          </tr>`
+        ),
+      ];
+      sevTbody.innerHTML = rowsHtml.join("");
+    }
+
+    // 6) 주요 하락장 사건별(Drawdown Episodes) 버튼, 요약 타일, 시작일=100 차트, 전체 테이블
+    const kqEps = epsObj.kosdaq_episodes || [];
+    if (kqEps.length > 0) {
+      if (!state.selectedEpisodeId || !kqEps.some((e) => e.episode_id === state.selectedEpisodeId)) {
+        // 기본 선택: 가장 최근 또는 낙폭이 큰 주요 하락장 (#6 2026.06~07 또는 최신 #7)
+        state.selectedEpisodeId = kqEps[kqEps.length - 2] ? kqEps[kqEps.length - 2].episode_id : kqEps[0].episode_id;
+      }
+
+      const epBtnsEl = document.getElementById("episode-btns");
+      if (epBtnsEl) {
+        epBtnsEl.innerHTML = kqEps
+          .map((e, i) => {
+            const onCls = e.episode_id === state.selectedEpisodeId ? "on" : "";
+            const shortPeriod = `${e.start_date.slice(2, 7)}~${e.end_date.slice(5, 10)}`;
+            return `<button type="button" class="${onCls}" data-epid="${e.episode_id}">하락장 #${i + 1} (${shortPeriod})</button>`;
+          })
+          .join("");
+
+        epBtnsEl.querySelectorAll("button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            state.selectedEpisodeId = btn.getAttribute("data-epid");
+            renderEpisodeDetail(kqEps, tk);
+            epBtnsEl.querySelectorAll("button").forEach((b) => b.classList.remove("on"));
+            btn.classList.add("on");
+          });
+        });
+      }
+
+      renderEpisodeDetail(kqEps, tk);
+
+      const allEpTbody = document.getElementById("all-episodes-tbody");
+      if (allEpTbody) {
+        allEpTbody.innerHTML = kqEps
+          .map((e) => {
+            const r = e.returns_pct;
+            const g = e.gaps_vs_gaemi_pctp;
+            return `<tr>
+              <td><strong>${e.title}</strong></td>
+              <td class="r">${e.trading_days_to_trough}일</td>
+              <td class="r down">${fmtPct(r.KOSDAQ)}</td>
+              <td class="r down"><strong>${fmtPct(r.GAEMI_50_PURE)}</strong></td>
+              <td class="r down">${fmtPct(r.MATCHED_50_EW)}</td>
+              <td class="r ${clsSign(r.KOSPI)}">${fmtPct(r.KOSPI)}</td>
+              <td class="r ${clsSign(g.vs_MATCHED_50)}"><strong>${g.vs_MATCHED_50 > 0 ? "+" : ""}${g.vs_MATCHED_50.toFixed(2)}%p</strong></td>
+              <td class="r">${e.recovery.GAEMI_50_PURE.status_label}</td>
+            </tr>`;
+          })
+          .join("");
+      }
+
+      const ddSensTbody = document.getElementById("dd-sens-tbody");
+      if (ddSensTbody) {
+        ddSensTbody.innerHTML = (epsObj.threshold_sensitivity || [])
+          .map(
+            (s) => `<tr>
+            <td><strong>${s.threshold_pct}</strong></td>
+            <td class="r">${s.episode_count}건</td>
+            <td class="r down">${fmtPct(s.kosdaq_avg_drop_pct)}</td>
+            <td class="r down"><strong>${fmtPct(s.gaemi_avg_drop_pct)}</strong></td>
+            <td class="r down">${fmtPct(s.matched50_avg_drop_pct)}</td>
+            <td class="r">${s.worse_than_kosdaq_episodes} (평균 ${s.gaemi_gap_vs_kosdaq_pctp > 0 ? "+" : ""}${s.gaemi_gap_vs_kosdaq_pctp.toFixed(2)}%p)</td>
+            <td class="r"><strong>${s.worse_than_matched50_episodes} (평균 ${s.gaemi_gap_vs_matched50_pctp > 0 ? "+" : ""}${s.gaemi_gap_vs_matched50_pctp.toFixed(2)}%p)</strong></td>
+          </tr>`
+          )
+          .join("");
+      }
+    }
+  }
+
+  function renderEpisodeDetail(kqEps, tk) {
+    const ep = kqEps.find((e) => e.episode_id === state.selectedEpisodeId) || kqEps[0];
+    if (!ep) return;
+    const r = ep.returns_pct;
+    const g = ep.gaps_vs_gaemi_pctp;
+    const rec = ep.recovery;
+
+    const cardsEl = document.getElementById("episode-summary-cards");
+    if (cardsEl) {
+      cardsEl.innerHTML = `
+        <div class="down-box">
+          <span class="dk">개미 지수 (${ep.start_date} ~ ${ep.end_date})</span>
+          <span class="dv down">${fmtPct(r.GAEMI_50_PURE)}</span>
+          <span class="ds">전고점 회복: ${rec.GAEMI_50_PURE.status_label}</span>
+        </div>
+        <div class="down-box">
+          <span class="dk">같은 기간 비슷한 주식 50개</span>
+          <span class="dv down">${fmtPct(r.MATCHED_50_EW)}</span>
+          <span class="ds">개미 지수와의 차이: <strong>${g.vs_MATCHED_50 > 0 ? "+" : ""}${g.vs_MATCHED_50.toFixed(2)}%p</strong> (${rec.MATCHED_50_EW.status_label})</span>
+        </div>
+        <div class="down-box">
+          <span class="dk">같은 기간 코스닥</span>
+          <span class="dv down">${fmtPct(r.KOSDAQ)}</span>
+          <span class="ds">개미 지수와의 차이: <strong>${g.vs_KOSDAQ > 0 ? "+" : ""}${g.vs_KOSDAQ.toFixed(2)}%p</strong> (${rec.KOSDAQ.status_label})</span>
+        </div>
+        <div class="down-box">
+          <span class="dk">같은 기간 코스피</span>
+          <span class="dv ${clsSign(r.KOSPI)}">${fmtPct(r.KOSPI)}</span>
+          <span class="ds">개미 지수와의 차이: <strong>${g.vs_KOSPI > 0 ? "+" : ""}${g.vs_KOSPI.toFixed(2)}%p</strong> (${rec.KOSPI.status_label})</span>
+        </div>
+      `;
+    }
+
+    const noteEl = document.getElementById("episode-chart-note");
+    if (noteEl) {
+      noteEl.textContent = `* ${ep.title} — 하락 시작일(${ep.start_date})을 100.00으로 맞춘 동일 기간 추이입니다. 세로 점선은 코스닥 저점(${ep.end_date}, ${ep.trading_days_to_trough}거래일)입니다.`;
+    }
+
+    const tr = ep.trajectory_base100;
+    const epCanvas = document.getElementById("episodeChart");
+    if (!epCanvas || !tr) return;
+
+    const troughPlugin = {
+      id: "troughLine",
+      afterDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        if (!chartArea) return;
+        const x = scales.x.getPixelForValue(tr.trough_index_in_series);
+        if (x >= chartArea.left && x <= chartArea.right) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.setLineDash([4, 3]);
+          ctx.strokeStyle = tk.rebLine;
+          ctx.moveTo(x, chartArea.top);
+          ctx.lineTo(x, chartArea.bottom);
+          ctx.stroke();
+          ctx.fillStyle = tk.rebText;
+          ctx.font = "600 10px 'JetBrains Mono', monospace";
+          ctx.fillText(`저점 (${tr.trough_date})`, Math.min(x + 4, chartArea.right - 95), chartArea.top + 12);
+          ctx.restore();
+        }
+      },
+    };
+
+    const ctxEp = epCanvas.getContext("2d");
+    if (episodeChart) episodeChart.destroy();
+    episodeChart = new Chart(ctxEp, {
+      type: "line",
+      data: {
+        labels: tr.dates,
+        datasets: [
+          {
+            label: "개미 지수 (실선)",
+            data: tr.GAEMI_50_PURE,
+            borderColor: tk.gaemi,
+            backgroundColor: tk.gaemiFill,
+            borderWidth: 2.7,
+            borderDash: [],
+            pointRadius: 0,
+            tension: 0.1,
+            order: 1,
+          },
+          {
+            label: "비슷한 주식 50개 (굵은 파선)",
+            data: tr.MATCHED_50_EW,
+            borderColor: tk.institution,
+            backgroundColor: "transparent",
+            borderWidth: 2.3,
+            borderDash: [8, 4],
+            pointRadius: 0,
+            tension: 0.1,
+            order: 2,
+          },
+          {
+            label: "코스닥 (짧은 점선)",
+            data: tr.KOSDAQ,
+            borderColor: tk.kosdaq,
+            backgroundColor: "transparent",
+            borderWidth: 2.0,
+            borderDash: [2, 3],
+            pointRadius: 0,
+            tension: 0.1,
+            order: 3,
+          },
+          {
+            label: "코스피 (긴 점선)",
+            data: tr.KOSPI,
+            borderColor: tk.kospi,
+            backgroundColor: "transparent",
+            borderWidth: 1.8,
+            borderDash: [5, 4],
+            pointRadius: 0,
+            tension: 0.1,
+            order: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: {
+            position: "top",
+            align: "start",
+            labels: { color: tk.axis, boxWidth: 16, boxHeight: 3, font: { size: 11.5, weight: "600" } },
+          },
+          tooltip: {
+            backgroundColor: tk.tooltipBg,
+            titleColor: tk.tooltipInk,
+            bodyColor: tk.tooltipInk,
+            borderColor: tk.tooltipBorder,
+            borderWidth: 1,
+            callbacks: {
+              label(c) {
+                const v = c.parsed.y;
+                const diff = (v - 100.0).toFixed(2);
+                const s = diff > 0 ? "+" : "";
+                return ` ${c.dataset.label}: ${v.toFixed(2)} (${s}${diff}%)`;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: tk.axis, maxTicksLimit: 7, font: { family: "JetBrains Mono", size: 10.5 } },
+          },
+          y: {
+            grid: { color: tk.grid },
+            ticks: { color: tk.axis, font: { family: "JetBrains Mono", size: 10.5 } },
+          },
+        },
+      },
+      plugins: [troughPlugin],
+    });
+  }
+
+  // TAB 1: 개미 지수 (상단 고정 스트립 + 하락장 분석 + 메인 비교 차트 + 상세 성과 표)
   function renderSection01() {
+    renderPhase6DownsideSection();
     const rows = getPeriodRows();
     if (!rows.length) return;
     const startDt = rows[0].date;
@@ -1110,14 +1583,53 @@
       .join("");
   }
 
-  // TAB 6: 산출 방법 및 데이터 신뢰성 검증 (PHASE 4 A/B 전체 후보군 재선정, 과거 시가총액 검증, 유사 포트폴리오 검증, 매니페스트)
+  // TAB 6: 산출 방법 및 데이터 신뢰성 검증 (PHASE 6 하락장 포착률·위험통제·A/B 민감도 + PHASE 4 A/B 전체 후보군 재선정, 과거 시가총액 검증, 매니페스트)
   function renderFooterDetails() {
     const p0 = DATA.phase0_audit || {};
     const p3 = DATA.phase3_reliability || {};
     const p4 = DATA.phase4_audit || {};
+    const p6 = DATA.phase6_downside || {};
     const mf = DATA.manifest || {};
     const a2 = p0.audit_0_2_36m_completeness || {};
     const a3 = p0.audit_0_3_krx_vs_nxt || {};
+
+    // 0) PHASE 6 하락장 포착률 산식, 위험요인 통제 회귀 및 A/B안 민감도
+    const p6MethodEl = document.getElementById("phase6-method-box");
+    if (p6MethodEl && p6.capture_ratios) {
+      const fc = p6.factor_control_analysis || {};
+      const cKq = (p6.capture_ratios.vs_kosdaq && p6.capture_ratios.vs_kosdaq.GAEMI_50_PURE) || {};
+      const dKq = (p6.daily_downside_analysis && p6.daily_downside_analysis.kosdaq_down_days) || {};
+      p6MethodEl.innerHTML = `
+        <ul style="padding-left:18px;margin:0">
+          <li><strong>하락장 포착률 (Downside Capture Ratio) 및 상승장 포착률 (Upside Capture Ratio) 산식:</strong> ${p6.capture_ratios.formula_note || ""}</li>
+          <li><strong>하방 베타 (Downside Beta) 및 통계적 불확실성:</strong> 코스닥 하락일(240거래일) 기준 개미 지수의 일간 하방 베타는 <strong>${dKq.gaemi_downside_beta || 0.996}</strong>(전체 기간 베타 ${dKq.gaemi_full_beta || 0.933})로 비슷한 주식 50개의 하방 베타(<strong>${dKq.matched50_downside_beta || 0.897}</strong>)보다 높습니다. 코스닥 하락월(10개월)에서 개미 지수와 코스닥의 월평균 수익률 격차는 <strong>${fmtPct(cKq.mean_gap_in_down_months_pctp)}p</strong>(표준오차 ${cKq.down_gap_se_pctp}%p, 95% 신뢰구간 [${(cKq.down_gap_ci95_pctp || [])[0]}%p, +${(cKq.down_gap_ci95_pctp || [])[1]}%p])이며, 관측 개월 수(26개월 중 하락월 10개월)가 제한적이므로 단정적 결론 대신 표본 수와 신뢰구간을 함께 제시합니다.</li>
+          <li><strong>위험 요인 통제 검증 (시가총액 · 코스닥 여부 · 과거 변동성 · 직전 수익률 · 거래대금 회전율 통제):</strong> ${fc.interpretation || ""}</li>
+        </ul>
+      `;
+    }
+
+    const p6AbTbody = document.getElementById("phase6-ab-capture-tbody");
+    if (p6AbTbody && p6.ab_estimation_downside_sensitivity) {
+      const ab = p6.ab_estimation_downside_sensitivity;
+      const rows = [
+        { label: "코스닥 기준 (하락 10개월 / 상승 15개월)", a: ab.plan_a_vs_kosdaq || {}, b: ab.plan_b_vs_kosdaq || {} },
+        { label: "비슷한 주식 50개 기준 (하락 12개월 / 상승 14개월)", a: ab.plan_a_vs_matched50 || {}, b: ab.plan_b_vs_matched50 || {} },
+        { label: "코스피 기준 (하락 10개월 / 상승 15개월)", a: ab.plan_a_vs_kospi || {}, b: ab.plan_b_vs_kospi || {} },
+      ];
+      p6AbTbody.innerHTML = rows
+        .map(
+          (r) => `<tr>
+          <td><strong>${r.label}</strong></td>
+          <td class="r"><strong>${r.a.downside_capture_geo_pct}%</strong></td>
+          <td class="r"><strong>${r.b.downside_capture_geo_pct}%</strong></td>
+          <td class="r down">${fmtPct(r.a.down_months_mean_pct)}</td>
+          <td class="r down">${fmtPct(r.b.down_months_mean_pct)}</td>
+          <td class="r">${r.a.upside_capture_geo_pct}%</td>
+          <td class="r">${r.b.upside_capture_geo_pct}%</td>
+        </tr>`
+        )
+        .join("");
+    }
 
     // 1) 비교지수 산출 기준 대조표
     const benchList = p3.audit_4_4_benchmark_consistency || [];

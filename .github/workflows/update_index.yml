@@ -61,13 +61,12 @@ jobs:
         run: |
           python scripts/update_ledger.py --mode ${{ steps.mode_step.outputs.mode }}
 
-      - name: Step 7. Run Phase 3 & Phase 4 reliability and candidate selection audits
+      - name: Step 7~9. Calculate GAEMI 50 PURE, benchmarks, downside vulnerability, and generate web bundles
         run: |
+          python scripts/build_phase2_analytics.py
           python scripts/audit_phase3_reliability.py
           python scripts/audit_phase4_deep.py
-
-      - name: Step 8~9. Calculate GAEMI 50 PURE, all benchmarks, and generate web bundles
-        run: |
+          python scripts/build_phase6_downside.py
           python scripts/build_phase2_analytics.py
 
       - name: Step 10~11. Verify pipeline integrity, JSON strict syntax, and version alignment

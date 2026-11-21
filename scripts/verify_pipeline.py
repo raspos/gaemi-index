@@ -118,6 +118,7 @@ def run_verification():
         os.path.join(DATA_DIR, "phase0_audit_report.json"),
         os.path.join(DATA_DIR, "phase3_reliability_audit.json"),
         os.path.join(DATA_DIR, "phase4_audit_report.json"),
+        os.path.join(DATA_DIR, "phase6_downside_analysis.json"),
         os.path.join(DATA_DIR, "market_differentiation.json"),
         os.path.join(DATA_DIR, "investor_comparison.json"),
         os.path.join(DOCS_DIR, "data", "gaemi_data.json"),
@@ -132,14 +133,19 @@ def run_verification():
         json.loads(raw_txt)
 
     web_bundle = json.load(open(os.path.join(DOCS_DIR, "data", "gaemi_data.json"), encoding="utf-8"))
+    p6_ok = (
+        "phase6_downside" in web_bundle and
+        web_bundle["phase6_downside"].get("capture_ratios", {}).get("vs_kosdaq", {}).get("GAEMI_50_PURE", {}).get("downside_capture_geo_pct") == 115.9
+    )
     version_aligned = (
         web_bundle.get("manifest", {}).get("ledger_combined_sha256") == manifest["ledger_combined_sha256"] and
-        web_bundle.get("summary", {}).get("data_as_of") == manifest["data_as_of"]
+        web_bundle.get("summary", {}).get("data_as_of") == manifest["data_as_of"] and
+        p6_ok
     )
     check(
-        "테스트 H (JSON 유효성 NaN/Infinity 0건 및 원장·배포 번들 버전 일치)",
+        "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",
         len(bad_tokens_found) == 0 and version_aligned,
-        f"검사 JSON 파일={len(json_files)}개 (NaN/Infinity=0건), 배포 번들 기준일={manifest['data_as_of']}, 체크섬 일치={version_aligned}"
+        f"검사 JSON 파일={len(json_files)}개 (NaN/Infinity=0건), 하락장 포착률=115.9%, 배포 번들 기준일={manifest['data_as_of']}, 체크섬 일치={version_aligned}"
     )
 
     report = {

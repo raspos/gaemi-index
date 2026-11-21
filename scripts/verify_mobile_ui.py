@@ -169,7 +169,8 @@ def run_ui_verification():
                 aux_chart_ok = (dataset_cnt == 5)
                 page.uncheck("#chk-kqew")
 
-                # 라이트·다크 테마별 스크린샷 저장
+                # 라이트·다크 테마별 스크린샷 저장 (스크롤 최상단)
+                page.evaluate("() => window.scrollTo(0, 0)")
                 shot_path = os.path.join(ARTIFACT_DIR, f"gaemi_phase3_{vp['name']}_{theme_mode}.png")
                 page.screenshot(path=shot_path, full_page=False)
 
@@ -210,8 +211,14 @@ def run_ui_verification():
                         const logo = document.querySelector('img.logo').getBoundingClientRect();
                         let chartBox = { width: 0, height: 0 };
                         let chartKospiColor = '';
+                        let capChartReady = true;
+                        let epChartReady = true;
                         if (activeId === 'sec-01') {
                             chartBox = document.getElementById('mainChart').getBoundingClientRect();
+                            const capBox = document.getElementById('captureCompareChart').getBoundingClientRect();
+                            const epBox = document.getElementById('episodeChart').getBoundingClientRect();
+                            capChartReady = capBox.width > 50 && capBox.height > 50;
+                            epChartReady = epBox.width > 50 && epBox.height > 50;
                             const c = Chart.getChart('mainChart');
                             chartKospiColor = c ? c.data.datasets[2].borderColor : '';
                         }
@@ -224,7 +231,7 @@ def run_ui_verification():
                             winWidth: winW,
                             overflow: docW > winW,
                             logoReady: logo.width >= 20 && logo.height >= 20,
-                            chartReady: chartBox.width > 50 && chartBox.height > 50,
+                            chartReady: chartBox.width > 50 && chartBox.height > 50 && capChartReady && epChartReady,
                             chartKospiColor
                         };
                     }""", tid)
