@@ -7,6 +7,7 @@
   let invChart = null;
 
   const state = {
+    activeTab: "sec-01",
     period: "ALL", // ALL | 1Y | 6M | 3M | YTD
     showAbs: false,
     showKqEw: false,
@@ -18,6 +19,38 @@
     divergentMode: "IND_BUY", // IND_BUY | OTH_BUY
     selectedQuarter: null,
   };
+
+  function activateTab(tabId, updateHash = true) {
+    const validTabs = ["sec-01", "sec-02", "sec-03", "sec-04", "sec-05", "sec-footer"];
+    const target = validTabs.includes(tabId) ? tabId : "sec-01";
+    state.activeTab = target;
+
+    document.querySelectorAll('#tabs button[role="tab"]').forEach((btn) => {
+      const isSel = btn.getAttribute("data-tab") === target;
+      btn.setAttribute("aria-selected", isSel ? "true" : "false");
+    });
+
+    document.querySelectorAll(".tab-panel").forEach((panel) => {
+      if (panel.id === target) {
+        panel.removeAttribute("hidden");
+      } else {
+        panel.setAttribute("hidden", "");
+      }
+    });
+
+    if (updateHash) {
+      history.replaceState(null, "", `#${target}`);
+    }
+
+    // 숨겨져 있던 캔버스가 표시될 때 Chart.js 리사이즈 및 재렌더링
+    if (target === "sec-01") {
+      renderSection01();
+    } else if (target === "sec-02") {
+      renderStockDetailPanel();
+    } else if (target === "sec-04") {
+      renderSection04();
+    }
+  }
 
   function fmtNum(n, d = 2) {
     if (n === null || n === undefined || isNaN(n)) return "-";
@@ -986,6 +1019,19 @@
   }
 
   function bindEvents() {
+    // 상단 카테고리 탭 전환 (해당 카테고리만 화면에 표시)
+    document.querySelectorAll('#tabs button[role="tab"]').forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetTab = btn.getAttribute("data-tab");
+        activateTab(targetTab, true);
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      const h = (window.location.hash || "").replace("#", "");
+      if (h) activateTab(h, false);
+    });
+
     // 기간 선택 버튼
     document.querySelectorAll("#period-btns button").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -1072,7 +1118,7 @@
       }, 1500);
     });
 
-    // 전체 테이블 행 클릭 시 종목 상세로 연결
+    // 전체 테이블 행 클릭 시 종목 상세로 연결 (다른 탭에서 클릭 시 02 탭으로 자동 전환)
     document.body.addEventListener("click", (e) => {
       const tr = e.target.closest("tr.clickable");
       if (!tr) return;
@@ -1080,11 +1126,11 @@
       if (code && DATA.stock_trajectories[code]) {
         state.selectedStock = code;
         document.getElementById("dt-stock-select").value = code;
+        if (state.activeTab !== "sec-02") {
+          activateTab("sec-02", true);
+        }
         renderSection02();
         renderStockDetailPanel();
-        if (!tr.closest("#pure50-table")) {
-          document.getElementById("stock-detail-panel").scrollIntoView({ behavior: "smooth" });
-        }
       }
     });
   }
@@ -1101,6 +1147,8 @@
     renderSection05();
     renderFooterDetails();
     bindEvents();
+    const initHash = (window.location.hash || "").replace("#", "");
+    activateTab(initHash || "sec-01", false);
   }
 
   document.addEventListener("DOMContentLoaded", () => {

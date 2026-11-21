@@ -37,71 +37,77 @@
     </div>
   </header>
 
-  <!-- 섹션 바로가기 탭 -->
-  <nav class="tabs" aria-label="섹션 이동">
-    <a href="#sec-01">01 개미 지수</a>
-    <a href="#sec-02">02 개미는 무엇을 샀나</a>
-    <a href="#sec-03">03 개미는 시장과 얼마나 다른가</a>
-    <a href="#sec-04">04 누가 무엇을 샀나</a>
-    <a href="#sec-05">05 개미의 선택은 바뀌었나</a>
-    <a href="#sec-footer">산출 방법</a>
+  <!-- 상단 고정 스코어 스트립 (개미 지수 vs 코스피 vs 코스닥) -->
+  <section class="top-strip">
+    <div class="score-strip">
+      <!-- 개미 지수 -->
+      <div class="tile hero">
+        <div class="tile-top">
+          <span class="tile-k">개미 지수 (GAEMI 50 PURE)</span>
+          <span class="tile-tag" id="period-label-pure">2024.09.30 = 1,000</span>
+        </div>
+        <div class="tile-main">
+          <span class="tile-v" id="val-pure">-</span>
+          <span class="tile-chg" id="chg-pure">-</span>
+        </div>
+        <div class="tile-foot">
+          <span>선택 기간 누적 수익률</span>
+          <strong id="cum-pure" style="font-family:var(--font-mono)">-</strong>
+        </div>
+      </div>
+
+      <!-- 코스피 -->
+      <div class="tile">
+        <div class="tile-top">
+          <span class="tile-k">코스피 (1,000 환산)</span>
+          <span class="tile-tag" id="raw-kospi">원지수 -</span>
+        </div>
+        <div class="tile-main">
+          <span class="tile-v" id="val-kospi">-</span>
+          <span class="tile-chg" id="cum-kospi">-</span>
+        </div>
+        <div class="tile-foot">
+          <span>개미 지수와의 수익률 격차</span>
+          <strong id="gap-kospi" style="font-family:var(--font-mono)">-</strong>
+        </div>
+      </div>
+
+      <!-- 코스닥 -->
+      <div class="tile">
+        <div class="tile-top">
+          <span class="tile-k">코스닥 (1,000 환산)</span>
+          <span class="tile-tag" id="raw-kosdaq">원지수 -</span>
+        </div>
+        <div class="tile-main">
+          <span class="tile-v" id="val-kosdaq">-</span>
+          <span class="tile-chg" id="cum-kosdaq">-</span>
+        </div>
+        <div class="tile-foot">
+          <span>개미 지수와의 수익률 격차</span>
+          <strong id="gap-kosdaq" style="font-family:var(--font-mono)">-</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 카테고리 탭 (선택한 카테고리 패널만 표시) -->
+  <nav class="tabs" role="tablist" id="tabs" aria-label="카테고리 선택">
+    <span class="area" aria-hidden="true">GAEMI WATCH</span>
+    <button type="button" role="tab" data-tab="sec-01" aria-selected="true">01 개미 지수</button>
+    <button type="button" role="tab" data-tab="sec-02" aria-selected="false">02 개미는 무엇을 샀나</button>
+    <span class="area" aria-hidden="true">GAEMI ANALYSIS</span>
+    <button type="button" role="tab" data-tab="sec-03" aria-selected="false">03 개미는 시장과 얼마나 다른가</button>
+    <button type="button" role="tab" data-tab="sec-04" aria-selected="false">04 누가 무엇을 샀나</button>
+    <button type="button" role="tab" data-tab="sec-05" aria-selected="false">05 개미의 선택은 바뀌었나</button>
+    <span class="area" aria-hidden="true">GAEMI LAB</span>
+    <button type="button" role="tab" data-tab="sec-footer" aria-selected="false">산출 방법</button>
   </nav>
 
   <main class="wrap">
-    <!-- PHASE 6: 현재 데이터가 말해주는 3가지 사실 -->
-    <section class="facts-bar" id="facts-bar" aria-label="데이터 요약"></section>
-
     <!-- SECTION 01 — 개미 지수 -->
-    <section class="sec" id="sec-01">
-      <div class="score-strip">
-        <!-- 개미 지수 -->
-        <div class="tile hero">
-          <div class="tile-top">
-            <span class="tile-k">개미 지수 (GAEMI 50 PURE)</span>
-            <span class="tile-tag" id="period-label-pure">2024.09.30 = 1,000</span>
-          </div>
-          <div class="tile-main">
-            <span class="tile-v" id="val-pure">-</span>
-            <span class="tile-chg" id="chg-pure">-</span>
-          </div>
-          <div class="tile-foot">
-            <span>선택 기간 누적 수익률</span>
-            <strong id="cum-pure" style="font-family:var(--font-mono)">-</strong>
-          </div>
-        </div>
-
-        <!-- 코스피 -->
-        <div class="tile">
-          <div class="tile-top">
-            <span class="tile-k">코스피 (1,000 환산)</span>
-            <span class="tile-tag" id="raw-kospi">원지수 -</span>
-          </div>
-          <div class="tile-main">
-            <span class="tile-v" id="val-kospi">-</span>
-            <span class="tile-chg" id="cum-kospi">-</span>
-          </div>
-          <div class="tile-foot">
-            <span>개미 지수와의 수익률 격차</span>
-            <strong id="gap-kospi" style="font-family:var(--font-mono)">-</strong>
-          </div>
-        </div>
-
-        <!-- 코스닥 -->
-        <div class="tile">
-          <div class="tile-top">
-            <span class="tile-k">코스닥 (1,000 환산)</span>
-            <span class="tile-tag" id="raw-kosdaq">원지수 -</span>
-          </div>
-          <div class="tile-main">
-            <span class="tile-v" id="val-kosdaq">-</span>
-            <span class="tile-chg" id="cum-kosdaq">-</span>
-          </div>
-          <div class="tile-foot">
-            <span>개미 지수와의 수익률 격차</span>
-            <strong id="gap-kosdaq" style="font-family:var(--font-mono)">-</strong>
-          </div>
-        </div>
-      </div>
+    <section class="sec tab-panel" id="sec-01" role="tabpanel">
+      <!-- PHASE 6: 현재 데이터가 말해주는 3가지 사실 -->
+      <div class="facts-bar" id="facts-bar" aria-label="데이터 요약"></div>
 
       <!-- 비교 차트 -->
       <div class="card">
@@ -157,7 +163,7 @@
     </section>
 
     <!-- SECTION 02 — 개미는 무엇을 샀나 -->
-    <section class="sec" id="sec-02">
+    <section class="sec tab-panel" id="sec-02" role="tabpanel" hidden>
       <div class="sec-head">
         <div>
           <span class="sec-tag">SECTION 02</span>
@@ -285,7 +291,7 @@
     </section>
 
     <!-- SECTION 03 — 개미는 시장과 얼마나 다른가 -->
-    <section class="sec" id="sec-03">
+    <section class="sec tab-panel" id="sec-03" role="tabpanel" hidden>
       <div class="sec-head">
         <div>
           <span class="sec-tag">SECTION 03</span>
@@ -406,7 +412,7 @@
     </section>
 
     <!-- SECTION 04 — 누가 무엇을 샀나 (개인·외국인·기관 비교) -->
-    <section class="sec" id="sec-04">
+    <section class="sec tab-panel" id="sec-04" role="tabpanel" hidden>
       <div class="sec-head">
         <div>
           <span class="sec-tag">SECTION 04</span>
@@ -556,7 +562,7 @@
     </section>
 
     <!-- SECTION 05 — 개미의 선택은 바뀌었나 -->
-    <section class="sec" id="sec-05">
+    <section class="sec tab-panel" id="sec-05" role="tabpanel" hidden>
       <div class="sec-head">
         <div>
           <span class="sec-tag">SECTION 05</span>
@@ -617,8 +623,8 @@
       </div>
     </section>
 
-    <!-- FOOTER — 지수 산출 방법 및 상세 검증 자료 (접기) -->
-    <footer class="foot" id="sec-footer">
+    <!-- SECTION 06 — 지수 산출 방법 및 상세 검증 자료 -->
+    <section class="sec tab-panel" id="sec-footer" role="tabpanel" hidden>
       <div class="sec-head" style="margin-bottom:10px">
         <div>
           <span class="sec-tag">METHODOLOGY &amp; DATA</span>
@@ -715,10 +721,10 @@
           </table>
         </div>
       </details>
+    </section>
 
-      <p style="margin-top:16px;color:var(--ink-3);font-size:12px">
-        개미 지수 (GAEMI 50 PURE) · DataBrew WATCH SERIES · GitHub: <a href="https://github.com/raspos/gaemi-index" rel="noopener">raspos/gaemi-index</a>
-      </p>
+    <footer class="site-credit">
+      개미 지수 (GAEMI 50 PURE) · DataBrew WATCH SERIES · GitHub: <a href="https://github.com/raspos/gaemi-index" rel="noopener">raspos/gaemi-index</a>
     </footer>
   </main>
 

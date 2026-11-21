@@ -222,32 +222,85 @@ button.on {
   border-radius: 6px;
 }
 
-/* Section Navigation Tabs */
+/* Top Fixed Score Strip */
+.top-strip {
+  max-width: 1180px;
+  margin: 4px auto 0;
+  padding: 0 16px;
+}
+
+/* Section Navigation Tabs (Single Active Tab Panel) */
 .tabs {
   max-width: 1180px;
-  margin: 0 auto;
-  padding: 6px 16px 10px;
+  margin: 4px auto 0;
+  padding: 0 16px;
   display: flex;
-  gap: 6px;
+  gap: 2px;
+  align-items: center;
   overflow-x: auto;
   border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 
-.tabs a {
-  text-decoration: none;
-  color: var(--ink-2);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 5px 11px;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  white-space: nowrap;
+.tabs::-webkit-scrollbar {
+  display: none;
 }
 
-.tabs a:hover {
-  background: var(--surface-2);
+.tabs .area {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  padding: 0 6px 0 10px;
+  border-left: 1px solid var(--line);
+  margin-left: 4px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tabs .area:first-child {
+  border-left: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: 9px 11px;
+  white-space: nowrap;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tabs button:hover {
   color: var(--ink);
+  background: none;
+}
+
+.tabs button[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+  font-weight: 700;
+}
+
+.tab-panel[hidden] {
+  display: none !important;
+}
+
+.site-credit {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-3);
+  font-size: 12px;
 }
 
 /* Main Container */
@@ -733,7 +786,7 @@ table.tbl tbody tr.active-row {
 }
 
 @media (max-width: 600px) {
-  .wrap, .svc, .top, .tabs {
+  .wrap, .svc, .top, .top-strip, .tabs {
     padding-left: 12px;
     padding-right: 12px;
   }
@@ -759,7 +812,7 @@ table.tbl tbody tr.active-row {
 }
 
 @media (max-width: 359px) {
-  .wrap, .svc, .top, .tabs {
+  .wrap, .svc, .top, .top-strip, .tabs {
     padding-left: 8px;
     padding-right: 8px;
   }
