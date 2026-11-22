@@ -131,8 +131,11 @@
 
   // PHASE 4 Section 6: 현재 활성화된 탭의 차트만 즉시 렌더링(다른 탭으로 이동할 때 activateTab에서 렌더링)
   function refreshActiveChart() {
-    if (!DATA) return;
-    if (state.activeTab === "sec-01") {
+    if (state.activeTab === "tab-conc") {
+      renderConcentrationChart();
+    } else if (!DATA) {
+      return;
+    } else if (state.activeTab === "tab-scorecard" || state.activeTab === "sec-01") {
       renderSection01();
     } else if (state.activeTab === "sec-02") {
       renderStockDetailPanel();
@@ -142,8 +145,8 @@
   }
 
   function activateTab(tabId, updateHash = true) {
-    const validTabs = ["sec-01", "sec-02", "sec-03", "sec-04", "sec-05", "sec-footer"];
-    const target = validTabs.includes(tabId) ? tabId : "sec-01";
+    const validTabs = ["tab-conc", "tab-bought", "tab-movement", "tab-scorecard", "tab-method", "sec-01", "sec-02", "sec-03", "sec-04", "sec-05", "sec-footer"];
+    const target = validTabs.includes(tabId) ? tabId : "tab-conc";
     state.activeTab = target;
 
     document.querySelectorAll('#tabs button[role="tab"]').forEach((btn) => {
@@ -163,12 +166,17 @@
       history.replaceState(null, "", `#${target}`);
     }
 
-    if (target === "sec-01") {
+    if (target === "tab-conc") {
+      renderConcentrationHero();
+      renderConcentrationChart();
+    } else if (target === "tab-bought") {
+      renderBoughtTab();
+    } else if (target === "tab-movement") {
+      renderMovementTab();
+    } else if (target === "tab-scorecard") {
       renderSection01();
-    } else if (target === "sec-02") {
-      renderStockDetailPanel();
-    } else if (target === "sec-04") {
-      renderSection04();
+    } else if (target === "tab-method") {
+      // methodology
     }
   }
 
@@ -959,11 +967,18 @@
     const endDt = rows[rows.length - 1].date;
     const baseDt = DATA.summary.base_date || "2024-09-30";
 
-    document.getElementById("header-asof").textContent =
-      `기준일 ${baseDt}=1,000 · 최신 ${endDt}(잠정)`;
-    document.getElementById("period-label-pure").textContent = `시작일 ${startDt} = 1,000`;
-    document.getElementById("chart-reindexed-note").textContent =
-      `* 선택한 기간 첫 거래일(${startDt})을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다 (${startDt} ~ ${endDt}).`;
+    const setTxt = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    };
+    const setCls = (id, cls) => {
+      const el = document.getElementById(id);
+      if (el) el.className = cls;
+    };
+
+    setTxt("header-asof", `기준일 ${baseDt}=1,000 · 최신 ${endDt}(잠정)`);
+    setTxt("period-label-pure", `시작일 ${startDt} = 1,000`);
+    setTxt("chart-reindexed-note", `* 선택한 기간 첫 거래일(${startDt})을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다 (${startDt} ~ ${endDt}).`);
 
     const is100 = state.selectedIndex === "100" && rows[0].GAEMI_100 !== undefined;
     document.querySelectorAll("#index-switch button").forEach((b) => {
@@ -996,50 +1011,42 @@
     if (titleMatchedEl) titleMatchedEl.textContent = is100 ? "비슷한 주식 100개 (시총·업종 유사)" : "비슷한 주식 50개 (시총·업종 유사)";
 
     // 1) 상단 4개 핵심 비교 카드 업데이트 (개미 지수, 비슷한 주식 50개, 코스피, 코스닥)
-    document.getElementById("val-pure").textContent = fmtNum(stPure.current, 2);
-    const chgPureEl = document.getElementById("chg-pure");
+    setTxt("val-pure", fmtNum(stPure.current, 2));
     const sgn = stPure.dailyPt > 0 ? "▲ +" : stPure.dailyPt < 0 ? "▼ " : "";
-    chgPureEl.textContent = `전일비 ${sgn}${fmtNum(stPure.dailyPt, 2)} (${fmtPct(stPure.dailyPct)})`;
-    chgPureEl.className = `tile-chg ${clsSign(stPure.dailyPct)}`;
+    setTxt("chg-pure", `전일비 ${sgn}${fmtNum(stPure.dailyPt, 2)} (${fmtPct(stPure.dailyPct)})`);
+    setCls("chg-pure", `tile-chg ${clsSign(stPure.dailyPct)}`);
 
-    const cumPureEl = document.getElementById("cum-pure");
-    cumPureEl.textContent = fmtPct(stPure.cumPct);
-    cumPureEl.className = clsSign(stPure.cumPct);
+    setTxt("cum-pure", fmtPct(stPure.cumPct));
+    setCls("cum-pure", clsSign(stPure.cumPct));
 
     // 2번째 카드: 비슷한 주식 50개 (시총·업종 유사 비교 포트폴리오)
-    document.getElementById("val-matched").textContent = fmtNum(stMatched.current, 2);
-    const cumMatchedEl = document.getElementById("cum-matched");
-    cumMatchedEl.textContent = `동일 기간 ${fmtPct(stMatched.cumPct)}`;
-    cumMatchedEl.className = `tile-chg ${clsSign(stMatched.cumPct)}`;
+    setTxt("val-matched", fmtNum(stMatched.current, 2));
+    setTxt("cum-matched", `동일 기간 ${fmtPct(stMatched.cumPct)}`);
+    setCls("cum-matched", `tile-chg ${clsSign(stMatched.cumPct)}`);
 
     const gapMatched = stPure.cumPct - stMatched.cumPct;
-    const gapMatchedEl = document.getElementById("gap-matched");
-    gapMatchedEl.textContent = `${gapMatched > 0 ? "+" : ""}${gapMatched.toFixed(2)}%p`;
-    gapMatchedEl.className = clsSign(gapMatched);
+    setTxt("gap-matched", `${gapMatched > 0 ? "+" : ""}${gapMatched.toFixed(2)}%p`);
+    setCls("gap-matched", clsSign(gapMatched));
 
     // 3번째 카드: 코스피
-    document.getElementById("raw-kospi").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSPI_raw, 2)}`;
-    document.getElementById("val-kospi").textContent = fmtNum(stKospi.current, 2);
-    const cumKospiEl = document.getElementById("cum-kospi");
-    cumKospiEl.textContent = `동일 기간 ${fmtPct(stKospi.cumPct)}`;
-    cumKospiEl.className = `tile-chg ${clsSign(stKospi.cumPct)}`;
+    setTxt("raw-kospi", `실제 ${fmtNum(DATA.summary.metrics.KOSPI_raw, 2)}`);
+    setTxt("val-kospi", fmtNum(stKospi.current, 2));
+    setTxt("cum-kospi", `동일 기간 ${fmtPct(stKospi.cumPct)}`);
+    setCls("cum-kospi", `tile-chg ${clsSign(stKospi.cumPct)}`);
 
     const gapKospi = stPure.cumPct - stKospi.cumPct;
-    const gapKospiEl = document.getElementById("gap-kospi");
-    gapKospiEl.textContent = `${gapKospi > 0 ? "+" : ""}${gapKospi.toFixed(2)}%p`;
-    gapKospiEl.className = clsSign(gapKospi);
+    setTxt("gap-kospi", `${gapKospi > 0 ? "+" : ""}${gapKospi.toFixed(2)}%p`);
+    setCls("gap-kospi", clsSign(gapKospi));
 
     // 4번째 카드: 코스닥
-    document.getElementById("raw-kosdaq").textContent = `실제 ${fmtNum(DATA.summary.metrics.KOSDAQ_raw, 2)}`;
-    document.getElementById("val-kosdaq").textContent = fmtNum(stKosdaq.current, 2);
-    const cumKosdaqEl = document.getElementById("cum-kosdaq");
-    cumKosdaqEl.textContent = `동일 기간 ${fmtPct(stKosdaq.cumPct)}`;
-    cumKosdaqEl.className = `tile-chg ${clsSign(stKosdaq.cumPct)}`;
+    setTxt("raw-kosdaq", `실제 ${fmtNum(DATA.summary.metrics.KOSDAQ_raw, 2)}`);
+    setTxt("val-kosdaq", fmtNum(stKosdaq.current, 2));
+    setTxt("cum-kosdaq", `동일 기간 ${fmtPct(stKosdaq.cumPct)}`);
+    setCls("cum-kosdaq", `tile-chg ${clsSign(stKosdaq.cumPct)}`);
 
     const gapKosdaq = stPure.cumPct - stKosdaq.cumPct;
-    const gapKosdaqEl = document.getElementById("gap-kosdaq");
-    gapKosdaqEl.textContent = `${gapKosdaq > 0 ? "+" : ""}${gapKosdaq.toFixed(2)}%p`;
-    gapKosdaqEl.className = clsSign(gapKosdaq);
+    setTxt("gap-kosdaq", `${gapKosdaq > 0 ? "+" : ""}${gapKosdaq.toFixed(2)}%p`);
+    setCls("gap-kosdaq", clsSign(gapKosdaq));
 
     // 2) 기본 4개 지수 차트 (선택된 개미 50/100 → 비슷한 주식 50/100 → 코스피 → 코스닥)
     const tk = getChartTokens();
@@ -1275,27 +1282,29 @@
     ];
 
     const perfTbody = document.getElementById("perf-detail-tbody");
-    perfTbody.innerHTML = tableConfigs
-      .map((item) => {
-        const s = item.st;
-        const exKospi = s.cumPct - stKospi.cumPct;
-        const exKosdaq = s.cumPct - stKosdaq.cumPct;
-        const cKospi = pearsonCorr(s.rets, stKospi.rets);
-        const cKosdaq = pearsonCorr(s.rets, stKosdaq.rets);
+    if (perfTbody) {
+      perfTbody.innerHTML = tableConfigs
+        .map((item) => {
+          const s = item.st;
+          const exKospi = s.cumPct - stKospi.cumPct;
+          const exKosdaq = s.cumPct - stKosdaq.cumPct;
+          const cKospi = pearsonCorr(s.rets, stKospi.rets);
+          const cKosdaq = pearsonCorr(s.rets, stKosdaq.rets);
 
-        return `<tr>
-          <td><strong>${item.name}</strong></td>
-          <td class="r">${fmtNum(s.current, 2)}</td>
-          <td class="r ${clsSign(s.cumPct)}"><strong>${fmtPct(s.cumPct)}</strong></td>
-          <td class="r ${clsSign(exKospi)}">${exKospi > 0 ? "+" : ""}${exKospi.toFixed(2)}%p</td>
-          <td class="r ${clsSign(exKosdaq)}">${exKosdaq > 0 ? "+" : ""}${exKosdaq.toFixed(2)}%p</td>
-          <td class="r">${cKospi.toFixed(3)}</td>
-          <td class="r">${cKosdaq.toFixed(3)}</td>
-          <td class="r down">${s.mdd.toFixed(2)}%</td>
-          <td class="r">${s.annVol.toFixed(2)}%</td>
-        </tr>`;
-      })
-      .join("");
+          return `<tr>
+            <td><strong>${item.name}</strong></td>
+            <td class="r">${fmtNum(s.current, 2)}</td>
+            <td class="r ${clsSign(s.cumPct)}"><strong>${fmtPct(s.cumPct)}</strong></td>
+            <td class="r ${clsSign(exKospi)}">${exKospi > 0 ? "+" : ""}${exKospi.toFixed(2)}%p</td>
+            <td class="r ${clsSign(exKosdaq)}">${exKosdaq > 0 ? "+" : ""}${exKosdaq.toFixed(2)}%p</td>
+            <td class="r">${cKospi.toFixed(3)}</td>
+            <td class="r">${cKosdaq.toFixed(3)}</td>
+            <td class="r down">${s.mdd.toFixed(2)}%</td>
+            <td class="r">${s.annVol.toFixed(2)}%</td>
+          </tr>`;
+        })
+        .join("");
+    }
   }
 
   // TAB 2: 개미가 산 종목 (상위 50 / 상위 100 전환 지원)
@@ -1430,8 +1439,9 @@
   }
 
   function initDetailSelect() {
-    const trajs = DATA.stock_trajectories || {};
     const sel = document.getElementById("dt-stock-select");
+    if (!sel) return;
+    const trajs = DATA.stock_trajectories || {};
     const p7List = (DATA.phase7_expansion && DATA.phase7_expansion.constituents_100) || [];
     const pureList = DATA.gaemi50_pure_constituents || [];
     const rankMap = new Map((p7List.length ? p7List : pureList).map((r) => [r.code, r.rank]));
@@ -1848,8 +1858,9 @@
 
   // TAB 5: 분기별 변화
   function initQuarterSelect() {
-    const hist = DATA.summary.rebalance_history || [];
     const sel = document.getElementById("q-select");
+    if (!sel) return;
+    const hist = DATA.summary.rebalance_history || [];
     sel.innerHTML = hist
       .slice()
       .reverse()
@@ -2189,16 +2200,22 @@
       });
     });
 
-    document.getElementById("sec2-search").addEventListener("input", (e) => {
-      state.sec2Search = e.target.value;
-      renderSection02();
-    });
+    const sec2Search = document.getElementById("sec2-search");
+    if (sec2Search) {
+      sec2Search.addEventListener("input", (e) => {
+        state.sec2Search = e.target.value;
+        renderSection02();
+      });
+    }
 
-    document.getElementById("dt-stock-select").addEventListener("change", (e) => {
-      state.selectedStock = e.target.value;
-      renderSection02();
-      renderStockDetailPanel();
-    });
+    const dtStockSelect = document.getElementById("dt-stock-select");
+    if (dtStockSelect) {
+      dtStockSelect.addEventListener("change", (e) => {
+        state.selectedStock = e.target.value;
+        renderSection02();
+        renderStockDetailPanel();
+      });
+    }
 
     // Section 04 통합 투자 주체 목록 전환 버튼
     document.querySelectorAll("#inv-tab-btns button").forEach((btn) => {
@@ -2211,10 +2228,13 @@
     });
 
     // Section 05 분기 선택
-    document.getElementById("q-select").addEventListener("change", (e) => {
-      state.selectedQuarter = e.target.value;
-      renderSection05();
-    });
+    const qSel = document.getElementById("q-select");
+    if (qSel) {
+      qSel.addEventListener("change", (e) => {
+        state.selectedQuarter = e.target.value;
+        renderSection05();
+      });
+    }
 
     // 테마 전환 버튼
     document.getElementById("themeBtn").addEventListener("click", toggleTheme);
@@ -2264,13 +2284,18 @@
     initTheme();
     initDetailSelect();
     initQuarterSelect();
-    renderSection02();
-    renderSection03();
-    renderSection05();
-    renderFooterDetails();
     bindEvents();
+    initConcentrationEvents();
+    renderConcentrationHero();
+    renderConcentrationChart(90);
+    if (CONC_DATA && CONC_DATA.as_of_date) {
+      selectConcentrationDate(CONC_DATA.as_of_date);
+    }
+    renderBoughtTab('20d');
+    renderMovementTab();
     const initHash = (window.location.hash || "").replace("#", "");
-    activateTab(initHash || "sec-01", false);
+    const defaultTab = ["tab-conc", "tab-bought", "tab-movement", "tab-scorecard", "tab-method"].includes(initHash) ? initHash : "tab-conc";
+    activateTab(defaultTab, false);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -2292,4 +2317,618 @@
         });
     }
   });
+
+
+  // ==========================================================
+  // BOK WATCH STYLE GAEMI CONCENTRATION MODULE (PHASE 9 REBOOT)
+  // ==========================================================
+  let CONC_DATA = window.GAEMI_CONCENTRATION || null;
+  state.concRange = 90;
+  state.selectedConcDate = null;
+  state.boughtPeriod = "20d";
+  state.boughtSearch = "";
+
+  function formatWon(val) {
+    if (val === null || val === undefined || isNaN(val)) return "-";
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 1e12) {
+      return `${sign}${(abs / 1e12).toFixed(2)}조원`;
+    } else if (abs >= 1e8) {
+      return `${sign}${Math.round(abs / 1e8).toLocaleString("ko-KR")}억원`;
+    }
+    return `${sign}${Math.round(abs).toLocaleString("ko-KR")}원`;
+  }
+
+  function renderConcentrationHero() {
+    if (!CONC_DATA || !CONC_DATA.latest) return;
+    const lat = CONC_DATA.latest;
+    const valEl = document.getElementById("hero-conc-val");
+    const deltaEl = document.getElementById("hero-conc-delta");
+    const asofEl = document.getElementById("hero-asof-date");
+    const sumEl = document.getElementById("hero-summary-text");
+    const t10El = document.getElementById("hero-top10-sum");
+    const totEl = document.getElementById("hero-total-pos");
+
+    if (valEl) valEl.textContent = `${lat.concentration.toFixed(1)}%`;
+    if (deltaEl) {
+      const sign = lat.delta >= 0.05 ? "+" : "";
+      deltaEl.textContent = `${sign}${lat.delta.toFixed(1)}%p`;
+      deltaEl.className = `conc-hero-delta ${lat.delta > 0.05 ? "up" : lat.delta < -0.05 ? "down" : "flat"}`;
+    }
+    if (asofEl) asofEl.textContent = `${lat.date} 기준`;
+    if (sumEl) sumEl.textContent = lat.summary || "";
+    if (t10El) t10El.textContent = formatWon(lat.top10_sum);
+    if (totEl) totEl.textContent = formatWon(lat.total_pos);
+  }
+
+  function renderConcentrationChart(rangeDays) {
+    const el = document.getElementById("concentrationChart");
+    if (!el || !CONC_DATA || !CONC_DATA.history || !window.d3) return;
+
+    if (rangeDays !== undefined) {
+      state.concRange = rangeDays;
+    }
+    const rng = state.concRange;
+
+    const hist = CONC_DATA.history;
+    if (!hist.length) return;
+
+    const lastRow = hist[hist.length - 1];
+    const dayMs = (d) => Date.parse(d + "T00:00:00");
+    const vis = rng > 0 ? hist.filter((r) => dayMs(r.date) >= dayMs(lastRow.date) - rng * 864e5) : hist;
+
+    if (!vis.length) return;
+
+    el.innerHTML = "";
+    const W = Math.max(300, Math.round(el.clientWidth || 640));
+    const LANE_H = 18, AX = 22;
+
+    const x = d3.scaleTime()
+      .domain([new Date(vis[0].date + "T00:00:00"), new Date(lastRow.date + "T00:00:00")])
+      .range([44, W - 74]);
+    const tx = (d) => x(new Date(d + "T00:00:00"));
+
+    const minC = d3.min(vis, (d) => d.concentration);
+    const maxC = d3.max(vis, (d) => d.concentration);
+    const yMin = Math.max(0, Math.floor((minC - 4) / 5) * 5);
+    const yMax = Math.min(100, Math.ceil((maxC + 4) / 5) * 5);
+
+    // Inflection callouts (stacked badges)
+    const infs = (CONC_DATA.inflections || []).filter((r) => vis.some((v) => v.date === r.date));
+    const mc = document.createElement("canvas").getContext("2d");
+    mc.font = `600 11.5px ${getComputedStyle(document.body).fontFamily}`;
+
+    const md = (ds) => {
+      const parts = ds.split("-");
+      return `${parseInt(parts[1], 10)}/${parseInt(parts[2], 10)}`;
+    };
+
+    const calls = infs.map((r) => {
+      const sign = r.delta >= 0 ? "+" : "";
+      const txt = `${md(r.date)} ${sign}${r.delta.toFixed(1)}%p${r.headline && W >= 540 ? " " + r.headline : ""}`;
+      const w = mc.measureText("▲ " + txt).width + 6;
+      const cx = tx(r.date);
+      const flip = cx + w > W - 6;
+      return { r, txt, w, cx, x0: flip ? cx - w : cx, x1: flip ? cx : cx + w, flip, lv: 0 };
+    });
+
+    calls.forEach((c, i) => {
+      while (calls.slice(0, i).some((p) => p.lv === c.lv && c.x0 < p.x1 + 8 && p.x0 < c.x1 + 8)) {
+        c.lv++;
+      }
+    });
+
+    const nLv = calls.length ? Math.max(...calls.map((c) => c.lv)) + 1 : 0;
+    const m = { l: 44, r: 74, t: 10 + nLv * 18 + (nLv ? 8 : 0), b: 0 };
+    const PH = 185;
+    const plotB = m.t + PH;
+    const laneTop = plotB + AX;
+    const LANES = [["stock", "종목 집중"], ["sector", "업종 변화"], ["turnover", "순위 교체"]];
+    const HT = laneTop + LANES.length * LANE_H + 8;
+
+    const y = d3.scaleLinear().domain([yMin, yMax]).range([plotB, m.t]);
+
+    const svg = d3.create("svg")
+      .attr("viewBox", `0 0 ${W} ${HT}`)
+      .attr("width", W)
+      .attr("height", HT)
+      .attr("role", "img")
+      .attr("tabindex", 0)
+      .attr("aria-label", "개미 순매수 집중도 변화 그래프");
+
+    // Y Axis Grid
+    const yTicks = y.ticks(5);
+    yTicks.forEach((t) => {
+      svg.append("line")
+        .attr("x1", 44).attr("x2", W - 74)
+        .attr("y1", y(t)).attr("y2", y(t))
+        .attr("stroke", "var(--line)").attr("stroke-width", 1);
+      svg.append("text")
+        .attr("x", 38).attr("y", y(t) + 4)
+        .attr("text-anchor", "end")
+        .attr("font-size", 11)
+        .attr("fill", "var(--ink-3)")
+        .text(`${t}%`);
+    });
+
+    // X Axis Ticks
+    const xTicks = x.ticks(Math.min(6, vis.length));
+    xTicks.forEach((t) => {
+      svg.append("text")
+        .attr("x", x(t)).attr("y", plotB + 15)
+        .attr("text-anchor", "middle")
+        .attr("font-size", 11)
+        .attr("fill", "var(--ink-3)")
+        .text(`${t.getMonth() + 1}/${t.getDate()}`);
+    });
+
+    // Area fill under line
+    const area = d3.area()
+      .curve(d3.curveMonotoneX)
+      .x((d) => tx(d.date))
+      .y0(plotB)
+      .y1((d) => y(d.concentration));
+
+    svg.append("path")
+      .attr("d", area(vis))
+      .attr("fill", "var(--hike)")
+      .attr("opacity", 0.08);
+
+    // Line path
+    const line = d3.line()
+      .curve(d3.curveMonotoneX)
+      .x((d) => tx(d.date))
+      .y((d) => y(d.concentration));
+
+    svg.append("path")
+      .attr("d", line(vis))
+      .attr("fill", "none")
+      .attr("stroke", "var(--hike)")
+      .attr("stroke-width", 2.4)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round");
+
+    // Right-end label
+    const lx = tx(lastRow.date);
+    const ly = y(lastRow.concentration);
+    svg.append("circle")
+      .attr("cx", lx).attr("cy", ly)
+      .attr("r", 4.5)
+      .attr("fill", "var(--hike)")
+      .attr("stroke", "var(--surface)").attr("stroke-width", 2);
+
+    svg.append("text")
+      .attr("x", lx + 8).attr("y", ly + 4)
+      .attr("font-size", 12.5)
+      .attr("font-weight", 700)
+      .attr("fill", "var(--ink)")
+      .text(`${lastRow.concentration.toFixed(1)}%`);
+
+    // Inflection callout badges
+    calls.forEach((c) => {
+      const matchRow = vis.find((v) => v.date === c.r.date);
+      if (!matchRow) return;
+      const cy = y(matchRow.concentration);
+      const ty = 14 + c.lv * 18;
+      const tcol = c.r.delta >= 0 ? "var(--hike)" : "var(--cut)";
+
+      svg.append("line")
+        .attr("x1", c.cx).attr("x2", c.cx)
+        .attr("y1", ty + 4).attr("y2", cy - 6)
+        .attr("stroke", "var(--ink-3)")
+        .attr("stroke-width", 1);
+
+      svg.append("circle")
+        .attr("cx", c.cx).attr("cy", cy)
+        .attr("r", 5)
+        .attr("fill", "var(--surface)")
+        .attr("stroke", tcol)
+        .attr("stroke-width", 2.2);
+
+      const t = svg.append("text")
+        .attr("x", c.cx)
+        .attr("y", ty)
+        .attr("text-anchor", c.flip ? "end" : "start")
+        .attr("font-size", 11.5)
+        .attr("font-weight", 600)
+        .attr("fill", "var(--ink)");
+
+      t.append("tspan").attr("fill", tcol).text(c.r.delta >= 0 ? "▲ " : "▼ ");
+      t.append("tspan").text(c.txt);
+    });
+
+    // Bottom Event Lanes
+    const laneCol = { stock: "var(--hike)", sector: "var(--cut)", turnover: "var(--ink-2)" };
+    const lanesData = CONC_DATA.lanes || {};
+
+    LANES.forEach(([k, name], li) => {
+      const cy = laneTop + li * LANE_H + LANE_H / 2;
+      svg.append("line")
+        .attr("x1", 44).attr("x2", W - 74)
+        .attr("y1", cy).attr("y2", cy)
+        .attr("stroke", "var(--line)").attr("stroke-width", 1);
+
+      svg.append("text")
+        .attr("x", 38).attr("y", cy + 4)
+        .attr("text-anchor", "end")
+        .attr("font-size", 11)
+        .attr("fill", "var(--ink-3)")
+        .text(name);
+
+      const items = (lanesData[k] || []).filter((it) => vis.some((v) => v.date === it.date));
+      const evDateMap = {};
+      items.forEach((it) => {
+        evDateMap[it.date] = (evDateMap[it.date] || 0) + 1;
+      });
+
+      Object.entries(evDateMap).forEach(([dt, cnt]) => {
+        const cx = tx(dt);
+        svg.append("circle")
+          .attr("cx", cx).attr("cy", cy)
+          .attr("r", 4.5)
+          .attr("fill", laneCol[k])
+          .attr("stroke", "var(--surface)").attr("stroke-width", 1.5);
+
+        if (cnt > 1) {
+          svg.append("text")
+            .attr("x", cx).attr("y", cy + 3)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 8.5)
+            .attr("font-weight", 700)
+            .attr("fill", "var(--surface)")
+            .text(cnt);
+        }
+      });
+    });
+
+    // Crosshair & Tooltip
+    const hov = svg.append("g").style("display", "none").attr("pointer-events", "none");
+    hov.append("line")
+      .attr("y1", m.t).attr("y2", laneTop + LANES.length * LANE_H)
+      .attr("stroke", "var(--ink-3)").attr("stroke-width", 1);
+    const hdot = hov.append("circle")
+      .attr("r", 5)
+      .attr("fill", "var(--hike)")
+      .attr("stroke", "var(--surface)").attr("stroke-width", 2);
+
+    const tip = document.getElementById("pctip");
+
+    let curIdx = vis.length - 1;
+
+    const showAt = (idx, px) => {
+      curIdx = Math.max(0, Math.min(vis.length - 1, idx));
+      const r = vis[curIdx];
+      const cx = tx(r.date);
+
+      hov.style("display", null);
+      hov.select("line").attr("x1", cx).attr("x2", cx);
+      hdot.attr("cx", cx).attr("cy", y(r.concentration));
+
+      if (tip) {
+        const sign = r.delta >= 0 ? "+" : "";
+        tip.innerHTML = `
+          <div class="pctip-date">${r.date}</div>
+          <div class="pctip-row">
+            <span>집중도:</span>
+            <strong>${r.concentration.toFixed(1)}%</strong>
+          </div>
+          <div class="pctip-row">
+            <span>전일대비:</span>
+            <strong style="color:${r.delta >= 0 ? 'var(--hike)' : 'var(--cut)'}">${sign}${r.delta.toFixed(1)}%p</strong>
+          </div>
+          ${r.top1_name ? `<div style="font-size:11px;color:var(--ink-2);margin-top:4px">1위: ${r.top1_name} (${r.top1_share.toFixed(1)}%)</div>` : ""}
+        `;
+        tip.hidden = false;
+        const tw = tip.offsetWidth || 180;
+        const left = Math.max(8, Math.min(W - tw - 8, (px != null ? px : cx) + 12));
+        tip.style.left = `${left}px`;
+      }
+
+      selectConcentrationDate(r.date);
+    };
+
+    const nearestIdx = (px) => {
+      const t = x.invert(px).getTime();
+      let best = 0;
+      vis.forEach((v, i) => {
+        if (Math.abs(dayMs(v.date) - t) < Math.abs(dayMs(vis[best].date) - t)) {
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    svg.on("pointermove", (ev) => {
+      const [px] = d3.pointer(ev);
+      if (px >= 44 && px <= W - 74) {
+        showAt(nearestIdx(px), px);
+      }
+    }).on("pointerdown", (ev) => {
+      const [px] = d3.pointer(ev);
+      if (px >= 44 && px <= W - 74) {
+        showAt(nearestIdx(px), px);
+      }
+    }).on("keydown", (ev) => {
+      const step = ev.key === "ArrowLeft" ? -1 : ev.key === "ArrowRight" ? 1 : 0;
+      if (step) {
+        ev.preventDefault();
+        showAt(curIdx + step);
+      }
+    });
+
+    el.appendChild(svg.node());
+  }
+
+  function selectConcentrationDate(dateStr) {
+    if (!CONC_DATA) return;
+    state.selectedConcDate = dateStr;
+
+    const d = (CONC_DATA.details && CONC_DATA.details[dateStr]) || null;
+    const titleEl = document.getElementById("inspect-date-title");
+    const pillEl = document.getElementById("inspect-conc-pill");
+    const summaryEl = document.getElementById("inspect-summary-p");
+
+    if (titleEl) titleEl.textContent = `${dateStr} 집중도 요인 분해`;
+
+    if (!d) {
+      // Historical date without deep detail
+      const h = (CONC_DATA.history || []).find((r) => r.date === dateStr);
+      if (h) {
+        if (pillEl) {
+          const sign = h.delta >= 0 ? "+" : "";
+          pillEl.textContent = `집중도 ${h.concentration.toFixed(1)}% (${sign}${h.delta.toFixed(1)}%p)`;
+        }
+        if (summaryEl) {
+          summaryEl.textContent = `해당 거래일 개인 순매수 집중도는 ${h.concentration.toFixed(1)}%였습니다.`;
+        }
+      }
+      return;
+    }
+
+    if (pillEl) {
+      const sign = d.delta >= 0 ? "+" : "";
+      pillEl.textContent = `집중도 ${d.concentration.toFixed(1)}% (${sign}${d.delta.toFixed(1)}%p)`;
+    }
+    if (summaryEl) {
+      summaryEl.textContent = d.summary || "";
+    }
+
+    // 1. 종목별 기여도
+    const contribEl = document.getElementById("contrib-list");
+    if (contribEl) {
+      const contribs = d.contribs || [];
+      if (!contribs.length) {
+        contribEl.innerHTML = `<p style="font-size:12px;color:var(--ink-3)">기여도 데이터 없음</p>`;
+      } else {
+        const sumVal = contribs.reduce((a, b) => a + b.contrib, 0);
+        contribEl.innerHTML = contribs.map((c) => {
+          const sign = c.contrib >= 0 ? "+" : "";
+          const cls = c.contrib >= 0 ? "up" : "down";
+          return `
+            <div class="decomp-item">
+              <span>${c.name} <small style="color:var(--ink-3)">(${c.sector})</small></span>
+              <span class="val ${cls}">${sign}${c.contrib.toFixed(1)}%p</span>
+            </div>
+          `;
+        }).join("") + `
+          <div class="decomp-item" style="margin-top:6px;border-top:1px dashed var(--line);padding-top:4px;font-weight:700">
+            <span>기여도 합계</span>
+            <span class="val ${sumVal >= 0 ? 'up' : 'down'}">${sumVal >= 0 ? '+' : ''}${sumVal.toFixed(1)}%p</span>
+          </div>
+        `;
+      }
+    }
+
+    // 2. 20거래일 이동창 효과
+    const windowEl = document.getElementById("window-effect-box");
+    if (windowEl) {
+      const drop = d.drop_effect;
+      if (drop && drop.is_dominant) {
+        windowEl.innerHTML = `
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.55">
+            <strong style="color:var(--hike)">탈락 효과 주도</strong>: <strong>${drop.name}</strong> 종목의 경우, 
+            당일 순매매보다 <strong>20거래일 전(${drop.drop_date})</strong>의 대규모 순매수 기록(<strong>${formatWon(drop.drop_val)}</strong>)이 
+            계산에서 제외된 영향으로 비중이 변동했습니다.
+          </div>
+        `;
+      } else {
+        windowEl.innerHTML = `
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.55">
+            신규 거래일의 순매매 유입이 상위 종목 비중 변화를 정상적으로 주도했습니다. (과거 제외일 대규모 왜곡 없음)
+          </div>
+        `;
+      }
+    }
+
+    // 3. 분모 변화 효과
+    const denomEl = document.getElementById("denom-effect-box");
+    if (denomEl) {
+      denomEl.innerHTML = `
+        <div class="decomp-item">
+          <span>상위 10종목 합계</span>
+          <span class="val">${formatWon(d.top10_sum)}</span>
+        </div>
+        <div class="decomp-item">
+          <span>양(+)의 순매수 전체</span>
+          <span class="val">${formatWon(d.total_pos)}</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-3);margin-top:4px">
+          비중 = 상위 10종목 ÷ 전체 = <strong>${d.concentration.toFixed(1)}%</strong>
+        </div>
+      `;
+    }
+
+    // 4. Top 10 테이블
+    const t10Tbody = document.getElementById("top10-tbody");
+    if (t10Tbody) {
+      const list = d.top10 || [];
+      t10Tbody.innerHTML = list.map((item) => {
+        const sign = item.diff_share >= 0 ? "+" : "";
+        const diffCls = item.diff_share > 0 ? "up" : item.diff_share < 0 ? "down" : "";
+        const statusBadge = item.is_new
+          ? `<span class="tier-pill t1">신규</span>`
+          : `<span class="tier-pill t2">유지</span>`;
+        return `
+          <tr>
+            <td style="font-weight:700;text-align:center">${item.rank}</td>
+            <td><strong>${item.name}</strong> <small style="color:var(--ink-3)">${item.code}</small></td>
+            <td>${item.market}</td>
+            <td><span class="tile-tag">${item.sector}</span></td>
+            <td class="r" style="font-family:var(--font-mono)">${formatWon(item.net_val)}</td>
+            <td class="r" style="font-family:var(--font-mono);font-weight:700">${item.share.toFixed(1)}%</td>
+            <td class="r ${diffCls}" style="font-family:var(--font-mono)">${sign}${item.diff_share.toFixed(1)}%p</td>
+            <td class="c">${statusBadge}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+  }
+
+  function renderBoughtTab(period, query) {
+    if (!CONC_DATA || !CONC_DATA.latest) return;
+    if (period) state.boughtPeriod = period;
+    if (query !== undefined) state.boughtSearch = query;
+
+    const p = state.boughtPeriod;
+    const q = (state.boughtSearch || "").trim().toLowerCase();
+
+    const tbody = document.getElementById("bought-ranking-tbody");
+    if (!tbody) return;
+
+    let items = [];
+    if (p === "20d") {
+      items = CONC_DATA.latest.top10 || [];
+    } else if (p === "5d") {
+      items = CONC_DATA.latest.top_5d || [];
+    } else if (p === "1d") {
+      items = CONC_DATA.latest.top_1d || [];
+    }
+
+    if (q) {
+      items = items.filter((it) => it.name.toLowerCase().includes(q) || it.code.includes(q));
+    }
+
+    if (!items.length) {
+      tbody.innerHTML = `<tr><td colspan="6" class="c" style="padding:20px;color:var(--ink-3)">검색 결과가 없습니다.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = items.map((it) => `
+      <tr>
+        <td style="font-weight:700;text-align:center">${it.rank}</td>
+        <td><strong>${it.name}</strong> <small style="color:var(--ink-3)">${it.code}</small></td>
+        <td>${it.market || "-"}</td>
+        <td><span class="tile-tag">${it.sector || "기타"}</span></td>
+        <td class="r" style="font-family:var(--font-mono)">${formatWon(it.net_val)}</td>
+        <td class="r" style="font-family:var(--font-mono);font-weight:700">${it.share ? it.share.toFixed(1) + '%' : '-'}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderMovementTab() {
+    if (!CONC_DATA || !CONC_DATA.latest) return;
+    const lat = CONC_DATA.latest;
+
+    // 1. 업종별 순매수 구성
+    const barListEl = document.getElementById("sectorBarList");
+    if (barListEl) {
+      const shares = lat.sector_shares || [];
+      barListEl.innerHTML = shares.map((s) => `
+        <div class="sector-bar-row">
+          <span style="font-weight:600">${s.sector}</span>
+          <div class="sector-track">
+            <div class="sector-fill" style="width:${Math.min(100, s.share)}%"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-weight:700;text-align:right">${s.share.toFixed(1)}%</span>
+        </div>
+      `).join("");
+    }
+
+    // 2. 20D vs 직전 20D 업종 변화
+    const shiftTbody = document.getElementById("sector-shift-tbody");
+    if (shiftTbody) {
+      const shifts = lat.sector_shift || [];
+      if (!shifts.length) {
+        shiftTbody.innerHTML = `<tr><td colspan="4" class="c" style="color:var(--ink-3);padding:14px">비교 데이터 산출 중</td></tr>`;
+      } else {
+        shiftTbody.innerHTML = shifts.map((s) => {
+          const sign = s.diff >= 0 ? "+" : "";
+          const cls = s.diff > 0 ? "up" : s.diff < 0 ? "down" : "";
+          return `
+            <tr>
+              <td style="font-weight:600">${s.sector}</td>
+              <td class="r" style="font-family:var(--font-mono)">${s.current_share.toFixed(1)}%</td>
+              <td class="r" style="font-family:var(--font-mono)">${s.prior_share.toFixed(1)}%</td>
+              <td class="r ${cls}" style="font-family:var(--font-mono);font-weight:700">${sign}${s.diff.toFixed(1)}%p</td>
+            </tr>
+          `;
+        }).join("");
+      }
+    }
+
+    // 3. 종목별 비중 상승/하락 5종목
+    const gTbody = document.getElementById("stock-gainers-tbody");
+    if (gTbody) {
+      const gainers = lat.stock_gainers || [];
+      gTbody.innerHTML = gainers.map((g) => `
+        <tr>
+          <td><strong>${g.name}</strong></td>
+          <td><span class="tile-tag">${g.sector}</span></td>
+          <td class="r" style="font-family:var(--font-mono)">${g.current_share.toFixed(1)}%</td>
+          <td class="r up" style="font-family:var(--font-mono);font-weight:700">+${g.diff.toFixed(1)}%p</td>
+        </tr>
+      `).join("");
+    }
+
+    const lTbody = document.getElementById("stock-losers-tbody");
+    if (lTbody) {
+      const losers = lat.stock_losers || [];
+      lTbody.innerHTML = losers.map((l) => `
+        <tr>
+          <td><strong>${l.name}</strong></td>
+          <td><span class="tile-tag">${l.sector}</span></td>
+          <td class="r" style="font-family:var(--font-mono)">${l.current_share.toFixed(1)}%</td>
+          <td class="r down" style="font-family:var(--font-mono);font-weight:700">${l.diff.toFixed(1)}%p</td>
+        </tr>
+      `).join("");
+    }
+  }
+
+  function initConcentrationEvents() {
+    // 차트 기간 버튼
+    document.querySelectorAll("#concRangeSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#concRangeSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        const rng = parseInt(btn.getAttribute("data-range"), 10);
+        renderConcentrationChart(rng);
+      });
+    });
+
+    // 개미가 산 종목 기간 스위치
+    document.querySelectorAll("#boughtPeriodSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#boughtPeriodSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        renderBoughtTab(btn.getAttribute("data-period"));
+      });
+    });
+
+    // 개미가 산 종목 검색
+    const searchInput = document.getElementById("stockSearchInput");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        renderBoughtTab(undefined, e.target.value);
+      });
+    }
+
+    // 윈도우 리사이즈 시 반응형 재렌더링
+    window.addEventListener("resize", () => {
+      if (state.activeTab === "tab-conc") {
+        renderConcentrationChart();
+      }
+    });
+  }
+
 })();

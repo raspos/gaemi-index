@@ -61,13 +61,14 @@ jobs:
         run: |
           python scripts/update_ledger.py --mode ${{ steps.mode_step.outputs.mode }}
 
-      - name: Step 7~9. Calculate GAEMI 50 PURE, GAEMI 100, benchmarks, downside vulnerability
+      - name: Step 7~9. Calculate GAEMI 50 PURE, GAEMI 100, benchmarks, downside vulnerability & concentration
         run: |
           python scripts/build_phase2_analytics.py
           python scripts/audit_phase3_reliability.py
           python scripts/audit_phase4_deep.py
           python scripts/build_phase6_downside.py
           python scripts/build_phase7_expansion.py
+          python scripts/build_concentration_metrics.py
 
       - name: Step 9-2. Assemble final web bundles (no duplicate backtest)
         run: |
