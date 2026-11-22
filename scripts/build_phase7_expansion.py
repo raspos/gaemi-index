@@ -297,7 +297,7 @@ def run_controlled_cross_sectional_regression(q_records):
     if len(df) < 30:
         return {"n_obs": int(len(df)), "spearman_r": 0.0, "ols_beta_intensity": 0.0, "ols_t_stat": 0.0, "ols_p_value": 1.0}
 
-    spear = float(df["intensity_pct"].corr(df["down_day_mean_ret_pct"], method="spearman"))
+    spear = float(df["intensity_pct"].rank().corr(df["down_day_mean_ret_pct"].rank()))
 
     # Demean within (quarter x market x industry) or quarter + top-sector dummies
     top_inds = df["industry"].value_counts().head(8).index.tolist()
