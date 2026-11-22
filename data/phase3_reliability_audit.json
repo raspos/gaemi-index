@@ -21,7 +21,7 @@
           "rank": 42,
           "code": "011790",
           "name": "SKC",
-          "intensity_pct": 10.6657,
+          "intensity_pct": 10.6685,
           "mid_intensity_pct": 12.06,
           "intensity_diff_pctp": 1.39,
           "net_buy_eok": 4727.7,
@@ -29,6 +29,16 @@
         },
         {
           "rank": 43,
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "intensity_pct": 10.5909,
+          "mid_intensity_pct": 12.37,
+          "intensity_diff_pctp": 1.78,
+          "net_buy_eok": 12322.14,
+          "mid_net_buy_eok": 14391.75
+        },
+        {
+          "rank": 44,
           "code": "100090",
           "name": "SK오션플랜트",
           "intensity_pct": 10.4332,
@@ -38,7 +48,7 @@
           "mid_net_buy_eok": 1238.25
         },
         {
-          "rank": 44,
+          "rank": 45,
           "code": "178320",
           "name": "서진시스템",
           "intensity_pct": 10.1104,
@@ -48,7 +58,7 @@
           "mid_net_buy_eok": 2202.59
         },
         {
-          "rank": 45,
+          "rank": 46,
           "code": "204270",
           "name": "제이앤티씨",
           "intensity_pct": 10.0828,
@@ -56,16 +66,6 @@
           "intensity_diff_pctp": 1.43,
           "net_buy_eok": 1078.65,
           "mid_net_buy_eok": 1231.72
-        },
-        {
-          "rank": 46,
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "intensity_pct": 9.7265,
-          "mid_intensity_pct": 11.36,
-          "intensity_diff_pctp": 1.63,
-          "net_buy_eok": 12322.14,
-          "mid_net_buy_eok": 14391.75
         },
         {
           "rank": 47,
@@ -183,13 +183,6 @@
           "change_pct": 2.58
         },
         {
-          "code": "001510",
-          "name": "SK증권",
-          "shares_2026_03_08": 472590171,
-          "shares_2026_09_30": 231295085,
-          "change_pct": -51.06
-        },
-        {
           "code": "446540",
           "name": "메가터치",
           "shares_2026_03_08": 25963749,
@@ -202,6 +195,13 @@
           "shares_2026_03_08": 21288284,
           "shares_2026_09_30": 22392557,
           "change_pct": 5.19
+        },
+        {
+          "code": "001510",
+          "name": "SK증권",
+          "shares_2026_03_08": 472590171,
+          "shares_2026_09_30": 231295085,
+          "change_pct": -51.06
         },
         {
           "code": "025980",
@@ -246,18 +246,18 @@
           "change_pct": 30.98
         },
         {
-          "code": "178320",
-          "name": "서진시스템",
-          "shares_2026_03_08": 58304877,
-          "shares_2026_09_30": 63723489,
-          "change_pct": 9.29
-        },
-        {
           "code": "010120",
           "name": "LS ELECTRIC",
           "shares_2026_03_08": 30000000,
           "shares_2026_09_30": 150000000,
           "change_pct": 400.0
+        },
+        {
+          "code": "178320",
+          "name": "서진시스템",
+          "shares_2026_03_08": 58304877,
+          "shares_2026_09_30": 63723489,
+          "change_pct": 9.29
         },
         {
           "code": "047040",

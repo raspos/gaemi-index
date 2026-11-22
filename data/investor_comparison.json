@@ -1590,18 +1590,6 @@
       },
       {
         "rank": 27,
-        "code": "036930",
-        "name": "주성엔지니어링",
-        "market": "KOSDAQ",
-        "industry": "특수 목적용 기계 제조업",
-        "org_intensity_pct": 21.0251,
-        "org_net_buy_eok": 5472.57,
-        "avg_marcap_36m_eok": 26028.76,
-        "end_marcap_eok": 108068.61,
-        "since_entry_return_pct": 441.42
-      },
-      {
-        "rank": 28,
         "code": "417840",
         "name": "저스템",
         "market": "KOSDAQ",
@@ -1611,6 +1599,18 @@
         "avg_marcap_36m_eok": 1239.21,
         "end_marcap_eok": 4261.2,
         "since_entry_return_pct": -36.03
+      },
+      {
+        "rank": 28,
+        "code": "036930",
+        "name": "주성엔지니어링",
+        "market": "KOSDAQ",
+        "industry": "특수 목적용 기계 제조업",
+        "org_intensity_pct": 21.0251,
+        "org_net_buy_eok": 5472.57,
+        "avg_marcap_36m_eok": 26028.76,
+        "end_marcap_eok": 108068.61,
+        "since_entry_return_pct": 441.42
       },
       {
         "rank": 29,
