@@ -119,6 +119,7 @@ def run_verification():
         os.path.join(DATA_DIR, "phase3_reliability_audit.json"),
         os.path.join(DATA_DIR, "phase4_audit_report.json"),
         os.path.join(DATA_DIR, "phase6_downside_analysis.json"),
+        os.path.join(DATA_DIR, "phase7_expansion_analysis.json"),
         os.path.join(DATA_DIR, "market_differentiation.json"),
         os.path.join(DATA_DIR, "investor_comparison.json"),
         os.path.join(DOCS_DIR, "data", "gaemi_data.json"),
@@ -137,10 +138,19 @@ def run_verification():
         "phase6_downside" in web_bundle and
         web_bundle["phase6_downside"].get("capture_ratios", {}).get("vs_kosdaq", {}).get("GAEMI_50_PURE", {}).get("downside_capture_geo_pct") == 115.9
     )
+    p7 = web_bundle.get("phase7_expansion", {})
+    p7_ok = (
+        p7.get("data_as_of") == manifest["data_as_of"] and
+        len(p7.get("constituents_100", [])) == 100 and
+        abs(p7.get("perf_summary", {}).get("GAEMI_50", {}).get("current", 0) - web_bundle.get("summary", {}).get("metrics", {}).get("GAEMI_50_PURE", {}).get("current", -1)) < 0.05 and
+        "GAEMI_100" in p7.get("perf_summary", {}) and
+        "GAEMI_51_100" in p7.get("perf_summary", {}) and
+        "MATCHED_100_EW" in p7.get("perf_summary", {})
+    )
     version_aligned = (
         web_bundle.get("manifest", {}).get("ledger_combined_sha256") == manifest["ledger_combined_sha256"] and
         web_bundle.get("summary", {}).get("data_as_of") == manifest["data_as_of"] and
-        p6_ok
+        p6_ok and p7_ok
     )
     check(
         "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",

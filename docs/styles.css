@@ -28,6 +28,8 @@
   --chart-institution: #7928ca;
   --chart-aux: #5e5d58;
   --chart-aux-2: #8c4a08;
+  --chart-gaemi100: #0d7a5f;
+  --chart-gaemi51: #5a5954;
   --chart-grid: rgba(90, 89, 84, 0.18);
   --chart-axis: #43423f;
   --chart-reb-line: rgba(90, 89, 84, 0.35);
@@ -70,6 +72,8 @@
     --chart-institution: #c490ff;
     --chart-aux: #a8a79e;
     --chart-aux-2: #f5b942;
+    --chart-gaemi100: #34d399;
+    --chart-gaemi51: #b5b4ab;
     --chart-grid: rgba(240, 239, 236, 0.12);
     --chart-axis: #cbc9bf;
     --chart-reb-line: rgba(240, 239, 236, 0.30);
@@ -110,6 +114,8 @@
   --chart-institution: #c490ff;
   --chart-aux: #a8a79e;
   --chart-aux-2: #f5b942;
+  --chart-gaemi100: #34d399;
+  --chart-gaemi51: #b5b4ab;
   --chart-grid: rgba(240, 239, 236, 0.12);
   --chart-axis: #cbc9bf;
   --chart-reb-line: rgba(240, 239, 236, 0.30);
@@ -1003,4 +1009,57 @@ table.tbl tbody tr.active-row {
     font-size: 11.5px;
     max-width: 100%;
   }
+}
+
+/* PHASE 7: 지수 전환 스위치 (개미 50 / 개미 100) 및 51~100위 구분 배지 */
+.index-switch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.index-switch {
+  display: inline-flex;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.index-switch button {
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.index-switch button.on {
+  background: var(--ink);
+  color: var(--bg);
+}
+.tier-pill {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.tier-pill.t1 {
+  background: var(--add-bg);
+  color: var(--add-ink);
+  border-color: transparent;
+}
+.tier-pill.t2 {
+  background: var(--surface-2);
+  color: var(--ink-2);
 }

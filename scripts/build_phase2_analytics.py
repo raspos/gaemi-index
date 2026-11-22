@@ -1197,6 +1197,8 @@ def main():
     p4_aud_data = json.load(open(p4_aud_path, encoding="utf-8")) if os.path.exists(p4_aud_path) else {}
     p6_down_path = os.path.join(DATA_DIR, "phase6_downside_analysis.json")
     p6_down_data = json.load(open(p6_down_path, encoding="utf-8")) if os.path.exists(p6_down_path) else {}
+    p7_exp_path = os.path.join(DATA_DIR, "phase7_expansion_analysis.json")
+    p7_exp_data = json.load(open(p7_exp_path, encoding="utf-8")) if os.path.exists(p7_exp_path) else {}
     manifest_path = os.path.join(DATA_DIR, "data_manifest.json")
     manifest_data = json.load(open(manifest_path, encoding="utf-8")) if os.path.exists(manifest_path) else {}
 
@@ -1207,6 +1209,7 @@ def main():
         "phase3_reliability": p3_rel_data,
         "phase4_audit": p4_aud_data,
         "phase6_downside": p6_down_data,
+        "phase7_expansion": p7_exp_data,
         "market_diff": market_differentiation,
         "investor_comp": investor_comparison,
         "comparison": comp_data,

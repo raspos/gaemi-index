@@ -10,19 +10,39 @@
   let invChart = null;
   let themeInitialized = false;
 
+  const INDEX_STORAGE_KEY = "gaemi_selected_index";
   const state = {
     activeTab: "sec-01",
+    selectedIndex: "50", // "50" | "100"
     period: "ALL", // ALL | 1Y | 6M | 3M | YTD
     selectedEpisodeId: null,
+    showG50: false,
+    showG100: false,
+    showG51: false,
     showAbs: false,
     showKqEw: false,
     showTotal: false,
+    sec2Scope: "50", // "50" | "100"
     sec2Market: "ALL",
     sec2Search: "",
     selectedStock: "417200",
     invListMode: "IND", // IND | FRG | ORG | DIV_IND | DIV_OTH
     selectedQuarter: null,
   };
+
+  function initSelectedIndex() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlIdx = params.get("idx");
+      const saved = localStorage.getItem(INDEX_STORAGE_KEY);
+      if (urlIdx === "100" || urlIdx === "50") {
+        state.selectedIndex = urlIdx;
+      } else if (saved === "100" || saved === "50") {
+        state.selectedIndex = saved;
+      }
+    } catch (_) {}
+  }
+  initSelectedIndex();
 
   // --- 테마 초기화(중복 리스너 등록 방지 가드 적용), 로컬 저장소 보존, 시스템 테마 자동 감지 ---
   function initTheme() {
@@ -97,6 +117,8 @@
       institution: read("--chart-institution", "#7928ca"),
       aux: read("--chart-aux", "#5e5d58"),
       aux2: read("--chart-aux-2", "#8c4a08"),
+      gaemi100: read("--chart-gaemi100", "#0d7a5f"),
+      gaemi51: read("--chart-gaemi51", "#5a5954"),
       grid: read("--chart-grid", "rgba(90, 89, 84, 0.18)"),
       axis: read("--chart-axis", "#43423f"),
       rebLine: read("--chart-reb-line", "rgba(90, 89, 84, 0.35)"),
@@ -208,11 +230,17 @@
       .join("");
   }
 
-  // 기간 필터링 및 선택 구간 첫 거래일 = 1,000 정규화
+  // 기간 필터링 및 선택 구간 첫 거래일 = 1,000 정규화 (PHASE 7 시계열 병합 포함)
   function getPeriodRows() {
     const ts = DATA.timeseries || [];
     if (!ts.length) return [];
-    const maxDate = ts[ts.length - 1].date;
+    const p7Ts = (DATA.phase7_expansion && DATA.phase7_expansion.timeseries_phase7) || [];
+    const p7Map = new Map(p7Ts.map((r) => [r.date, r]));
+    const mergedTs = ts.map((r) => {
+      const extra = p7Map.get(r.date);
+      return extra ? { ...r, ...extra } : r;
+    });
+    const maxDate = mergedTs[mergedTs.length - 1].date;
     const maxObj = new Date(maxDate);
     let cutDate = "2000-01-01";
 
@@ -231,8 +259,8 @@
     } else if (state.period === "YTD") {
       cutDate = `${maxDate.slice(0, 4)}-01-01`;
     }
-    const filtered = ts.filter((r) => r.date >= cutDate);
-    return filtered.length >= 2 ? filtered : ts;
+    const filtered = mergedTs.filter((r) => r.date >= cutDate);
+    return filtered.length >= 2 ? filtered : mergedTs;
   }
 
   function calcPeriodStats(rows, colVal) {
@@ -293,11 +321,13 @@
     return da > 0 && db > 0 ? num / Math.sqrt(da * db) : 0;
   }
 
-  // PHASE 6: 하락장 성적표 ('증시가 떨어질 때'), 하락장/상승장 포착률, 하락장 사건별 차트 렌더링
+  // PHASE 6 & 7: 하락장 성적표 ('증시가 떨어질 때'), 하락장/상승장 포착률, 하락장 사건별 차트 렌더링 (개미 50 / 개미 100 전환 지원)
   function renderPhase6DownsideSection() {
     const p6 = DATA.phase6_downside;
+    const p7 = DATA.phase7_expansion;
     if (!p6) return;
 
+    const is100 = state.selectedIndex === "100" && p7 && p7.perf_summary && p7.perf_summary.GAEMI_100;
     const hl = p6.auto_headline || {};
     const sc = p6.scorecard_when_market_falls || {};
     const cap = p6.capture_ratios || {};
@@ -305,37 +335,65 @@
     const sev = p6.severity_buckets || {};
     const epsObj = p6.drawdown_episodes || {};
 
+    const p100Cap = is100 ? p7.perf_summary.GAEMI_100.vs_kosdaq : null;
+    const m100Cap = is100 ? p7.perf_summary.MATCHED_100_EW.vs_kosdaq : null;
+    const p100Kp = is100 ? p7.perf_summary.GAEMI_100.vs_kospi : null;
+    const p50Cap = p7 && p7.perf_summary && p7.perf_summary.GAEMI_50 ? p7.perf_summary.GAEMI_50.vs_kosdaq : null;
+
     // 1) 상단 자동 생성 핵심 메시지 배너
     const hlTextEl = document.getElementById("down-headline-text");
-    if (hlTextEl) hlTextEl.textContent = hl.headline || "";
+    if (hlTextEl) {
+      if (is100 && p100Cap) {
+        const diff100 = p100Cap.down_month_gap_pctp;
+        hlTextEl.textContent =
+          diff100 < 0
+            ? `증시가 하락한 달, 개미 100은 코스닥보다 평균 ${Math.abs(diff100).toFixed(2)}%포인트 더 떨어졌습니다.`
+            : `증시가 하락한 달, 개미 100은 코스닥(${fmtPct(p100Cap.bench_down_mean_pct)})과 비슷한 ${fmtPct(p100Cap.down_month_mean_pct)}를 기록했습니다 (포착률 ${p100Cap.downside_capture_pct}%).`;
+      } else {
+        hlTextEl.textContent = hl.headline || "";
+      }
+    }
 
     // 2) '증시가 떨어질 때' 4대 성적표
     const setEl = (id, txt) => {
       const el = document.getElementById(id);
       if (el) el.textContent = txt;
     };
-    setEl("down-scorecard-period", sc.period_label || "");
-    setEl("down-scorecard-sample", `표본: 코스닥 하락월 ${sc.kosdaq_down_months_count || 10}개월`);
-    setEl("sc-gaemi-down-mean", fmtPct(sc.gaemi_mean_in_kosdaq_down_pct));
-    setEl(
-      "sc-gaemi-down-sub",
-      `중앙값 ${fmtPct(sc.gaemi_median_in_kosdaq_down_pct)} · 기하 ${fmtPct(sc.gaemi_geo_in_kosdaq_down_pct)}`
-    );
-    setEl("sc-kosdaq-down-mean", fmtPct(sc.kosdaq_mean_in_kosdaq_down_pct));
-    setEl(
-      "sc-kosdaq-down-sub",
-      `개미가 ${fmtPct(sc.gap_vs_kosdaq_mean_pctp)}p ${sc.gap_vs_kosdaq_mean_pctp < 0 ? "더 하락" : "방어"}`
-    );
-    setEl("sc-matched-down-mean", fmtPct(sc.matched50_mean_in_kosdaq_down_pct));
-    setEl(
-      "sc-matched-down-sub",
-      `개미가 ${fmtPct(sc.gap_vs_matched50_mean_pctp)}p ${sc.gap_vs_matched50_mean_pctp < 0 ? "더 하락" : "방어"}`
-    );
-    setEl("sc-worse-ratio", `${sc.worse_than_kosdaq_months_pct}% (${sc.worse_than_kosdaq_months_count}/${sc.kosdaq_down_months_count}개월)`);
-    setEl(
-      "sc-worse-matched-sub",
-      `유사 50 대비: ${sc.worse_than_matched50_in_kosdaq_down_pct}% (${sc.worse_than_matched50_in_kosdaq_down_count}/${sc.kosdaq_down_months_count}개월)`
-    );
+    if (is100 && p100Cap && m100Cap) {
+      const gapM = p100Cap.down_month_mean_pct - m100Cap.down_month_mean_pct;
+      const st100 = (p7.statistical_tests && p7.statistical_tests.GAEMI_100 && p7.statistical_tests.GAEMI_100.vs_kosdaq_down_months) || {};
+      setEl("down-scorecard-sample", `표본: 코스닥 하락월 ${p100Cap.down_months_count}개월`);
+      setEl("sc-gaemi-down-mean", fmtPct(p100Cap.down_month_mean_pct));
+      setEl("sc-gaemi-down-sub", `중앙값 ${fmtPct(st100.median_pct)} · 95% CI [${st100.ci95_pct ? st100.ci95_pct[0] : "-"}%, ${st100.ci95_pct ? st100.ci95_pct[1] : "-"}%]`);
+      setEl("sc-kosdaq-down-mean", fmtPct(p100Cap.bench_down_mean_pct));
+      setEl("sc-kosdaq-down-sub", `개미 100이 ${fmtPct(p100Cap.down_month_gap_pctp)}p ${p100Cap.down_month_gap_pctp < 0 ? "더 하락" : "방어"}`);
+      setEl("sc-matched-down-mean", fmtPct(m100Cap.down_month_mean_pct));
+      setEl("sc-matched-down-sub", `개미 100이 ${fmtPct(gapM)}p ${gapM < 0 ? "더 하락" : "방어"}`);
+      setEl("sc-worse-ratio", `${p100Cap.worse_than_bench_months_pct}% (${p100Cap.worse_than_bench_months_count}/${p100Cap.down_months_count}개월)`);
+      setEl("sc-worse-matched-sub", `유사 100 대비 월평균 ${fmtPct(gapM)}p`);
+    } else {
+      setEl("down-scorecard-sample", `표본: 코스닥 하락월 ${sc.kosdaq_down_months_count || 10}개월`);
+      setEl("sc-gaemi-down-mean", fmtPct(sc.gaemi_mean_in_kosdaq_down_pct));
+      setEl(
+        "sc-gaemi-down-sub",
+        `중앙값 ${fmtPct(sc.gaemi_median_in_kosdaq_down_pct)} · 기하 ${fmtPct(sc.gaemi_geo_in_kosdaq_down_pct)}`
+      );
+      setEl("sc-kosdaq-down-mean", fmtPct(sc.kosdaq_mean_in_kosdaq_down_pct));
+      setEl(
+        "sc-kosdaq-down-sub",
+        `개미가 ${fmtPct(sc.gap_vs_kosdaq_mean_pctp)}p ${sc.gap_vs_kosdaq_mean_pctp < 0 ? "더 하락" : "방어"}`
+      );
+      setEl("sc-matched-down-mean", fmtPct(sc.matched50_mean_in_kosdaq_down_pct));
+      setEl(
+        "sc-matched-down-sub",
+        `개미가 ${fmtPct(sc.gap_vs_matched50_mean_pctp)}p ${sc.gap_vs_matched50_mean_pctp < 0 ? "더 하락" : "방어"}`
+      );
+      setEl("sc-worse-ratio", `${sc.worse_than_kosdaq_months_pct}% (${sc.worse_than_kosdaq_months_count}/${sc.kosdaq_down_months_count}개월)`);
+      setEl(
+        "sc-worse-matched-sub",
+        `유사 50 대비: ${sc.worse_than_matched50_in_kosdaq_down_pct}% (${sc.worse_than_matched50_in_kosdaq_down_count}/${sc.kosdaq_down_months_count}개월)`
+      );
+    }
 
     // 3) 하락장 포착률 가로 막대그래프 (100% 기준선 = 0~150% 스케일에서 66.67% 위치)
     const cKq = (cap.vs_kosdaq && cap.vs_kosdaq.GAEMI_50_PURE) || {};
@@ -345,32 +403,59 @@
 
     const capBarsEl = document.getElementById("down-capture-bars");
     if (capBarsEl) {
-      const barItems = [
-        {
-          label: `개미 지수 (vs 코스닥 ${cKq.down_months_count || 10}개월)`,
-          ratio: cKq.downside_capture_geo_pct || 115.9,
-          gapText: `개미 ${fmtPct(cKq.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKq.bench_down_arith_mean_pct)} (${fmtPct(cKq.mean_gap_in_down_months_pctp)}p)`,
-          colorVar: "var(--chart-gaemi)",
-        },
-        {
-          label: `유사 50종목 (vs 코스닥 ${cKqMatched.down_months_count || 10}개월)`,
-          ratio: cKqMatched.downside_capture_geo_pct || 84.2,
-          gapText: `유사50 ${fmtPct(cKqMatched.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKqMatched.bench_down_arith_mean_pct)} (+${Number(cKqMatched.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
-          colorVar: "var(--chart-institution)",
-        },
-        {
-          label: `개미 지수 (vs 유사 50종목 ${cMt.down_months_count || 12}개월)`,
-          ratio: cMt.downside_capture_geo_pct || 137.0,
-          gapText: `개미 ${fmtPct(cMt.port_down_arith_mean_pct)} · 유사50 ${fmtPct(cMt.bench_down_arith_mean_pct)} (${fmtPct(cMt.mean_gap_in_down_months_pctp)}p)`,
-          colorVar: "var(--chart-gaemi)",
-        },
-        {
-          label: `개미 지수 (vs 코스피 ${cKp.down_months_count || 10}개월)`,
-          ratio: cKp.downside_capture_geo_pct || 97.5,
-          gapText: `개미 ${fmtPct(cKp.port_down_arith_mean_pct)} · 코스피 ${fmtPct(cKp.bench_down_arith_mean_pct)} (+${Number(cKp.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
-          colorVar: "var(--chart-kospi)",
-        },
-      ];
+      const barItems = is100 && p100Cap && m100Cap && p100Kp
+        ? [
+            {
+              label: `개미 100 (vs 코스닥 ${p100Cap.down_months_count}개월)`,
+              ratio: p100Cap.downside_capture_pct,
+              gapText: `개미100 ${fmtPct(p100Cap.down_month_mean_pct)} · 코스닥 ${fmtPct(p100Cap.bench_down_mean_pct)} (${p100Cap.down_month_gap_pctp >= 0 ? "+" : ""}${p100Cap.down_month_gap_pctp.toFixed(2)}%p)`,
+              colorVar: "var(--chart-gaemi100)",
+            },
+            {
+              label: `유사 100종목 (vs 코스닥 ${m100Cap.down_months_count}개월)`,
+              ratio: m100Cap.downside_capture_pct,
+              gapText: `유사100 ${fmtPct(m100Cap.down_month_mean_pct)} · 코스닥 ${fmtPct(m100Cap.bench_down_mean_pct)} (+${m100Cap.down_month_gap_pctp.toFixed(2)}%p)`,
+              colorVar: "var(--chart-institution)",
+            },
+            {
+              label: `개미 50 (vs 코스닥 ${p50Cap ? p50Cap.down_months_count : 10}개월)`,
+              ratio: p50Cap ? p50Cap.downside_capture_pct : 115.9,
+              gapText: `개미50 ${fmtPct(p50Cap ? p50Cap.down_month_mean_pct : -12.15)} · 코스닥 ${fmtPct(p100Cap.bench_down_mean_pct)}`,
+              colorVar: "var(--chart-gaemi)",
+            },
+            {
+              label: `개미 100 (vs 코스피 ${p100Kp.down_months_count}개월)`,
+              ratio: p100Kp.downside_capture_pct,
+              gapText: `개미100 ${fmtPct(p100Kp.down_month_mean_pct)} · 코스피 ${fmtPct(p100Kp.bench_down_mean_pct)}`,
+              colorVar: "var(--chart-kospi)",
+            },
+          ]
+        : [
+            {
+              label: `개미 50 (vs 코스닥 ${cKq.down_months_count || 10}개월)`,
+              ratio: cKq.downside_capture_geo_pct || 115.9,
+              gapText: `개미 ${fmtPct(cKq.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKq.bench_down_arith_mean_pct)} (${fmtPct(cKq.mean_gap_in_down_months_pctp)}p)`,
+              colorVar: "var(--chart-gaemi)",
+            },
+            {
+              label: `유사 50종목 (vs 코스닥 ${cKqMatched.down_months_count || 10}개월)`,
+              ratio: cKqMatched.downside_capture_geo_pct || 84.2,
+              gapText: `유사50 ${fmtPct(cKqMatched.port_down_arith_mean_pct)} · 코스닥 ${fmtPct(cKqMatched.bench_down_arith_mean_pct)} (+${Number(cKqMatched.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+              colorVar: "var(--chart-institution)",
+            },
+            {
+              label: `개미 50 (vs 유사 50종목 ${cMt.down_months_count || 12}개월)`,
+              ratio: cMt.downside_capture_geo_pct || 137.0,
+              gapText: `개미 ${fmtPct(cMt.port_down_arith_mean_pct)} · 유사50 ${fmtPct(cMt.bench_down_arith_mean_pct)} (${fmtPct(cMt.mean_gap_in_down_months_pctp)}p)`,
+              colorVar: "var(--chart-gaemi)",
+            },
+            {
+              label: `개미 50 (vs 코스피 ${cKp.down_months_count || 10}개월)`,
+              ratio: cKp.downside_capture_geo_pct || 97.5,
+              gapText: `개미 ${fmtPct(cKp.port_down_arith_mean_pct)} · 코스피 ${fmtPct(cKp.bench_down_arith_mean_pct)} (+${Number(cKp.mean_gap_in_down_months_pctp).toFixed(2)}%p)`,
+              colorVar: "var(--chart-kospi)",
+            },
+          ];
 
       capBarsEl.innerHTML = barItems
         .map((it) => {
@@ -398,30 +483,49 @@
     if (capCanvas) {
       const ctxCap = capCanvas.getContext("2d");
       if (captureChart) captureChart.destroy();
+      const capLabels = is100 && p100Cap && m100Cap
+        ? ["개미 100", "비슷한 주식 100개", "개미 50", "코스닥 동일가중"]
+        : ["개미 50", "비슷한 주식 50개", "코스닥 동일가중", "외국인 강도 50"];
+      const capDownData = is100 && p100Cap && m100Cap
+        ? [
+            p100Cap.downside_capture_pct,
+            m100Cap.downside_capture_pct,
+            p50Cap ? p50Cap.downside_capture_pct : 115.9,
+            cKqEw.downside_capture_geo_pct || 91.3,
+          ]
+        : [
+            cKq.downside_capture_geo_pct || 115.9,
+            cKqMatched.downside_capture_geo_pct || 84.2,
+            cKqEw.downside_capture_geo_pct || 91.3,
+            cFrg.downside_capture_geo_pct || 91.5,
+          ];
+      const capUpData = is100 && p100Cap && m100Cap
+        ? [
+            p100Cap.upside_capture_pct,
+            m100Cap.upside_capture_pct,
+            p50Cap ? p50Cap.upside_capture_pct : 112.6,
+            cKqEw.upside_capture_geo_pct || 121.4,
+          ]
+        : [
+            cKq.upside_capture_geo_pct || 112.6,
+            cKqMatched.upside_capture_geo_pct || 95.6,
+            cKqEw.upside_capture_geo_pct || 121.4,
+            cFrg.upside_capture_geo_pct || 118.7,
+          ];
       captureChart = new Chart(ctxCap, {
         type: "bar",
         data: {
-          labels: ["개미 지수", "비슷한 주식 50개", "코스닥 동일가중", "외국인 강도 50"],
+          labels: capLabels,
           datasets: [
             {
               label: "하락장 포착률 (낮을수록 방어 · 100%=코스닥)",
-              data: [
-                cKq.downside_capture_geo_pct || 115.9,
-                cKqMatched.downside_capture_geo_pct || 84.2,
-                cKqEw.downside_capture_geo_pct || 91.3,
-                cFrg.downside_capture_geo_pct || 91.5,
-              ],
-              backgroundColor: tk.gaemi,
+              data: capDownData,
+              backgroundColor: is100 ? tk.gaemi100 : tk.gaemi,
               borderRadius: 4,
             },
             {
               label: "상승장 포착률 (높을수록 탄력 · 100%=코스닥)",
-              data: [
-                cKq.upside_capture_geo_pct || 112.6,
-                cKqMatched.upside_capture_geo_pct || 95.6,
-                cKqEw.upside_capture_geo_pct || 121.4,
-                cFrg.upside_capture_geo_pct || 118.7,
-              ],
+              data: capUpData,
               backgroundColor: tk.kosdaq,
               borderRadius: 4,
             },
@@ -604,32 +708,43 @@
   function renderEpisodeDetail(kqEps, tk) {
     const ep = kqEps.find((e) => e.episode_id === state.selectedEpisodeId) || kqEps[0];
     if (!ep) return;
+    const p7 = DATA.phase7_expansion;
+    const is100 = state.selectedIndex === "100" && p7 && Array.isArray(p7.episode_comparison);
+    const ep7 = is100 ? p7.episode_comparison.find((e) => e.episode_id === ep.episode_id) : null;
     const r = ep.returns_pct;
     const g = ep.gaps_vs_gaemi_pctp;
     const rec = ep.recovery;
+
+    const mainRet = ep7 ? ep7.returns_pct.GAEMI_100 : r.GAEMI_50_PURE;
+    const matchRet = ep7 ? ep7.returns_pct.MATCHED_100_EW : r.MATCHED_50_EW;
+    const kqRet = ep7 ? ep7.returns_pct.KOSDAQ : r.KOSDAQ;
+    const kpRet = ep7 ? ep7.returns_pct.KOSPI : r.KOSPI;
+    const gapM = mainRet - matchRet;
+    const gapKq = mainRet - kqRet;
+    const gapKp = mainRet - kpRet;
 
     const cardsEl = document.getElementById("episode-summary-cards");
     if (cardsEl) {
       cardsEl.innerHTML = `
         <div class="down-box">
-          <span class="dk">개미 지수 (${ep.start_date}~${ep.end_date})</span>
-          <span class="dv down">${fmtPct(r.GAEMI_50_PURE)}</span>
-          <span class="ds">회복: ${rec.GAEMI_50_PURE.status_label}</span>
+          <span class="dk">${is100 ? "개미 100" : "개미 50"} (${ep.start_date}~${ep.end_date})</span>
+          <span class="dv down">${fmtPct(mainRet)}</span>
+          <span class="ds">${is100 ? `개미 50: ${fmtPct(r.GAEMI_50_PURE)}` : `회복: ${rec.GAEMI_50_PURE.status_label}`}</span>
         </div>
         <div class="down-box">
-          <span class="dk">유사 50종목</span>
-          <span class="dv down">${fmtPct(r.MATCHED_50_EW)}</span>
-          <span class="ds">개미 대비 <strong>${g.vs_MATCHED_50 > 0 ? "+" : ""}${g.vs_MATCHED_50.toFixed(2)}%p</strong> · ${rec.MATCHED_50_EW.status_label}</span>
+          <span class="dk">${is100 ? "유사 100종목" : "유사 50종목"}</span>
+          <span class="dv down">${fmtPct(matchRet)}</span>
+          <span class="ds">개미 대비 <strong>${gapM > 0 ? "+" : ""}${gapM.toFixed(2)}%p</strong>${is100 ? "" : ` · ${rec.MATCHED_50_EW.status_label}`}</span>
         </div>
         <div class="down-box">
           <span class="dk">코스닥</span>
-          <span class="dv down">${fmtPct(r.KOSDAQ)}</span>
-          <span class="ds">개미 대비 <strong>${g.vs_KOSDAQ > 0 ? "+" : ""}${g.vs_KOSDAQ.toFixed(2)}%p</strong> · ${rec.KOSDAQ.status_label}</span>
+          <span class="dv down">${fmtPct(kqRet)}</span>
+          <span class="ds">개미 대비 <strong>${gapKq > 0 ? "+" : ""}${gapKq.toFixed(2)}%p</strong> · ${rec.KOSDAQ.status_label}</span>
         </div>
         <div class="down-box">
           <span class="dk">코스피</span>
-          <span class="dv ${clsSign(r.KOSPI)}">${fmtPct(r.KOSPI)}</span>
-          <span class="ds">개미 대비 <strong>${g.vs_KOSPI > 0 ? "+" : ""}${g.vs_KOSPI.toFixed(2)}%p</strong> · ${rec.KOSPI.status_label}</span>
+          <span class="dv ${clsSign(kpRet)}">${fmtPct(kpRet)}</span>
+          <span class="ds">개미 대비 <strong>${gapKp > 0 ? "+" : ""}${gapKp.toFixed(2)}%p</strong> · ${rec.KOSPI.status_label}</span>
         </div>
       `;
     }
@@ -760,9 +875,88 @@
     });
   }
 
+  // PHASE 7: '더 많이 산 주식이 더 크게 떨어졌을까?' (1~50 · 51~100 · 101~150위 + 민감도 + 통계검증)
+  function renderPhase7IntensityCard() {
+    const p7 = DATA.phase7_expansion;
+    if (!p7) return;
+
+    const tiers = p7.intensity_tiers || [];
+    const reg = p7.controlled_regression || {};
+    const tagEl = document.getElementById("p7-intensity-stat-tag");
+    if (tagEl && tiers.length === 3) {
+      tagEl.textContent =
+        `${tiers[0].down_month_mean_pct.toFixed(2)}% vs ${tiers[1].down_month_mean_pct.toFixed(2)}% vs ${tiers[2].down_month_mean_pct.toFixed(2)}% · 통제회귀 p=${Number(reg.controlled_p_value).toFixed(4)}`;
+    }
+
+    const tbody = document.getElementById("p7-intensity-tbody");
+    if (tbody) {
+      tbody.innerHTML = tiers
+        .map(
+          (t) => `<tr>
+          <td><strong>${t.tier}</strong></td>
+          <td class="r down"><strong>${fmtPct(t.down_month_mean_pct)}</strong></td>
+          <td class="r up">${fmtPct(t.up_month_mean_pct)}</td>
+          <td class="r"><strong>${Number(t.downside_capture_pct).toFixed(1)}%</strong></td>
+          <td class="r">${Number(t.upside_capture_pct).toFixed(1)}%</td>
+          <td class="r down">${Number(t.mdd_pct).toFixed(2)}%</td>
+          <td class="r">${Number(t.downside_beta_kosdaq).toFixed(3)}</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    const sensEl = document.getElementById("p7-sens-tbody");
+    if (sensEl) {
+      sensEl.innerHTML = (p7.sensitivity_n || [])
+        .map(
+          (s) => `<tr>
+          <td><strong>GAEMI ${s.n_stocks}</strong></td>
+          <td class="r ${clsSign(s.total_return_pct)}"><strong>${fmtPct(s.total_return_pct)}</strong></td>
+          <td class="r down">${Number(s.mdd_pct).toFixed(2)}%</td>
+          <td class="r">${Number(s.ann_volatility_pct).toFixed(2)}%</td>
+          <td class="r">${Number(s.downside_capture_kosdaq_pct).toFixed(1)}%</td>
+          <td class="r">${Number(s.upside_capture_kosdaq_pct).toFixed(1)}%</td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    const statEl = document.getElementById("p7-stat-tbody");
+    if (statEl && p7.statistical_tests) {
+      const rows = [
+        ["GAEMI 50", p7.statistical_tests.GAEMI_50],
+        ["GAEMI 100", p7.statistical_tests.GAEMI_100],
+        ["51~100위", p7.statistical_tests.GAEMI_51_100],
+        ["101~150위", p7.statistical_tests.GAEMI_101_150],
+      ];
+      statEl.innerHTML = rows
+        .filter(([, obj]) => obj)
+        .map(([lbl, obj]) => {
+          const kq = obj.vs_kosdaq_down_months;
+          const mt = obj.vs_matched_down_months;
+          return `<tr>
+            <td><strong>${lbl}</strong></td>
+            <td class="r down">${fmtPct(kq.mean_pct)} [${kq.ci95_pct[0]}%, ${kq.ci95_pct[1]}%]</td>
+            <td class="r ${clsSign(kq.diff_mean_pctp)}">${kq.diff_mean_pctp > 0 ? "+" : ""}${kq.diff_mean_pctp.toFixed(2)}%p</td>
+            <td class="r ${clsSign(mt.diff_mean_pctp)}">${mt.diff_mean_pctp > 0 ? "+" : ""}${mt.diff_mean_pctp.toFixed(2)}%p (p=${mt.p_value.toFixed(3)})</td>
+          </tr>`;
+        })
+        .join("");
+    }
+
+    const abEl = document.getElementById("p7-ab-diag");
+    if (abEl && p7.ab_stability && p7.matched100_diagnostics) {
+      const ab = p7.ab_stability;
+      const m100 = p7.matched100_diagnostics;
+      abEl.textContent =
+        `A/B 추정 일치율 — 상위 50: ${ab.avg_top50_overlap_pct}% · 상위 100: ${ab.avg_top100_overlap_pct}% · 51~100위: ${ab.avg_rank51_100_overlap_pct}% | 유사 100 매칭: 평균 ${m100.avg_matched_count}/100 (동일업종 ${m100.avg_tier1_same_sector} · 동일시장 ${m100.avg_tier2_same_market} · 미매칭 ${m100.avg_unmatched})`;
+    }
+  }
+
   // TAB 1: 개미 지수 (상단 고정 스트립 + 하락장 분석 + 메인 비교 차트 + 상세 성과 표)
   function renderSection01() {
     renderPhase6DownsideSection();
+    renderPhase7IntensityCard();
     const rows = getPeriodRows();
     if (!rows.length) return;
     const startDt = rows[0].date;
@@ -775,13 +969,35 @@
     document.getElementById("chart-reindexed-note").textContent =
       `* 선택한 기간 첫 거래일(${startDt})을 1,000.00으로 맞춘 가격지수(배당 제외·잠정) 추이입니다 (${startDt} ~ ${endDt}).`;
 
-    const stPure = calcPeriodStats(rows, "GAEMI_50_PURE");
+    const is100 = state.selectedIndex === "100" && rows[0].GAEMI_100 !== undefined;
+    document.querySelectorAll("#index-switch button").forEach((b) => {
+      b.classList.toggle("on", b.getAttribute("data-idx") === state.selectedIndex);
+    });
+    const swTag = document.getElementById("index-switch-tag");
+    if (swTag) {
+      swTag.textContent = is100
+        ? "비교지수: GAEMI 100 (상위 100 · 1% 동일가중)"
+        : "대표지수: GAEMI 50 PURE (상위 50 · 2% 동일가중)";
+    }
+
+    const stPure50 = calcPeriodStats(rows, "GAEMI_50_PURE");
+    const stG100 = rows[0].GAEMI_100 !== undefined ? calcPeriodStats(rows, "GAEMI_100") : stPure50;
+    const stG51 = rows[0].GAEMI_51_100 !== undefined ? calcPeriodStats(rows, "GAEMI_51_100") : null;
+    const stMatched50 = calcPeriodStats(rows, "MATCHED_50_EW");
+    const stMatched100 = rows[0].MATCHED_100_EW !== undefined ? calcPeriodStats(rows, "MATCHED_100_EW") : stMatched50;
+
+    const stPure = is100 ? stG100 : stPure50;
+    const stMatched = is100 ? stMatched100 : stMatched50;
     const stKospi = calcPeriodStats(rows, "KOSPI_norm");
     const stKosdaq = calcPeriodStats(rows, "KOSDAQ_norm");
     const stAbs = calcPeriodStats(rows, "GAEMI_50_ABS");
     const stKqEw = calcPeriodStats(rows, "KOSDAQ_EW");
-    const stMatched = calcPeriodStats(rows, "MATCHED_50_EW");
     const stTotal = calcPeriodStats(rows, "GAEMI_50_TOTAL");
+
+    const titleMainEl = document.getElementById("tile-main-title");
+    if (titleMainEl) titleMainEl.textContent = is100 ? "개미 100 (GAEMI 100 · 잠정)" : "개미 50 (GAEMI 50 PURE · 잠정)";
+    const titleMatchedEl = document.getElementById("tile-matched-title");
+    if (titleMatchedEl) titleMatchedEl.textContent = is100 ? "비슷한 주식 100개 (시총·업종 유사)" : "비슷한 주식 50개 (시총·업종 유사)";
 
     // 1) 상단 4개 핵심 비교 카드 업데이트 (개미 지수, 비슷한 주식 50개, 코스피, 코스닥)
     document.getElementById("val-pure").textContent = fmtNum(stPure.current, 2);
@@ -829,14 +1045,14 @@
     gapKosdaqEl.textContent = `${gapKosdaq > 0 ? "+" : ""}${gapKosdaq.toFixed(2)}%p`;
     gapKosdaqEl.className = clsSign(gapKosdaq);
 
-    // 2) 기본 4개 지수 차트 (시각적 위계: 1. 개미 지수 → 2. 비슷한 주식 50개 → 3. 코스피 → 4. 코스닥)
+    // 2) 기본 4개 지수 차트 (선택된 개미 50/100 → 비슷한 주식 50/100 → 코스피 → 코스닥)
     const tk = getChartTokens();
     const datasets = [
       {
-        label: "개미 지수 (GAEMI 50 PURE · 실선)",
+        label: is100 ? "개미 100 (GAEMI 100 · 실선)" : "개미 50 (GAEMI 50 PURE · 실선)",
         data: stPure.reindexed,
-        borderColor: tk.gaemi,
-        backgroundColor: tk.gaemiFill,
+        borderColor: is100 ? tk.gaemi100 : tk.gaemi,
+        backgroundColor: is100 ? "transparent" : tk.gaemiFill,
         borderWidth: 2.8,
         borderDash: [],
         pointRadius: 0,
@@ -845,11 +1061,11 @@
         order: 1,
       },
       {
-        label: "비슷한 주식 50개 (시총·업종 유사 · 굵은 파선)",
+        label: is100 ? "비슷한 주식 100개 (굵은 파선)" : "비슷한 주식 50개 (굵은 파선)",
         data: stMatched.reindexed,
         borderColor: tk.institution,
         backgroundColor: "transparent",
-        borderWidth: 2.4,
+        borderWidth: 2.3,
         borderDash: [8, 4],
         pointRadius: 0,
         pointHoverRadius: 4,
@@ -881,6 +1097,46 @@
         order: 4,
       },
     ];
+
+    if (state.showG50 && is100) {
+      datasets.push({
+        label: "개미 50 (GAEMI 50 PURE)",
+        data: stPure50.reindexed,
+        borderColor: tk.gaemi,
+        backgroundColor: "transparent",
+        borderWidth: 2.1,
+        borderDash: [6, 3],
+        pointRadius: 0,
+        tension: 0.1,
+        order: 5,
+      });
+    }
+    if (state.showG100 && !is100) {
+      datasets.push({
+        label: "개미 100 (GAEMI 100)",
+        data: stG100.reindexed,
+        borderColor: tk.gaemi100,
+        backgroundColor: "transparent",
+        borderWidth: 2.1,
+        borderDash: [6, 3],
+        pointRadius: 0,
+        tension: 0.1,
+        order: 5,
+      });
+    }
+    if (state.showG51 && stG51) {
+      datasets.push({
+        label: "개미 51~100위",
+        data: stG51.reindexed,
+        borderColor: tk.gaemi51,
+        backgroundColor: "transparent",
+        borderWidth: 1.9,
+        borderDash: [3, 3],
+        pointRadius: 0,
+        tension: 0.1,
+        order: 5,
+      });
+    }
 
     if (state.showKqEw) {
       datasets.push({
@@ -1010,10 +1266,13 @@
 
     // 3) 접기 상세 성과 테이블
     const tableConfigs = [
-      { name: "개미 지수 (GAEMI 50 PURE · 잠정)", st: stPure },
+      { name: "개미 50 (GAEMI 50 PURE · 잠정)", st: stPure50 },
+      ...(stG100 !== stPure50 ? [{ name: "개미 100 (GAEMI 100 · 잠정)", st: stG100 }] : []),
+      ...(stG51 ? [{ name: "개미 51~100위", st: stG51 }] : []),
       { name: "코스피 (1,000 환산)", st: stKospi },
       { name: "코스닥 (1,000 환산)", st: stKosdaq },
-      { name: "비슷한 주식 50개 (시총·업종 유사)", st: stMatched },
+      { name: "비슷한 주식 50개 (시총·업종 유사)", st: stMatched50 },
+      ...(stMatched100 !== stMatched50 ? [{ name: "비슷한 주식 100개 (시총·업종 유사)", st: stMatched100 }] : []),
       { name: "코스닥 동일가중", st: stKqEw },
       { name: "단순 순매수금액 상위 50", st: stAbs },
       { name: "개미 지수 (KRX+NXT 합산)", st: stTotal },
@@ -1043,9 +1302,71 @@
       .join("");
   }
 
-  // TAB 2: 개미가 산 50종목
+  // TAB 2: 개미가 산 종목 (상위 50 / 상위 100 전환 지원)
+  function getStockDetailRecord(code) {
+    if (DATA.stock_trajectories && DATA.stock_trajectories[code]) {
+      return DATA.stock_trajectories[code];
+    }
+    const p7 = DATA.phase7_expansion;
+    if (!p7) return null;
+    const item = (p7.constituents_100 || []).find((r) => r.code === code);
+    const mPts = (p7.stock_trajectories_51_100 && p7.stock_trajectories_51_100[code]) || [];
+    if (!item) return null;
+    let cum = 0;
+    const dates = [];
+    const cumNet = [];
+    const prices = [];
+    mPts.forEach((pt) => {
+      cum += Number(pt.ind_net_eok || 0);
+      dates.push(pt.ym);
+      cumNet.push(Number(cum.toFixed(2)));
+      prices.push(Number(pt.close || 0));
+    });
+    return {
+      code: item.code,
+      name: item.name,
+      market: item.market,
+      size_bucket: item.end_marcap_eok >= 10000 ? "1조 이상" : "3,000억~1조",
+      pure_rank: item.rank,
+      abs_rank: "-",
+      marcap_rank: "-",
+      intensity_pct: item.intensity_pct,
+      net_buy_36m_eok: item.ind_net_val_eok,
+      avg_marcap_36m_eok: item.avg_marcap_36m_eok,
+      end_marcap_eok: item.end_marcap_eok,
+      market_weight_pct: "-",
+      rank_change_str: item.rank_change_str,
+      industry: item.industry,
+      since_entry_return_pct: item.ret_since_entry_pct,
+      entry_quarter: item.first_entry_quarter,
+      entry_date: item.first_entry_date,
+      included_quarters: [],
+      frg_intensity_pct: null,
+      org_intensity_pct: null,
+      frg_net_buy_36m_eok: null,
+      org_net_buy_36m_eok: null,
+      dates,
+      cum_net_buy_eok: cumNet,
+      prices,
+    };
+  }
+
   function renderSection02() {
-    const rawList = DATA.gaemi50_pure_constituents || [];
+    const p7 = DATA.phase7_expansion;
+    const isScope100 = state.sec2Scope === "100" && p7 && Array.isArray(p7.constituents_100) && p7.constituents_100.length;
+    const rawList = isScope100
+      ? p7.constituents_100.map((r) => ({ ...r, since_entry_return_pct: r.ret_since_entry_pct }))
+      : (DATA.gaemi50_pure_constituents || []);
+
+    const tEl = document.getElementById("sec2-title");
+    const sEl = document.getElementById("sec2-sub");
+    if (tEl) tEl.textContent = isScope100 ? "개미가 산 100종목" : "개미가 산 50종목";
+    if (sEl) sEl.textContent = isScope100 ? "순매수 강도 상위 100개 보통주 (1~50위 · 51~100위 구분)" : "순매수 강도 상위 50개 보통주 (직전 36개월)";
+
+    document.querySelectorAll("#sec2-scope-btns button").forEach((b) => {
+      b.classList.toggle("on", b.getAttribute("data-scope") === state.sec2Scope);
+    });
+
     const kospiCnt = rawList.filter((r) => r.market === "KOSPI").length;
     const kosdaqCnt = rawList.filter((r) => r.market === "KOSDAQ").length;
 
@@ -1073,10 +1394,13 @@
           const rChg = r.rank_change_str || "-";
           const badgeCls = rChg === "NEW" ? "new" : "";
           const retCls = clsSign(r.since_entry_return_pct);
+          const tierBadge = isScope100
+            ? `<span class="tier-pill ${r.rank <= 50 ? "t1" : "t2"}">${r.rank <= 50 ? "1~50" : "51~100"}</span>`
+            : "";
           return `<tr class="clickable ${isAct}" data-code="${r.code}">
             <td class="r"><strong>${r.rank}</strong></td>
             <td>
-              <strong>${r.name}</strong><span class="code-sub">${r.code}</span>
+              <strong>${r.name}</strong><span class="code-sub">${r.code}</span>${tierBadge}
               <span class="badge-sm ${badgeCls}" style="margin-left:4px">${rChg}</span>
             </td>
             <td class="r"><strong class="up">+${Number(r.intensity_pct).toFixed(2)}%</strong></td>
@@ -1112,31 +1436,35 @@
   function initDetailSelect() {
     const trajs = DATA.stock_trajectories || {};
     const sel = document.getElementById("dt-stock-select");
+    const p7List = (DATA.phase7_expansion && DATA.phase7_expansion.constituents_100) || [];
     const pureList = DATA.gaemi50_pure_constituents || [];
-    const pureOrder = new Map(pureList.map((r) => [r.code, r.rank]));
+    const rankMap = new Map((p7List.length ? p7List : pureList).map((r) => [r.code, r.rank]));
 
-    const codes = Object.keys(trajs).sort((a, b) => {
-      const ra = pureOrder.has(a) ? pureOrder.get(a) : 999;
-      const rb = pureOrder.has(b) ? pureOrder.get(b) : 999;
+    const allCodesSet = new Set([...Object.keys(trajs), ...p7List.map((r) => r.code)]);
+    const codes = Array.from(allCodesSet).sort((a, b) => {
+      const ra = rankMap.has(a) ? rankMap.get(a) : 999;
+      const rb = rankMap.has(b) ? rankMap.get(b) : 999;
       return ra - rb;
     });
 
     sel.innerHTML = codes
       .map((c) => {
-        const t = trajs[c];
-        const rTag = t.pure_rank ? `#${t.pure_rank}` : "편입외";
+        const t = getStockDetailRecord(c);
+        if (!t) return "";
+        const rk = rankMap.get(c) || t.pure_rank;
+        const rTag = rk ? `#${rk}` : "편입외";
         return `<option value="${c}">${rTag} ${t.name} (${c}) — 강도 ${Number(t.intensity_pct).toFixed(2)}%</option>`;
       })
       .join("");
 
-    if (!trajs[state.selectedStock] && codes.length) {
+    if (!getStockDetailRecord(state.selectedStock) && codes.length) {
       state.selectedStock = codes[0];
     }
     sel.value = state.selectedStock;
   }
 
   function renderStockDetailPanel() {
-    const t = DATA.stock_trajectories && DATA.stock_trajectories[state.selectedStock];
+    const t = getStockDetailRecord(state.selectedStock);
     if (!t) return;
 
     document.getElementById("dt-code-mkt").textContent = `${t.code} · ${t.market} · ${t.size_bucket}`;
@@ -1144,11 +1472,13 @@
 
     const pRank = t.pure_rank ? `강도 순위 #${t.pure_rank}위` : "적격 50위 밖";
     document.getElementById("dt-intensity").textContent = `+${Number(t.intensity_pct).toFixed(2)}%`;
-    document.getElementById("dt-rank-sub").textContent = `${pRank} · 금액 순위 #${t.abs_rank}위 · 시총 #${t.marcap_rank}위`;
+    document.getElementById("dt-rank-sub").textContent =
+      t.abs_rank !== "-" ? `${pRank} · 금액 순위 #${t.abs_rank}위 · 시총 #${t.marcap_rank}위` : pRank;
 
     document.getElementById("dt-netbuy").textContent = fmtEok(t.net_buy_36m_eok);
     document.getElementById("dt-marcap").textContent = `평균 ${fmtEok(t.avg_marcap_36m_eok)}`;
-    document.getElementById("dt-marcap-sub").textContent = `기준일 시총: ${fmtEok(t.end_marcap_eok)} (시장 비중 ${t.market_weight_pct}%)`;
+    document.getElementById("dt-marcap-sub").textContent =
+      t.market_weight_pct !== "-" ? `기준일 시총: ${fmtEok(t.end_marcap_eok)} (시장 비중 ${t.market_weight_pct}%)` : `기준일 시총: ${fmtEok(t.end_marcap_eok)}`;
 
     document.getElementById("dt-chg").textContent = t.rank_change_str || "-";
     document.getElementById("dt-industry").textContent = t.industry || "-";
@@ -1157,17 +1487,25 @@
     if (t.since_entry_return_pct !== null && t.since_entry_return_pct !== undefined) {
       retEl.textContent = fmtPct(t.since_entry_return_pct);
       retEl.className = `v ${clsSign(t.since_entry_return_pct)}`;
-      document.getElementById("dt-entry-sub").textContent = `최초 편입: ${t.entry_quarter} (${t.entry_date}) · 총 ${t.included_quarters.length}개 분기 포함`;
+      document.getElementById("dt-entry-sub").textContent =
+        t.included_quarters && t.included_quarters.length
+          ? `최초 편입: ${t.entry_quarter} (${t.entry_date}) · 총 ${t.included_quarters.length}개 분기 포함`
+          : `최초 편입: ${t.entry_quarter} (${t.entry_date})`;
     } else {
       retEl.textContent = "미편입";
       retEl.className = "v";
       document.getElementById("dt-entry-sub").textContent = t.eligibility_note || "편입 이력 없음";
     }
 
-    document.getElementById("dt-others").textContent =
-      `외인 ${fmtPct(t.frg_intensity_pct)} / 기관 ${fmtPct(t.org_intensity_pct)}`;
-    document.getElementById("dt-others-sub").textContent =
-      `외인 ${fmtEok(t.frg_net_buy_36m_eok)} · 기관 ${fmtEok(t.org_net_buy_36m_eok)}`;
+    if (t.frg_intensity_pct !== null && t.frg_intensity_pct !== undefined) {
+      document.getElementById("dt-others").textContent =
+        `외인 ${fmtPct(t.frg_intensity_pct)} / 기관 ${fmtPct(t.org_intensity_pct)}`;
+      document.getElementById("dt-others-sub").textContent =
+        `외인 ${fmtEok(t.frg_net_buy_36m_eok)} · 기관 ${fmtEok(t.org_net_buy_36m_eok)}`;
+    } else {
+      document.getElementById("dt-others").textContent = t.pure_rank ? `#${t.pure_rank}위 (51~100)` : "-";
+      document.getElementById("dt-others-sub").textContent = "GAEMI 100 편입 종목";
+    }
 
     const tk = getChartTokens();
     const ctx = document.getElementById("detailChart").getContext("2d");
@@ -1794,6 +2132,22 @@
       if (h) activateTab(h, false);
     });
 
+    // 상단 지수 전환 스위치 (개미 50 / 개미 100)
+    document.querySelectorAll("#index-switch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = btn.getAttribute("data-idx");
+        if (idx !== "50" && idx !== "100") return;
+        state.selectedIndex = idx;
+        try {
+          localStorage.setItem(INDEX_STORAGE_KEY, idx);
+          const u = new URL(window.location.href);
+          u.searchParams.set("idx", idx);
+          history.replaceState(null, "", u.toString());
+        } catch (_) {}
+        renderSection01();
+      });
+    });
+
     // 기간 선택 버튼
     document.querySelectorAll("#period-btns button").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -1805,17 +2159,28 @@
     });
 
     // 비교지수 체크박스
-    document.getElementById("chk-abs").addEventListener("change", (e) => {
-      state.showAbs = e.target.checked;
-      renderSection01();
-    });
-    document.getElementById("chk-kqew").addEventListener("change", (e) => {
-      state.showKqEw = e.target.checked;
-      renderSection01();
-    });
-    document.getElementById("chk-total").addEventListener("change", (e) => {
-      state.showTotal = e.target.checked;
-      renderSection01();
+    const bindChk = (id, key) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("change", (e) => {
+          state[key] = e.target.checked;
+          renderSection01();
+        });
+      }
+    };
+    bindChk("chk-g50", "showG50");
+    bindChk("chk-g100", "showG100");
+    bindChk("chk-g51", "showG51");
+    bindChk("chk-abs", "showAbs");
+    bindChk("chk-kqew", "showKqEw");
+    bindChk("chk-total", "showTotal");
+
+    // Section 02 종목 수 (상위 50 / 상위 100) & 필터 & 검색
+    document.querySelectorAll("#sec2-scope-btns button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.sec2Scope = btn.getAttribute("data-scope") || "50";
+        renderSection02();
+      });
     });
 
     // Section 02 필터 & 검색
@@ -1874,7 +2239,7 @@
       const tr = e.target.closest("tr.clickable");
       if (!tr) return;
       const code = tr.getAttribute("data-code");
-      if (code && DATA.stock_trajectories && DATA.stock_trajectories[code]) {
+      if (code && getStockDetailRecord(code)) {
         state.selectedStock = code;
         document.getElementById("dt-stock-select").value = code;
         if (state.activeTab !== "sec-02") {
