@@ -340,17 +340,13 @@
     const p100Kp = is100 ? p7.perf_summary.GAEMI_100.vs_kospi : null;
     const p50Cap = p7 && p7.perf_summary && p7.perf_summary.GAEMI_50 ? p7.perf_summary.GAEMI_50.vs_kosdaq : null;
 
-    // 1) 상단 자동 생성 핵심 메시지 배너
+    // 1) 상단 자동 생성 핵심 메시지 배너 (PHASE 8 통계 재검증 반영)
     const hlTextEl = document.getElementById("down-headline-text");
     if (hlTextEl) {
       if (is100 && p100Cap) {
-        const diff100 = p100Cap.down_month_gap_pctp;
-        hlTextEl.textContent =
-          diff100 < 0
-            ? `증시가 하락한 달, 개미 100은 코스닥보다 평균 ${Math.abs(diff100).toFixed(2)}%포인트 더 떨어졌습니다.`
-            : `증시가 하락한 달, 개미 100은 코스닥(${fmtPct(p100Cap.bench_down_mean_pct)})과 비슷한 ${fmtPct(p100Cap.down_month_mean_pct)}를 기록했습니다 (포착률 ${p100Cap.downside_capture_pct}%).`;
+        hlTextEl.textContent = `코스닥 하락월(10개월)에서 개미 100은 월평균 ${fmtPct(p100Cap.down_month_mean_pct)}(코스닥 ${fmtPct(p100Cap.bench_down_mean_pct)})를 기록했습니다.`;
       } else {
-        hlTextEl.textContent = hl.headline || "";
+        hlTextEl.textContent = "개인 순매수 강도 상위 종목의 하락 폭이 더 컸지만, 기업 규모와 변동성 등을 고려하면 차이는 불확실합니다.";
       }
     }
 
@@ -885,7 +881,7 @@
     const tagEl = document.getElementById("p7-intensity-stat-tag");
     if (tagEl && tiers.length === 3) {
       tagEl.textContent =
-        `${tiers[0].down_month_mean_pct.toFixed(2)}% vs ${tiers[1].down_month_mean_pct.toFixed(2)}% vs ${tiers[2].down_month_mean_pct.toFixed(2)}% · 통제회귀 p=${Number(reg.controlled_p_value).toFixed(4)}`;
+        `${tiers[0].down_month_mean_pct.toFixed(2)}% vs ${tiers[1].down_month_mean_pct.toFixed(2)}% vs ${tiers[2].down_month_mean_pct.toFixed(2)}% · 군집·통제보강 p=0.054`;
     }
 
     const tbody = document.getElementById("p7-intensity-tbody");

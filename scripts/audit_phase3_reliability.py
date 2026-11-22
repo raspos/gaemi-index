@@ -16,11 +16,18 @@ PHASE 3 — 섹션 4. 데이터 신뢰성 독립 재검증 스크립트 (audit_p
 """
 
 import os
+import sys
 import json
 import numpy as np
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+
+from ledger_loader import load_raw_ledger
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
@@ -33,8 +40,7 @@ def run_reliability_audit():
         "code", "date", "base_price", "reg_close", "krx_vol",
         "krx_ind_net_vol", "krx_frg_net_vol", "krx_org_net_vol"
     ]
-    trades = pd.read_parquet(os.path.join(DATA_DIR, "daily_investor_trades.parquet"), columns=cols)
-    trades.sort_values(["code", "date"], inplace=True, ignore_index=True)
+    trades = load_raw_ledger(needed_cols=cols, verify_integrity=True, sort_by_code_date=True)
 
     summary = json.load(open(os.path.join(DATA_DIR, "index_summary.json"), encoding="utf-8"))
     pure_df = pd.read_csv(os.path.join(DATA_DIR, "gaemi50_pure_constituents.csv"), dtype={"code": str})

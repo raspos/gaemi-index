@@ -8,6 +8,7 @@ PHASE 3 & 4: GAEMI 50 및 GAEMI 50 NOW 지수 산출 엔진 및 과거 시계열
 """
 
 import os
+import sys
 import json
 import pandas as pd
 import numpy as np
@@ -15,12 +16,18 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+
+from ledger_loader import load_raw_ledger
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
 def load_data():
     universe = pd.read_parquet(os.path.join(DATA_DIR, "universe.parquet"))
-    trades = pd.read_parquet(os.path.join(DATA_DIR, "daily_investor_trades.parquet"))
+    trades = load_raw_ledger(verify_integrity=True, sort_by_code_date=True)
     bench = pd.read_parquet(os.path.join(DATA_DIR, "benchmarks.parquet"))
     return universe, trades, bench
 

@@ -32,21 +32,16 @@ from build_phase2_analytics import (
 )
 
 
+from ledger_loader import load_raw_ledger
+
+
 def load_ledger_from_shards_or_file():
-    sh_dir = os.path.join(DATA_DIR, "ledger_shards")
     raw_cols = [
         "code", "date", "base_price", "reg_close", "krx_vol",
         "krx_ind_net_vol", "krx_frg_net_vol", "krx_org_net_vol",
         "nxt_ind_net_vol", "nxt_close", "nxt_vol"
     ]
-    if os.path.exists(sh_dir) and any(f.endswith(".parquet") for f in os.listdir(sh_dir)):
-        files = sorted([os.path.join(sh_dir, f) for f in os.listdir(sh_dir) if f.endswith(".parquet")])
-        dfs = [pd.read_parquet(f, columns=raw_cols) for f in files]
-        trades = pd.concat(dfs, ignore_index=True)
-    else:
-        trades = pd.read_parquet(os.path.join(DATA_DIR, "daily_investor_trades.parquet"), columns=raw_cols)
-    trades.sort_values(["code", "date"], inplace=True, ignore_index=True)
-    return trades
+    return load_raw_ledger(needed_cols=raw_cols, verify_integrity=True, sort_by_code_date=True)
 
 
 def run_phase4_deep_audit():

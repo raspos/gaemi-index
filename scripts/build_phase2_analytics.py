@@ -23,7 +23,9 @@
 """
 
 import os
+import sys
 import json
+import argparse
 import requests
 import pandas as pd
 import numpy as np
@@ -31,6 +33,12 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+
+from ledger_loader import load_raw_ledger as _shared_load_raw_ledger
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
@@ -59,20 +67,9 @@ def load_official_krx_snapshots():
 
 def load_raw_ledger(needed_cols=None):
     """
-    PHASE 4: 영속 저장소인 data/ledger_shards/trades_YYYY.parquet 분할 원장에서 원자료를 우선 로드하고,
-    로컬 캐시 파일(daily_investor_trades.parquet)이 없을 때도 100% 동일하게 원장을 복원한다.
+    PHASE 4 & 8: 공통 영속 샤드 원장 로더(scripts/ledger_loader.py) 호출.
     """
-    sh_dir = os.path.join(DATA_DIR, "ledger_shards")
-    single_path = os.path.join(DATA_DIR, "daily_investor_trades.parquet")
-    if os.path.exists(sh_dir) and any(f.endswith(".parquet") for f in os.listdir(sh_dir)):
-        files = sorted([os.path.join(sh_dir, f) for f in os.listdir(sh_dir) if f.endswith(".parquet")])
-        dfs = [pd.read_parquet(f, columns=needed_cols) for f in files]
-        trades = pd.concat(dfs, ignore_index=True)
-    elif os.path.exists(single_path):
-        trades = pd.read_parquet(single_path, columns=needed_cols)
-    else:
-        raise FileNotFoundError("영속 원장(data/ledger_shards/*.parquet)을 찾을 수 없습니다.")
-    return trades
+    return _shared_load_raw_ledger(needed_cols=needed_cols, verify_integrity=True, sort_by_code_date=False)
 
 
 def prepare_audited_ledger():
@@ -1187,6 +1184,36 @@ def main():
     with open(os.path.join(DATA_DIR, "investor_comparison.json"), "w", encoding="utf-8") as f:
         json.dump(investor_comparison, f, ensure_ascii=False, indent=2, allow_nan=False)
 
+    base_bundle_payload = sanitize_for_json({
+        "summary": summary,
+        "phase0_audit": phase0_audit_report,
+        "market_diff": market_differentiation,
+        "investor_comp": investor_comparison,
+        "timeseries": merged.to_dict(orient="records"),
+        "gaemi50_pure_constituents": latest_pure.to_dict(orient="records"),
+        "gaemi50_abs_constituents": latest_abs.to_dict(orient="records"),
+        "stock_trajectories": stock_trajectories,
+    })
+    base_bundle_path = os.path.join(DATA_DIR, "phase2_bundle_base.json")
+    with open(base_bundle_path, "w", encoding="utf-8") as f:
+        json.dump(base_bundle_payload, f, ensure_ascii=False, allow_nan=False)
+
+    assemble_web_bundle(base_bundle_payload)
+
+    print("\n=== PHASE 0 ~ PHASE 6 핵심 분석 결과 요약 ===")
+    for k in ["GAEMI_50_PURE", "GAEMI_50_TOTAL", "GAEMI_50_ABS", "MATCHED_50_EW", "KOSDAQ_EW", "FOREIGN_50_PURE", "INSTITUTION_50_PURE", "KOSPI", "KOSDAQ"]:
+        m = metrics[k]
+        print(f"  {k:20s}: 현재={m['current']:8.2f} | 누적={m['total_return_pct']:+7.2f}% | MDD={m['mdd_pct']:6.2f}% | 변동성={m['ann_volatility_pct']:5.2f}% | KOSPI상관={m['corr_kospi']:.3f} | KOSDAQ상관={m['corr_kosdaq']:.3f}")
+
+
+def assemble_web_bundle(base_payload=None):
+    """후속 감사(PHASE 3·4) 및 분석(PHASE 6·7) 결과를 결합해 최종 웹 번들(gaemi_data.json/js)을 생성한다."""
+    if base_payload is None:
+        base_path = os.path.join(DATA_DIR, "phase2_bundle_base.json")
+        if not os.path.exists(base_path):
+            raise FileNotFoundError("phase2_bundle_base.json이 없습니다. 먼저 전체 산출을 실행하세요.")
+        base_payload = json.load(open(base_path, encoding="utf-8"))
+
     sens_path = os.path.join(DATA_DIR, "sensitivity_analysis.json")
     sens_data = json.load(open(sens_path, encoding="utf-8")) if os.path.exists(sens_path) else []
     comp_path = os.path.join(DATA_DIR, "pure_vs_abs_comparison.json")
@@ -1203,21 +1230,21 @@ def main():
     manifest_data = json.load(open(manifest_path, encoding="utf-8")) if os.path.exists(manifest_path) else {}
 
     web_payload = sanitize_for_json({
-        "summary": summary,
+        "summary": base_payload["summary"],
         "manifest": manifest_data,
-        "phase0_audit": phase0_audit_report,
+        "phase0_audit": base_payload["phase0_audit"],
         "phase3_reliability": p3_rel_data,
         "phase4_audit": p4_aud_data,
         "phase6_downside": p6_down_data,
         "phase7_expansion": p7_exp_data,
-        "market_diff": market_differentiation,
-        "investor_comp": investor_comparison,
+        "market_diff": base_payload["market_diff"],
+        "investor_comp": base_payload["investor_comp"],
         "comparison": comp_data,
         "sensitivity": sens_data,
-        "timeseries": merged.to_dict(orient="records"),
-        "gaemi50_pure_constituents": latest_pure.to_dict(orient="records"),
-        "gaemi50_abs_constituents": latest_abs.to_dict(orient="records"),
-        "stock_trajectories": stock_trajectories,
+        "timeseries": base_payload["timeseries"],
+        "gaemi50_pure_constituents": base_payload["gaemi50_pure_constituents"],
+        "gaemi50_abs_constituents": base_payload["gaemi50_abs_constituents"],
+        "stock_trajectories": base_payload["stock_trajectories"],
     })
 
     web_data_dir = os.path.join(BASE_DIR, "docs", "data")
@@ -1232,12 +1259,14 @@ def main():
         f.write(";\n")
     os.replace(tmp_json, os.path.join(web_data_dir, "gaemi_data.json"))
     os.replace(tmp_js, os.path.join(web_data_dir, "gaemi_data.js"))
-
-    print("\n=== PHASE 0 ~ PHASE 6 핵심 분석 결과 요약 ===")
-    for k in ["GAEMI_50_PURE", "GAEMI_50_TOTAL", "GAEMI_50_ABS", "MATCHED_50_EW", "KOSDAQ_EW", "FOREIGN_50_PURE", "INSTITUTION_50_PURE", "KOSPI", "KOSDAQ"]:
-        m = metrics[k]
-        print(f"  {k:20s}: 현재={m['current']:8.2f} | 누적={m['total_return_pct']:+7.2f}% | MDD={m['mdd_pct']:6.2f}% | 변동성={m['ann_volatility_pct']:5.2f}% | KOSPI상관={m['corr_kospi']:.3f} | KOSDAQ상관={m['corr_kosdaq']:.3f}")
+    print(f"[웹 번들 생성 완료] docs/data/gaemi_data.json & gaemi_data.js (기준일={manifest_data.get('data_as_of')})")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--bundle-only", action="store_true", help="기존 산출 결과(PHASE 2~7)를 결합해 웹 번들만 재생성")
+    args = parser.parse_args()
+    if args.bundle_only:
+        assemble_web_bundle()
+    else:
+        main()

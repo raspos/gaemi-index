@@ -15,6 +15,7 @@ GAEMI 50 PURE — 순매수 강도(36개월 누적 개인 순매수대금 / 36�
 """
 
 import os
+import sys
 import json
 import pandas as pd
 import numpy as np
@@ -22,6 +23,12 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+
+from ledger_loader import load_raw_ledger
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
@@ -33,7 +40,7 @@ def prepare_ledger_with_marcap():
         'krx_ind_buy_val', 'krx_ind_sell_val', 'krx_ind_net_val', 'krx_ind_net_vol',
         'nxt_ind_net_val', 'total_ind_net_val'
     ]
-    trades = pd.read_parquet(os.path.join(DATA_DIR, "daily_investor_trades.parquet"), columns=needed_cols)
+    trades = load_raw_ledger(needed_cols=needed_cols, verify_integrity=True, sort_by_code_date=True)
     bench = pd.read_parquet(os.path.join(DATA_DIR, "benchmarks.parquet"))
 
     # 종목별 최신 상장주식수 매핑
