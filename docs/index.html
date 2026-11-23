@@ -31,7 +31,8 @@
       </div>
     </a>
     <div>
-      <p class="brand-sub">개인투자자 순매수 집중과 이동의 기록</p>
+      <h2 style="font-size:16px;font-weight:700;margin:0 0 2px;color:var(--ink);">개미들은 지금 어디에 몰리고 있는가</h2>
+      <p class="brand-sub" style="margin:0;font-size:12px;color:var(--ink-3);">개인투자자의 순매수가 어디에 집중되고, 그 구성이 어떻게 달라지는지 매일 기록합니다.</p>
     </div>
     <div class="tools">
       <span class="asof-pill" id="header-asof">최신 2026-11-20 (최근 20거래일 추정 거래대금)</span>
@@ -48,9 +49,10 @@
           <span class="tile-k">개미 순매수 집중도 (GAEMI CONCENTRATION)</span>
           <span class="tile-tag" id="hero-window-tag">최근 20거래일 기준</span>
         </div>
-        <div class="conc-hero-main" style="margin: 6px 0 8px;">
+        <div class="conc-hero-main" style="margin: 6px 0 8px; flex-wrap:wrap; gap:8px 12px; align-items:baseline;">
           <span class="conc-hero-num" id="hero-conc-val">58.1%</span>
           <span class="conc-hero-delta up" id="hero-conc-delta">+5.9%p</span>
+          <span class="conc-hero-dist-badge" id="hero-dist-badge" style="font-size:13px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);padding:3px 8px;border-radius:4px;">최근 1년 상위 55.6% 수준</span>
           <span style="font-size:12.5px;color:var(--ink-3);margin-left:auto" id="hero-asof-date">2026-11-20 기준</span>
         </div>
         <div class="conc-summary-box" id="hero-summary-text">
@@ -59,6 +61,7 @@
         <div class="tile-foot" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;">
           <span>상위 10종목 순매수 합계: <strong id="hero-top10-sum" style="font-family:var(--font-mono)">4조 4,297억원</strong></span>
           <span>양(+)의 순매수 전체 합계: <strong id="hero-total-pos" style="font-family:var(--font-mono)">7조 6,279억원</strong></span>
+          <span>최근 1년 중앙값: <strong id="hero-1y-median" style="font-family:var(--font-mono)">61.2%</strong> (범위 <span id="hero-1y-range">26.0% ~ 94.2%</span>)</span>
         </div>
       </div>
     </div>
@@ -141,8 +144,117 @@
         </div>
       </div>
 
-      <!-- D. 지금 어디에 몰렸나? 최근 20거래일 순매수 상위 10종목 -->
-      <div class="card" id="top10Card">
+      <!-- E. 시장과 개미의 관계 (코스피·코스닥 상관관계 분석) -->
+      <div class="card" id="marketRelationCard" style="margin-top:16px;">
+        <div class="sec-head" style="margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h3 class="sec-title">시장과 개미의 관계</h3>
+            <span style="font-size:12.5px;color:var(--ink-3)">코스피·코스닥 등락에 따른 개인 순매수 집중도의 변화 관측</span>
+          </div>
+          <div class="pcrange" id="marketPeriodSwitch" role="group" aria-label="시장 상관관계 분석 기간 선택">
+            <button type="button" data-mperiod="60D">60일</button>
+            <button type="button" data-mperiod="120D">120일</button>
+            <button type="button" class="on" data-mperiod="252D">최근 1년</button>
+            <button type="button" data-mperiod="ALL">전체</button>
+          </div>
+        </div>
+
+        <div class="market-stat-grid">
+          <!-- 코스피 상관계수 & 상승/하락일 -->
+          <div class="market-box">
+            <div class="market-box-head">
+              <span class="m-label">KOSPI와 집중도 변화</span>
+              <span class="m-val mono" id="m-kospi-corr">r = -0.2863</span>
+            </div>
+            <div class="m-sub-stats">
+              <div class="m-stat-row">
+                <span>코스피 상승일 집중도:</span>
+                <strong class="mono dn" id="m-kospi-up">-0.81%p</strong>
+                <span class="count-tag" id="m-kospi-up-cnt">(128일)</span>
+              </div>
+              <div class="m-stat-row">
+                <span>코스피 하락일 집중도:</span>
+                <strong class="mono up" id="m-kospi-dn">+1.21%p</strong>
+                <span class="count-tag" id="m-kospi-dn-cnt">(124일)</span>
+              </div>
+            </div>
+            <div class="m-bar-track">
+              <div class="m-bar-fill kospi-fill" id="m-kospi-bar" style="width: 28.6%;"></div>
+            </div>
+          </div>
+
+          <!-- 코스닥 상관계수 & 상승/하락일 -->
+          <div class="market-box">
+            <div class="market-box-head">
+              <span class="m-label">KOSDAQ과 집중도 변화</span>
+              <span class="m-val mono" id="m-kosdaq-corr">r = -0.1028</span>
+            </div>
+            <div class="m-sub-stats">
+              <div class="m-stat-row">
+                <span>코스닥 상승일 집중도:</span>
+                <strong class="mono dn" id="m-kosdaq-up">-0.50%p</strong>
+                <span class="count-tag" id="m-kosdaq-up-cnt">(121일)</span>
+              </div>
+              <div class="m-stat-row">
+                <span>코스닥 하락일 집중도:</span>
+                <strong class="mono up" id="m-kosdaq-dn">+0.58%p</strong>
+                <span class="count-tag" id="m-kosdaq-dn-cnt">(131일)</span>
+              </div>
+            </div>
+            <div class="m-bar-track">
+              <div class="m-bar-fill kosdaq-fill" id="m-kosdaq-bar" style="width: 10.3%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="conc-summary-box" id="market-summary-text" style="margin-top:12px;">
+          최근 1년 (252거래일) 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +1.21%p 상승한 반면, 상승일에는 평균 -0.81%p 하락했습니다 (피어슨 상관계수 r = -0.2863, 표본 252일).
+        </div>
+        <p style="font-size:11.5px;color:var(--ink-3);margin:8px 0 0;line-height:1.5">
+          * 피어슨 상관계수 r은 당일 지수 등락률(%)과 집중도 변화(%p)의 선형 관계입니다. 통계적 상관관계이며 인과관계를 의미하지 않습니다.
+        </p>
+      </div>
+
+      <!-- F. 관련 뉴스 (47개 매체 화이트리스트 연동) -->
+      <div class="card" id="newsSectionCard" style="margin-top:16px;">
+        <div class="sec-head" style="margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h3 class="sec-title" id="news-section-title">관련 뉴스</h3>
+            <span style="font-size:12.5px;color:var(--ink-3)" id="news-section-sub">47개 언론사 화이트리스트 기반 개인 순매수·수급 보도</span>
+          </div>
+          <div class="news-head-right" style="font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:10px;">
+            <span class="asof-pill" id="news-outlets-pill">39개사 171건</span>
+            <button type="button" class="btn-sm" id="toggleAllNewsBtn">전체 기사 보기</button>
+          </div>
+        </div>
+
+        <!-- 최신 또는 선택일 뉴스 그리드 (기본 6건) -->
+        <div class="news-grid" id="newsCardGrid"></div>
+
+        <!-- 전체 기사 목록 (접이식/필터) -->
+        <div class="news-full-wrap" id="newsFullWrap" hidden style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px;">
+          <div class="news-filter-bar" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <select id="newsOutletFilter" class="filter-select" aria-label="언론사 필터">
+              <option value="all">전체 언론사</option>
+            </select>
+            <select id="newsStockFilter" class="filter-select" aria-label="종목 필터">
+              <option value="all">전체 종목</option>
+            </select>
+            <select id="newsSectorFilter" class="filter-select" aria-label="업종 필터">
+              <option value="all">전체 업종</option>
+            </select>
+          </div>
+          <div class="news-list" id="newsFullList" style="display:flex;flex-direction:column;gap:8px;max-height:480px;overflow-y:auto;"></div>
+        </div>
+
+        <div class="tile-foot" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;">
+          <span>* 기사 저작권을 준수하여 본문은 수집하지 않으며 언론사 원문 링크로 직접 연결됩니다.</span>
+          <span id="news-last-updated">최근 수집: 2026-11-23 10:12</span>
+        </div>
+      </div>
+
+      <!-- G. 지금 어디에 몰렸나? 최근 20거래일 순매수 상위 10종목 -->
+      <div class="card" id="top10Card" style="margin-top:16px;">
         <div class="sec-head" style="margin-bottom:8px">
           <div>
             <h3 class="sec-title">지금 어디에 몰렸는가?</h3>
@@ -453,8 +565,9 @@
     개미 지수 (GAEMI INDEX) · <a href="https://raspos.github.io/databrew/" rel="noopener">DataBrew</a> WATCH SERIES
   </footer>
 
-  <script src="data/gaemi_concentration.js?v=20261122"></script>
+  <script src="data/gaemi_concentration.js?v=20261123"></script>
+  <script src="data/gaemi_news.js?v=20261123"></script>
   <script src="data/gaemi_data.js?v=20261122p8"></script>
-  <script src="app.js?v=20261122p9"></script>
+  <script src="app.js?v=20261123"></script>
 </body>
 </html>

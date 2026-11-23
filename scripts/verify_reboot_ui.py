@@ -69,13 +69,16 @@ def run_verification():
                     page.click("#themeBtn")
                     page.wait_for_timeout(100)
 
-                # 1. 대표 집중도 수치 확인
+                # 1. 대표 집중도 및 1년 분포 기준 확인
                 conc_val = page.inner_text("#hero-conc-val").strip()
                 conc_delta = page.inner_text("#hero-conc-delta").strip()
                 conc_summary = page.inner_text("#hero-summary-text").strip()
+                dist_badge = page.inner_text("#hero-dist-badge").strip()
+                med_1y = page.inner_text("#hero-1y-median").strip()
                 
                 conc_ok = ("58.1%" in conc_val or "58.07" in conc_val) and ("+5.9" in conc_delta or "+5.87" in conc_delta)
                 summary_ok = len(conc_summary) > 20
+                dist_ok = ("상위" in dist_badge and "%" in dist_badge) and ("61." in med_1y)
 
                 # 2. BOK WATCH SVG 차트 렌더링 확인
                 chart_svg_cnt = page.locator("#concentrationChart svg").count()
@@ -98,7 +101,25 @@ def run_verification():
                 expected_min_w = min(vp["width"], 1180) - 90
                 svg_rich_ok = chart_elements["paths"] >= 2 and chart_elements["texts"] >= 5 and chart_elements["width"] >= expected_min_w
 
-                # 3. 가로 넘침(Overflow) 검사
+                # 3. 시장과 개미의 관계 (상관관계 분석 및 기간 전환)
+                mkt_kospi_corr = page.inner_text("#m-kospi-corr").strip()
+                mkt_kosdaq_corr = page.inner_text("#m-kosdaq-corr").strip()
+                market_ok = ("-0.28" in mkt_kospi_corr) and ("-0.10" in mkt_kosdaq_corr)
+
+                # 60D 전환 테스트
+                page.click('#marketPeriodSwitch button[data-mperiod="60D"]')
+                page.wait_for_timeout(100)
+                mkt_60d_corr = page.inner_text("#m-kospi-corr").strip()
+                mkt_switch_ok = ("-0.25" in mkt_60d_corr)
+                page.click('#marketPeriodSwitch button[data-mperiod="252D"]')
+                page.wait_for_timeout(100)
+
+                # 4. 관련 뉴스 (47개 매체 수집 및 카드 렌더링)
+                news_cards_cnt = page.locator("#newsCardGrid .news-card").count()
+                news_pill = page.inner_text("#news-outlets-pill").strip()
+                news_ok = (news_cards_cnt >= 4) and ("개사" in news_pill)
+
+                # 5. 가로 넘침(Overflow) 검사
                 overflow_info = page.evaluate("""() => {
                     return {
                         docWidth: document.documentElement.scrollWidth,
@@ -108,23 +129,23 @@ def run_verification():
                 }""")
                 overflow_ok = not overflow_info["overflow"]
 
-                # 4. 차트 인터랙션 (범위 전환 7일 -> 30일 -> 90일)
+                # 6. 차트 인터랙션 (범위 전환 7일 -> 30일 -> 90일)
                 page.click('#concRangeSwitch button[data-range="30"]')
                 page.wait_for_timeout(150)
                 range_30_active = page.evaluate("() => document.querySelector('#concRangeSwitch button[data-range=\"30\"]').classList.contains('on')")
                 page.click('#concRangeSwitch button[data-range="90"]')
                 page.wait_for_timeout(150)
 
-                # 5. Top 10 테이블 행 수 확인
+                # 7. Top 10 테이블 행 수 확인
                 top10_rows = page.locator("#top10-tbody tr").count()
                 top10_ok = top10_rows == 10
 
-                # 6. 요인 분해 카드 확인
+                # 8. 요인 분해 카드 확인
                 decomp_title = page.inner_text("#inspect-date-title").strip()
                 contrib_items = page.locator("#contrib-list .decomp-item").count()
                 decomp_ok = len(decomp_title) > 0 and contrib_items >= 2
 
-                # 7. 탭 전환 검증 (tab-bought, tab-movement, tab-scorecard, tab-method)
+                # 9. 탭 전환 검증 (tab-bought, tab-movement, tab-scorecard, tab-method)
                 # Tab 2: 개미가 산 종목
                 page.click('#tabs button[data-tab="tab-bought"]')
                 page.wait_for_timeout(150)
@@ -160,7 +181,8 @@ def run_verification():
                 page.screenshot(path=shot_path, full_page=False)
 
                 test_pass = (
-                    conc_ok and summary_ok and chart_ok and svg_rich_ok and
+                    conc_ok and summary_ok and dist_ok and chart_ok and svg_rich_ok and
+                    market_ok and mkt_switch_ok and news_ok and
                     overflow_ok and top10_ok and decomp_ok and
                     search_ok and movement_ok and scorecard_ok and conc_tab_visible and
                     len(console_errors) == 0

@@ -161,6 +161,93 @@ def generate_summary(date_str, conc, delta, top10_list, contribs, drop_effect, t
             )
 
 
+def compute_market_correlations(history, benchmarks_path):
+    if not os.path.exists(benchmarks_path):
+        print(f"  [경고] 벤치마크 파일 없음: {benchmarks_path}")
+        return {}
+
+    bench = pd.read_csv(benchmarks_path)
+    bench['date'] = bench['date'].astype(str)
+    bench = bench.sort_values('date').reset_index(drop=True)
+    bench['kospi_ret'] = bench['KOSPI'].pct_change() * 100.0
+    bench['kosdaq_ret'] = bench['KOSDAQ'].pct_change() * 100.0
+
+    hist_df = pd.DataFrame(history)
+    m = pd.merge(hist_df, bench, on='date', how='inner')
+
+    res = {}
+    periods = [
+        ('60D', 60, '최근 60거래일'),
+        ('120D', 120, '최근 120거래일'),
+        ('252D', 252, '최근 1년 (252거래일)'),
+        ('ALL', len(m), '전체 기간')
+    ]
+
+    for key, n, label in periods:
+        sub = m.tail(n).copy()
+        sub = sub.dropna(subset=['delta', 'kospi_ret', 'kosdaq_ret'])
+        n_sample = len(sub)
+        if n_sample < 10:
+            continue
+
+        corr_k = float(round(sub['delta'].corr(sub['kospi_ret']), 4))
+        corr_q = float(round(sub['delta'].corr(sub['kosdaq_ret']), 4))
+
+        # KOSPI 상승일 vs 하락일
+        k_up_sub = sub[sub['kospi_ret'] > 0]
+        k_dn_sub = sub[sub['kospi_ret'] < 0]
+        k_up_delta = float(round(k_up_sub['delta'].mean(), 2)) if len(k_up_sub) else 0.0
+        k_dn_delta = float(round(k_dn_sub['delta'].mean(), 2)) if len(k_dn_sub) else 0.0
+
+        # KOSDAQ 상승일 vs 하락일
+        q_up_sub = sub[sub['kosdaq_ret'] > 0]
+        q_dn_sub = sub[sub['kosdaq_ret'] < 0]
+        q_up_delta = float(round(q_up_sub['delta'].mean(), 2)) if len(q_up_sub) else 0.0
+        q_dn_delta = float(round(q_dn_sub['delta'].mean(), 2)) if len(q_dn_sub) else 0.0
+
+        # 변동성 절댓값 상관관계 (시장 급변 시 집중도 급변 여부)
+        corr_abs_k = float(round(sub['delta'].abs().corr(sub['kospi_ret'].abs()), 4))
+        corr_abs_q = float(round(sub['delta'].abs().corr(sub['kosdaq_ret'].abs()), 4))
+
+        # 시장 급락일 (코스피 <= -1.5%) 분석
+        drop_days = sub[sub['kospi_ret'] <= -1.5]
+        drop_avg_delta = float(round(drop_days['delta'].mean(), 2)) if len(drop_days) else 0.0
+
+        # 사실 기반 요약문 생성 (인과관계 단정 배제, 관측 통계만 기술)
+        if corr_k < 0:
+            summary = (
+                f"{label} 동안 코스피 하락일에는 개인 순매수 집중도가 평균 {k_dn_delta:+.2f}%p 상승한 반면, "
+                f"상승일에는 평균 {k_up_delta:+.2f}%p 하락했습니다 (피어슨 상관계수 r = {corr_k:.4f}, 표본 {n_sample}일)."
+            )
+        else:
+            summary = (
+                f"{label} 동안 코스피와 집중도 변화의 피어슨 상관계수는 r = {corr_k:.4f}를 기록했습니다 (표본 {n_sample}일)."
+            )
+
+        res[key] = {
+            'period_key': key,
+            'label': label,
+            'sample_count': n_sample,
+            'corr_kospi': corr_k,
+            'corr_kosdaq': corr_q,
+            'corr_abs_kospi': corr_abs_k,
+            'corr_abs_kosdaq': corr_abs_q,
+            'kospi_up_avg_delta': k_up_delta,
+            'kospi_down_avg_delta': k_dn_delta,
+            'kospi_up_count': len(k_up_sub),
+            'kospi_down_count': len(k_dn_sub),
+            'kosdaq_up_avg_delta': q_up_delta,
+            'kosdaq_down_avg_delta': q_dn_delta,
+            'kosdaq_up_count': len(q_up_sub),
+            'kosdaq_down_count': len(q_dn_sub),
+            'drop_days_count': len(drop_days),
+            'drop_days_avg_delta': drop_avg_delta,
+            'summary': summary
+        }
+
+    return res
+
+
 def main():
     t0 = time.time()
     print("[1/5] 원장 및 유니버스 로드...")
@@ -392,11 +479,10 @@ def main():
         )
 
         # 변곡점 및 이벤트 감지
-        is_inflection = abs(delta_conc) >= 2.5
-        events = []
         # 1) 종목 집중: 상위 종목 중 기여도 >= 2.0%p
         top_contrib = max([c['contrib'] for c in contrib_stocks], default=0.0)
         bot_contrib = min([c['contrib'] for c in contrib_stocks], default=0.0)
+        events = []
         if top_contrib >= 2.0:
             c_name = [c['name'] for c in contrib_stocks if c['contrib'] == top_contrib][0]
             events.append({'type': 'stock', 'text': f"{c_name} 비중 급증 (+{top_contrib:.1f}%p)"})
@@ -415,6 +501,16 @@ def main():
         if new_entries:
             events.append({'type': 'turnover', 'text': f"신규 진입: {', '.join(new_entries[:2])}"})
 
+        # 최근 1년 (최대 252거래일) 분포 계산 (미래 데이터 누수 방지: d 시점까지의 데이터만 사용)
+        w_start = max(0, len(history) - 251)
+        window_concs = [h['concentration'] for h in history[w_start:]] + [conc]
+        med_1y = float(round(float(np.median(window_concs)), 2))
+        min_1y = float(round(float(np.min(window_concs)), 2))
+        max_1y = float(round(float(np.max(window_concs)), 2))
+        pct_1y = float(round(float(np.mean(np.array(window_concs) <= conc)) * 100.0, 1))
+        top_pct_1y = float(round(100.0 - pct_1y, 1))
+        diff_from_med_1y = float(round(conc - med_1y, 2))
+
         # 시계열 항목 (전체 기간 1,257일)
         hist_entry = {
             'date': d,
@@ -424,46 +520,54 @@ def main():
             'total_pos': float(round(total_pos, 0)),
             'headline': top10_list[0]['name'] if top10_list else '',
             'top1_share': top10_list[0]['share'] if top10_list else 0.0,
-            'top1_name': top10_list[0]['name'] if top10_list else ''
+            'top1_name': top10_list[0]['name'] if top10_list else '',
+            'median_1y': med_1y,
+            'min_1y': min_1y,
+            'max_1y': max_1y,
+            'top_pct_1y': top_pct_1y,
+            'diff_from_med_1y': diff_from_med_1y,
+            'sample_count_1y': len(window_concs)
         }
         history.append(hist_entry)
 
-        # 주요 변곡점 판정: |delta| >= 4.0%p 또는 90분위수 이상
-        if abs(delta_conc) >= 4.0:
+        # 주요 변곡점 판정: abs(delta_conc) >= 10.0%p
+        if abs(delta_conc) >= 10.0:
             top_mover = max(contrib_stocks, key=lambda x: abs(x['contrib'])) if contrib_stocks else None
-            mover_txt = f" {top_mover['name']} 비중 {top_mover['contrib']:+.1f}%p" if top_mover else ""
+            mover_txt = f"{top_mover['name']} 비중 {top_mover['contrib']:+.1f}%p" if top_mover else ""
             inflections.append({
                 'date': d,
                 'delta': delta_conc,
                 'conc': conc,
-                'headline': mover_txt.strip()
+                'headline': mover_txt.strip(),
+                'top_pct_1y': top_pct_1y,
+                'median_1y': med_1y
             })
 
         # 이벤트 레인 분류 (하단 줄)
-        # 1) 종목 집중: 상위 종목 중 |기여도| >= 2.5%p
-        if top_contrib >= 2.5:
+        # 1) 종목 집중: 상위 종목 중 |기여도| >= 3.0%p (과도한 밀집 방지)
+        if top_contrib >= 3.0:
             c_name = [c['name'] for c in contrib_stocks if c['contrib'] == top_contrib][0]
             lane_stock.append({'date': d, 'text': f"{c_name} 비중 확대 (+{top_contrib:.1f}%p)"})
-        elif bot_contrib <= -2.5:
+        elif bot_contrib <= -3.0:
             c_name = [c['name'] for c in contrib_stocks if c['contrib'] == bot_contrib][0]
             lane_stock.append({'date': d, 'text': f"{c_name} 비중 축소 ({bot_contrib:.1f}%p)"})
 
-        # 2) 업종 변화: sector_shift 중 |diff| >= 3.0%p
+        # 2) 업종 변화: sector_shift 중 |diff| >= 4.0%p
         if sector_shift and prev_conc is not None:
             max_s = max(sector_shift, key=lambda x: abs(x['diff']))
-            if abs(max_s['diff']) >= 3.0:
+            if abs(max_s['diff']) >= 4.0:
                 s_sign = "+" if max_s['diff'] > 0 else ""
                 lane_sector.append({'date': d, 'text': f"{max_s['sector']} 비중 {s_sign}{max_s['diff']:.1f}%p"})
 
-        # 3) 순위 교체: Top 10 신규 진입 종목
-        new_entries = [t['name'] for t in top10_list if t['is_new']]
+        # 3) 순위 교체: Top 10 신규 진입 종목 중 최상위
+        new_entries = [t['name'] for t in top10_list if t['is_new'] and t['rank'] <= 5]
         if new_entries and prev_conc is not None:
-            lane_turnover.append({'date': d, 'text': f"신규 진입: {', '.join(new_entries[:2])}"})
+            lane_turnover.append({'date': d, 'text': f"신규 상위: {', '.join(new_entries[:2])}"})
 
         # 일별 상세 정보 저장:
         # 최근 150거래일(약 7개월) + 모든 변곡점 날짜에 대해 상세 보존
         is_recent = (len(valid_dates) - idx_d) <= 150
-        is_major = abs(delta_conc) >= 3.5
+        is_major = abs(delta_conc) >= 10.0
 
         if is_recent or is_major:
             daily_details[d] = {
@@ -472,6 +576,12 @@ def main():
                 'delta': delta_conc,
                 'top10_sum': float(round(top10_sum, 0)),
                 'total_pos': float(round(total_pos, 0)),
+                'median_1y': med_1y,
+                'min_1y': min_1y,
+                'max_1y': max_1y,
+                'top_pct_1y': top_pct_1y,
+                'diff_from_med_1y': diff_from_med_1y,
+                'sample_count_1y': len(window_concs),
                 'summary': summary,
                 'top10': top10_list,
                 'contribs': contrib_stocks[:6], # 상위/하위 기여 종목 6개
@@ -485,6 +595,11 @@ def main():
         prev_conc = conc
         prev_top10_dict = curr_top10_dict
         prev_total_pos = total_pos
+
+    # 시장 상관관계 분석 산출
+    benchmarks_path = os.path.join(DATA_DIR, "benchmarks.csv")
+    market_corrs = compute_market_correlations(history, benchmarks_path)
+    print(f"  시장 상관관계 분석 완료: {len(market_corrs)}개 기간")
 
     # 최종 결과 번들 구성
     latest_d = valid_dates[-1]
@@ -500,6 +615,12 @@ def main():
             'date': latest_d,
             'concentration': latest_detail['concentration'],
             'delta': latest_detail['delta'],
+            'median_1y': latest_detail['median_1y'],
+            'min_1y': latest_detail['min_1y'],
+            'max_1y': latest_detail['max_1y'],
+            'top_pct_1y': latest_detail['top_pct_1y'],
+            'diff_from_med_1y': latest_detail['diff_from_med_1y'],
+            'sample_count_1y': latest_detail['sample_count_1y'],
             'summary': latest_detail['summary'],
             'top10_sum': latest_detail['top10_sum'],
             'total_pos': latest_detail['total_pos'],
@@ -519,6 +640,7 @@ def main():
             'sector': lane_sector,
             'turnover': lane_turnover
         },
+        'market_correlation': market_corrs,
         'history': history,
         'details': daily_details
     }

@@ -69,6 +69,7 @@ jobs:
           python scripts/build_phase6_downside.py
           python scripts/build_phase7_expansion.py
           python scripts/build_concentration_metrics.py
+          python scripts/fetch_gaemi_news.py || true
 
       - name: Step 9-2. Assemble final web bundles (no duplicate backtest)
         run: |

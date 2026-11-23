@@ -1276,3 +1276,202 @@ table.tbl tbody tr.active-row {
   font-family: var(--font-sans);
 }
 
+/* ==========================================================================
+   MARKET CORRELATION & 47 PRESS NEWS STYLES
+   ========================================================================== */
+.market-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+.market-box {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+.market-box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.market-box-head .m-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.market-box-head .m-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.m-sub-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.m-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.m-stat-row .count-tag {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-left: 4px;
+}
+.m-bar-track {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.m-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+.kospi-fill {
+  background: var(--ink-2);
+}
+.kosdaq-fill {
+  background: var(--chart-kosdaq);
+}
+
+/* NEWS SECTION */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 10px;
+}
+.news-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.news-card:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.news-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  margin: 0 0 6px;
+  word-break: keep-all;
+}
+.news-summary {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.45;
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+}
+.news-outlet {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.news-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.news-tag {
+  font-size: 10.5px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.news-tag.stock {
+  border-color: rgba(216, 75, 23, 0.4);
+  color: var(--accent);
+}
+.news-tag.sec {
+  border-color: rgba(21, 88, 171, 0.4);
+  color: var(--blue);
+}
+.btn-sm {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.btn-sm:hover {
+  background: var(--surface-2);
+}
+.filter-select {
+  padding: 5px 8px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.news-full-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 12.5px;
+}
+.news-full-item:hover {
+  border-color: var(--accent);
+}
+.news-full-item .n-title {
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+}
+.news-full-item .n-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  .market-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

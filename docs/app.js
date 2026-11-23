@@ -2288,6 +2288,9 @@
     initConcentrationEvents();
     renderConcentrationHero();
     renderConcentrationChart(90);
+    renderMarketRelations("252D");
+    renderNewsSection();
+    initNewsFullViewer();
     if (CONC_DATA && CONC_DATA.as_of_date) {
       selectConcentrationDate(CONC_DATA.as_of_date);
     }
@@ -2349,6 +2352,9 @@
     const sumEl = document.getElementById("hero-summary-text");
     const t10El = document.getElementById("hero-top10-sum");
     const totEl = document.getElementById("hero-total-pos");
+    const distEl = document.getElementById("hero-dist-badge");
+    const medEl = document.getElementById("hero-1y-median");
+    const rngEl = document.getElementById("hero-1y-range");
 
     if (valEl) valEl.textContent = `${lat.concentration.toFixed(1)}%`;
     if (deltaEl) {
@@ -2360,6 +2366,16 @@
     if (sumEl) sumEl.textContent = lat.summary || "";
     if (t10El) t10El.textContent = formatWon(lat.top10_sum);
     if (totEl) totEl.textContent = formatWon(lat.total_pos);
+
+    if (distEl && lat.top_pct_1y !== undefined) {
+      distEl.textContent = `최근 1년 상위 ${lat.top_pct_1y.toFixed(1)}% 수준`;
+    }
+    if (medEl && lat.median_1y !== undefined) {
+      medEl.textContent = `${lat.median_1y.toFixed(1)}%`;
+    }
+    if (rngEl && lat.min_1y !== undefined && lat.max_1y !== undefined) {
+      rngEl.textContent = `${lat.min_1y.toFixed(1)}% ~ ${lat.max_1y.toFixed(1)}%`;
+    }
   }
 
   function renderConcentrationChart(rangeDays) {
@@ -2682,6 +2698,13 @@
         if (summaryEl) {
           summaryEl.textContent = `해당 거래일 개인 순매수 집중도는 ${h.concentration.toFixed(1)}%였습니다.`;
         }
+        const distBadge = document.getElementById("hero-dist-badge");
+        if (distBadge && h.top_pct_1y !== undefined) {
+          distBadge.textContent = dateStr === CONC_DATA.as_of_date
+            ? `최근 1년 상위 ${h.top_pct_1y.toFixed(1)}% 수준`
+            : `해당일 기준 1년 상위 ${h.top_pct_1y.toFixed(1)}% 수준`;
+        }
+        renderNewsSection(dateStr);
       }
       return;
     }
@@ -2783,6 +2806,18 @@
         `;
       }).join("");
     }
+
+    // Update distribution badge
+    const distBadge = document.getElementById("hero-dist-badge");
+    if (distBadge && d && d.top_pct_1y !== undefined) {
+      const isLatest = CONC_DATA && dateStr === CONC_DATA.as_of_date;
+      distBadge.textContent = isLatest
+        ? `최근 1년 상위 ${d.top_pct_1y.toFixed(1)}% 수준`
+        : `해당일 기준 1년 상위 ${d.top_pct_1y.toFixed(1)}% 수준`;
+    }
+
+    // Update related news for selected date
+    renderNewsSection(dateStr);
   }
 
   function renderBoughtTab(period, query) {
@@ -2923,11 +2958,216 @@
       });
     }
 
+    // 시장 상관관계 기간 스위치
+    document.querySelectorAll("#marketPeriodSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#marketPeriodSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        const mp = btn.getAttribute("data-mperiod");
+        renderMarketRelations(mp);
+      });
+    });
+
     // 윈도우 리사이즈 시 반응형 재렌더링
     window.addEventListener("resize", () => {
       if (state.activeTab === "tab-conc") {
         renderConcentrationChart();
       }
+    });
+  }
+
+  function renderMarketRelations(periodKey) {
+    if (!CONC_DATA || !CONC_DATA.market_correlation) return;
+    const corrs = CONC_DATA.market_correlation;
+    const key = periodKey || state.marketPeriod || "252D";
+    state.marketPeriod = key;
+    const item = corrs[key];
+    if (!item) return;
+
+    // Switch buttons UI
+    document.querySelectorAll("#marketPeriodSwitch button").forEach((btn) => {
+      if (btn.getAttribute("data-mperiod") === key) {
+        btn.classList.add("on");
+      } else {
+        btn.classList.remove("on");
+      }
+    });
+
+    // Update stats
+    const kCorrEl = document.getElementById("m-kospi-corr");
+    const kUpEl = document.getElementById("m-kospi-up");
+    const kDnEl = document.getElementById("m-kospi-dn");
+    const kUpCntEl = document.getElementById("m-kospi-up-cnt");
+    const kDnCntEl = document.getElementById("m-kospi-dn-cnt");
+    const kBarEl = document.getElementById("m-kospi-bar");
+
+    const qCorrEl = document.getElementById("m-kosdaq-corr");
+    const qUpEl = document.getElementById("m-kosdaq-up");
+    const qDnEl = document.getElementById("m-kosdaq-dn");
+    const qUpCntEl = document.getElementById("m-kosdaq-up-cnt");
+    const qDnCntEl = document.getElementById("m-kosdaq-dn-cnt");
+    const qBarEl = document.getElementById("m-kosdaq-bar");
+
+    const sumEl = document.getElementById("market-summary-text");
+
+    if (kCorrEl) kCorrEl.textContent = `r = ${item.corr_kospi.toFixed(4)}`;
+    if (kUpEl) {
+      const sign = item.kospi_up_avg_delta >= 0 ? "+" : "";
+      kUpEl.textContent = `${sign}${item.kospi_up_avg_delta.toFixed(2)}%p`;
+      kUpEl.className = `mono ${item.kospi_up_avg_delta >= 0 ? "up" : "dn"}`;
+    }
+    if (kDnEl) {
+      const sign = item.kospi_down_avg_delta >= 0 ? "+" : "";
+      kDnEl.textContent = `${sign}${item.kospi_down_avg_delta.toFixed(2)}%p`;
+      kDnEl.className = `mono ${item.kospi_down_avg_delta >= 0 ? "up" : "dn"}`;
+    }
+    if (kUpCntEl) kUpCntEl.textContent = `(${item.kospi_up_count}일)`;
+    if (kDnCntEl) kDnCntEl.textContent = `(${item.kospi_down_count}일)`;
+    if (kBarEl) kBarEl.style.width = `${Math.min(100, Math.abs(item.corr_kospi) * 100).toFixed(1)}%`;
+
+    if (qCorrEl) qCorrEl.textContent = `r = ${item.corr_kosdaq.toFixed(4)}`;
+    if (qUpEl) {
+      const sign = item.kosdaq_up_avg_delta >= 0 ? "+" : "";
+      qUpEl.textContent = `${sign}${item.kosdaq_up_avg_delta.toFixed(2)}%p`;
+      qUpEl.className = `mono ${item.kosdaq_up_avg_delta >= 0 ? "up" : "dn"}`;
+    }
+    if (qDnEl) {
+      const sign = item.kosdaq_down_avg_delta >= 0 ? "+" : "";
+      qDnEl.textContent = `${sign}${item.kosdaq_down_avg_delta.toFixed(2)}%p`;
+      qDnEl.className = `mono ${item.kosdaq_down_avg_delta >= 0 ? "up" : "dn"}`;
+    }
+    if (qUpCntEl) qUpCntEl.textContent = `(${item.kosdaq_up_count}일)`;
+    if (qDnCntEl) qDnCntEl.textContent = `(${item.kosdaq_down_count}일)`;
+    if (qBarEl) qBarEl.style.width = `${Math.min(100, Math.abs(item.corr_kosdaq) * 100).toFixed(1)}%`;
+
+    if (sumEl) sumEl.textContent = item.summary || "";
+  }
+
+  function renderNewsSection(targetDate) {
+    const NEWS_DATA = window.GAEMI_NEWS;
+    if (!NEWS_DATA) return;
+    const grid = document.getElementById("newsCardGrid");
+    if (!grid) return;
+
+    const titleEl = document.getElementById("news-section-title");
+    const subEl = document.getElementById("news-section-sub");
+    const pillEl = document.getElementById("news-outlets-pill");
+    const updatedEl = document.getElementById("news-last-updated");
+
+    if (pillEl) {
+      pillEl.textContent = `${NEWS_DATA.outlets_collected_count}개사 ${NEWS_DATA.total_articles}건`;
+    }
+    if (updatedEl && NEWS_DATA.last_updated) {
+      const d = NEWS_DATA.last_updated.replace("T", " ").slice(0, 16);
+      updatedEl.textContent = `최근 수집: ${d}`;
+    }
+
+    let articles = [];
+    const isSpecificDate = Boolean(targetDate && CONC_DATA && targetDate !== CONC_DATA.as_of_date);
+
+    if (isSpecificDate && NEWS_DATA.by_date && NEWS_DATA.by_date[targetDate] && NEWS_DATA.by_date[targetDate].length > 0) {
+      articles = NEWS_DATA.by_date[targetDate].slice(0, 6);
+      if (titleEl) titleEl.textContent = `${targetDate} 관련 뉴스`;
+      if (subEl) subEl.textContent = `${targetDate} 당시 개인 순매수 및 시장 관련 보도 (${articles.length}건)`;
+    } else {
+      articles = (NEWS_DATA.articles || []).slice(0, 6);
+      if (titleEl) titleEl.textContent = "관련 뉴스";
+      if (subEl) subEl.textContent = "47개 언론사 화이트리스트 기반 개인 순매수·수급 보도";
+    }
+
+    if (!articles.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;padding:24px;text-align:center;font-size:13px;color:var(--ink-3);background:var(--surface-2);border-radius:6px;border:1px dashed var(--line);">수집된 관련 기사가 없습니다.</div>`;
+      return;
+    }
+
+    grid.innerHTML = articles.map((art) => {
+      const stockTags = (art.stocks || []).map((s) => `<span class="news-tag stock">#${s}</span>`).join("");
+      const secTags = (art.sectors || []).map((s) => `<span class="news-tag sec">#${s}</span>`).join("");
+      const kwTags = (art.keywords || []).slice(0, 2).map((k) => `<span class="news-tag">#${k}</span>`).join("");
+      return `
+        <a class="news-card" href="${art.link}" target="_blank" rel="noopener" title="${art.outlet_name} 원문 보기">
+          <div>
+            <div class="news-tags">${stockTags}${secTags}${kwTags}</div>
+            <h4 class="news-title">${art.title}</h4>
+            <p class="news-summary">${art.summary || ""}</p>
+          </div>
+          <div class="news-meta">
+            <span class="news-outlet">${art.outlet_name}</span>
+            <span class="news-time">${art.date} ${art.time} ↗</span>
+          </div>
+        </a>
+      `;
+    }).join("");
+  }
+
+  function initNewsFullViewer() {
+    const NEWS_DATA = window.GAEMI_NEWS;
+    if (!NEWS_DATA) return;
+    const btn = document.getElementById("toggleAllNewsBtn");
+    const wrap = document.getElementById("newsFullWrap");
+    const outFilter = document.getElementById("newsOutletFilter");
+    const stockFilter = document.getElementById("newsStockFilter");
+    const secFilter = document.getElementById("newsSectorFilter");
+    const fullList = document.getElementById("newsFullList");
+
+    if (!btn || !wrap || !fullList) return;
+
+    // Populate filter dropdowns
+    if (outFilter && NEWS_DATA.outlets_collected_names) {
+      outFilter.innerHTML = `<option value="all">전체 언론사 (${NEWS_DATA.outlets_collected_names.length}곳)</option>` +
+        NEWS_DATA.outlets_collected_names.map((o) => `<option value="${o}">${o}</option>`).join("");
+    }
+
+    const allStocks = new Set();
+    const allSecs = new Set();
+    (NEWS_DATA.articles || []).forEach((a) => {
+      (a.stocks || []).forEach((s) => allStocks.add(s));
+      (a.sectors || []).forEach((s) => allSecs.add(s));
+    });
+
+    if (stockFilter) {
+      stockFilter.innerHTML = `<option value="all">전체 종목</option>` +
+        Array.from(allStocks).sort().map((s) => `<option value="${s}">${s}</option>`).join("");
+    }
+    if (secFilter) {
+      secFilter.innerHTML = `<option value="all">전체 업종</option>` +
+        Array.from(allSecs).sort().map((s) => `<option value="${s}">${s}</option>`).join("");
+    }
+
+    const renderFull = () => {
+      const oVal = outFilter ? outFilter.value : "all";
+      const sVal = stockFilter ? stockFilter.value : "all";
+      const secVal = secFilter ? secFilter.value : "all";
+
+      const filtered = (NEWS_DATA.articles || []).filter((a) => {
+        if (oVal !== "all" && a.outlet_name !== oVal) return false;
+        if (sVal !== "all" && !(a.stocks || []).includes(sVal)) return false;
+        if (secVal !== "all" && !(a.sectors || []).includes(secVal)) return false;
+        return true;
+      });
+
+      if (!filtered.length) {
+        fullList.innerHTML = `<div style="padding:16px;text-align:center;font-size:12.5px;color:var(--ink-3);">조건에 맞는 기사가 없습니다.</div>`;
+        return;
+      }
+
+      fullList.innerHTML = filtered.map((a) => `
+        <a class="news-full-item" href="${a.link}" target="_blank" rel="noopener">
+          <span class="n-title">${a.title}</span>
+          <span class="n-meta">${a.outlet_name} · ${a.date} ↗</span>
+        </a>
+      `).join("");
+    };
+
+    btn.addEventListener("click", () => {
+      const isHidden = wrap.hidden;
+      wrap.hidden = !isHidden;
+      btn.textContent = isHidden ? "기사 닫기" : "전체 기사 보기";
+      if (isHidden) renderFull();
+    });
+
+    [outFilter, stockFilter, secFilter].forEach((sel) => {
+      if (sel) sel.addEventListener("change", renderFull);
     });
   }
 
