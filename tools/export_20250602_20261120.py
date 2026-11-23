@@ -7,7 +7,7 @@ import duckdb
 ROOT=pathlib.Path("comparison_export")
 ROOT.mkdir(exist_ok=True)
 BASE="https://raw.githubusercontent.com/FinanceData/marcap/master/data"
-DATES={2025:"2025-06-02",2026:"2026-11-20"}
+DATES={2025:"2025-06-02",2026:"2026-11-23"}
 
 def download(y):
     dst=ROOT/f"marcap-{y}.parquet"
@@ -46,11 +46,11 @@ for year, day in DATES.items():
           GROUP BY Market ORDER BY Market
         """,[str(file),day]).fetchall(),flush=True)
     else:
-        # FinanceData/marcap archive stops before 2026-11-20.
+        # FinanceData/marcap archive stops before 2026-11-23.
         # Use the exact-date KRX listing snapshot from fdr_krx_data_cache.
-        url="https://raw.githubusercontent.com/FinanceData/fdr_krx_data_cache/master/data/listing/krx/2026-11-20.csv"
+        url="https://raw.githubusercontent.com/FinanceData/fdr_krx_data_cache/master/data/listing/krx/2026-11-23.csv"
         sources[year]=url
-        dst=ROOT/"listing-2026-11-20.csv"
+        dst=ROOT/"listing-2026-11-23.csv"
         if not dst.exists():
             print("DOWNLOAD",url,flush=True)
             req=urllib.request.Request(url,headers={"User-Agent":"GAEMI-data-audit/1.0"})
@@ -88,7 +88,7 @@ only26=sorted(set(c26)-set(c25))
 print("MATCHED",len(matched),"ONLY2025",len(only25),"ONLY2026",len(only26),flush=True)
 if len(matched)<1800:
     raise RuntimeError("Too few shared-listed tickers; inspect Market coding.")
-allcols=["종목코드","종목명_2025","종목명_2026","시장_2025","시장_2026","종가_20250602_원","종가_20261120_원","주가변화_원","원시주가수익률_pct","상승하락_원시","상장주식수_2025","상장주식수_2026","주식수증감률_pct","주식수변화_검토","시총원장값_2025","시총원장값_2026","시총원장값_증감","종목명변경","시장변경","원자료_2025","원자료_2026"]
+allcols=["종목코드","종목명_2025","종목명_2026","시장_2025","시장_2026","종가_20250602_원","종가_20261123_원","주가변화_원","원시주가수익률_pct","상승하락_원시","상장주식수_2025","상장주식수_2026","주식수증감률_pct","주식수변화_검토","시총원장값_2025","시총원장값_2026","시총원장값_증감","종목명변경","시장변경","원자료_2025","원자료_2026"]
 out=ROOT/"matched_stocks.csv"
 with open(out,"w",encoding="utf-8-sig",newline="") as f:
     w=csv.writer(f)
