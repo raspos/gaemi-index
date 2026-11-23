@@ -27,37 +27,59 @@ con=duckdb.connect()
 snapshots={}
 sources={}
 for year, day in DATES.items():
-    file,url=download(year)
-    sources[year]=url
-    schema=con.execute("DESCRIBE SELECT * FROM read_parquet(?)",[str(file)]).fetchall()
-    print("SCHEMA",year,[(r[0],r[1]) for r in schema],flush=True)
-    # Fetch only the requested trading date, never interpolate missing-date observations.
-    qry = """
-      SELECT CAST(Code AS VARCHAR) AS code,
-             CAST(Name AS VARCHAR) AS name,
-             CAST(Market AS VARCHAR) AS market,
-             TRY_CAST(Close AS DOUBLE) AS close,
-             TRY_CAST(Marcap AS DOUBLE) AS marcap,
-             TRY_CAST(Stocks AS DOUBLE) AS shares
-      FROM read_parquet(?)
-      WHERE CAST(Date AS DATE) = CAST(? AS DATE)
-        AND Market IN ('KOSPI', 'KOSDAQ')
-    """
-    rows=con.execute(qry,[str(file),day]).fetchall()
-    print("DATE",day,"ROWS",len(rows),"MARKETS",con.execute("""
-      SELECT Market, count(*) FROM read_parquet(?)
-      WHERE CAST(Date AS DATE) = CAST(? AS DATE)
-      GROUP BY Market ORDER BY Market
-    """,[str(file),day]).fetchall(),flush=True)
-    if len(rows) < 2000:
+    if year==2025:
+        file,url=download(year)
+        sources[year]=url
+        schema=con.execute("DESCRIBE SELECT * FROM read_parquet(?)",[str(file)]).fetchall()
+        print("SCHEMA",year,[(r[0],r[1]) for r in schema],flush=True)
+        qry="""
+          SELECT CAST(Code AS VARCHAR), CAST(Name AS VARCHAR), CAST(Market AS VARCHAR),
+                 TRY_CAST(Close AS DOUBLE),TRY_CAST(Marcap AS DOUBLE),TRY_CAST(Stocks AS DOUBLE)
+          FROM read_parquet(?)
+          WHERE CAST(Date AS DATE)=CAST(? AS DATE)
+            AND Market IN ('KOSPI','KOSDAQ','KOSDAQ GLOBAL')
+        """
+        rows=con.execute(qry,[str(file),day]).fetchall()
+        print("DATE",day,"ROWS",len(rows),"MARKETS",con.execute("""
+          SELECT Market,count(*) FROM read_parquet(?)
+          WHERE CAST(Date AS DATE)=CAST(? AS DATE)
+          GROUP BY Market ORDER BY Market
+        """,[str(file),day]).fetchall(),flush=True)
+    else:
+        # FinanceData/marcap archive stops before 2026-11-20.
+        # Use the exact-date KRX listing snapshot from fdr_krx_data_cache.
+        url="https://raw.githubusercontent.com/FinanceData/fdr_krx_data_cache/master/data/listing/krx/2026-11-20.csv"
+        sources[year]=url
+        dst=ROOT/"listing-2026-11-20.csv"
+        if not dst.exists():
+            print("DOWNLOAD",url,flush=True)
+            req=urllib.request.Request(url,headers={"User-Agent":"GAEMI-data-audit/1.0"})
+            with urllib.request.urlopen(req,timeout=300) as src,open(dst,"wb") as out:
+                out.write(src.read())
+        with open(dst,encoding="utf-8-sig",newline="") as fin:
+            dictrows=list(csv.DictReader(fin))
+        print("DATE",day,"ROWS",len(dictrows),"MARKETS",sorted(set(row["Market"] for row in dictrows)),flush=True)
+        def num(s):
+            try: return float(s) if s not in (None,"") else None
+            except (ValueError,TypeError): return None
+        rows=[
+            (row["Code"],row["Name"],row["Market"],num(row["Close"]),num(row["Marcap"]),num(row["Stocks"]))
+            for row in dictrows
+            if row["Market"] in ("KOSPI","KOSDAQ","KOSDAQ GLOBAL")
+        ]
+    if len(rows)<2000:
         raise RuntimeError(f"Too few snapshot entries on {day}: {len(rows)}; verify source dates and schema.")
     dat={}
     for code,name,market,close,cap,shares in rows:
         code=str(code).strip().zfill(6)
         if code in dat:
             raise RuntimeError(f"duplicate code {code} on {day}")
+        market="KOSDAQ" if market.startswith("KOSDAQ") else market
         dat[code]=(name,market,close,cap,shares)
     snapshots[year]=dat
+    sample=next((v for k,v in dat.items() if k=="005930"),None)
+    if sample:
+        print("SAMSUNG",year,sample,"marcap_over_price_times_shares",(sample[3]/(sample[2]*sample[4]) if sample[2] and sample[4] else "NA"),flush=True)
 
 c25,c26=snapshots[2025],snapshots[2026]
 matched=sorted(set(c25)&set(c26))
@@ -106,5 +128,5 @@ print("STATS",stats,flush=True)
 with open(ROOT/"audit_summary.csv","w",encoding="utf-8-sig",newline="") as f:
     w=csv.writer(f);w.writerow(["시장_2026","두날짜공통상장수","원시주가_상승","원시주가_하락","원시주가_보합","가격없음","주식수변화1pct초과_검토필요","데이터출처","주의사항"])
     for m,v in stats.items():
-        w.writerow([m,*v,"FinanceData/marcap; 원천 KRX","원시종가 비교. 액면분할·병합·증자 등 기업행동 보정 전. 검토필요 행은 기사 확정 집계에 그대로 사용 금지."])
+        w.writerow([m,*v,"2025: FinanceData/marcap / 2026: FinanceData/fdr_krx_data_cache; 원천 KRX","원시종가 비교. 액면분할·병합·증자 등 기업행동 보정 전. 검토필요 행은 기사 확정 집계에 그대로 사용 금지."])
 print("EXPORT_READY",out,flush=True)
