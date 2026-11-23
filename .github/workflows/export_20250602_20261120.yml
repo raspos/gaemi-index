@@ -1,0 +1,30 @@
+name: One-off GAEMI KRX two-date data export
+on:
+  push:
+    branches:
+      - data-export-20250602-20261120
+    paths:
+      - .github/workflows/export_20250602_20261120.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Parquet query dependency
+        run: pip install duckdb==1.4.1
+      - name: Extract shared listed stocks on exact dates
+        run: python tools/export_20250602_20261120.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GAEMI-KRX-20250602-vs-20261120-raw-csv
+          path: |
+            comparison_export/*.csv
+          if-no-files-found: error
+          retention-days: 30
