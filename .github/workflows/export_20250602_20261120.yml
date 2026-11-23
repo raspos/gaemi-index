@@ -5,6 +5,7 @@ on:
       - data-export-20250602-20261120
     paths:
       - .github/workflows/export_20250602_20261120.yml
+      - tools/export_20250602_20261120.py
   workflow_dispatch:
 permissions:
   contents: read
