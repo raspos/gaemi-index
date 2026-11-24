@@ -1,15 +1,17 @@
 {
-  "last_updated": "2026-11-23T10:57:22.811730+09:00",
-  "last_success_at": "2026-11-23T10:57:22.811730+09:00",
+  "last_updated": "2026-11-24T17:58:40.610738+09:00",
+  "last_success_at": "2026-11-24T17:58:40.610738+09:00",
   "last_status": "success",
-  "status_message": "정상 수집 및 병합 (+62건 추가)",
-  "total_articles": 185,
+  "status_message": "정상 수집 및 병합 (+37건 추가)",
+  "total_articles": 222,
   "outlets_monitored_count": 47,
-  "outlets_collected_count": 39,
+  "outlets_collected_count": 41,
   "outlets_collected_names": [
     "KBS",
     "MBC",
+    "SBS",
     "SBS비즈",
+    "YTN",
     "국민일보",
     "글로벌이코노믹",
     "노컷뉴스",
@@ -48,6 +50,881 @@
     "헤럴드경제"
   ],
   "articles": [
+    {
+      "id": "78e3e343319f",
+      "title": "코스피 젠슨황 복귀에 6% 급등…5,000선 마감",
+      "summary": "수급별로는 외국인과 기관이 동반 순매수한 반면 개인 홀로 2조원 넘게 팔았습니다. 삼성전자와 SK하이닉스도 6%대 동반 상승하며 지수 상승을 이끌었습니다. 이날 코스피 급등은 엔비디아가 젠슨 황을 CEO로...",
+      "link": "http://www.yonhapnewstv.co.kr/news/MYH20261124175453BZd",
+      "outlet_id": "yonhapnewstv",
+      "outlet_name": "연합뉴스TV",
+      "outlet_type": "보도채널",
+      "date": "2026-11-24",
+      "time": "17:55",
+      "published": "2026-11-24T17:55:00+09:00",
+      "stocks": [
+        "삼성전자",
+        "SK하이닉스"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "1996c7407ca9",
+      "title": "한숨 돌린 코스피…“추세 전환 단정하긴 일러” 경계감",
+      "summary": "한국거래소에 따르면 올 들어 이날까지 외국인은 유가증권시장에서 223조 3065억 원어치를 순매도했다.... 시장에서는 미국의 10월 개인소비지출(PCE) 물가지수와 델 등 AI 기업 실적 이벤트를 단기 증시 방향성을...",
+      "link": "https://www.sedaily.com/article/20118454?ref=naver",
+      "outlet_id": "sedaily",
+      "outlet_name": "서울경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "17:54",
+      "published": "2026-11-24T17:54:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "개인",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "b715cc6ba972",
+      "title": "코스피, '젠슨 황 복귀'에 5천 선 회복...외국인 순매수 전환",
+      "summary": "8거래일 만에 순매수로 돌아선 외국인이 기관과 함께 각각 7천2백억 원, 8천6백억 원 사들이며 지수 상승을 이끌었고 개인은 2조 원을 순매도했습니다. 삼성전자는 6.7% 오른 18만9천4백 원에, SK하이닉스도 6.73% 오른...",
+      "link": "https://www.ytn.co.kr/_ln/0102_202611241741274534",
+      "outlet_id": "ytn",
+      "outlet_name": "YTN",
+      "outlet_type": "보도채널",
+      "date": "2026-11-24",
+      "time": "17:41",
+      "published": "2026-11-24T17:41:00+09:00",
+      "stocks": [
+        "삼성전자",
+        "SK하이닉스"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "138d7cdea209",
+      "title": "11일 만에 돌아온 증시 구원투수… '오천피' 랠리 다시 불붙을까",
+      "summary": "외국인과 기관이 각각 7,370억 원, 8,710억 원어치를 순매수했다. 개인은 2조560억 원어치를 순매도했다. 코스피와 코스닥 양 시장에서 나란히 매수 사이드카(프로그램 매매호가 효력 정지)가 발동되기도 했다. 올해...",
+      "link": "https://www.hankookilbo.com/news/article/A2026112410040005719?did=NA",
+      "outlet_id": "hankookilbo",
+      "outlet_name": "한국일보",
+      "outlet_type": "종합일간지",
+      "date": "2026-11-24",
+      "time": "17:34",
+      "published": "2026-11-24T17:34:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "3550d04f19ac",
+      "title": "[채권마감] 10년-3년 장단기금리차 1년8개월만 최저",
+      "summary": "외국인은 3선을 7거래일째, 10선을 5거래일째 순매수했다. 증시 눈치보기는 여전할 것이란 관측이다. 미국 국내총생산(GDP) 및 개인소비지출(PCE) 물가 발표를 주목하면서 금통위를 맞이할 것으로 봤다. 24일...",
+      "link": "https://www.etoday.co.kr/news/view/2652445",
+      "outlet_id": "etoday",
+      "outlet_name": "이투데이",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "17:26",
+      "published": "2026-11-24T17:26:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "22c99e71c4dd",
+      "title": "젠슨 황 11일 만에 복귀…코스피 '5천 선' 회복",
+      "summary": "특히 7거래일 연속 주식을 팔아치웠던 외국인이 8거래일 만에 순매수로 돌아서 7천255억 원어치를 사들였습니다. 반면 개인 투자자들은 2조 원 넘게 순매도했습니다. 코스닥도 장중 5% 넘게 급등하며 코스피에 이어...",
+      "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008861223&plink=ORI&cooper=NAVER",
+      "outlet_id": "sbs",
+      "outlet_name": "SBS",
+      "outlet_type": "지상파방송",
+      "date": "2026-11-24",
+      "time": "17:01",
+      "published": "2026-11-24T17:01:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "072c519c704f",
+      "title": "젠슨황 복귀에 반도체주 급등…코스피·코스닥 매수사이드카",
+      "summary": "기관도 매수하며 지수를 끌어올렸습니다. 개인만 홀로 2조 원 넘게 순매도했습니다. 인공지능 투자 심리가 살아나면서, 삼성전자와 SK하이닉스가 모두 6% 넘게 올랐습니다. 코스닥도 어제보다 30.43포인트, 4.79% 오른 665....",
+      "link": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8721125&ref=A",
+      "outlet_id": "kbs",
+      "outlet_name": "KBS",
+      "outlet_type": "지상파방송",
+      "date": "2026-11-24",
+      "time": "16:59",
+      "published": "2026-11-24T16:59:00+09:00",
+      "stocks": [
+        "삼성전자",
+        "SK하이닉스"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "개인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "9bad616ab122",
+      "title": "젠슨 황의 귀환, 아시아증시 급반등⋯日 닛케이 4%↑",
+      "summary": "최근 글로벌 AI 산업을 둘러싼 불확실성이 일부 해소되면서 반도체 관련주에 매수세가 집중됐다. 다만... 문제가 나타나기 전에도 시장이 위험을 선반영할 수 있다는 분석이다. 한편 한국 코스피는 7.05% 상승 마감했다.",
+      "link": "https://www.etoday.co.kr/news/view/2652427",
+      "outlet_id": "etoday",
+      "outlet_name": "이투데이",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:58",
+      "published": "2026-11-24T16:58:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "93cfdee7b392",
+      "title": "젠슨 황 복귀로 단숨에 5000 회복…최저점 찍은 단종레도 '점프'",
+      "summary": "한수진 삼성증권 연구원은 \"그간 반도체주 약세가 이어지면서 개인투자자들의 손실 부담이 확대돼 왔다\"며 \"국내 증시 급락 이후 지수 반등을 기대하는 매수세가 레버리지 ETF로 모이고 있다\"고 분석했습니다.",
+      "link": "http://www.newstomato.com/ReadNews.aspx?no=1321671&inflow=N",
+      "outlet_id": "newstomato",
+      "outlet_name": "뉴스토마토",
+      "outlet_type": "경제전문",
+      "date": "2026-11-24",
+      "time": "16:50",
+      "published": "2026-11-24T16:50:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "하락장",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "d4bb5be9654a",
+      "title": "[증시 인사이트] 젠슨 황 경영 복귀에 다시 5천피…상승세 이어갈까",
+      "summary": "외국인의 매수세는 이어질지, 반도체주 중심으로 다시 상승세를 이어갈지 이주연 M인베스트먼트 대표... - 젠슨 황 경영 복귀에 다시 5천피…상승세 이어갈까 - 코스피·코스닥 급등…장중 각각 매수 사이드카 발동...",
+      "link": "https://biz.sbs.co.kr/article_hub/20000348582?division=NAVER",
+      "outlet_id": "sbsbiz",
+      "outlet_name": "SBS비즈",
+      "outlet_type": "보도채널",
+      "date": "2026-11-24",
+      "time": "16:45",
+      "published": "2026-11-24T16:45:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "외국인",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "e514db7a8e2d",
+      "title": "8일 만에 돌아온 외국인, 내일도 있어줄까…글로벌 긴축 속도가 변수",
+      "summary": "순매수 지속 여부를 확인할 필요가 있다\"고 말했다. 코스피 시장에서는 전 업종이 상승했다. 이날 삼성전자가 내년 1월 열릴 CES 2027에서 휴머노이드 로봇을 선보일 것이라는 소식이 전해지면서 로보틱스 관련...",
+      "link": "https://www.mt.co.kr/stock/2026/11/24/2026112416295692231",
+      "outlet_id": "mt",
+      "outlet_name": "머니투데이",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:40",
+      "published": "2026-11-24T16:40:00+09:00",
+      "stocks": [
+        "삼성전자"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "7829611d638e",
+      "title": "개인 투자자, 올해 32조 쓸어담았다... 고개 든 ‘채권의 시간’",
+      "summary": "24일 금융투자협회에 따르면 올해 11월 23일까지 장외 채권시장에서 개인의 순매수액은 32조원으로, 지난해... 반도체 수출 호황에 따른 경기 개선 기대가 있지만, 주가 하락으로 자산 효과가 크지 않고 소비 심리까지...",
+      "link": "https://biz.chosun.com/stock/stock_general/2026/11/24/7XO5DGC7JZBHJKXL6TDFHFOJ2Q/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+      "outlet_id": "chosunbiz",
+      "outlet_name": "조선비즈",
+      "outlet_type": "경제전문",
+      "date": "2026-11-24",
+      "time": "16:40",
+      "published": "2026-11-24T16:40:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "4efd31a2f87a",
+      "title": "'젠슨 황 어게인' 코스피, 6% 급등하며 5000선 탈환 [뉴시스Pic]",
+      "summary": "순매수했다. 반면 개인은 2조429억원어치를 팔아치웠다. 업종별로는 대부분의 업종지수가 상승한 가운데 운송장비·부품(9.41%), 기계·장비(7.88%), 전기·전자(7.14%), 보험(7.02%), 제조(6.80%) 등이 지수를 웃도는 성과를...",
+      "link": "https://www.newsis.com/view/NISX20261124_0003881448",
+      "outlet_id": "newsis",
+      "outlet_name": "뉴시스",
+      "outlet_type": "통신사",
+      "date": "2026-11-24",
+      "time": "16:39",
+      "published": "2026-11-24T16:39:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "개인",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "315832d569f8",
+      "title": "'엔비디아 훈풍'에 5천피 회복...삼전닉스 6%대 상승",
+      "summary": "외국인과 기관이 각각 7천2백억 원, 8천6백억 원 순매수를 보였습니다. 차익 실현에 나선 개인은 2조 원가량을 팔며 매도에 나섰습니다. 반도체 대장주도 큰 폭의 오름세를 보였습니다. 삼성전자, 6.7% 오른 18만9천4백...",
+      "link": "https://www.ytn.co.kr/_ln/0102_202611241638551052",
+      "outlet_id": "ytn",
+      "outlet_name": "YTN",
+      "outlet_type": "보도채널",
+      "date": "2026-11-24",
+      "time": "16:38",
+      "published": "2026-11-24T16:38:00+09:00",
+      "stocks": [
+        "삼성전자"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "838f34132bc2",
+      "title": "젠슨 황 복귀에 5천피 탈환한 코스피…\"추세 반등은 아직\"",
+      "summary": "젠슨 황 엔비디아 최고경영자(CEO)의 복귀에 힘입어 코스피가 하루 만에 6% 넘게 급반등하며 5000선을... 외국인의 매수세가 이어지는지 확인해야 한다”고 설명했다. 박 대표는 미국의 금리 인상 우려도 해소돼야 한다고...",
+      "link": "https://www.viva100.com/article/20261124501102",
+      "outlet_id": "viva100",
+      "outlet_name": "브릿지경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:28",
+      "published": "2026-11-24T16:28:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "외국인",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "082446971e46",
+      "title": "[마감] 코스피, AI 우려 걷히자 5천선 탈환… 양시장 매수 사이드카",
+      "summary": "외국인 매수세 유입이 투자심리 회복에 힘을 보탰다. 반면 개인은 1조9239억원을 순매도하며 차익 실현에 나섰다. 시가총액 상위 종목도 대부분 강세를 보였다. 삼성전자는 전 거래일 대비 1만1900원(6.70%) 오른...",
+      "link": "https://it.chosun.com/news/articleView.html?idxno=3000000001730",
+      "outlet_id": "chosun",
+      "outlet_name": "조선일보",
+      "outlet_type": "종합일간지",
+      "date": "2026-11-24",
+      "time": "16:26",
+      "published": "2026-11-24T16:26:00+09:00",
+      "stocks": [
+        "삼성전자"
+      ],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "d8547c484a23",
+      "title": "8일만에 돌아온 외국인 7000억 순매수…AI밸류체인 골고루 담았다",
+      "summary": "원), 두산에너빌리티(034020)(160억 원) 순으로 순매수했다. 위험선호 심리가 회복되자 AI밸류체인 업종을 중심으로 저가 매수에 나선 것으로 풀이된다. 반면 SK하이닉스(2470억 원)와 SK스퀘어(402340)(570억...",
+      "link": "https://www.news1.kr/finance/market-exr/6364573",
+      "outlet_id": "news1",
+      "outlet_name": "뉴스1",
+      "outlet_type": "통신사",
+      "date": "2026-11-24",
+      "time": "16:26",
+      "published": "2026-11-24T16:26:00+09:00",
+      "stocks": [
+        "SK하이닉스",
+        "두산에너빌리티"
+      ],
+      "sectors": [
+        "기계/중공업",
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "0cc8772c923f",
+      "title": "\"땡큐, 젠슨 황\" 반도체 랠리⋯코스피 6% 급등 '5000선' 탈환",
+      "summary": "삼성물산(7.71%), 신한지주(5.22%) 등 종목도 빨간불을 켰다. 시총 상위 100개 종목 중 에스원(1.17%)만 유일하게 하락했다. 외국인이 7255억원을 순매수하며 상승 동력을 더했다. 기관도 8672억원을 사들였다. 개인...",
+      "link": "http://www.inews24.com/view/2029906",
+      "outlet_id": "inews24",
+      "outlet_name": "아이뉴스24",
+      "outlet_type": "IT산업전문",
+      "date": "2026-11-24",
+      "time": "16:20",
+      "published": "2026-11-24T16:20:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "f5662e2a07c8",
+      "title": "코스피 6% 상승, 5000선 회복…'젠슨황 컴백' 외인 7000억 순매수[시황종...",
+      "summary": "삼성전자(005930)(6.70%)와 SK하이닉스(000660)(6.73%)가 모두 6%대 강세로 마감했고, 삼성전기(009150)(10.28... 외국인은 1176억 원, 기관은 2064억 원 각각 순매수했다. 개인은 3077억 원 순매도했다. 코스닥...",
+      "link": "https://www.news1.kr/finance/market-exr/6364510",
+      "outlet_id": "news1",
+      "outlet_name": "뉴스1",
+      "outlet_type": "통신사",
+      "date": "2026-11-24",
+      "time": "16:20",
+      "published": "2026-11-24T16:20:00+09:00",
+      "stocks": [
+        "삼성전자",
+        "SK하이닉스",
+        "삼성전기"
+      ],
+      "sectors": [
+        "반도체",
+        "전자부품/IT"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "676162f5bc32",
+      "title": "“AI 황제 돌아오자 증시도 부활” 코스피, 5000선 탈환…외국인도 ‘사...",
+      "summary": "기관 역시 9050억원 순매수했다. 개인은 1조9544억원 순매도했다. 간밤 젠슨 황 CEO가 이사회 만장일치로... 현대차(11.11%), 삼성전기(10.28%), LG에너지솔루션(7.89%), SK스퀘어(5.15%) 등 시가총액 상위 종목이 일제히...",
+      "link": "https://biz.heraldcorp.com/article/10947788?ref=naver",
+      "outlet_id": "heraldcorp",
+      "outlet_name": "헤럴드경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:19",
+      "published": "2026-11-24T16:19:00+09:00",
+      "stocks": [
+        "삼성전기",
+        "LG에너지솔루션",
+        "현대차"
+      ],
+      "sectors": [
+        "2차전지",
+        "자동차/부품",
+        "전자부품/IT"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "eb15a5223318",
+      "title": "'황의 귀환'에 5천피 복귀한 코스피…반도체 대장주 쌍끌이",
+      "summary": "외국인은 이날 7256억 원 매수세를 기록했다. 기관 역시 8609억 원을 사들이면서 상승세에 불을 지폈다. 반면 개인은 2조 429억 원 매도하면서 반대 흐름을 보였다. 이날 코스피 '불기둥'은 반도체 대장주가 이끌었다....",
+      "link": "https://www.nocutnews.co.kr/news/6611896?utm_source=naver&utm_medium=article&utm_campaign=20261124161403",
+      "outlet_id": "nocutnews",
+      "outlet_name": "노컷뉴스",
+      "outlet_type": "종합인터넷",
+      "date": "2026-11-24",
+      "time": "16:15",
+      "published": "2026-11-24T16:15:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "반도체"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "a6f031f0b634",
+      "title": "[양보연의 주(株)토피아] 사임에 팔고 복귀에 땅 쳤다면…'젠슨 황 쇼크...",
+      "summary": "저가 매수세가 유입된 결과입니다. 뉴욕 증시에서 시작된 안도 랠리는 24일 국내 증시로도 고스란히 이어졌습니다. 이날 코스피 지수는 전 거래일 대비 6.32% 급등하며 마감했습니다. 특히 엔비디아 생태계와 직결된...",
+      "link": "https://www.ajunews.com/view/20261124160117793",
+      "outlet_id": "ajunews",
+      "outlet_name": "아주경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:14",
+      "published": "2026-11-24T16:14:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "c6e6acc4cd29",
+      "title": "[마감시황] 코스피, 젠슨 황 복귀에 6%대 급등…5000선 탈환",
+      "summary": "시장에도 매수 사이드카가 발동됐다. 코스닥 시가총액 상위 종목은 대부분 상승했다. 로보티즈(19.51%)와 레인보우로보틱스(17.41%) 등 로봇주가 급등했으며 에코프로비엠(11.34%), 에코프로(10.44%) 등 2차전지주도 두...",
+      "link": "https://www.newspim.com/news/view/20261124001157",
+      "outlet_id": "newspim",
+      "outlet_name": "뉴스핌",
+      "outlet_type": "통신사",
+      "date": "2026-11-24",
+      "time": "16:04",
+      "published": "2026-11-24T16:04:00+09:00",
+      "stocks": [
+        "에코프로",
+        "에코프로비엠"
+      ],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "094f5a652578",
+      "title": "젠슨 황이 돌려놓은 투심…코스피 5000선 회복",
+      "summary": "장 초반 반도체주에 집중됐던 매수세는 자동차와 2차전지 등 다른 업종으로도 확산했다. 24일... 순매수했고 장 초반 순매도했던 기관도 매수에 가세하며 8692억원어치를 순매수했다. 개인은 2조430억원어치를...",
+      "link": "https://news.bizwatch.co.kr/article/market/2026/11/24/0037",
+      "outlet_id": "bizwatch",
+      "outlet_name": "비즈워치",
+      "outlet_type": "경제전문",
+      "date": "2026-11-24",
+      "time": "16:04",
+      "published": "2026-11-24T16:04:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "2차전지",
+        "반도체",
+        "자동차/부품"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "ed79d62e2885",
+      "title": "코스피, '젠슨 황' 훈풍에 6.32%↑…사흘 만에 5000피 복귀",
+      "summary": "수급은 외국인과 기관이 각각 1178억 원, 2066억 원 순매수했다. 개인은 3081억 원 순매도했다. 주요 종목 중에서는 에코프로비엠(11.34%), 에코프로(10.44%), 레인보우로보틱스(17.41%), 로보티즈(19.51%) 등 2차전지와...",
+      "link": "https://www.g-enews.com/view.php?ud=202611241548277949923c501012_1",
+      "outlet_id": "genews",
+      "outlet_name": "글로벌이코노믹",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "16:00",
+      "published": "2026-11-24T16:00:00+09:00",
+      "stocks": [
+        "에코프로",
+        "에코프로비엠"
+      ],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "87ba956c6e4e",
+      "title": "[마켓뷰] 어제는 매도, 오늘은 매수 사이드카… 젠슨 황 귀환에 코스피...",
+      "summary": "젠슨 황 엔비디아 복귀 양 시장 ‘매수 사이드카’ 삼성전자 18만원·SK하이닉스 115만원 회복 코스피... 두산에너빌리티(7.93%)와 삼성전자우(6.53%), SK스퀘어(5.15%), NAVER(4.07%)도 강세였다. 코스닥 지수는 30....",
+      "link": "https://biz.chosun.com/stock/stock_general/2026/11/24/WCRBFOMTRZENNMSMIGTWCH2HZ4/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+      "outlet_id": "chosunbiz",
+      "outlet_name": "조선비즈",
+      "outlet_type": "경제전문",
+      "date": "2026-11-24",
+      "time": "15:54",
+      "published": "2026-11-24T15:54:00+09:00",
+      "stocks": [
+        "삼성전자",
+        "SK하이닉스",
+        "두산에너빌리티",
+        "NAVER"
+      ],
+      "sectors": [
+        "기계/중공업",
+        "반도체",
+        "플랫폼/소프트웨어"
+      ],
+      "keywords": [],
+      "is_inflection": false
+    },
+    {
+      "id": "552057e3f7aa",
+      "title": "“황 회장님 돌아오셨다고?”…젠슨 황 복귀에 집 나간 ‘코스피 5000’...",
+      "summary": "2차전지주인 삼성SDI(13.64%)와 LG에너지솔루션(7.89%)도 강세를 보였다. 코스닥지수는 전 거래일보다 30.... 외국인과 기관은 각각 1238억원, 1916억원을 순매수했고 개인은 2987억원을 순매도했다. 코스닥에서는...",
+      "link": "https://www.mk.co.kr/article/12217150",
+      "outlet_id": "mk",
+      "outlet_name": "매일경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "15:54",
+      "published": "2026-11-24T15:54:00+09:00",
+      "stocks": [
+        "삼성SDI",
+        "LG에너지솔루션"
+      ],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "3dc2f765eb5d",
+      "title": "[셀럽의 한 수] 젠슨 황 복귀에 급반등…\"코스피 0000까지 간다\"",
+      "summary": "쌍끌이 매수에 상승폭 확대 - 로봇·2차전지주도 일제히 급반등 - 코스닥도 4~5%대 급등…투자심리 회복... 급등락…개인 레버리지 경고 - AI 투자 기대 꺾이면 데이터센터 수요 위축 - AI 순환투자 구조, 산업 전반 위험...",
+      "link": "https://biz.sbs.co.kr/article_hub/20000348494?division=NAVER",
+      "outlet_id": "sbsbiz",
+      "outlet_name": "SBS비즈",
+      "outlet_type": "보도채널",
+      "date": "2026-11-24",
+      "time": "14:47",
+      "published": "2026-11-24T14:47:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "개인",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "98ca13cacc9e",
+      "title": "코스피, 외국인·기관 매수에 7%대 급등…개인 2조원대 순매도 [fn오후시...",
+      "summary": "동반 매수에 힘입어 오후에도 7%대 강세를 이어가고 있다. 젠슨 황 엔비디아 최고경영자(CEO)의 복귀 소식에 반도체주가 급등한 가운데 자동차와 2차전지 대형주도 두 자릿수 상승률을 보이고 있다. 개인은...",
+      "link": "https://www.fnnews.com/news/202611241432370187",
+      "outlet_id": "fnnews",
+      "outlet_name": "파이낸셜뉴스",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "14:37",
+      "published": "2026-11-24T14:37:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "2차전지",
+        "반도체",
+        "자동차/부품"
+      ],
+      "keywords": [
+        "개인",
+        "외국인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "7aabd381d5a9",
+      "title": "‘삼전닉스’보다 더 오른다…개미들 울리더니 11%↑ 불기둥 [나만없어...",
+      "summary": "올해 상반기 70만원대를 넘어선 뒤 3분의 1 수준으로 급락한 현대차는 개인 투자자들 사이에서... 강진혁 신한투자증권 연구원은 “외국인이 지난 12일 이후 처음으로 현물 순매수에 나서면서 2차전지와 방산 등...",
+      "link": "https://www.seoul.co.kr/news/economy/securities/2026/11/24/20261124500166?wlog_tag3=naver",
+      "outlet_id": "seoul",
+      "outlet_name": "서울신문",
+      "outlet_type": "종합일간지",
+      "date": "2026-11-24",
+      "time": "14:08",
+      "published": "2026-11-24T14:08:00+09:00",
+      "stocks": [
+        "현대차"
+      ],
+      "sectors": [
+        "2차전지",
+        "기계/중공업",
+        "자동차/부품"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "하락장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "bce42c8ad11f",
+      "title": "'AI 거품론' 잠재운 黃의 귀환…증시 패닉 분위기 하루 만에 폭등세로",
+      "summary": "삼성SDI(11.62%), 현대모비스(12.44%), 두산에너빌리티(6.68%), 기아(7.52%) 등 다른 대형주에도 매수세가 확산했다. 수급에서도 변화가 나타났다. 오전 11시31분 기준 투자자별 매매 현황에서 외국인은 유가증권시장에서 약...",
+      "link": "https://www.fnnews.com/news/202611241134015373",
+      "outlet_id": "fnnews",
+      "outlet_name": "파이낸셜뉴스",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "11:41",
+      "published": "2026-11-24T11:41:00+09:00",
+      "stocks": [
+        "두산에너빌리티",
+        "삼성SDI",
+        "기아"
+      ],
+      "sectors": [
+        "2차전지",
+        "기계/중공업",
+        "자동차/부품"
+      ],
+      "keywords": [
+        "순매수",
+        "외국인"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "dd8a6d31e5f4",
+      "title": "코스피, 젠슨 황 복귀에 5000선 회복…삼전·닉스 8~10% 급등",
+      "summary": "수급은 외국인과 기관이 각각 1300억 원, 341억 원 순매수 중이다. 반면 개인은 1559억 원 순매도하고 있다. 주요 종목 중에서는 에코프로비엠(12.34%), 에코프로(11.55%) 등 2차 전지를 비롯해 레인보우로보틱스(13....",
+      "link": "https://www.g-enews.com/view.php?ud=202611241025515307923c501012_1",
+      "outlet_id": "genews",
+      "outlet_name": "글로벌이코노믹",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "10:32",
+      "published": "2026-11-24T10:32:00+09:00",
+      "stocks": [
+        "에코프로",
+        "에코프로비엠"
+      ],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "a61e8b6bdc5b",
+      "title": "코스닥 5% 급등에 '매수 사이드카' 발동",
+      "summary": "시장에서도 매수 사이드카가 발동됐다. 젠슨 황 엔비디아 최고경영자(CEO)의 복귀와 미국 반도체주 급등에 힘입어 투자심리가 개선되면서 반도체 소재·부품·장비(소부장)와 로봇, 2차전지 등 주요 성장주가...",
+      "link": "https://www.newspim.com/news/view/20261124000312",
+      "outlet_id": "newspim",
+      "outlet_name": "뉴스핌",
+      "outlet_type": "통신사",
+      "date": "2026-11-24",
+      "time": "10:29",
+      "published": "2026-11-24T10:29:00+09:00",
+      "stocks": [],
+      "sectors": [
+        "2차전지",
+        "반도체"
+      ],
+      "keywords": [
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "65e9f9615402",
+      "title": "코스피, 젠슨 황 복귀 소식에 '매수 사이드카'…5000선 회복 시도",
+      "summary": "40%), 리노공업(6.26%) 등 2차전지와 소부장 중심으로 강세다. 반면 알테오젠(-1.25%)과 HLB(-0.19%) 등 제약주는 비교적 약세를 보이고 있다. #코스피, #코스닥, #매수 사이드카 서재필 글로벌이코노믹 기자",
+      "link": "https://www.g-enews.com/view.php?ud=20261124091316754923c501012_1",
+      "outlet_id": "genews",
+      "outlet_name": "글로벌이코노믹",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "09:22",
+      "published": "2026-11-24T09:22:00+09:00",
+      "stocks": [
+        "알테오젠",
+        "HLB"
+      ],
+      "sectors": [
+        "2차전지",
+        "바이오/제약"
+      ],
+      "keywords": [
+        "하락장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "3ef624ccc9ec",
+      "title": "젠슨 황 복귀에 환호…삼전닉스 급등에 장중 '오천피' 회복",
+      "summary": "이 시장에선 개인이 657억원어치 주식을 순매수하는 반면, 외국인과 기관은 각각 448억원어치와 170억원어치를 순매도하고 있다. 코스닥 시가총액 상위 종목들은 일제히 상승세다. 2차전지주인 에코프로는 4....",
+      "link": "https://www.hankyung.com/article/2026112459656",
+      "outlet_id": "hankyung",
+      "outlet_name": "한국경제",
+      "outlet_type": "경제지",
+      "date": "2026-11-24",
+      "time": "09:20",
+      "published": "2026-11-24T09:20:00+09:00",
+      "stocks": [
+        "에코프로"
+      ],
+      "sectors": [
+        "2차전지"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관",
+        "상승장"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "eb1ba3006b66",
+      "title": "코스피, ‘블랙먼데이 공포’ 딛고…낙폭 3%대로 축소",
+      "summary": "코스닥 시장에서는 기관이 1990억원을 홀로 순매수한 반면, 개인과 외국인은 각각 1864억원, 204억원을... 반면 코스닥 시총 1위 알테오젠(196170)(-3.38%)과 2차전지 대표주인 에코프로비엠(247540)(-3.99%), 에코프로...",
+      "link": "https://www.edaily.co.kr/News/Read?newsId=02817526645648672&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article",
+      "outlet_id": "edaily",
+      "outlet_name": "이데일리",
+      "outlet_type": "경제지",
+      "date": "2026-11-23",
+      "time": "15:36",
+      "published": "2026-11-23T15:36:00+09:00",
+      "stocks": [
+        "에코프로",
+        "에코프로비엠",
+        "알테오젠"
+      ],
+      "sectors": [
+        "2차전지",
+        "바이오/제약"
+      ],
+      "keywords": [
+        "순매수",
+        "개인",
+        "외국인",
+        "기관"
+      ],
+      "is_inflection": false
+    },
+    {
+      "id": "c187f5dd3b31",
+      "title": "[성공예감] AI 서사 의구심, 순환금융 위험, 코스피 반토막, 금리 상승…...",
+      "summary": "서학개미라고 하는 개인 투자자분들이 첫날에만 2천억 넘게 사들였다고 합니다. 물론 스페이스X 당시보다는... 지난달에만 5조 5천억 원 이상을 또 순매수를 했고요, 국내에서도. 전달보다 4배 가까이 늘었는데 이게...",
+      "link": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8720015&ref=A",
+      "outlet_id": "kbs",
+      "outlet_name": "KBS",
+      "outlet_type": "지상파방송",
+      "date": "2026-11-23",
+      "time": "13:41",
+      "published": "2026-11-23T13:41:00+09:00",
+      "stocks": [],
+      "sectors": [],
+      "keywords": [
+        "순매수",
+        "개인"
+      ],
+      "is_inflection": false
+    },
     {
       "id": "7f3c0b897c5d",
       "title": "'나스닥 3%↑' 美 주가지수 선물 급등에 바닥론 '고개'…저가 매수론·신...",
@@ -3916,7 +4793,390 @@
     }
   ],
   "by_date": {
+    "2026-11-24": [
+      {
+        "id": "78e3e343319f",
+        "title": "코스피 젠슨황 복귀에 6% 급등…5,000선 마감",
+        "summary": "수급별로는 외국인과 기관이 동반 순매수한 반면 개인 홀로 2조원 넘게 팔았습니다. 삼성전자와 SK하이닉스도 6%대 동반 상승하며 지수 상승을 이끌었습니다. 이날 코스피 급등은 엔비디아가 젠슨 황을 CEO로...",
+        "link": "http://www.yonhapnewstv.co.kr/news/MYH20261124175453BZd",
+        "outlet_id": "yonhapnewstv",
+        "outlet_name": "연합뉴스TV",
+        "outlet_type": "보도채널",
+        "date": "2026-11-24",
+        "time": "17:55",
+        "published": "2026-11-24T17:55:00+09:00",
+        "stocks": [
+          "삼성전자",
+          "SK하이닉스"
+        ],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "기관",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "1996c7407ca9",
+        "title": "한숨 돌린 코스피…“추세 전환 단정하긴 일러” 경계감",
+        "summary": "한국거래소에 따르면 올 들어 이날까지 외국인은 유가증권시장에서 223조 3065억 원어치를 순매도했다.... 시장에서는 미국의 10월 개인소비지출(PCE) 물가지수와 델 등 AI 기업 실적 이벤트를 단기 증시 방향성을...",
+        "link": "https://www.sedaily.com/article/20118454?ref=naver",
+        "outlet_id": "sedaily",
+        "outlet_name": "서울경제",
+        "outlet_type": "경제지",
+        "date": "2026-11-24",
+        "time": "17:54",
+        "published": "2026-11-24T17:54:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "개인",
+          "외국인"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "b715cc6ba972",
+        "title": "코스피, '젠슨 황 복귀'에 5천 선 회복...외국인 순매수 전환",
+        "summary": "8거래일 만에 순매수로 돌아선 외국인이 기관과 함께 각각 7천2백억 원, 8천6백억 원 사들이며 지수 상승을 이끌었고 개인은 2조 원을 순매도했습니다. 삼성전자는 6.7% 오른 18만9천4백 원에, SK하이닉스도 6.73% 오른...",
+        "link": "https://www.ytn.co.kr/_ln/0102_202611241741274534",
+        "outlet_id": "ytn",
+        "outlet_name": "YTN",
+        "outlet_type": "보도채널",
+        "date": "2026-11-24",
+        "time": "17:41",
+        "published": "2026-11-24T17:41:00+09:00",
+        "stocks": [
+          "삼성전자",
+          "SK하이닉스"
+        ],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "기관"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "138d7cdea209",
+        "title": "11일 만에 돌아온 증시 구원투수… '오천피' 랠리 다시 불붙을까",
+        "summary": "외국인과 기관이 각각 7,370억 원, 8,710억 원어치를 순매수했다. 개인은 2조560억 원어치를 순매도했다. 코스피와 코스닥 양 시장에서 나란히 매수 사이드카(프로그램 매매호가 효력 정지)가 발동되기도 했다. 올해...",
+        "link": "https://www.hankookilbo.com/news/article/A2026112410040005719?did=NA",
+        "outlet_id": "hankookilbo",
+        "outlet_name": "한국일보",
+        "outlet_type": "종합일간지",
+        "date": "2026-11-24",
+        "time": "17:34",
+        "published": "2026-11-24T17:34:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "기관"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "3550d04f19ac",
+        "title": "[채권마감] 10년-3년 장단기금리차 1년8개월만 최저",
+        "summary": "외국인은 3선을 7거래일째, 10선을 5거래일째 순매수했다. 증시 눈치보기는 여전할 것이란 관측이다. 미국 국내총생산(GDP) 및 개인소비지출(PCE) 물가 발표를 주목하면서 금통위를 맞이할 것으로 봤다. 24일...",
+        "link": "https://www.etoday.co.kr/news/view/2652445",
+        "outlet_id": "etoday",
+        "outlet_name": "이투데이",
+        "outlet_type": "경제지",
+        "date": "2026-11-24",
+        "time": "17:26",
+        "published": "2026-11-24T17:26:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "22c99e71c4dd",
+        "title": "젠슨 황 11일 만에 복귀…코스피 '5천 선' 회복",
+        "summary": "특히 7거래일 연속 주식을 팔아치웠던 외국인이 8거래일 만에 순매수로 돌아서 7천255억 원어치를 사들였습니다. 반면 개인 투자자들은 2조 원 넘게 순매도했습니다. 코스닥도 장중 5% 넘게 급등하며 코스피에 이어...",
+        "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008861223&plink=ORI&cooper=NAVER",
+        "outlet_id": "sbs",
+        "outlet_name": "SBS",
+        "outlet_type": "지상파방송",
+        "date": "2026-11-24",
+        "time": "17:01",
+        "published": "2026-11-24T17:01:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "072c519c704f",
+        "title": "젠슨황 복귀에 반도체주 급등…코스피·코스닥 매수사이드카",
+        "summary": "기관도 매수하며 지수를 끌어올렸습니다. 개인만 홀로 2조 원 넘게 순매도했습니다. 인공지능 투자 심리가 살아나면서, 삼성전자와 SK하이닉스가 모두 6% 넘게 올랐습니다. 코스닥도 어제보다 30.43포인트, 4.79% 오른 665....",
+        "link": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8721125&ref=A",
+        "outlet_id": "kbs",
+        "outlet_name": "KBS",
+        "outlet_type": "지상파방송",
+        "date": "2026-11-24",
+        "time": "16:59",
+        "published": "2026-11-24T16:59:00+09:00",
+        "stocks": [
+          "삼성전자",
+          "SK하이닉스"
+        ],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "개인",
+          "기관",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "9bad616ab122",
+        "title": "젠슨 황의 귀환, 아시아증시 급반등⋯日 닛케이 4%↑",
+        "summary": "최근 글로벌 AI 산업을 둘러싼 불확실성이 일부 해소되면서 반도체 관련주에 매수세가 집중됐다. 다만... 문제가 나타나기 전에도 시장이 위험을 선반영할 수 있다는 분석이다. 한편 한국 코스피는 7.05% 상승 마감했다.",
+        "link": "https://www.etoday.co.kr/news/view/2652427",
+        "outlet_id": "etoday",
+        "outlet_name": "이투데이",
+        "outlet_type": "경제지",
+        "date": "2026-11-24",
+        "time": "16:58",
+        "published": "2026-11-24T16:58:00+09:00",
+        "stocks": [],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "93cfdee7b392",
+        "title": "젠슨 황 복귀로 단숨에 5000 회복…최저점 찍은 단종레도 '점프'",
+        "summary": "한수진 삼성증권 연구원은 \"그간 반도체주 약세가 이어지면서 개인투자자들의 손실 부담이 확대돼 왔다\"며 \"국내 증시 급락 이후 지수 반등을 기대하는 매수세가 레버리지 ETF로 모이고 있다\"고 분석했습니다.",
+        "link": "http://www.newstomato.com/ReadNews.aspx?no=1321671&inflow=N",
+        "outlet_id": "newstomato",
+        "outlet_name": "뉴스토마토",
+        "outlet_type": "경제전문",
+        "date": "2026-11-24",
+        "time": "16:50",
+        "published": "2026-11-24T16:50:00+09:00",
+        "stocks": [],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "개인",
+          "하락장",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "d4bb5be9654a",
+        "title": "[증시 인사이트] 젠슨 황 경영 복귀에 다시 5천피…상승세 이어갈까",
+        "summary": "외국인의 매수세는 이어질지, 반도체주 중심으로 다시 상승세를 이어갈지 이주연 M인베스트먼트 대표... - 젠슨 황 경영 복귀에 다시 5천피…상승세 이어갈까 - 코스피·코스닥 급등…장중 각각 매수 사이드카 발동...",
+        "link": "https://biz.sbs.co.kr/article_hub/20000348582?division=NAVER",
+        "outlet_id": "sbsbiz",
+        "outlet_name": "SBS비즈",
+        "outlet_type": "보도채널",
+        "date": "2026-11-24",
+        "time": "16:45",
+        "published": "2026-11-24T16:45:00+09:00",
+        "stocks": [],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "외국인",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "e514db7a8e2d",
+        "title": "8일 만에 돌아온 외국인, 내일도 있어줄까…글로벌 긴축 속도가 변수",
+        "summary": "순매수 지속 여부를 확인할 필요가 있다\"고 말했다. 코스피 시장에서는 전 업종이 상승했다. 이날 삼성전자가 내년 1월 열릴 CES 2027에서 휴머노이드 로봇을 선보일 것이라는 소식이 전해지면서 로보틱스 관련...",
+        "link": "https://www.mt.co.kr/stock/2026/11/24/2026112416295692231",
+        "outlet_id": "mt",
+        "outlet_name": "머니투데이",
+        "outlet_type": "경제지",
+        "date": "2026-11-24",
+        "time": "16:40",
+        "published": "2026-11-24T16:40:00+09:00",
+        "stocks": [
+          "삼성전자"
+        ],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "외국인"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "7829611d638e",
+        "title": "개인 투자자, 올해 32조 쓸어담았다... 고개 든 ‘채권의 시간’",
+        "summary": "24일 금융투자협회에 따르면 올해 11월 23일까지 장외 채권시장에서 개인의 순매수액은 32조원으로, 지난해... 반도체 수출 호황에 따른 경기 개선 기대가 있지만, 주가 하락으로 자산 효과가 크지 않고 소비 심리까지...",
+        "link": "https://biz.chosun.com/stock/stock_general/2026/11/24/7XO5DGC7JZBHJKXL6TDFHFOJ2Q/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+        "outlet_id": "chosunbiz",
+        "outlet_name": "조선비즈",
+        "outlet_type": "경제전문",
+        "date": "2026-11-24",
+        "time": "16:40",
+        "published": "2026-11-24T16:40:00+09:00",
+        "stocks": [],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "개인"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "4efd31a2f87a",
+        "title": "'젠슨 황 어게인' 코스피, 6% 급등하며 5000선 탈환 [뉴시스Pic]",
+        "summary": "순매수했다. 반면 개인은 2조429억원어치를 팔아치웠다. 업종별로는 대부분의 업종지수가 상승한 가운데 운송장비·부품(9.41%), 기계·장비(7.88%), 전기·전자(7.14%), 보험(7.02%), 제조(6.80%) 등이 지수를 웃도는 성과를...",
+        "link": "https://www.newsis.com/view/NISX20261124_0003881448",
+        "outlet_id": "newsis",
+        "outlet_name": "뉴시스",
+        "outlet_type": "통신사",
+        "date": "2026-11-24",
+        "time": "16:39",
+        "published": "2026-11-24T16:39:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "개인",
+          "상승장"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "315832d569f8",
+        "title": "'엔비디아 훈풍'에 5천피 회복...삼전닉스 6%대 상승",
+        "summary": "외국인과 기관이 각각 7천2백억 원, 8천6백억 원 순매수를 보였습니다. 차익 실현에 나선 개인은 2조 원가량을 팔며 매도에 나섰습니다. 반도체 대장주도 큰 폭의 오름세를 보였습니다. 삼성전자, 6.7% 오른 18만9천4백...",
+        "link": "https://www.ytn.co.kr/_ln/0102_202611241638551052",
+        "outlet_id": "ytn",
+        "outlet_name": "YTN",
+        "outlet_type": "보도채널",
+        "date": "2026-11-24",
+        "time": "16:38",
+        "published": "2026-11-24T16:38:00+09:00",
+        "stocks": [
+          "삼성전자"
+        ],
+        "sectors": [
+          "반도체"
+        ],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "기관"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "838f34132bc2",
+        "title": "젠슨 황 복귀에 5천피 탈환한 코스피…\"추세 반등은 아직\"",
+        "summary": "젠슨 황 엔비디아 최고경영자(CEO)의 복귀에 힘입어 코스피가 하루 만에 6% 넘게 급반등하며 5000선을... 외국인의 매수세가 이어지는지 확인해야 한다”고 설명했다. 박 대표는 미국의 금리 인상 우려도 해소돼야 한다고...",
+        "link": "https://www.viva100.com/article/20261124501102",
+        "outlet_id": "viva100",
+        "outlet_name": "브릿지경제",
+        "outlet_type": "경제지",
+        "date": "2026-11-24",
+        "time": "16:28",
+        "published": "2026-11-24T16:28:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "외국인",
+          "상승장"
+        ],
+        "is_inflection": false
+      }
+    ],
     "2026-11-23": [
+      {
+        "id": "eb1ba3006b66",
+        "title": "코스피, ‘블랙먼데이 공포’ 딛고…낙폭 3%대로 축소",
+        "summary": "코스닥 시장에서는 기관이 1990억원을 홀로 순매수한 반면, 개인과 외국인은 각각 1864억원, 204억원을... 반면 코스닥 시총 1위 알테오젠(196170)(-3.38%)과 2차전지 대표주인 에코프로비엠(247540)(-3.99%), 에코프로...",
+        "link": "https://www.edaily.co.kr/News/Read?newsId=02817526645648672&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article",
+        "outlet_id": "edaily",
+        "outlet_name": "이데일리",
+        "outlet_type": "경제지",
+        "date": "2026-11-23",
+        "time": "15:36",
+        "published": "2026-11-23T15:36:00+09:00",
+        "stocks": [
+          "에코프로",
+          "에코프로비엠",
+          "알테오젠"
+        ],
+        "sectors": [
+          "2차전지",
+          "바이오/제약"
+        ],
+        "keywords": [
+          "순매수",
+          "개인",
+          "외국인",
+          "기관"
+        ],
+        "is_inflection": false
+      },
+      {
+        "id": "c187f5dd3b31",
+        "title": "[성공예감] AI 서사 의구심, 순환금융 위험, 코스피 반토막, 금리 상승…...",
+        "summary": "서학개미라고 하는 개인 투자자분들이 첫날에만 2천억 넘게 사들였다고 합니다. 물론 스페이스X 당시보다는... 지난달에만 5조 5천억 원 이상을 또 순매수를 했고요, 국내에서도. 전달보다 4배 가까이 늘었는데 이게...",
+        "link": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8720015&ref=A",
+        "outlet_id": "kbs",
+        "outlet_name": "KBS",
+        "outlet_type": "지상파방송",
+        "date": "2026-11-23",
+        "time": "13:41",
+        "published": "2026-11-23T13:41:00+09:00",
+        "stocks": [],
+        "sectors": [],
+        "keywords": [
+          "순매수",
+          "개인"
+        ],
+        "is_inflection": false
+      },
       {
         "id": "7f3c0b897c5d",
         "title": "'나스닥 3%↑' 美 주가지수 선물 급등에 바닥론 '고개'…저가 매수론·신...",
@@ -4208,46 +5468,6 @@
         "sectors": [],
         "keywords": [
           "개인",
-          "하락장"
-        ]
-      },
-      {
-        "id": "20f136bc1a6d",
-        "title": "비트코인, 6만달러선 되찾았지만…美 증시·ETF 유출 변수[코인브리핑]",
-        "summary": "저가 매수세 유입과 숏 포지션 청산이 반등에 영향을 미친 것으로 풀이된다. 23일 오전 9시 20분 기준 국내... 오는 25일 미국 개인소비지출(PCE) 물가지수 발표와 27일 비트코인 옵션 만기를 앞두고 가격 변동성이...",
-        "link": "https://www.news1.kr/finance/blockchain-fintech/6362431",
-        "outlet_id": "news1",
-        "outlet_name": "뉴스1",
-        "outlet_type": "통신사",
-        "date": "2026-11-23",
-        "time": "10:04",
-        "published": "2026-11-23T10:04:00+09:00",
-        "stocks": [],
-        "sectors": [],
-        "keywords": [
-          "순매수",
-          "개인",
-          "상승장"
-        ]
-      },
-      {
-        "id": "9af90b1b8ec0",
-        "title": "'검은 월요일' 공포 현실로…장중 4700선 무너져",
-        "summary": "코스닥시장에서는 개인이 1065억원을 순매도한 반면 외국인과 기관은 각각 332억원과 730억원을 순매수했다. 국내 증시가 약세를 보이는 것은 미국 증시에서 AI 관련주를 중심으로 매도세가 확산한 영향이다. 지난...",
-        "link": "https://news.bizwatch.co.kr/article/market/2026/11/23/0007",
-        "outlet_id": "bizwatch",
-        "outlet_name": "비즈워치",
-        "outlet_type": "경제전문",
-        "date": "2026-11-23",
-        "time": "10:02",
-        "published": "2026-11-23T10:02:00+09:00",
-        "stocks": [],
-        "sectors": [],
-        "keywords": [
-          "순매수",
-          "개인",
-          "외국인",
-          "기관",
           "하락장"
         ]
       }

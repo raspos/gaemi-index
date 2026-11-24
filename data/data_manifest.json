@@ -1,53 +1,55 @@
 {
   "status": "VERIFIED",
-  "update_mode": "full-audit",
-  "data_as_of": "2026-11-20",
-  "completed_at": "2026-11-22 09:07:17",
-  "ledger_version": "v4.20261120",
-  "ledger_combined_sha256": "4104d44f520a66056fcf080ccae40bd8cc748857e756446421468d71d58bc8e3",
-  "git_commit_sha": "c8f04a7a9bf03b6b6b86c82ccedb10af4265fa19",
+  "update_mode": "daily",
+  "data_as_of": "2026-11-23",
+  "completed_at": "2026-11-24 17:52:16",
+  "ledger_version": "v4.20261123",
+  "ledger_combined_sha256": "2b094266018cea66b8fef8f1f3ee5c426069c7197204b661ffde53d4aeb57629",
+  "git_commit_sha": "209ab71f9ec0d425dbe1384b41ba46ec6dacdbbb",
   "index_engine_version": "GAEMI_50_PURE_PHASE4_v1.0",
   "collected_stock_count": 2710,
   "latest_date_stock_count": 2545,
-  "full_36m_stocks_count": 1771,
+  "full_36m_stocks_count": 1772,
   "delisted_stocks_preserved": 165,
-  "total_ledger_records": 2392334,
-  "newly_added_records": 0,
-  "dedup_removed_records": 502076,
+  "total_ledger_records": 2394879,
+  "newly_added_records": 2545,
+  "dedup_removed_records": 499587,
   "modified_historical_records": 0,
   "duplicate_primary_keys": 0,
-  "added_trading_dates": [],
-  "api_failed_stock_count": 0,
+  "added_trading_dates": [
+    "2026-11-23"
+  ],
+  "api_failed_stock_count": 1,
   "shards": {
     "trades_2021.parquet": {
       "rows": 137137,
-      "size_bytes": 3811715,
-      "sha256": "ad6acdd426b454b343911057408a882dba0d5887fda11865049e47cddbcf41cb"
+      "size_bytes": 3811735,
+      "sha256": "712b8a11dc0e1af7d1efee8be712e461acc7f76c9e2d624f8dfbc229945d64d3"
     },
     "trades_2022.parquet": {
       "rows": 416034,
-      "size_bytes": 9721011,
-      "sha256": "ea4709c4792d71af2d347c33e450a9132727de18524875076c2b4c057c05e8d0"
+      "size_bytes": 9721031,
+      "sha256": "2502e3475ff19ac5750741bf79485f80b33fcad0435733f47bdfed4d6e998c51"
     },
     "trades_2023.parquet": {
       "rows": 424278,
-      "size_bytes": 10029689,
-      "sha256": "89b913b4d9b0db9a67c615709290b3e913d241cbe449affcb29882ce2d7c869d"
+      "size_bytes": 10029709,
+      "sha256": "67e354ae7364bbce88aa573ef563c527084d4518ceb20205202706209ce3124c"
     },
     "trades_2024.parquet": {
       "rows": 434939,
-      "size_bytes": 9963582,
-      "sha256": "d85de17f64b649020067e539a406458e2a101d49c71835522d34e336208e2219"
+      "size_bytes": 9963602,
+      "sha256": "1bbe01becf24ee1869bae6611d6ca55923ffb2c1767b1774e7f255448820117d"
     },
     "trades_2025.parquet": {
       "rows": 442302,
-      "size_bytes": 12352312,
-      "sha256": "4c0bab257be64c890a388e6775575c33817a32b4dacd73c0c05bd469dea312e9"
+      "size_bytes": 12352332,
+      "sha256": "c8232e3d8b39634d82d8ea4e15eb3243fbee0bf7079f4208102e4e859e419862"
     },
     "trades_2026.parquet": {
-      "rows": 537644,
-      "size_bytes": 14285890,
-      "sha256": "060819de98607626c3557b40923acc3394cf1029729b9595d720b5006c63a009"
+      "rows": 540189,
+      "size_bytes": 14345235,
+      "sha256": "9c04ae4fd1e611a6f735e157886a23af83d3ff5ac9c591dbc08fd2f4caaf0a1c"
     }
   }
 }

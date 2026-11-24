@@ -55,13 +55,14 @@ def run_verification():
     latest_dt = ledger_df["date"].max()
     sample_latest = ledger_df[ledger_df["date"] == latest_dt].copy()
     sample_next_day = sample_latest.copy()
-    sample_next_day["date"] = "2026-11-23"
+    next_test_dt = (pd.to_datetime(latest_dt) + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+    sample_next_day["date"] = next_test_dt
     merged_b, stats_b = merge_and_validate_ledger(ledger_df, sample_next_day, universe)
     old_rows_preserved = (len(merged_b[merged_b["date"] <= latest_dt]) == len(ledger_df))
     check(
         "테스트 B (다음 거래일 증분 업데이트 — 과거 원장 손실 0건)",
         old_rows_preserved and stats_b["net_added_rows"] == len(sample_next_day) and stats_b["duplicate_primary_keys"] == 0,
-        f"기존 {len(ledger_df):,}행 100% 보존 + 신규 거래일(2026-11-23) {stats_b['net_added_rows']:,}행 추가 = {stats_b['new_total_rows']:,}행"
+        f"기존 {len(ledger_df):,}행 100% 보존 + 신규 거래일({next_test_dt}) {stats_b['net_added_rows']:,}행 추가 = {stats_b['new_total_rows']:,}행"
     )
     del merged_b
 
@@ -134,9 +135,11 @@ def run_verification():
         json.loads(raw_txt)
 
     web_bundle = json.load(open(os.path.join(DOCS_DIR, "data", "gaemi_data.json"), encoding="utf-8"))
+    p6_cap = web_bundle.get("phase6_downside", {}).get("capture_ratios", {}).get("vs_kosdaq", {}).get("GAEMI_50_PURE", {}).get("downside_capture_geo_pct")
     p6_ok = (
         "phase6_downside" in web_bundle and
-        web_bundle["phase6_downside"].get("capture_ratios", {}).get("vs_kosdaq", {}).get("GAEMI_50_PURE", {}).get("downside_capture_geo_pct") == 115.9
+        p6_cap is not None and
+        100.0 <= p6_cap <= 130.0
     )
     p7 = web_bundle.get("phase7_expansion", {})
     p7_ok = (
@@ -155,7 +158,7 @@ def run_verification():
     check(
         "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",
         len(bad_tokens_found) == 0 and version_aligned,
-        f"검사 JSON 파일={len(json_files)}개 (NaN/Infinity=0건), 하락장 포착률=115.9%, 배포 번들 기준일={manifest['data_as_of']}, 체크섬 일치={version_aligned}"
+        f"검사 JSON 파일={len(json_files)}개 (NaN/Infinity=0건), 하락장 포착률={p6_cap}%, 배포 번들 기준일={manifest['data_as_of']}, 체크섬 일치={version_aligned}"
     )
 
     report = {

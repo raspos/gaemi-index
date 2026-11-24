@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-11-22 09:08:12",
+  "generated_at": "2026-11-24 17:57:34",
   "base_date": "2024-09-30",
-  "data_as_of": "2026-11-20",
-  "total_trading_days": 520,
+  "data_as_of": "2026-11-23",
+  "total_trading_days": 521,
   "total_months": 26,
   "perf_summary": {
     "GAEMI_30": {
-      "current": 752.47,
-      "daily_change_pt": -51.59,
-      "daily_change_pct": -6.42,
-      "total_return_pct": -24.75,
-      "mdd_pct": -60.08,
-      "ann_volatility_pct": 40.48,
-      "corr_kospi": 0.7337,
+      "current": 736.38,
+      "daily_change_pt": -16.09,
+      "daily_change_pct": -2.14,
+      "total_return_pct": -26.36,
+      "mdd_pct": -60.93,
+      "ann_volatility_pct": 40.47,
+      "corr_kospi": 0.7341,
       "corr_kosdaq": 0.9347,
       "high": 1884.87,
-      "low": 752.47,
+      "low": 736.38,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 117.7,
+        "downside_capture_pct": 117.9,
         "upside_capture_pct": 111.9,
-        "down_month_mean_pct": -12.27,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": -1.66,
+        "down_month_mean_pct": -12.46,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": -1.71,
         "up_month_mean_pct": 7.75,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.87,
@@ -33,11 +33,11 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 91.2,
+        "downside_capture_pct": 90.3,
         "upside_capture_pct": 56.1,
-        "down_month_mean_pct": -8.06,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 0.78,
+        "down_month_mean_pct": -8.25,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 0.87,
         "up_month_mean_pct": 6.71,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -4.93,
@@ -50,24 +50,24 @@
       "downside_beta_kospi": 0.878
     },
     "GAEMI_50": {
-      "current": 757.28,
-      "daily_change_pt": -47.87,
-      "daily_change_pct": -5.95,
-      "total_return_pct": -24.27,
-      "mdd_pct": -57.07,
-      "ann_volatility_pct": 38.72,
-      "corr_kospi": 0.7602,
-      "corr_kosdaq": 0.9389,
+      "current": 743.83,
+      "daily_change_pt": -13.45,
+      "daily_change_pct": -1.78,
+      "total_return_pct": -25.62,
+      "mdd_pct": -57.83,
+      "ann_volatility_pct": 38.7,
+      "corr_kospi": 0.7604,
+      "corr_kosdaq": 0.939,
       "high": 1764.01,
-      "low": 757.28,
+      "low": 743.83,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 115.9,
+        "downside_capture_pct": 115.8,
         "upside_capture_pct": 112.6,
-        "down_month_mean_pct": -12.15,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": -1.54,
+        "down_month_mean_pct": -12.31,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": -1.56,
         "up_month_mean_pct": 7.81,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.94,
@@ -77,11 +77,11 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 97.5,
+        "downside_capture_pct": 96.0,
         "upside_capture_pct": 58.0,
-        "down_month_mean_pct": -8.66,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 0.18,
+        "down_month_mean_pct": -8.82,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 0.3,
         "up_month_mean_pct": 6.91,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -4.73,
@@ -90,28 +90,28 @@
       },
       "beta_kosdaq": 0.933,
       "downside_beta_kosdaq": 0.996,
-      "beta_kospi": 0.705,
-      "downside_beta_kospi": 0.843
+      "beta_kospi": 0.704,
+      "downside_beta_kospi": 0.842
     },
     "GAEMI_75": {
-      "current": 864.06,
-      "daily_change_pt": -50.19,
-      "daily_change_pct": -5.49,
-      "total_return_pct": -13.59,
-      "mdd_pct": -52.64,
+      "current": 843.45,
+      "daily_change_pt": -20.61,
+      "daily_change_pct": -2.39,
+      "total_return_pct": -15.65,
+      "mdd_pct": -53.77,
       "ann_volatility_pct": 36.99,
-      "corr_kospi": 0.768,
+      "corr_kospi": 0.7685,
       "corr_kosdaq": 0.943,
       "high": 1824.31,
       "low": 774.76,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 103.9,
+        "downside_capture_pct": 104.5,
         "upside_capture_pct": 111.2,
-        "down_month_mean_pct": -10.97,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": -0.36,
+        "down_month_mean_pct": -11.19,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": -0.43,
         "up_month_mean_pct": 7.7,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.82,
@@ -121,41 +121,41 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 85.8,
+        "downside_capture_pct": 85.4,
         "upside_capture_pct": 56.8,
-        "down_month_mean_pct": -7.67,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 1.17,
+        "down_month_mean_pct": -7.89,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 1.23,
         "up_month_mean_pct": 6.74,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -4.89,
         "worse_than_bench_months_count": 4,
         "worse_than_bench_months_pct": 40.0
       },
-      "beta_kosdaq": 0.895,
+      "beta_kosdaq": 0.896,
       "downside_beta_kosdaq": 0.943,
       "beta_kospi": 0.68,
       "downside_beta_kospi": 0.785
     },
     "GAEMI_100": {
-      "current": 963.07,
-      "daily_change_pt": -50.92,
-      "daily_change_pct": -5.02,
-      "total_return_pct": -3.69,
-      "mdd_pct": -47.89,
-      "ann_volatility_pct": 35.24,
-      "corr_kospi": 0.778,
-      "corr_kosdaq": 0.9449,
+      "current": 937.16,
+      "daily_change_pt": -25.91,
+      "daily_change_pct": -2.69,
+      "total_return_pct": -6.28,
+      "mdd_pct": -49.3,
+      "ann_volatility_pct": 35.26,
+      "corr_kospi": 0.7786,
+      "corr_kosdaq": 0.9447,
       "high": 1848.31,
       "low": 792.57,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 95.4,
+        "downside_capture_pct": 96.4,
         "upside_capture_pct": 110.9,
-        "down_month_mean_pct": -10.13,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 0.48,
+        "down_month_mean_pct": -10.38,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 0.38,
         "up_month_mean_pct": 7.63,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.75,
@@ -165,11 +165,11 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 79.0,
+        "downside_capture_pct": 79.1,
         "upside_capture_pct": 56.9,
-        "down_month_mean_pct": -7.09,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 1.75,
+        "down_month_mean_pct": -7.33,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 1.79,
         "up_month_mean_pct": 6.7,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -4.94,
@@ -178,72 +178,72 @@
       },
       "beta_kosdaq": 0.855,
       "downside_beta_kosdaq": 0.907,
-      "beta_kospi": 0.656,
-      "downside_beta_kospi": 0.763
+      "beta_kospi": 0.657,
+      "downside_beta_kospi": 0.764
     },
     "GAEMI_150": {
-      "current": 1054.34,
-      "daily_change_pt": -51.05,
-      "daily_change_pct": -4.62,
-      "total_return_pct": 5.43,
-      "mdd_pct": -45.14,
-      "ann_volatility_pct": 33.79,
-      "corr_kospi": 0.7709,
-      "corr_kosdaq": 0.9501,
+      "current": 1022.89,
+      "daily_change_pt": -31.45,
+      "daily_change_pct": -2.98,
+      "total_return_pct": 2.29,
+      "mdd_pct": -46.78,
+      "ann_volatility_pct": 33.82,
+      "corr_kospi": 0.7717,
+      "corr_kosdaq": 0.9496,
       "high": 1921.88,
       "low": 843.87,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 86.5,
+        "downside_capture_pct": 87.9,
         "upside_capture_pct": 108.9,
-        "down_month_mean_pct": -9.2,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 1.41,
+        "down_month_mean_pct": -9.47,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 1.29,
         "up_month_mean_pct": 7.49,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.62,
-        "worse_than_bench_months_count": 2,
-        "worse_than_bench_months_pct": 20.0
+        "worse_than_bench_months_count": 3,
+        "worse_than_bench_months_pct": 30.0
       },
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 71.2,
+        "downside_capture_pct": 71.9,
         "upside_capture_pct": 55.9,
-        "down_month_mean_pct": -6.42,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 2.42,
+        "down_month_mean_pct": -6.68,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 2.44,
         "up_month_mean_pct": 6.59,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.05,
         "worse_than_bench_months_count": 3,
         "worse_than_bench_months_pct": 30.0
       },
-      "beta_kosdaq": 0.824,
-      "downside_beta_kosdaq": 0.874,
+      "beta_kosdaq": 0.825,
+      "downside_beta_kosdaq": 0.873,
       "beta_kospi": 0.624,
-      "downside_beta_kospi": 0.728
+      "downside_beta_kospi": 0.729
     },
     "GAEMI_51_100": {
-      "current": 1190.22,
-      "daily_change_pt": -52.07,
-      "daily_change_pct": -4.19,
-      "total_return_pct": 19.02,
-      "mdd_pct": -38.54,
-      "ann_volatility_pct": 33.69,
-      "corr_kospi": 0.7585,
-      "corr_kosdaq": 0.904,
+      "current": 1148.59,
+      "daily_change_pt": -41.63,
+      "daily_change_pct": -3.5,
+      "total_return_pct": 14.86,
+      "mdd_pct": -40.69,
+      "ann_volatility_pct": 33.74,
+      "corr_kospi": 0.7595,
+      "corr_kosdaq": 0.9033,
       "high": 1936.61,
       "low": 804.39,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 76.4,
+        "downside_capture_pct": 78.4,
         "upside_capture_pct": 108.6,
-        "down_month_mean_pct": -8.18,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 2.43,
+        "down_month_mean_pct": -8.5,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 2.26,
         "up_month_mean_pct": 7.45,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.58,
@@ -253,85 +253,85 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 61.6,
+        "downside_capture_pct": 63.2,
         "upside_capture_pct": 55.5,
-        "down_month_mean_pct": -5.56,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 3.28,
+        "down_month_mean_pct": -5.87,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 3.25,
         "up_month_mean_pct": 6.49,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.15,
         "worse_than_bench_months_count": 4,
         "worse_than_bench_months_pct": 40.0
       },
-      "beta_kosdaq": 0.782,
-      "downside_beta_kosdaq": 0.824,
-      "beta_kospi": 0.612,
-      "downside_beta_kospi": 0.687
+      "beta_kosdaq": 0.783,
+      "downside_beta_kosdaq": 0.823,
+      "beta_kospi": 0.613,
+      "downside_beta_kospi": 0.689
     },
     "GAEMI_101_150": {
-      "current": 1252.98,
-      "daily_change_pt": -48.74,
-      "daily_change_pct": -3.74,
-      "total_return_pct": 25.3,
-      "mdd_pct": -39.12,
-      "ann_volatility_pct": 32.29,
-      "corr_kospi": 0.7222,
-      "corr_kosdaq": 0.92,
+      "current": 1207.78,
+      "daily_change_pt": -45.2,
+      "daily_change_pct": -3.61,
+      "total_return_pct": 20.78,
+      "mdd_pct": -41.32,
+      "ann_volatility_pct": 32.36,
+      "corr_kospi": 0.7233,
+      "corr_kosdaq": 0.919,
       "high": 2058.28,
       "low": 918.48,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 68.7,
+        "downside_capture_pct": 71.0,
         "upside_capture_pct": 104.4,
-        "down_month_mean_pct": -7.26,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 3.35,
+        "down_month_mean_pct": -7.59,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 3.17,
         "up_month_mean_pct": 7.22,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.35,
-        "worse_than_bench_months_count": 2,
-        "worse_than_bench_months_pct": 20.0
+        "worse_than_bench_months_count": 3,
+        "worse_than_bench_months_pct": 30.0
       },
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 55.9,
+        "downside_capture_pct": 57.7,
         "upside_capture_pct": 53.5,
-        "down_month_mean_pct": -5.03,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 3.81,
+        "down_month_mean_pct": -5.36,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 3.77,
         "up_month_mean_pct": 6.37,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.27,
         "worse_than_bench_months_count": 2,
         "worse_than_bench_months_pct": 20.0
       },
-      "beta_kosdaq": 0.762,
+      "beta_kosdaq": 0.764,
       "downside_beta_kosdaq": 0.804,
-      "beta_kospi": 0.558,
-      "downside_beta_kospi": 0.656
+      "beta_kospi": 0.56,
+      "downside_beta_kospi": 0.658
     },
     "MATCHED_50_EW": {
-      "current": 964.95,
-      "daily_change_pt": -49.37,
-      "daily_change_pct": -4.87,
-      "total_return_pct": -3.5,
-      "mdd_pct": -42.97,
-      "ann_volatility_pct": 34.88,
-      "corr_kospi": 0.7498,
-      "corr_kosdaq": 0.9481,
+      "current": 935.8,
+      "daily_change_pt": -29.15,
+      "daily_change_pct": -3.02,
+      "total_return_pct": -6.42,
+      "mdd_pct": -44.58,
+      "ann_volatility_pct": 34.91,
+      "corr_kospi": 0.7507,
+      "corr_kosdaq": 0.9477,
       "high": 1688.62,
       "low": 831.31,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 84.2,
+        "downside_capture_pct": 85.6,
         "upside_capture_pct": 95.6,
-        "down_month_mean_pct": -8.96,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 1.65,
+        "down_month_mean_pct": -9.23,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 1.52,
         "up_month_mean_pct": 6.57,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": -0.3,
@@ -341,41 +341,41 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 75.0,
+        "downside_capture_pct": 75.6,
         "upside_capture_pct": 51.1,
-        "down_month_mean_pct": -6.76,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 2.08,
+        "down_month_mean_pct": -7.03,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 2.09,
         "up_month_mean_pct": 5.97,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.67,
         "worse_than_bench_months_count": 3,
         "worse_than_bench_months_pct": 30.0
       },
-      "beta_kosdaq": 0.849,
-      "downside_beta_kosdaq": 0.897,
-      "beta_kospi": 0.626,
-      "downside_beta_kospi": 0.729
+      "beta_kosdaq": 0.85,
+      "downside_beta_kosdaq": 0.896,
+      "beta_kospi": 0.627,
+      "downside_beta_kospi": 0.73
     },
     "MATCHED_100_EW": {
-      "current": 1176.76,
-      "daily_change_pt": -60.29,
-      "daily_change_pct": -4.87,
-      "total_return_pct": 17.68,
-      "mdd_pct": -38.85,
-      "ann_volatility_pct": 33.53,
-      "corr_kospi": 0.7617,
-      "corr_kosdaq": 0.947,
+      "current": 1138.24,
+      "daily_change_pt": -38.52,
+      "daily_change_pct": -3.27,
+      "total_return_pct": 13.82,
+      "mdd_pct": -40.86,
+      "ann_volatility_pct": 33.58,
+      "corr_kospi": 0.7626,
+      "corr_kosdaq": 0.9463,
       "high": 1924.51,
       "low": 834.53,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 78.1,
+        "downside_capture_pct": 79.8,
         "upside_capture_pct": 108.3,
-        "down_month_mean_pct": -8.32,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 2.29,
+        "down_month_mean_pct": -8.62,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 2.13,
         "up_month_mean_pct": 7.44,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 0.57,
@@ -385,40 +385,40 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 65.8,
+        "downside_capture_pct": 67.0,
         "upside_capture_pct": 56.6,
-        "down_month_mean_pct": -5.93,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 2.91,
+        "down_month_mean_pct": -6.23,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 2.89,
         "up_month_mean_pct": 6.64,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.0,
         "worse_than_bench_months_count": 3,
         "worse_than_bench_months_pct": 30.0
       },
-      "beta_kosdaq": 0.815,
-      "downside_beta_kosdaq": 0.868,
-      "beta_kospi": 0.611,
-      "downside_beta_kospi": 0.706
+      "beta_kosdaq": 0.816,
+      "downside_beta_kosdaq": 0.867,
+      "beta_kospi": 0.613,
+      "downside_beta_kospi": 0.707
     },
     "KOSDAQ_EW": {
-      "current": 1156.85,
-      "daily_change_pt": -73.69,
-      "daily_change_pct": -5.99,
-      "total_return_pct": 15.68,
+      "current": 1138.03,
+      "daily_change_pt": -18.82,
+      "daily_change_pct": -1.63,
+      "total_return_pct": 13.8,
       "mdd_pct": -46.15,
-      "ann_volatility_pct": 40.36,
-      "corr_kospi": 0.7708,
+      "ann_volatility_pct": 40.34,
+      "corr_kospi": 0.7709,
       "corr_kosdaq": 0.9875,
       "high": 1989.65,
       "low": 826.81,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 91.3,
+        "downside_capture_pct": 91.5,
         "upside_capture_pct": 121.4,
-        "down_month_mean_pct": -9.71,
-        "bench_down_mean_pct": -10.61,
+        "down_month_mean_pct": -9.85,
+        "bench_down_mean_pct": -10.75,
         "down_month_gap_pctp": 0.9,
         "up_month_mean_pct": 8.42,
         "bench_up_mean_pct": 6.87,
@@ -429,11 +429,11 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 81.8,
+        "downside_capture_pct": 80.7,
         "upside_capture_pct": 65.7,
-        "down_month_mean_pct": -7.3,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 1.54,
+        "down_month_mean_pct": -7.45,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 1.67,
         "up_month_mean_pct": 7.74,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -3.9,
@@ -442,72 +442,72 @@
       },
       "beta_kosdaq": 1.023,
       "downside_beta_kosdaq": 1.035,
-      "beta_kospi": 0.745,
-      "downside_beta_kospi": 0.866
+      "beta_kospi": 0.744,
+      "downside_beta_kospi": 0.864
     },
     "GAEMI_100_METHOD_B": {
-      "current": 1007.25,
-      "daily_change_pt": -55.39,
-      "daily_change_pct": -5.21,
-      "total_return_pct": 0.72,
-      "mdd_pct": -49.07,
-      "ann_volatility_pct": 36.25,
-      "corr_kospi": 0.7834,
-      "corr_kosdaq": 0.9482,
+      "current": 980.35,
+      "daily_change_pt": -26.9,
+      "daily_change_pct": -2.67,
+      "total_return_pct": -1.96,
+      "mdd_pct": -50.43,
+      "ann_volatility_pct": 36.26,
+      "corr_kospi": 0.7841,
+      "corr_kosdaq": 0.948,
       "high": 1977.64,
       "low": 822.78,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 96.4,
+        "downside_capture_pct": 97.4,
         "upside_capture_pct": 115.3,
-        "down_month_mean_pct": -10.22,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 0.39,
+        "down_month_mean_pct": -10.46,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 0.3,
         "up_month_mean_pct": 7.95,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 1.07,
-        "worse_than_bench_months_count": 4,
-        "worse_than_bench_months_pct": 40.0
+        "worse_than_bench_months_count": 5,
+        "worse_than_bench_months_pct": 50.0
       },
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 79.8,
+        "downside_capture_pct": 79.9,
         "upside_capture_pct": 60.7,
-        "down_month_mean_pct": -7.15,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 1.69,
+        "down_month_mean_pct": -7.39,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 1.73,
         "up_month_mean_pct": 7.13,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -4.5,
         "worse_than_bench_months_count": 2,
         "worse_than_bench_months_pct": 20.0
       },
-      "beta_kosdaq": 0.882,
+      "beta_kosdaq": 0.883,
       "downside_beta_kosdaq": 0.943,
       "beta_kospi": 0.68,
       "downside_beta_kospi": 0.79
     },
     "KOSPI": {
-      "current": 1877.92,
-      "daily_change_pt": -103.32,
-      "daily_change_pct": -5.21,
-      "total_return_pct": 87.79,
-      "mdd_pct": -46.57,
-      "ann_volatility_pct": 41.78,
+      "current": 1815.68,
+      "daily_change_pt": -62.25,
+      "daily_change_pct": -3.31,
+      "total_return_pct": 81.57,
+      "mdd_pct": -48.34,
+      "ann_volatility_pct": 41.81,
       "corr_kospi": 1.0,
-      "corr_kosdaq": 0.7634,
+      "corr_kosdaq": 0.7635,
       "high": 3514.69,
       "low": 884.48,
       "vs_kosdaq": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 57.9,
+        "downside_capture_pct": 60.0,
         "upside_capture_pct": 134.8,
-        "down_month_mean_pct": -5.33,
-        "bench_down_mean_pct": -10.61,
-        "down_month_gap_pctp": 5.29,
+        "down_month_mean_pct": -5.61,
+        "bench_down_mean_pct": -10.75,
+        "down_month_gap_pctp": 5.15,
         "up_month_mean_pct": 9.45,
         "bench_up_mean_pct": 6.87,
         "up_month_gap_pctp": 2.57,
@@ -519,8 +519,8 @@
         "up_months_count": 15,
         "downside_capture_pct": 100.0,
         "upside_capture_pct": 100.0,
-        "down_month_mean_pct": -8.84,
-        "bench_down_mean_pct": -8.84,
+        "down_month_mean_pct": -9.12,
+        "bench_down_mean_pct": -9.12,
         "down_month_gap_pctp": 0.0,
         "up_month_mean_pct": 11.64,
         "bench_up_mean_pct": 11.64,
@@ -528,19 +528,19 @@
         "worse_than_bench_months_count": 0,
         "worse_than_bench_months_pct": 0.0
       },
-      "beta_kosdaq": 0.819,
+      "beta_kosdaq": 0.82,
       "downside_beta_kosdaq": 1.075,
       "beta_kospi": 1.0,
       "downside_beta_kospi": 1.0
     },
     "KOSDAQ": {
-      "current": 845.26,
-      "daily_change_pt": -51.23,
-      "daily_change_pct": -5.71,
-      "total_return_pct": -15.47,
-      "mdd_pct": -47.89,
-      "ann_volatility_pct": 38.96,
-      "corr_kospi": 0.7634,
+      "current": 831.87,
+      "daily_change_pt": -13.39,
+      "daily_change_pct": -1.58,
+      "total_return_pct": -16.81,
+      "mdd_pct": -48.18,
+      "ann_volatility_pct": 38.94,
+      "corr_kospi": 0.7635,
       "corr_kosdaq": 1.0,
       "high": 1605.2,
       "low": 820.82,
@@ -549,8 +549,8 @@
         "up_months_count": 15,
         "downside_capture_pct": 100.0,
         "upside_capture_pct": 100.0,
-        "down_month_mean_pct": -10.61,
-        "bench_down_mean_pct": -10.61,
+        "down_month_mean_pct": -10.75,
+        "bench_down_mean_pct": -10.75,
         "down_month_gap_pctp": 0.0,
         "up_month_mean_pct": 6.87,
         "bench_up_mean_pct": 6.87,
@@ -561,11 +561,11 @@
       "vs_kospi": {
         "down_months_count": 10,
         "up_months_count": 15,
-        "downside_capture_pct": 90.2,
+        "downside_capture_pct": 88.8,
         "upside_capture_pct": 52.4,
-        "down_month_mean_pct": -8.01,
-        "bench_down_mean_pct": -8.84,
-        "down_month_gap_pctp": 0.83,
+        "down_month_mean_pct": -8.15,
+        "bench_down_mean_pct": -9.12,
+        "down_month_gap_pctp": 0.97,
         "up_month_mean_pct": 6.13,
         "bench_up_mean_pct": 11.64,
         "up_month_gap_pctp": -5.51,
@@ -574,95 +574,95 @@
       },
       "beta_kosdaq": 1.0,
       "downside_beta_kosdaq": 1.0,
-      "beta_kospi": 0.712,
-      "downside_beta_kospi": 0.838
+      "beta_kospi": 0.711,
+      "downside_beta_kospi": 0.836
     }
   },
   "daily_downside_table": {
     "GAEMI_50": {
-      "days": 240,
+      "days": 241,
       "mean_pct": -1.732,
-      "median_pct": -1.157,
-      "gap_vs_kosdaq_pctp": 0.076,
-      "worse_than_kosdaq_pct": 48.8,
+      "median_pct": -1.162,
+      "gap_vs_kosdaq_pctp": 0.074,
+      "worse_than_kosdaq_pct": 49.0,
       "up_on_down_day_pct": 13.3,
-      "nw_hac_t_vs_kosdaq": 1.333,
-      "nw_hac_p_vs_kosdaq": 0.1824
+      "nw_hac_t_vs_kosdaq": 1.32,
+      "nw_hac_p_vs_kosdaq": 0.187
     },
     "GAEMI_100": {
-      "days": 240,
-      "mean_pct": -1.564,
-      "median_pct": -1.026,
-      "gap_vs_kosdaq_pctp": 0.244,
-      "worse_than_kosdaq_pct": 38.8,
+      "days": 241,
+      "mean_pct": -1.569,
+      "median_pct": -1.028,
+      "gap_vs_kosdaq_pctp": 0.238,
+      "worse_than_kosdaq_pct": 39.0,
       "up_on_down_day_pct": 13.3,
-      "nw_hac_t_vs_kosdaq": 4.572,
+      "nw_hac_t_vs_kosdaq": 4.495,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "GAEMI_51_100": {
-      "days": 240,
-      "mean_pct": -1.405,
-      "median_pct": -1.065,
-      "gap_vs_kosdaq_pctp": 0.403,
-      "worse_than_kosdaq_pct": 36.2,
-      "up_on_down_day_pct": 16.7,
-      "nw_hac_t_vs_kosdaq": 5.121,
+      "days": 241,
+      "mean_pct": -1.414,
+      "median_pct": -1.066,
+      "gap_vs_kosdaq_pctp": 0.393,
+      "worse_than_kosdaq_pct": 36.5,
+      "up_on_down_day_pct": 16.6,
+      "nw_hac_t_vs_kosdaq": 5.03,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "GAEMI_101_150": {
-      "days": 240,
-      "mean_pct": -1.317,
-      "median_pct": -0.887,
-      "gap_vs_kosdaq_pctp": 0.49,
-      "worse_than_kosdaq_pct": 26.2,
-      "up_on_down_day_pct": 19.2,
-      "nw_hac_t_vs_kosdaq": 6.255,
+      "days": 241,
+      "mean_pct": -1.327,
+      "median_pct": -0.901,
+      "gap_vs_kosdaq_pctp": 0.48,
+      "worse_than_kosdaq_pct": 26.6,
+      "up_on_down_day_pct": 19.1,
+      "nw_hac_t_vs_kosdaq": 6.162,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "MATCHED_50_EW": {
-      "days": 240,
-      "mean_pct": -1.525,
-      "median_pct": -1.142,
-      "gap_vs_kosdaq_pctp": 0.283,
-      "worse_than_kosdaq_pct": 37.1,
-      "up_on_down_day_pct": 14.6,
-      "nw_hac_t_vs_kosdaq": 5.14,
+      "days": 241,
+      "mean_pct": -1.531,
+      "median_pct": -1.143,
+      "gap_vs_kosdaq_pctp": 0.276,
+      "worse_than_kosdaq_pct": 37.3,
+      "up_on_down_day_pct": 14.5,
+      "nw_hac_t_vs_kosdaq": 5.009,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "MATCHED_100_EW": {
-      "days": 240,
-      "mean_pct": -1.422,
-      "median_pct": -1.0,
-      "gap_vs_kosdaq_pctp": 0.386,
-      "worse_than_kosdaq_pct": 30.0,
-      "up_on_down_day_pct": 17.1,
-      "nw_hac_t_vs_kosdaq": 6.064,
+      "days": 241,
+      "mean_pct": -1.429,
+      "median_pct": -1.004,
+      "gap_vs_kosdaq_pctp": 0.378,
+      "worse_than_kosdaq_pct": 30.3,
+      "up_on_down_day_pct": 17.0,
+      "nw_hac_t_vs_kosdaq": 5.921,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "KOSDAQ_EW": {
-      "days": 240,
-      "mean_pct": -1.781,
+      "days": 241,
+      "mean_pct": -1.78,
       "median_pct": -1.234,
       "gap_vs_kosdaq_pctp": 0.027,
-      "worse_than_kosdaq_pct": 49.6,
-      "up_on_down_day_pct": 11.7,
-      "nw_hac_t_vs_kosdaq": 0.971,
-      "nw_hac_p_vs_kosdaq": 0.3316
+      "worse_than_kosdaq_pct": 49.8,
+      "up_on_down_day_pct": 11.6,
+      "nw_hac_t_vs_kosdaq": 0.964,
+      "nw_hac_p_vs_kosdaq": 0.3352
     },
     "KOSPI": {
-      "days": 240,
-      "mean_pct": -1.18,
-      "median_pct": -0.591,
-      "gap_vs_kosdaq_pctp": 0.628,
-      "worse_than_kosdaq_pct": 25.8,
-      "up_on_down_day_pct": 33.8,
-      "nw_hac_t_vs_kosdaq": 5.466,
+      "days": 241,
+      "mean_pct": -1.189,
+      "median_pct": -0.593,
+      "gap_vs_kosdaq_pctp": 0.618,
+      "worse_than_kosdaq_pct": 26.1,
+      "up_on_down_day_pct": 33.6,
+      "nw_hac_t_vs_kosdaq": 5.375,
       "nw_hac_p_vs_kosdaq": 0.0
     },
     "KOSDAQ": {
-      "days": 240,
-      "mean_pct": -1.808,
-      "median_pct": -1.26,
+      "days": 241,
+      "mean_pct": -1.807,
+      "median_pct": -1.264,
       "gap_vs_kosdaq_pctp": 0.0,
       "worse_than_kosdaq_pct": 0.0,
       "up_on_down_day_pct": 0.0,
@@ -674,50 +674,50 @@
     {
       "tier": "1~50위 (GAEMI 50)",
       "key": "GAEMI_50",
-      "down_month_mean_pct": -12.15,
+      "down_month_mean_pct": -12.31,
       "up_month_mean_pct": 7.81,
-      "downside_capture_pct": 115.9,
+      "downside_capture_pct": 115.8,
       "upside_capture_pct": 112.6,
-      "mdd_pct": -57.07,
-      "ann_volatility_pct": 38.72,
+      "mdd_pct": -57.83,
+      "ann_volatility_pct": 38.7,
       "beta_kosdaq": 0.933,
       "downside_beta_kosdaq": 0.996
     },
     {
       "tier": "51~100위",
       "key": "GAEMI_51_100",
-      "down_month_mean_pct": -8.18,
+      "down_month_mean_pct": -8.5,
       "up_month_mean_pct": 7.45,
-      "downside_capture_pct": 76.4,
+      "downside_capture_pct": 78.4,
       "upside_capture_pct": 108.6,
-      "mdd_pct": -38.54,
-      "ann_volatility_pct": 33.69,
-      "beta_kosdaq": 0.782,
-      "downside_beta_kosdaq": 0.824
+      "mdd_pct": -40.69,
+      "ann_volatility_pct": 33.74,
+      "beta_kosdaq": 0.783,
+      "downside_beta_kosdaq": 0.823
     },
     {
       "tier": "101~150위",
       "key": "GAEMI_101_150",
-      "down_month_mean_pct": -7.26,
+      "down_month_mean_pct": -7.59,
       "up_month_mean_pct": 7.22,
-      "downside_capture_pct": 68.7,
+      "downside_capture_pct": 71.0,
       "upside_capture_pct": 104.4,
-      "mdd_pct": -39.12,
-      "ann_volatility_pct": 32.29,
-      "beta_kosdaq": 0.762,
+      "mdd_pct": -41.32,
+      "ann_volatility_pct": 32.36,
+      "beta_kosdaq": 0.764,
       "downside_beta_kosdaq": 0.804
     }
   ],
   "intensity_monotonic_worse": true,
   "controlled_regression": {
     "n_obs": 1343,
-    "spearman_corr_raw": -0.2117,
-    "raw_slope_per_10pct_intensity": -0.2832,
-    "raw_t_stat": -7.578,
+    "spearman_corr_raw": -0.2077,
+    "raw_slope_per_10pct_intensity": -0.2756,
+    "raw_t_stat": -7.426,
     "raw_p_value": 0.0,
-    "controlled_slope_per_10pct_intensity": -0.0981,
-    "controlled_t_stat": -3.368,
-    "controlled_p_value": 0.0008,
+    "controlled_slope_per_10pct_intensity": -0.0933,
+    "controlled_t_stat": -3.239,
+    "controlled_p_value": 0.0012,
     "controls": "분기 고정효과 · 시장(코스피/코스닥) · 업종 · 로그 시가총액 · 직전 60일 변동성"
   },
   "composition_avg": {
@@ -840,7 +840,7 @@
       "ret_12m_mean_pct": -7.88,
       "added_count": 37,
       "removed_count": 37,
-      "top_sectors": "소프트웨어 개발 및 공급업(9), 특수 목적용 기계 제조업(8), 의약품 제조업(8)"
+      "top_sectors": "소프트웨어 개발 및 공급업(9), 의약품 제조업(8), 특수 목적용 기계 제조업(8)"
     },
     {
       "quarter": "2025 Q1",
@@ -920,7 +920,7 @@
       "ret_12m_mean_pct": 27.15,
       "added_count": 22,
       "removed_count": 22,
-      "top_sectors": "특수 목적용 기계 제조업(6), 소프트웨어 개발 및 공급업(5), 자연과학 및 공학 연구개발업(4)"
+      "top_sectors": "특수 목적용 기계 제조업(6), 소프트웨어 개발 및 공급업(5), 기초 화학물질 제조업(4)"
     },
     {
       "quarter": "2025 Q3",
@@ -952,7 +952,7 @@
       "ret_12m_mean_pct": -1.08,
       "added_count": 32,
       "removed_count": 32,
-      "top_sectors": "전자부품 제조업(5), 특수 목적용 기계 제조업(4), 반도체 제조업(3)"
+      "top_sectors": "전자부품 제조업(5), 특수 목적용 기계 제조업(4), 소프트웨어 개발 및 공급업(3)"
     },
     {
       "quarter": "2025 Q4",
@@ -1000,7 +1000,7 @@
       "ret_12m_mean_pct": 47.48,
       "added_count": 37,
       "removed_count": 37,
-      "top_sectors": "전자부품 제조업(5), 특수 목적용 기계 제조업(4), 의약품 제조업(4)"
+      "top_sectors": "전자부품 제조업(5), 의약품 제조업(4), 특수 목적용 기계 제조업(4)"
     },
     {
       "quarter": "2026 Q1",
@@ -1016,7 +1016,7 @@
       "ret_12m_mean_pct": 59.96,
       "added_count": 17,
       "removed_count": 17,
-      "top_sectors": "소프트웨어 개발 및 공급업(7), 자연과학 및 공학 연구개발업(5), 특수 목적용 기계 제조업(5)"
+      "top_sectors": "소프트웨어 개발 및 공급업(7), 특수 목적용 기계 제조업(5), 자연과학 및 공학 연구개발업(5)"
     },
     {
       "quarter": "2026 Q1",
@@ -1032,7 +1032,7 @@
       "ret_12m_mean_pct": 53.19,
       "added_count": 33,
       "removed_count": 33,
-      "top_sectors": "기초 화학물질 제조업(9), 소프트웨어 개발 및 공급업(8), 자연과학 및 공학 연구개발업(8)"
+      "top_sectors": "기초 화학물질 제조업(9), 소프트웨어 개발 및 공급업(8), 특수 목적용 기계 제조업(8)"
     },
     {
       "quarter": "2026 Q1",
@@ -1096,7 +1096,7 @@
       "ret_12m_mean_pct": 60.64,
       "added_count": 33,
       "removed_count": 33,
-      "top_sectors": "반도체 제조업(4), 일반 목적용 기계 제조업(3), 금융 지원 서비스업(3)"
+      "top_sectors": "반도체 제조업(4), 일반 목적용 기계 제조업(3), 전자부품 제조업(3)"
     },
     {
       "quarter": "2026 Q3",
@@ -1112,7 +1112,7 @@
       "ret_12m_mean_pct": 99.93,
       "added_count": 25,
       "removed_count": 25,
-      "top_sectors": "특수 목적용 기계 제조업(5), 일차전지 및 이차전지 제조업(3), 기초 화학물질 제조업(3)"
+      "top_sectors": "특수 목적용 기계 제조업(5), 일차전지 및 이차전지 제조업(3), 자동차 신품 부품 제조업(3)"
     },
     {
       "quarter": "2026 Q3",
@@ -1128,7 +1128,7 @@
       "ret_12m_mean_pct": 70.94,
       "added_count": 47,
       "removed_count": 47,
-      "top_sectors": "전자부품 제조업(8), 소프트웨어 개발 및 공급업(6), 기초 화학물질 제조업(5)"
+      "top_sectors": "전자부품 제조업(8), 소프트웨어 개발 및 공급업(6), 특수 목적용 기계 제조업(5)"
     },
     {
       "quarter": "2026 Q3",
@@ -1144,7 +1144,7 @@
       "ret_12m_mean_pct": 41.95,
       "added_count": 35,
       "removed_count": 35,
-      "top_sectors": "전자부품 제조업(5), 소프트웨어 개발 및 공급업(4), 의약품 제조업(3)"
+      "top_sectors": "전자부품 제조업(5), 소프트웨어 개발 및 공급업(4), 1차 철강 제조업(3)"
     },
     {
       "quarter": "2026 Q4",
@@ -1160,7 +1160,7 @@
       "ret_12m_mean_pct": 86.36,
       "added_count": 19,
       "removed_count": 19,
-      "top_sectors": "전자부품 제조업(5), 특수 목적용 기계 제조업(4), 일차전지 및 이차전지 제조업(3)"
+      "top_sectors": "전자부품 제조업(5), 특수 목적용 기계 제조업(4), 기초 화학물질 제조업(3)"
     },
     {
       "quarter": "2026 Q4",
@@ -1192,7 +1192,7 @@
       "ret_12m_mean_pct": 14.4,
       "added_count": 29,
       "removed_count": 29,
-      "top_sectors": "전자부품 제조업(4), 일차전지 및 이차전지 제조업(3), 소프트웨어 개발 및 공급업(3)"
+      "top_sectors": "전자부품 제조업(4), 일차전지 및 이차전지 제조업(3), 기초 화학물질 제조업(3)"
     }
   ],
   "matched100_diagnostics": {
@@ -1358,77 +1358,77 @@
     {
       "n_stocks": 30,
       "key": "GAEMI_30",
-      "total_return_pct": -24.75,
-      "excess_vs_kosdaq_pctp": -9.28,
-      "mdd_pct": -60.08,
-      "ann_volatility_pct": 40.48,
-      "downside_capture_kosdaq_pct": 117.7,
+      "total_return_pct": -26.36,
+      "excess_vs_kosdaq_pctp": -9.55,
+      "mdd_pct": -60.93,
+      "ann_volatility_pct": 40.47,
+      "downside_capture_kosdaq_pct": 117.9,
       "upside_capture_kosdaq_pct": 111.9,
       "corr_kosdaq": 0.9347,
-      "first_half_excess_pctp": 19.88,
-      "second_half_excess_pctp": -17.05
+      "first_half_excess_pctp": 18.28,
+      "second_half_excess_pctp": -16.75
     },
     {
       "n_stocks": 50,
       "key": "GAEMI_50",
-      "total_return_pct": -24.27,
-      "excess_vs_kosdaq_pctp": -8.8,
-      "mdd_pct": -57.07,
-      "ann_volatility_pct": 38.72,
-      "downside_capture_kosdaq_pct": 115.9,
+      "total_return_pct": -25.62,
+      "excess_vs_kosdaq_pctp": -8.81,
+      "mdd_pct": -57.83,
+      "ann_volatility_pct": 38.7,
+      "downside_capture_kosdaq_pct": 115.8,
       "upside_capture_kosdaq_pct": 112.6,
-      "corr_kosdaq": 0.9389,
-      "first_half_excess_pctp": 16.17,
-      "second_half_excess_pctp": -15.19
+      "corr_kosdaq": 0.939,
+      "first_half_excess_pctp": 13.79,
+      "second_half_excess_pctp": -14.29
     },
     {
       "n_stocks": 75,
       "key": "GAEMI_75",
-      "total_return_pct": -13.59,
-      "excess_vs_kosdaq_pctp": 1.88,
-      "mdd_pct": -52.64,
+      "total_return_pct": -15.65,
+      "excess_vs_kosdaq_pctp": 1.16,
+      "mdd_pct": -53.77,
       "ann_volatility_pct": 36.99,
-      "downside_capture_kosdaq_pct": 103.9,
+      "downside_capture_kosdaq_pct": 104.5,
       "upside_capture_kosdaq_pct": 111.2,
       "corr_kosdaq": 0.943,
-      "first_half_excess_pctp": 11.06,
-      "second_half_excess_pctp": -4.68
+      "first_half_excess_pctp": 9.25,
+      "second_half_excess_pctp": -4.32
     },
     {
       "n_stocks": 100,
       "key": "GAEMI_100",
-      "total_return_pct": -3.69,
-      "excess_vs_kosdaq_pctp": 11.78,
-      "mdd_pct": -47.89,
-      "ann_volatility_pct": 35.24,
-      "downside_capture_kosdaq_pct": 95.4,
+      "total_return_pct": -6.28,
+      "excess_vs_kosdaq_pctp": 10.53,
+      "mdd_pct": -49.3,
+      "ann_volatility_pct": 35.26,
+      "downside_capture_kosdaq_pct": 96.4,
       "upside_capture_kosdaq_pct": 110.9,
-      "corr_kosdaq": 0.9449,
-      "first_half_excess_pctp": 10.26,
-      "second_half_excess_pctp": 3.46
+      "corr_kosdaq": 0.9447,
+      "first_half_excess_pctp": 8.53,
+      "second_half_excess_pctp": 3.55
     },
     {
       "n_stocks": 150,
       "key": "GAEMI_150",
-      "total_return_pct": 5.43,
-      "excess_vs_kosdaq_pctp": 20.9,
-      "mdd_pct": -45.14,
-      "ann_volatility_pct": 33.79,
-      "downside_capture_kosdaq_pct": 86.5,
+      "total_return_pct": 2.29,
+      "excess_vs_kosdaq_pctp": 19.1,
+      "mdd_pct": -46.78,
+      "ann_volatility_pct": 33.82,
+      "downside_capture_kosdaq_pct": 87.9,
       "upside_capture_kosdaq_pct": 108.9,
-      "corr_kosdaq": 0.9501,
-      "first_half_excess_pctp": 15.19,
-      "second_half_excess_pctp": 7.53
+      "corr_kosdaq": 0.9496,
+      "first_half_excess_pctp": 13.47,
+      "second_half_excess_pctp": 7.3
     }
   ],
   "ab_stability": {
     "avg_top50_overlap_pct": 92.7,
     "avg_top100_overlap_pct": 94.4,
     "avg_rank51_100_overlap_pct": 81.6,
-    "gaemi100_a_total_return_pct": -3.69,
-    "gaemi100_b_total_return_pct": 0.72,
-    "gaemi100_a_downside_capture_pct": 95.4,
-    "gaemi100_b_downside_capture_pct": 96.4,
+    "gaemi100_a_total_return_pct": -6.28,
+    "gaemi100_b_total_return_pct": -1.96,
+    "gaemi100_a_downside_capture_pct": 96.4,
+    "gaemi100_b_downside_capture_pct": 97.4,
     "quarterly_rows": [
       {
         "quarter": "2024 Q4",
@@ -1526,148 +1526,148 @@
     "GAEMI_50": {
       "vs_kosdaq_down_months": {
         "n": 10,
-        "mean_pct": -12.15,
+        "mean_pct": -12.31,
         "median_pct": -13.24,
-        "std_pct": 8.29,
+        "std_pct": 8.26,
         "ci95_pct": [
-          -18.09,
-          -6.22
+          -18.23,
+          -6.4
         ],
-        "diff_mean_pctp": -1.54,
+        "diff_mean_pctp": -1.56,
         "diff_ci95_pctp": [
-          -4.54,
-          1.45
+          -4.55,
+          1.43
         ],
-        "t_stat": -1.165,
-        "p_value": 0.2748
+        "t_stat": -1.181,
+        "p_value": 0.2686
       },
       "vs_matched_down_months": {
         "n": 10,
-        "mean_pct": -12.15,
+        "mean_pct": -12.31,
         "median_pct": -13.24,
-        "std_pct": 8.29,
+        "std_pct": 8.26,
         "ci95_pct": [
-          -18.09,
-          -6.22
+          -18.23,
+          -6.4
         ],
-        "diff_mean_pctp": -3.19,
+        "diff_mean_pctp": -3.08,
         "diff_ci95_pctp": [
-          -6.0,
-          -0.39
+          -5.94,
+          -0.22
         ],
-        "t_stat": -2.579,
-        "p_value": 0.0321
+        "t_stat": -2.433,
+        "p_value": 0.0402
       },
       "matched_benchmark": "MATCHED_50_EW"
     },
     "GAEMI_100": {
       "vs_kosdaq_down_months": {
         "n": 10,
-        "mean_pct": -10.13,
-        "median_pct": -9.95,
-        "std_pct": 5.76,
+        "mean_pct": -10.38,
+        "median_pct": -11.04,
+        "std_pct": 5.79,
         "ci95_pct": [
-          -14.26,
-          -6.01
+          -14.52,
+          -6.24
         ],
-        "diff_mean_pctp": 0.48,
+        "diff_mean_pctp": 0.38,
         "diff_ci95_pctp": [
-          -1.74,
-          2.7
+          -1.83,
+          2.58
         ],
-        "t_stat": 0.488,
-        "p_value": 0.6376
+        "t_stat": 0.385,
+        "p_value": 0.7092
       },
       "vs_matched_down_months": {
         "n": 10,
-        "mean_pct": -10.13,
-        "median_pct": -9.95,
-        "std_pct": 5.76,
+        "mean_pct": -10.38,
+        "median_pct": -11.04,
+        "std_pct": 5.79,
         "ci95_pct": [
-          -14.26,
-          -6.01
+          -14.52,
+          -6.24
         ],
-        "diff_mean_pctp": -1.82,
+        "diff_mean_pctp": -1.76,
         "diff_ci95_pctp": [
-          -3.76,
-          0.13
+          -3.7,
+          0.18
         ],
-        "t_stat": -2.115,
-        "p_value": 0.0657
+        "t_stat": -2.048,
+        "p_value": 0.0729
       },
       "matched_benchmark": "MATCHED_100_EW"
     },
     "GAEMI_51_100": {
       "vs_kosdaq_down_months": {
         "n": 10,
-        "mean_pct": -8.18,
-        "median_pct": -9.57,
-        "std_pct": 3.7,
+        "mean_pct": -8.5,
+        "median_pct": -10.21,
+        "std_pct": 3.92,
         "ci95_pct": [
-          -10.83,
-          -5.53
+          -11.3,
+          -5.69
         ],
-        "diff_mean_pctp": 2.43,
+        "diff_mean_pctp": 2.26,
         "diff_ci95_pctp": [
-          -0.59,
-          5.45
+          -0.81,
+          5.32
         ],
-        "t_stat": 1.821,
-        "p_value": 0.1038
+        "t_stat": 1.663,
+        "p_value": 0.1323
       },
       "vs_matched_down_months": {
         "n": 10,
-        "mean_pct": -8.18,
-        "median_pct": -9.57,
-        "std_pct": 3.7,
+        "mean_pct": -8.5,
+        "median_pct": -10.21,
+        "std_pct": 3.92,
         "ci95_pct": [
-          -10.83,
-          -5.53
+          -11.3,
+          -5.69
         ],
-        "diff_mean_pctp": 0.78,
+        "diff_mean_pctp": 0.74,
         "diff_ci95_pctp": [
-          -1.57,
-          3.13
+          -1.62,
+          3.1
         ],
-        "t_stat": 0.752,
-        "p_value": 0.4717
+        "t_stat": 0.707,
+        "p_value": 0.4979
       },
       "matched_benchmark": "MATCHED_50_EW"
     },
     "GAEMI_101_150": {
       "vs_kosdaq_down_months": {
         "n": 10,
-        "mean_pct": -7.26,
+        "mean_pct": -7.59,
         "median_pct": -8.33,
-        "std_pct": 5.64,
+        "std_pct": 5.94,
         "ci95_pct": [
-          -11.3,
-          -3.23
+          -11.84,
+          -3.34
         ],
-        "diff_mean_pctp": 3.35,
+        "diff_mean_pctp": 3.17,
         "diff_ci95_pctp": [
-          -0.22,
-          6.92
+          -0.52,
+          6.85
         ],
-        "t_stat": 2.12,
-        "p_value": 0.0652
+        "t_stat": 1.944,
+        "p_value": 0.0857
       },
       "vs_matched_down_months": {
         "n": 10,
-        "mean_pct": -7.26,
+        "mean_pct": -7.59,
         "median_pct": -8.33,
-        "std_pct": 5.64,
+        "std_pct": 5.94,
         "ci95_pct": [
-          -11.3,
-          -3.23
+          -11.84,
+          -3.34
         ],
-        "diff_mean_pctp": 1.05,
+        "diff_mean_pctp": 1.03,
         "diff_ci95_pctp": [
-          -1.87,
-          3.98
+          -1.91,
+          3.97
         ],
-        "t_stat": 0.815,
-        "p_value": 0.4367
+        "t_stat": 0.794,
+        "p_value": 0.4478
       },
       "matched_benchmark": "MATCHED_100_EW"
     }
@@ -1771,18 +1771,18 @@
     },
     {
       "episode_id": "KOSDAQ_EP7",
-      "title": "KOSDAQ 하락장 #7 (2026-10-06 ~ 2026-11-09)",
+      "title": "KOSDAQ 하락장 #7 (2026-10-06 ~ 2026-11-23)",
       "start_date": "2026-10-06",
-      "end_date": "2026-11-09",
-      "trading_days": 23,
+      "end_date": "2026-11-23",
+      "trading_days": 33,
       "returns_pct": {
-        "GAEMI_50": -31.34,
-        "GAEMI_100": -26.04,
-        "GAEMI_51_100": -20.67,
-        "MATCHED_50_EW": -25.63,
-        "MATCHED_100_EW": -23.94,
-        "KOSPI": -27.7,
-        "KOSDAQ": -30.54
+        "GAEMI_50": -33.29,
+        "GAEMI_100": -29.05,
+        "GAEMI_51_100": -24.74,
+        "MATCHED_50_EW": -27.78,
+        "MATCHED_100_EW": -26.55,
+        "KOSPI": -32.17,
+        "KOSDAQ": -30.92
       }
     }
   ],
@@ -5433,6 +5433,13 @@
       "GAEMI_100": 963.07,
       "GAEMI_51_100": 1190.22,
       "MATCHED_100_EW": 1176.76
+    },
+    {
+      "date": "2026-11-23",
+      "GAEMI_50": 743.83,
+      "GAEMI_100": 937.16,
+      "GAEMI_51_100": 1148.59,
+      "MATCHED_100_EW": 1138.24
     }
   ],
   "constituents_100": [
@@ -7426,8 +7433,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 80600,
-        "ind_net_eok": -310.93
+        "close": 75800,
+        "ind_net_eok": -300.55
       }
     ],
     "001200": [
@@ -7618,8 +7625,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 3305,
-        "ind_net_eok": 3.38
+        "close": 3155,
+        "ind_net_eok": 3.27
       }
     ],
     "003030": [
@@ -7810,8 +7817,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 102600,
-        "ind_net_eok": -14.15
+        "close": 99100,
+        "ind_net_eok": -20.24
       }
     ],
     "003620": [
@@ -8002,8 +8009,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 1980,
-        "ind_net_eok": 5.61
+        "close": 1960,
+        "ind_net_eok": 5.59
       }
     ],
     "004020": [
@@ -8194,8 +8201,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 27600,
-        "ind_net_eok": -282.39
+        "close": 26500,
+        "ind_net_eok": -294.14
       }
     ],
     "004370": [
@@ -8386,8 +8393,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 341500,
-        "ind_net_eok": 73.91
+        "close": 332500,
+        "ind_net_eok": 81.16
       }
     ],
     "005930": [
@@ -8578,8 +8585,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 183100,
-        "ind_net_eok": 23672.24
+        "close": 177500,
+        "ind_net_eok": 22476.13
       }
     ],
     "006400": [
@@ -8770,8 +8777,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 402500,
-        "ind_net_eok": 3268.63
+        "close": 396000,
+        "ind_net_eok": 3084.88
       }
     ],
     "006800": [
@@ -8962,8 +8969,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 18960,
-        "ind_net_eok": -7.98
+        "close": 18240,
+        "ind_net_eok": -14.97
       }
     ],
     "006910": [
@@ -9154,8 +9161,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 3945,
-        "ind_net_eok": -15.57
+        "close": 3845,
+        "ind_net_eok": -20.09
       }
     ],
     "009900": [
@@ -9346,8 +9353,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 6170,
-        "ind_net_eok": -21.52
+        "close": 5860,
+        "ind_net_eok": -20.0
       }
     ],
     "011170": [
@@ -9538,8 +9545,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 45000,
-        "ind_net_eok": 8.47
+        "close": 42750,
+        "ind_net_eok": 13.68
       }
     ],
     "015750": [
@@ -9730,8 +9737,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 4815,
-        "ind_net_eok": -12.39
+        "close": 4665,
+        "ind_net_eok": -12.84
       }
     ],
     "017670": [
@@ -9922,8 +9929,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 69700,
-        "ind_net_eok": -393.32
+        "close": 64600,
+        "ind_net_eok": -280.47
       }
     ],
     "017800": [
@@ -10114,8 +10121,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 61300,
-        "ind_net_eok": 118.59
+        "close": 59100,
+        "ind_net_eok": 118.13
       }
     ],
     "024850": [
@@ -10306,8 +10313,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 13460,
-        "ind_net_eok": -7.69
+        "close": 14050,
+        "ind_net_eok": -12.7
       }
     ],
     "028050": [
@@ -10498,8 +10505,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 60300,
-        "ind_net_eok": -1389.38
+        "close": 55500,
+        "ind_net_eok": -1498.3
       }
     ],
     "030000": [
@@ -10690,8 +10697,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 18920,
-        "ind_net_eok": -112.2
+        "close": 18230,
+        "ind_net_eok": -105.34
       }
     ],
     "031330": [
@@ -10882,8 +10889,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 7020,
-        "ind_net_eok": -21.27
+        "close": 6740,
+        "ind_net_eok": -68.44
       }
     ],
     "039440": [
@@ -11074,8 +11081,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 20850,
-        "ind_net_eok": 12.02
+        "close": 19890,
+        "ind_net_eok": 10.93
       }
     ],
     "041960": [
@@ -11266,8 +11273,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 8330,
-        "ind_net_eok": 12.86
+        "close": 8130,
+        "ind_net_eok": 12.07
       }
     ],
     "047920": [
@@ -11458,8 +11465,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 6680,
-        "ind_net_eok": 30.45
+        "close": 6470,
+        "ind_net_eok": 27.16
       }
     ],
     "051900": [
@@ -11650,8 +11657,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 251500,
-        "ind_net_eok": -7.15
+        "close": 245500,
+        "ind_net_eok": -16.03
       }
     ],
     "051910": [
@@ -11842,8 +11849,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 203000,
-        "ind_net_eok": 151.9
+        "close": 192600,
+        "ind_net_eok": 210.87
       }
     ],
     "066570": [
@@ -12034,8 +12041,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 130600,
-        "ind_net_eok": -379.4
+        "close": 123600,
+        "ind_net_eok": -412.17
       }
     ],
     "075580": [
@@ -12226,8 +12233,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 6120,
-        "ind_net_eok": -6.39
+        "close": 5810,
+        "ind_net_eok": -8.17
       }
     ],
     "079160": [
@@ -12418,8 +12425,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 5320,
-        "ind_net_eok": -47.68
+        "close": 5260,
+        "ind_net_eok": -50.26
       }
     ],
     "079370": [
@@ -12610,8 +12617,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 9180,
-        "ind_net_eok": 24.12
+        "close": 9150,
+        "ind_net_eok": 18.29
       }
     ],
     "086280": [
@@ -12802,8 +12809,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 204500,
-        "ind_net_eok": -807.76
+        "close": 190200,
+        "ind_net_eok": -797.27
       }
     ],
     "087010": [
@@ -12994,8 +13001,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 86000,
-        "ind_net_eok": -71.76
+        "close": 84300,
+        "ind_net_eok": -82.28
       }
     ],
     "092790": [
@@ -13186,8 +13193,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 7350,
-        "ind_net_eok": 13.2
+        "close": 6940,
+        "ind_net_eok": 10.94
       }
     ],
     "108320": [
@@ -13378,8 +13385,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 22450,
-        "ind_net_eok": 54.03
+        "close": 21650,
+        "ind_net_eok": 53.99
       }
     ],
     "114090": [
@@ -13570,8 +13577,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 7650,
-        "ind_net_eok": -4.59
+        "close": 7170,
+        "ind_net_eok": -1.19
       }
     ],
     "122870": [
@@ -13762,8 +13769,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 47800,
-        "ind_net_eok": -92.47
+        "close": 46750,
+        "ind_net_eok": -101.71
       }
     ],
     "138080": [
@@ -13954,8 +13961,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 21200,
-        "ind_net_eok": 1.13
+        "close": 21400,
+        "ind_net_eok": -1.82
       }
     ],
     "161000": [
@@ -14146,8 +14153,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 8280,
-        "ind_net_eok": 2.34
+        "close": 8120,
+        "ind_net_eok": 2.57
       }
     ],
     "214320": [
@@ -14338,8 +14345,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 16850,
-        "ind_net_eok": 46.9
+        "close": 16450,
+        "ind_net_eok": 46.2
       }
     ],
     "214430": [
@@ -14530,8 +14537,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 54000,
-        "ind_net_eok": 14.0
+        "close": 52400,
+        "ind_net_eok": 10.64
       }
     ],
     "215600": [
@@ -14722,8 +14729,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 1868,
-        "ind_net_eok": 3.73
+        "close": 1865,
+        "ind_net_eok": 1.7
       }
     ],
     "228760": [
@@ -14914,8 +14921,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 8100,
-        "ind_net_eok": 4.4
+        "close": 7990,
+        "ind_net_eok": 4.04
       }
     ],
     "248070": [
@@ -15106,8 +15113,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 9930,
-        "ind_net_eok": 23.22
+        "close": 9280,
+        "ind_net_eok": 34.5
       }
     ],
     "251270": [
@@ -15298,8 +15305,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 31900,
-        "ind_net_eok": -58.77
+        "close": 30150,
+        "ind_net_eok": -47.95
       }
     ],
     "293490": [
@@ -15490,8 +15497,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 12820,
-        "ind_net_eok": -129.28
+        "close": 12740,
+        "ind_net_eok": -136.75
       }
     ],
     "306200": [
@@ -15682,8 +15689,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 107700,
-        "ind_net_eok": 4.54
+        "close": 100800,
+        "ind_net_eok": 0.77
       }
     ],
     "336370": [
@@ -15874,8 +15881,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 5770,
-        "ind_net_eok": 31.45
+        "close": 5670,
+        "ind_net_eok": 33.57
       }
     ],
     "336570": [
@@ -16066,8 +16073,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 3250,
-        "ind_net_eok": -5.08
+        "close": 3160,
+        "ind_net_eok": -5.88
       }
     ],
     "352820": [
@@ -16258,8 +16265,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 183600,
-        "ind_net_eok": -919.16
+        "close": 172000,
+        "ind_net_eok": -952.41
       }
     ],
     "356680": [
@@ -16450,8 +16457,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 12420,
-        "ind_net_eok": -21.46
+        "close": 12200,
+        "ind_net_eok": -25.66
       }
     ],
     "361610": [
@@ -16642,8 +16649,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 11020,
-        "ind_net_eok": 53.0
+        "close": 10550,
+        "ind_net_eok": 52.28
       }
     ],
     "450080": [
@@ -16829,8 +16836,8 @@
       },
       {
         "ym": "2026-11",
-        "close": 25300,
-        "ind_net_eok": -9.12
+        "close": 24100,
+        "ind_net_eok": -3.66
       }
     ]
   }
