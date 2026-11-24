@@ -2758,7 +2758,7 @@
       } else {
         windowEl.innerHTML = `
           <div style="font-size:12.5px;color:var(--ink-2);line-height:1.55">
-            신규 거래일의 순매매 유입이 상위 종목 비중 변화를 정상적으로 주도했습니다. (과거 제외일 대규모 왜곡 없음)
+            신규 거래일의 순매매 유입이 상위 종목 비중 변화를 주도했습니다.
           </div>
         `;
       }
