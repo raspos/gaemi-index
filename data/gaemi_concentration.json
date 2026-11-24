@@ -31651,11 +31651,11 @@
           "diff": 2.38
         },
         {
-          "code": "207940",
-          "name": "삼성바이오로직스",
+          "code": "000250",
+          "name": "삼천당제약",
           "sector": "바이오/제약",
-          "current_share": 2.46,
-          "prior_share": 0.14,
+          "current_share": 2.36,
+          "prior_share": 0.04,
           "diff": 2.32
         }
       ],
@@ -33252,21 +33252,21 @@
           "in_top10": true
         },
         {
-          "code": "000720",
-          "name": "현대건설",
-          "sector": "기타",
-          "contrib": -0.21,
-          "share_now": 2.2,
-          "share_prev": 2.41,
-          "in_top10": true
-        },
-        {
           "code": "352820",
           "name": "하이브",
           "sector": "기타",
           "contrib": 0.21,
           "share_now": 3.11,
           "share_prev": 2.9,
+          "in_top10": true
+        },
+        {
+          "code": "000720",
+          "name": "현대건설",
+          "sector": "기타",
+          "contrib": -0.21,
+          "share_now": 2.2,
+          "share_prev": 2.41,
           "in_top10": true
         },
         {
@@ -34128,19 +34128,19 @@
           "diff": -5.41
         },
         {
-          "code": "277810",
-          "name": "레인보우로보틱스",
-          "sector": "로봇/AI",
-          "current_share": 0.06,
-          "prior_share": 1.34,
-          "diff": -1.27
-        },
-        {
           "code": "006800",
           "name": "미래에셋증권",
           "sector": "금융/지주",
           "current_share": 0.49,
           "prior_share": 1.76,
+          "diff": -1.27
+        },
+        {
+          "code": "277810",
+          "name": "레인보우로보틱스",
+          "sector": "로봇/AI",
+          "current_share": 0.06,
+          "prior_share": 1.34,
           "diff": -1.27
         }
       ],
@@ -36067,12 +36067,12 @@
           "in_top10": true
         },
         {
-          "code": "042660",
-          "name": "한화오션",
+          "code": "010120",
+          "name": "LS ELECTRIC",
           "sector": "기타",
           "contrib": -0.04,
-          "share_now": 2.03,
-          "share_prev": 2.07,
+          "share_now": 2.69,
+          "share_prev": 2.73,
           "in_top10": true
         }
       ],
@@ -36732,21 +36732,21 @@
           "in_top10": true
         },
         {
-          "code": "012330",
-          "name": "현대모비스",
-          "sector": "자동차/부품",
-          "contrib": 0.23,
-          "share_now": 1.8,
-          "share_prev": 1.57,
-          "in_top10": true
-        },
-        {
           "code": "005380",
           "name": "현대차",
           "sector": "자동차/부품",
           "contrib": -0.23,
           "share_now": 1.59,
           "share_prev": 1.82,
+          "in_top10": true
+        },
+        {
+          "code": "012330",
+          "name": "현대모비스",
+          "sector": "자동차/부품",
+          "contrib": 0.23,
+          "share_now": 1.8,
+          "share_prev": 1.57,
           "in_top10": true
         },
         {
@@ -36839,15 +36839,15 @@
           "diff": -0.45
         },
         {
-          "sector": "화학/소재",
-          "current_share": 1.82,
-          "prior_share": 2.7,
-          "diff": -0.88
-        },
-        {
           "sector": "철강/금속",
           "current_share": 1.13,
           "prior_share": 2.0,
+          "diff": -0.88
+        },
+        {
+          "sector": "화학/소재",
+          "current_share": 1.82,
+          "prior_share": 2.7,
           "diff": -0.88
         },
         {
@@ -37462,12 +37462,12 @@
           "in_top10": true
         },
         {
-          "code": "010140",
-          "name": "삼성중공업",
+          "code": "042660",
+          "name": "한화오션",
           "sector": "기타",
-          "contrib": 0.15,
-          "share_now": 1.95,
-          "share_prev": 1.8,
+          "contrib": -0.15,
+          "share_now": 1.4,
+          "share_prev": 1.55,
           "in_top10": true
         }
       ],
@@ -38666,19 +38666,19 @@
           "diff": -2.81
         },
         {
-          "code": "005380",
-          "name": "현대차",
-          "sector": "자동차/부품",
-          "current_share": 1.43,
-          "prior_share": 4.2,
-          "diff": -2.78
-        },
-        {
           "code": "047810",
           "name": "한국항공우주",
           "sector": "기계/중공업",
           "current_share": 0.06,
           "prior_share": 2.83,
+          "diff": -2.78
+        },
+        {
+          "code": "005380",
+          "name": "현대차",
+          "sector": "자동차/부품",
+          "current_share": 1.43,
+          "prior_share": 4.2,
           "diff": -2.78
         },
         {
@@ -41145,19 +41145,19 @@
           "diff": -2.83
         },
         {
-          "code": "042660",
-          "name": "한화오션",
-          "sector": "기타",
-          "current_share": 0.63,
-          "prior_share": 3.4,
-          "diff": -2.77
-        },
-        {
           "code": "035420",
           "name": "NAVER",
           "sector": "플랫폼/소프트웨어",
           "current_share": 0.37,
           "prior_share": 3.14,
+          "diff": -2.77
+        },
+        {
+          "code": "042660",
+          "name": "한화오션",
+          "sector": "기타",
+          "current_share": 0.63,
+          "prior_share": 3.4,
           "diff": -2.77
         }
       ],
@@ -43608,19 +43608,19 @@
           "diff": -2.14
         },
         {
-          "code": "042660",
-          "name": "한화오션",
-          "sector": "기타",
-          "current_share": 0.16,
-          "prior_share": 1.72,
-          "diff": -1.56
-        },
-        {
           "code": "035420",
           "name": "NAVER",
           "sector": "플랫폼/소프트웨어",
           "current_share": 0.0,
           "prior_share": 1.56,
+          "diff": -1.56
+        },
+        {
+          "code": "042660",
+          "name": "한화오션",
+          "sector": "기타",
+          "current_share": 0.16,
+          "prior_share": 1.72,
           "diff": -1.56
         },
         {
@@ -45645,9 +45645,9 @@
           "diff": 0.71
         },
         {
-          "sector": "2차전지",
-          "current_share": 1.76,
-          "prior_share": 1.84,
+          "sector": "로봇/AI",
+          "current_share": 0.72,
+          "prior_share": 0.8,
           "diff": -0.07
         }
       ],
@@ -46435,11 +46435,11 @@
           "diff": -1.27
         },
         {
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "sector": "기타",
-          "current_share": 0.39,
-          "prior_share": 1.48,
+          "code": "006800",
+          "name": "미래에셋증권",
+          "sector": "금융/지주",
+          "current_share": 0.0,
+          "prior_share": 1.09,
           "diff": -1.09
         }
       ],
@@ -47296,15 +47296,6 @@
           "in_top10": true
         },
         {
-          "code": "402340",
-          "name": "SK스퀘어",
-          "sector": "금융/지주",
-          "contrib": 1.05,
-          "share_now": 6.14,
-          "share_prev": 5.09,
-          "in_top10": true
-        },
-        {
           "code": "066570",
           "name": "LG전자",
           "sector": "기계/중공업",
@@ -47312,6 +47303,15 @@
           "share_now": 0.0,
           "share_prev": 1.05,
           "in_top10": false
+        },
+        {
+          "code": "402340",
+          "name": "SK스퀘어",
+          "sector": "금융/지주",
+          "contrib": 1.05,
+          "share_now": 6.14,
+          "share_prev": 5.09,
+          "in_top10": true
         },
         {
           "code": "010120",
@@ -48123,9 +48123,9 @@
           "diff": -0.31
         },
         {
-          "sector": "화학/소재",
-          "current_share": 0.72,
-          "prior_share": 1.19,
+          "sector": "로봇/AI",
+          "current_share": 0.26,
+          "prior_share": 0.73,
           "diff": -0.47
         }
       ],
@@ -49990,7 +49990,7 @@
       "top_pct_1y": 0.0,
       "diff_from_med_1y": 41.33,
       "sample_count_1y": 252,
-      "summary": "개인 순매수 집중도가 전일 대비 +0.7%p 변화한 92.3%를 기록했습니다. 한미반도체의 경우 당일 순매매보다 20거래일 전 대규모 순매수 기록(840억원)이 계산 대상에서 제외된 영향이 컸습니다.",
+      "summary": "개인 순매수 집중도가 전일 대비 +0.7%p 변화한 92.3%를 기록했습니다. 현대차의 경우 당일 순매매보다 20거래일 전 대규모 순매수 기록(2,889억원)이 계산 대상에서 제외된 영향이 컸습니다.",
       "top10": [
         {
           "rank": 1,
@@ -50114,21 +50114,21 @@
           "in_top10": true
         },
         {
-          "code": "042700",
-          "name": "한미반도체",
-          "sector": "반도체",
-          "contrib": -0.62,
-          "share_now": 1.39,
-          "share_prev": 2.01,
-          "in_top10": true
-        },
-        {
           "code": "005380",
           "name": "현대차",
           "sector": "자동차/부품",
           "contrib": -0.62,
           "share_now": 1.03,
           "share_prev": 1.65,
+          "in_top10": true
+        },
+        {
+          "code": "042700",
+          "name": "한미반도체",
+          "sector": "반도체",
+          "contrib": -0.62,
+          "share_now": 1.39,
+          "share_prev": 2.01,
           "in_top10": true
         },
         {
@@ -50325,10 +50325,10 @@
       ],
       "drop_effect": {
         "is_dominant": true,
-        "code": "042700",
-        "name": "한미반도체",
-        "new_val": -211562890000.0,
-        "drop_val": 83984089500.0,
+        "code": "005380",
+        "name": "현대차",
+        "new_val": 115010000.0,
+        "drop_val": 288919326000.0,
         "drop_date": "2026-06-17"
       }
     },
@@ -51185,15 +51185,6 @@
           "in_top10": true
         },
         {
-          "code": "402340",
-          "name": "SK스퀘어",
-          "sector": "금융/지주",
-          "contrib": -0.67,
-          "share_now": 4.38,
-          "share_prev": 5.05,
-          "in_top10": true
-        },
-        {
           "code": "005380",
           "name": "현대차",
           "sector": "자동차/부품",
@@ -51201,6 +51192,15 @@
           "share_now": 0.0,
           "share_prev": 0.67,
           "in_top10": false
+        },
+        {
+          "code": "402340",
+          "name": "SK스퀘어",
+          "sector": "금융/지주",
+          "contrib": -0.67,
+          "share_now": 4.38,
+          "share_prev": 5.05,
+          "in_top10": true
         },
         {
           "code": "240810",
@@ -51911,15 +51911,6 @@
           "in_top10": true
         },
         {
-          "code": "298040",
-          "name": "효성중공업",
-          "sector": "기타",
-          "contrib": -0.38,
-          "share_now": 0.0,
-          "share_prev": 0.38,
-          "in_top10": false
-        },
-        {
           "code": "042700",
           "name": "한미반도체",
           "sector": "반도체",
@@ -51927,6 +51918,15 @@
           "share_now": 0.78,
           "share_prev": 0.4,
           "in_top10": true
+        },
+        {
+          "code": "298040",
+          "name": "효성중공업",
+          "sector": "기타",
+          "contrib": -0.38,
+          "share_now": 0.0,
+          "share_prev": 0.38,
+          "in_top10": false
         }
       ],
       "sector_shares": [
@@ -54373,18 +54373,18 @@
           "in_top10": true
         },
         {
-          "code": "036930",
-          "name": "주성엔지니어링",
-          "sector": "기계/중공업",
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "sector": "기타",
           "contrib": -1.27,
           "share_now": 0.0,
           "share_prev": 1.27,
           "in_top10": false
         },
         {
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "sector": "기타",
+          "code": "036930",
+          "name": "주성엔지니어링",
+          "sector": "기계/중공업",
           "contrib": -1.27,
           "share_now": 0.0,
           "share_prev": 1.27,
@@ -61169,19 +61169,19 @@
           "diff": 1.91
         },
         {
-          "code": "012330",
-          "name": "현대모비스",
-          "sector": "자동차/부품",
-          "current_share": 1.66,
-          "prior_share": 0.0,
-          "diff": 1.66
-        },
-        {
           "code": "005930",
           "name": "삼성전자",
           "sector": "반도체",
           "current_share": 17.63,
           "prior_share": 15.97,
+          "diff": 1.66
+        },
+        {
+          "code": "012330",
+          "name": "현대모비스",
+          "sector": "자동차/부품",
+          "current_share": 1.66,
+          "prior_share": 0.0,
           "diff": 1.66
         }
       ],
@@ -62997,7 +62997,7 @@
       "top_pct_1y": 84.1,
       "diff_from_med_1y": -26.2,
       "sample_count_1y": 252,
-      "summary": "개인 순매수 집중도가 전일 대비 +1.4%p 상승한 33.7%를 기록했습니다. 삼성전기(+1.5%p)과 한화에어로스페이스(+1.2%p)의 순매수 비중이 확대되면서 상위 10종목 집중도가 높아졌습니다.",
+      "summary": "개인 순매수 집중도가 전일 대비 +1.4%p 상승한 33.7%를 기록했습니다. 삼성전기(+1.5%p)과 HLB(+1.2%p)의 순매수 비중이 확대되면서 상위 10종목 집중도가 높아졌습니다.",
       "top10": [
         {
           "rank": 1,
@@ -63130,13 +63130,13 @@
           "in_top10": false
         },
         {
-          "code": "012450",
-          "name": "한화에어로스페이스",
+          "code": "047810",
+          "name": "한국항공우주",
           "sector": "기계/중공업",
-          "contrib": 1.19,
-          "share_now": 1.19,
-          "share_prev": 0.0,
-          "in_top10": true
+          "contrib": -1.19,
+          "share_now": 0.0,
+          "share_prev": 1.19,
+          "in_top10": false
         },
         {
           "code": "028300",
@@ -63148,13 +63148,13 @@
           "in_top10": true
         },
         {
-          "code": "047810",
-          "name": "한국항공우주",
+          "code": "012450",
+          "name": "한화에어로스페이스",
           "sector": "기계/중공업",
-          "contrib": -1.19,
-          "share_now": 0.0,
-          "share_prev": 1.19,
-          "in_top10": false
+          "contrib": 1.19,
+          "share_now": 1.19,
+          "share_prev": 0.0,
+          "in_top10": true
         },
         {
           "code": "196170",
@@ -63849,21 +63849,21 @@
           "in_top10": true
         },
         {
-          "code": "011070",
-          "name": "LG이노텍",
-          "sector": "전자부품/IT",
-          "contrib": 0.18,
-          "share_now": 3.36,
-          "share_prev": 3.18,
-          "in_top10": true
-        },
-        {
           "code": "017670",
           "name": "SK텔레콤",
           "sector": "엔터/미디어",
           "contrib": -0.18,
           "share_now": 1.79,
           "share_prev": 1.97,
+          "in_top10": true
+        },
+        {
+          "code": "011070",
+          "name": "LG이노텍",
+          "sector": "전자부품/IT",
+          "contrib": 0.18,
+          "share_now": 3.36,
+          "share_prev": 3.18,
           "in_top10": true
         }
       ],
@@ -68574,19 +68574,19 @@
           "diff": -2.64
         },
         {
-          "code": "402340",
-          "name": "SK스퀘어",
-          "sector": "금융/지주",
-          "current_share": 0.0,
-          "prior_share": 1.85,
-          "diff": -1.85
-        },
-        {
           "code": "017670",
           "name": "SK텔레콤",
           "sector": "엔터/미디어",
           "current_share": 0.25,
           "prior_share": 2.1,
+          "diff": -1.85
+        },
+        {
+          "code": "402340",
+          "name": "SK스퀘어",
+          "sector": "금융/지주",
+          "current_share": 0.0,
+          "prior_share": 1.85,
           "diff": -1.85
         },
         {
@@ -72625,15 +72625,6 @@
           "in_top10": true
         },
         {
-          "code": "402340",
-          "name": "SK스퀘어",
-          "sector": "금융/지주",
-          "contrib": -1.85,
-          "share_now": 0.0,
-          "share_prev": 1.85,
-          "in_top10": false
-        },
-        {
           "code": "010140",
           "name": "삼성중공업",
           "sector": "기타",
@@ -72641,6 +72632,15 @@
           "share_now": 1.85,
           "share_prev": 0.0,
           "in_top10": true
+        },
+        {
+          "code": "402340",
+          "name": "SK스퀘어",
+          "sector": "금융/지주",
+          "contrib": -1.85,
+          "share_now": 0.0,
+          "share_prev": 1.85,
+          "in_top10": false
         },
         {
           "code": "000150",
@@ -78663,12 +78663,12 @@
           "in_top10": true
         },
         {
-          "code": "036930",
-          "name": "주성엔지니어링",
-          "sector": "기계/중공업",
+          "code": "067310",
+          "name": "하나마이크론",
+          "sector": "반도체",
           "contrib": -0.1,
-          "share_now": 2.48,
-          "share_prev": 2.58,
+          "share_now": 1.3,
+          "share_prev": 1.4,
           "in_top10": true
         }
       ],

@@ -2,23 +2,21 @@
   "status": "VERIFIED",
   "update_mode": "daily",
   "data_as_of": "2026-11-24",
-  "completed_at": "2026-11-24 20:09:31",
+  "completed_at": "2026-11-24 21:37:15",
   "ledger_version": "v4.20261124",
   "ledger_combined_sha256": "7fe6bdb59a6dcc6b8fcd6d24738d454041a6e08943560b08ba44d07fd2241340",
-  "git_commit_sha": "673231e7cdd99d7a3ee53c9efa7194a31c987b80",
+  "git_commit_sha": "b5a1b4ca2e661f8c654d61076178116e1b38cf9f",
   "index_engine_version": "GAEMI_50_PURE_PHASE4_v1.0",
   "collected_stock_count": 2711,
   "latest_date_stock_count": 2546,
   "full_36m_stocks_count": 1772,
   "delisted_stocks_preserved": 165,
   "total_ledger_records": 2397425,
-  "newly_added_records": 2546,
-  "dedup_removed_records": 499643,
+  "newly_added_records": 0,
+  "dedup_removed_records": 502189,
   "modified_historical_records": 0,
   "duplicate_primary_keys": 0,
-  "added_trading_dates": [
-    "2026-11-24"
-  ],
+  "added_trading_dates": [],
   "api_failed_stock_count": 0,
   "shards": {
     "trades_2021.parquet": {
