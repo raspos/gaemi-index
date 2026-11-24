@@ -1,22 +1,22 @@
 {
-  "as_of_date": "2026-11-23",
+  "as_of_date": "2026-11-24",
   "metric_name": "개미 순매수 집중도",
   "metric_name_en": "GAEMI CONCENTRATION",
   "unit": "%",
   "window_size_days": 20,
   "latest": {
-    "date": "2026-11-23",
-    "concentration": 58.5,
-    "delta": 0.43,
+    "date": "2026-11-24",
+    "concentration": 58.15,
+    "delta": -0.35,
     "median_1y": 61.17,
     "min_1y": 25.98,
     "max_1y": 94.24,
-    "top_pct_1y": 54.8,
-    "diff_from_med_1y": -2.67,
+    "top_pct_1y": 55.6,
+    "diff_from_med_1y": -3.02,
     "sample_count_1y": 252,
-    "summary": "개인 순매수 집중도가 전일 대비 +0.4%p 변화한 58.5%를 기록했습니다. 삼성전자의 경우 당일 순매매보다 20거래일 전 대규모 순매수 기록(692억원)이 계산 대상에서 제외된 영향이 컸습니다.",
-    "top10_sum": 4195628891940.0,
-    "total_pos": 7171549264064.0,
+    "summary": "개인 순매수 집중도가 전일 대비 -0.3%p 하락한 58.1%를 기록했습니다. 삼성전자, 삼성SDI 등의 비중이 축소되며 순매수 대상이 여러 종목으로 분산되었습니다.",
+    "top10_sum": 3824054862600.0,
+    "total_pos": 6575968960508.0,
     "top10": [
       {
         "rank": 1,
@@ -24,9 +24,9 @@
         "name": "삼성전기",
         "market": "KOSPI",
         "sector": "전자부품/IT",
-        "net_val": 1427098271000.0,
-        "share": 19.9,
-        "diff_share": 1.28,
+        "net_val": 1442058760000.0,
+        "share": 21.93,
+        "diff_share": 2.03,
         "is_new": false
       },
       {
@@ -35,75 +35,75 @@
         "name": "삼성전자",
         "market": "KOSPI",
         "sector": "반도체",
-        "net_val": 1274712690300.0,
-        "share": 17.77,
-        "diff_share": -1.42,
+        "net_val": 980530108100.0,
+        "share": 14.91,
+        "diff_share": -2.86,
         "is_new": false
       },
       {
         "rank": 3,
-        "code": "034020",
-        "name": "두산에너빌리티",
-        "market": "KOSPI",
-        "sector": "기계/중공업",
-        "net_val": 236212102600.0,
-        "share": 3.29,
-        "diff_share": 0.09,
-        "is_new": false
-      },
-      {
-        "rank": 4,
         "code": "353200",
         "name": "대덕전자",
         "market": "KOSPI",
         "sector": "전자부품/IT",
-        "net_val": 236174175800.0,
-        "share": 3.29,
-        "diff_share": 0.14,
-        "is_new": false
-      },
-      {
-        "rank": 5,
-        "code": "009830",
-        "name": "한화솔루션",
-        "market": "KOSPI",
-        "sector": "화학/소재",
-        "net_val": 207230832140.0,
-        "share": 2.89,
-        "diff_share": -0.12,
-        "is_new": false
-      },
-      {
-        "rank": 6,
-        "code": "006400",
-        "name": "삼성SDI",
-        "market": "KOSPI",
-        "sector": "2차전지",
-        "net_val": 204227112000.0,
-        "share": 2.85,
-        "diff_share": -0.14,
-        "is_new": false
-      },
-      {
-        "rank": 7,
-        "code": "222800",
-        "name": "심텍",
-        "market": "KOSDAQ",
-        "sector": "전자부품/IT",
-        "net_val": 200091400400.0,
-        "share": 2.79,
+        "net_val": 238331158600.0,
+        "share": 3.62,
         "diff_share": 0.33,
         "is_new": false
       },
       {
-        "rank": 8,
+        "rank": 4,
+        "code": "034020",
+        "name": "두산에너빌리티",
+        "market": "KOSPI",
+        "sector": "기계/중공업",
+        "net_val": 220162067850.0,
+        "share": 3.35,
+        "diff_share": 0.06,
+        "is_new": false
+      },
+      {
+        "rank": 5,
+        "code": "222800",
+        "name": "심텍",
+        "market": "KOSDAQ",
+        "sector": "전자부품/IT",
+        "net_val": 208135413000.0,
+        "share": 3.17,
+        "diff_share": 0.38,
+        "is_new": false
+      },
+      {
+        "rank": 6,
+        "code": "009830",
+        "name": "한화솔루션",
+        "market": "KOSPI",
+        "sector": "화학/소재",
+        "net_val": 188267342150.0,
+        "share": 2.86,
+        "diff_share": -0.03,
+        "is_new": false
+      },
+      {
+        "rank": 7,
         "code": "036930",
         "name": "주성엔지니어링",
         "market": "KOSDAQ",
         "sector": "기계/중공업",
-        "net_val": 162821289000.0,
-        "share": 2.27,
-        "diff_share": 0.09,
+        "net_val": 153521469600.0,
+        "share": 2.33,
+        "diff_share": 0.06,
+        "is_new": false
+      },
+      {
+        "rank": 8,
+        "code": "007660",
+        "name": "이수페타시스",
+        "market": "KOSPI",
+        "sector": "전자부품/IT",
+        "net_val": 148572160100.0,
+        "share": 2.26,
+        "diff_share": 0.54,
         "is_new": false
       },
       {
@@ -112,20 +112,20 @@
         "name": "SK이노베이션",
         "market": "KOSPI",
         "sector": "2차전지",
-        "net_val": 123637782800.0,
-        "share": 1.72,
-        "diff_share": 0.2,
+        "net_val": 139066917200.0,
+        "share": 2.11,
+        "diff_share": 0.39,
         "is_new": false
       },
       {
         "rank": 10,
-        "code": "007660",
-        "name": "이수페타시스",
+        "code": "006400",
+        "name": "삼성SDI",
         "market": "KOSPI",
-        "sector": "전자부품/IT",
-        "net_val": 123423235900.0,
-        "share": 1.72,
-        "diff_share": -0.04,
+        "sector": "2차전지",
+        "net_val": 105409466000.0,
+        "share": 1.6,
+        "diff_share": -1.25,
         "is_new": false
       }
     ],
@@ -134,135 +134,135 @@
         "code": "005930",
         "name": "삼성전자",
         "sector": "반도체",
-        "contrib": -1.42,
-        "share_now": 17.77,
-        "share_prev": 19.19,
+        "contrib": -2.86,
+        "share_now": 14.91,
+        "share_prev": 17.77,
         "in_top10": true
       },
       {
         "code": "009150",
         "name": "삼성전기",
         "sector": "전자부품/IT",
-        "contrib": 1.28,
-        "share_now": 19.9,
-        "share_prev": 18.62,
-        "in_top10": true
-      },
-      {
-        "code": "222800",
-        "name": "심텍",
-        "sector": "전자부품/IT",
-        "contrib": 0.33,
-        "share_now": 2.79,
-        "share_prev": 2.46,
-        "in_top10": true
-      },
-      {
-        "code": "096770",
-        "name": "SK이노베이션",
-        "sector": "2차전지",
-        "contrib": 0.2,
-        "share_now": 1.72,
-        "share_prev": 1.52,
-        "in_top10": true
-      },
-      {
-        "code": "353200",
-        "name": "대덕전자",
-        "sector": "전자부품/IT",
-        "contrib": 0.14,
-        "share_now": 3.29,
-        "share_prev": 3.15,
+        "contrib": 2.03,
+        "share_now": 21.93,
+        "share_prev": 19.9,
         "in_top10": true
       },
       {
         "code": "006400",
         "name": "삼성SDI",
         "sector": "2차전지",
-        "contrib": -0.14,
-        "share_now": 2.85,
-        "share_prev": 2.99,
+        "contrib": -1.25,
+        "share_now": 1.6,
+        "share_prev": 2.85,
+        "in_top10": true
+      },
+      {
+        "code": "007660",
+        "name": "이수페타시스",
+        "sector": "전자부품/IT",
+        "contrib": 0.54,
+        "share_now": 2.26,
+        "share_prev": 1.72,
+        "in_top10": true
+      },
+      {
+        "code": "096770",
+        "name": "SK이노베이션",
+        "sector": "2차전지",
+        "contrib": 0.39,
+        "share_now": 2.11,
+        "share_prev": 1.72,
+        "in_top10": true
+      },
+      {
+        "code": "222800",
+        "name": "심텍",
+        "sector": "전자부품/IT",
+        "contrib": 0.38,
+        "share_now": 3.17,
+        "share_prev": 2.79,
         "in_top10": true
       }
     ],
     "sector_shares": [
       {
         "sector": "전자부품/IT",
-        "amount": 2261266587149.0,
-        "share": 31.53
+        "amount": 2263235254232.0,
+        "share": 34.42
       },
       {
         "sector": "반도체",
-        "amount": 1724395688856.0,
-        "share": 24.04
+        "amount": 1405780654622.0,
+        "share": 21.38
       },
       {
         "sector": "기계/중공업",
-        "amount": 947365953043.0,
-        "share": 13.21
+        "amount": 933748108778.0,
+        "share": 14.2
       },
       {
         "sector": "기타",
-        "amount": 535745086908.0,
-        "share": 7.47
-      },
-      {
-        "sector": "2차전지",
-        "amount": 531030260310.0,
-        "share": 7.4
+        "amount": 497046867755.0,
+        "share": 7.56
       },
       {
         "sector": "화학/소재",
-        "amount": 443603843399.0,
-        "share": 6.19
+        "amount": 408559797343.0,
+        "share": 6.21
+      },
+      {
+        "sector": "2차전지",
+        "amount": 391865800260.0,
+        "share": 5.96
       },
       {
         "sector": "금융/지주",
-        "amount": 188977767686.0,
-        "share": 2.64
+        "amount": 177286785178.0,
+        "share": 2.7
       },
       {
         "sector": "플랫폼/소프트웨어",
-        "amount": 144106977840.0,
-        "share": 2.01
+        "amount": 145427915271.0,
+        "share": 2.21
       }
     ],
     "sector_shift": [
       {
         "sector": "전자부품/IT",
-        "current_share": 31.53,
-        "prior_share": 8.91,
-        "diff": 22.63
+        "current_share": 34.42,
+        "prior_share": 6.89,
+        "diff": 27.52
       },
       {
         "sector": "화학/소재",
-        "current_share": 6.19,
-        "prior_share": 0.99,
-        "diff": 5.2
+        "current_share": 6.21,
+        "prior_share": 0.89,
+        "diff": 5.32
       },
       {
         "sector": "2차전지",
-        "current_share": 7.4,
-        "prior_share": 2.36,
-        "diff": 5.05
+        "current_share": 5.96,
+        "prior_share": 1.73,
+        "diff": 4.22
       },
       {
         "sector": "기계/중공업",
-        "current_share": 13.21,
-        "prior_share": 13.02,
-        "diff": 0.19
-      },
-      {
-        "sector": "로봇/AI",
-        "current_share": 0.43,
-        "prior_share": 0.27,
-        "diff": 0.16
+        "current_share": 14.2,
+        "prior_share": 10.49,
+        "diff": 3.71
       },
       {
         "sector": "철강/금속",
-        "current_share": 1.95,
-        "prior_share": 1.86,
-        "diff": 0.09
+        "current_share": 1.99,
+        "prior_share": 1.43,
+        "diff": 0.56
+      },
+      {
+        "sector": "플랫폼/소프트웨어",
+        "current_share": 2.21,
+        "prior_share": 1.65,
+        "diff": 0.56
       }
     ],
     "stock_gainers": [
@@ -270,277 +270,270 @@
         "code": "009150",
         "name": "삼성전기",
         "sector": "전자부품/IT",
-        "current_share": 19.9,
-        "prior_share": 5.67,
-        "diff": 14.23
+        "current_share": 21.93,
+        "prior_share": 4.1,
+        "diff": 17.83
       },
       {
         "code": "353200",
         "name": "대덕전자",
         "sector": "전자부품/IT",
-        "current_share": 3.29,
+        "current_share": 3.62,
         "prior_share": 0.0,
-        "diff": 3.29
+        "diff": 3.62
       },
       {
         "code": "009830",
         "name": "한화솔루션",
         "sector": "화학/소재",
-        "current_share": 2.89,
+        "current_share": 2.86,
         "prior_share": 0.0,
-        "diff": 2.89
+        "diff": 2.86
       },
       {
-        "code": "006400",
-        "name": "삼성SDI",
-        "sector": "2차전지",
-        "current_share": 2.85,
-        "prior_share": 0.41,
-        "diff": 2.44
+        "code": "222800",
+        "name": "심텍",
+        "sector": "전자부품/IT",
+        "current_share": 3.17,
+        "prior_share": 0.75,
+        "diff": 2.41
       },
       {
         "code": "036930",
         "name": "주성엔지니어링",
         "sector": "기계/중공업",
-        "current_share": 2.27,
-        "prior_share": 0.0,
-        "diff": 2.27
+        "current_share": 2.33,
+        "prior_share": 0.1,
+        "diff": 2.23
       }
     ],
     "stock_losers": [
+      {
+        "code": "005930",
+        "name": "삼성전자",
+        "sector": "반도체",
+        "current_share": 14.91,
+        "prior_share": 37.35,
+        "diff": -22.44
+      },
       {
         "code": "000660",
         "name": "SK하이닉스",
         "sector": "반도체",
         "current_share": 0.0,
-        "prior_share": 14.51,
-        "diff": -14.51
-      },
-      {
-        "code": "005930",
-        "name": "삼성전자",
-        "sector": "반도체",
-        "current_share": 17.77,
-        "prior_share": 26.49,
-        "diff": -8.72
-      },
-      {
-        "code": "298040",
-        "name": "효성중공업",
-        "sector": "기타",
-        "current_share": 0.0,
-        "prior_share": 3.48,
-        "diff": -3.48
+        "prior_share": 14.75,
+        "diff": -14.75
       },
       {
         "code": "402340",
         "name": "SK스퀘어",
         "sector": "금융/지주",
         "current_share": 0.0,
-        "prior_share": 3.35,
-        "diff": -3.35
+        "prior_share": 3.72,
+        "diff": -3.72
+      },
+      {
+        "code": "298040",
+        "name": "효성중공업",
+        "sector": "기타",
+        "current_share": 0.0,
+        "prior_share": 3.24,
+        "diff": -3.24
       },
       {
         "code": "005380",
         "name": "현대차",
         "sector": "자동차/부품",
         "current_share": 0.0,
-        "prior_share": 1.81,
-        "diff": -1.81
+        "prior_share": 1.3,
+        "diff": -1.3
       }
     ],
     "top_1d": [
       {
         "rank": 1,
-        "code": "035420",
-        "name": "NAVER",
-        "market": "KOSPI",
-        "sector": "플랫폼/소프트웨어",
-        "net_val": 68440500000.0,
-        "share": 15.61
+        "code": "196170",
+        "name": "알테오젠",
+        "market": "KOSDAQ",
+        "sector": "기타",
+        "net_val": 54361400900.0,
+        "share": 18.73
       },
       {
         "rank": 2,
-        "code": "018260",
-        "name": "삼성에스디에스",
+        "code": "007660",
+        "name": "이수페타시스",
         "market": "KOSPI",
-        "sector": "플랫폼/소프트웨어",
-        "net_val": 42255112000.0,
-        "share": 9.64
+        "sector": "전자부품/IT",
+        "net_val": 20255971200.0,
+        "share": 6.98
       },
       {
         "rank": 3,
-        "code": "064400",
-        "name": "LG씨엔에스",
-        "market": "KOSPI",
-        "sector": "플랫폼/소프트웨어",
-        "net_val": 20538735600.0,
-        "share": 4.69
+        "code": "030530",
+        "name": "원익홀딩스",
+        "market": "KOSDAQ",
+        "sector": "화학/소재",
+        "net_val": 17065936800.0,
+        "share": 5.88
       },
       {
         "rank": 4,
-        "code": "006360",
-        "name": "GS건설",
+        "code": "096770",
+        "name": "SK이노베이션",
         "market": "KOSPI",
-        "sector": "기타",
-        "net_val": 18758066250.0,
-        "share": 4.28
+        "sector": "2차전지",
+        "net_val": 14758932900.0,
+        "share": 5.09
       },
       {
         "rank": 5,
-        "code": "222800",
-        "name": "심텍",
-        "market": "KOSDAQ",
-        "sector": "전자부품/IT",
-        "net_val": 12502961800.0,
-        "share": 2.85
+        "code": "402340",
+        "name": "SK스퀘어",
+        "market": "KOSPI",
+        "sector": "금융/지주",
+        "net_val": 14057615000.0,
+        "share": 4.84
       },
       {
         "rank": 6,
-        "code": "105560",
-        "name": "KB금융",
-        "market": "KOSPI",
-        "sector": "금융/지주",
-        "net_val": 12109167900.0,
-        "share": 2.76
+        "code": "095610",
+        "name": "테스",
+        "market": "KOSDAQ",
+        "sector": "기계/중공업",
+        "net_val": 9787593200.0,
+        "share": 3.37
       },
       {
         "rank": 7,
-        "code": "017670",
-        "name": "SK텔레콤",
-        "market": "KOSPI",
-        "sector": "엔터/미디어",
-        "net_val": 11284909400.0,
-        "share": 2.57
+        "code": "498150",
+        "name": "엠비디",
+        "market": "KOSDAQ",
+        "sector": "바이오/제약",
+        "net_val": 8672494050.0,
+        "share": 2.99
       },
       {
         "rank": 8,
-        "code": "277810",
-        "name": "레인보우로보틱스",
+        "code": "263860",
+        "name": "지니언스",
         "market": "KOSDAQ",
-        "sector": "로봇/AI",
-        "net_val": 10370796000.0,
-        "share": 2.37
+        "sector": "플랫폼/소프트웨어",
+        "net_val": 7424265000.0,
+        "share": 2.56
       },
       {
         "rank": 9,
-        "code": "089860",
-        "name": "롯데렌탈",
-        "market": "KOSPI",
-        "sector": "기계/중공업",
-        "net_val": 10216851400.0,
-        "share": 2.33
+        "code": "131290",
+        "name": "티에스이",
+        "market": "KOSDAQ",
+        "sector": "기타",
+        "net_val": 7019219900.0,
+        "share": 2.42
       },
       {
         "rank": 10,
-        "code": "181710",
-        "name": "NHN",
+        "code": "207940",
+        "name": "삼성바이오로직스",
         "market": "KOSPI",
-        "sector": "플랫폼/소프트웨어",
-        "net_val": 10124500000.0,
-        "share": 2.31
+        "sector": "바이오/제약",
+        "net_val": 6577710000.0,
+        "share": 2.27
       }
     ],
     "top_5d": [
       {
         "rank": 1,
-        "code": "005930",
-        "name": "삼성전자",
-        "market": "KOSPI",
-        "sector": "반도체",
-        "net_val": 1007536795700.0,
-        "share": 33.74
-      },
-      {
-        "rank": 2,
-        "code": "009150",
-        "name": "삼성전기",
-        "market": "KOSPI",
-        "sector": "전자부품/IT",
-        "net_val": 207532730000.0,
-        "share": 6.95
-      },
-      {
-        "rank": 3,
-        "code": "006400",
-        "name": "삼성SDI",
-        "market": "KOSPI",
-        "sector": "2차전지",
-        "net_val": 128888357500.0,
-        "share": 4.32
-      },
-      {
-        "rank": 4,
         "code": "035420",
         "name": "NAVER",
         "market": "KOSPI",
         "sector": "플랫폼/소프트웨어",
-        "net_val": 122998538700.0,
-        "share": 4.12
+        "net_val": 102076585600.0,
+        "share": 8.39
       },
       {
-        "rank": 5,
-        "code": "222800",
-        "name": "심텍",
-        "market": "KOSDAQ",
-        "sector": "전자부품/IT",
-        "net_val": 86593010200.0,
-        "share": 2.9
-      },
-      {
-        "rank": 6,
+        "rank": 2,
         "code": "007660",
         "name": "이수페타시스",
         "market": "KOSPI",
         "sector": "전자부품/IT",
-        "net_val": 81414538900.0,
-        "share": 2.73
+        "net_val": 98050182500.0,
+        "share": 8.06
       },
       {
-        "rank": 7,
+        "rank": 3,
+        "code": "222800",
+        "name": "심텍",
+        "market": "KOSDAQ",
+        "sector": "전자부품/IT",
+        "net_val": 78555750700.0,
+        "share": 6.46
+      },
+      {
+        "rank": 4,
         "code": "017670",
         "name": "SK텔레콤",
         "market": "KOSPI",
         "sector": "엔터/미디어",
-        "net_val": 71103271000.0,
-        "share": 2.38
+        "net_val": 78408106000.0,
+        "share": 6.44
       },
       {
-        "rank": 8,
-        "code": "036930",
-        "name": "주성엔지니어링",
-        "market": "KOSDAQ",
-        "sector": "기계/중공업",
-        "net_val": 50075772400.0,
-        "share": 1.68
-      },
-      {
-        "rank": 9,
-        "code": "018260",
-        "name": "삼성에스디에스",
+        "rank": 5,
+        "code": "005930",
+        "name": "삼성전자",
         "market": "KOSPI",
-        "sector": "플랫폼/소프트웨어",
-        "net_val": 37064823500.0,
-        "share": 1.24
+        "sector": "반도체",
+        "net_val": 65677368500.0,
+        "share": 5.4
       },
       {
-        "rank": 10,
+        "rank": 6,
         "code": "096770",
         "name": "SK이노베이션",
         "market": "KOSPI",
         "sector": "2차전지",
-        "net_val": 35392916500.0,
-        "share": 1.19
+        "net_val": 48099162400.0,
+        "share": 3.95
+      },
+      {
+        "rank": 7,
+        "code": "196170",
+        "name": "알테오젠",
+        "market": "KOSDAQ",
+        "sector": "기타",
+        "net_val": 44506547600.0,
+        "share": 3.66
+      },
+      {
+        "rank": 8,
+        "code": "018260",
+        "name": "삼성에스디에스",
+        "market": "KOSPI",
+        "sector": "플랫폼/소프트웨어",
+        "net_val": 25045743300.0,
+        "share": 2.06
+      },
+      {
+        "rank": 9,
+        "code": "030200",
+        "name": "KT",
+        "market": "KOSPI",
+        "sector": "엔터/미디어",
+        "net_val": 20721073300.0,
+        "share": 1.7
+      },
+      {
+        "rank": 10,
+        "code": "471800",
+        "name": "에이엘로봇",
+        "market": "KOSDAQ",
+        "sector": "로봇/AI",
+        "net_val": 20373434960.0,
+        "share": 1.67
       }
     ],
-    "drop_effect": {
-      "is_dominant": true,
-      "code": "005930",
-      "name": "삼성전자",
-      "new_val": -119611747500.0,
-      "drop_val": 69212007000.0,
-      "drop_date": "2026-10-26"
-    }
+    "drop_effect": null
   },
   "inflections": [
     {
@@ -1696,7 +1689,7 @@
       },
       {
         "date": "2025-09-02",
-        "text": "한화오션 비중 축소 (-3.3%p)"
+        "text": "삼성전자 비중 축소 (-3.3%p)"
       },
       {
         "date": "2025-09-03",
@@ -7255,6 +7248,10 @@
       {
         "date": "2026-11-23",
         "text": "전자부품/IT 비중 +22.6%p"
+      },
+      {
+        "date": "2026-11-24",
+        "text": "반도체 비중 -32.6%p"
       }
     ],
     "turnover": [
@@ -7861,81 +7858,81 @@
       "period_key": "60D",
       "label": "최근 60거래일",
       "sample_count": 60,
-      "corr_kospi": -0.2511,
-      "corr_kosdaq": -0.2702,
-      "corr_abs_kospi": -0.0463,
-      "corr_abs_kosdaq": -0.0263,
-      "kospi_up_avg_delta": -0.61,
+      "corr_kospi": -0.2353,
+      "corr_kosdaq": -0.2746,
+      "corr_abs_kospi": -0.0485,
+      "corr_abs_kosdaq": 0.0035,
+      "kospi_up_avg_delta": -0.16,
       "kospi_down_avg_delta": 0.7,
       "kospi_up_count": 27,
       "kospi_down_count": 33,
-      "kosdaq_up_avg_delta": -0.84,
-      "kosdaq_down_avg_delta": 0.99,
-      "kosdaq_up_count": 29,
-      "kosdaq_down_count": 31,
+      "kosdaq_up_avg_delta": -0.82,
+      "kosdaq_down_avg_delta": 1.44,
+      "kosdaq_up_count": 30,
+      "kosdaq_down_count": 30,
       "drop_days_count": 20,
       "drop_days_avg_delta": 1.13,
-      "summary": "최근 60거래일 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +0.70%p 상승한 반면, 상승일에는 평균 -0.61%p 하락했습니다 (피어슨 상관계수 r = -0.2511, 표본 60일)."
+      "summary": "최근 60거래일 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +0.70%p 상승한 반면, 상승일에는 평균 -0.16%p 하락했습니다 (피어슨 상관계수 r = -0.2353, 표본 60일)."
     },
     "120D": {
       "period_key": "120D",
       "label": "최근 120거래일",
       "sample_count": 120,
-      "corr_kospi": -0.3573,
-      "corr_kosdaq": -0.1778,
-      "corr_abs_kospi": 0.077,
-      "corr_abs_kosdaq": -0.0608,
-      "kospi_up_avg_delta": -1.46,
+      "corr_kospi": -0.3558,
+      "corr_kosdaq": -0.1768,
+      "corr_abs_kospi": 0.0705,
+      "corr_abs_kosdaq": -0.0663,
+      "kospi_up_avg_delta": -1.47,
       "kospi_down_avg_delta": 1.33,
       "kospi_up_count": 61,
       "kospi_down_count": 59,
-      "kosdaq_up_avg_delta": -1.06,
-      "kosdaq_down_avg_delta": 0.85,
-      "kosdaq_up_count": 59,
-      "kosdaq_down_count": 61,
+      "kosdaq_up_avg_delta": -1.05,
+      "kosdaq_down_avg_delta": 0.86,
+      "kosdaq_up_count": 60,
+      "kosdaq_down_count": 60,
       "drop_days_count": 41,
       "drop_days_avg_delta": 1.84,
-      "summary": "최근 120거래일 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +1.33%p 상승한 반면, 상승일에는 평균 -1.46%p 하락했습니다 (피어슨 상관계수 r = -0.3573, 표본 120일)."
+      "summary": "최근 120거래일 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +1.33%p 상승한 반면, 상승일에는 평균 -1.47%p 하락했습니다 (피어슨 상관계수 r = -0.3558, 표본 120일)."
     },
     "252D": {
       "period_key": "252D",
       "label": "최근 1년 (252거래일)",
       "sample_count": 252,
-      "corr_kospi": -0.2864,
-      "corr_kosdaq": -0.1028,
-      "corr_abs_kospi": 0.0338,
-      "corr_abs_kosdaq": -0.0479,
-      "kospi_up_avg_delta": -0.82,
+      "corr_kospi": -0.2857,
+      "corr_kosdaq": -0.1041,
+      "corr_abs_kospi": 0.028,
+      "corr_abs_kosdaq": -0.0509,
+      "kospi_up_avg_delta": -0.84,
       "kospi_down_avg_delta": 1.2,
       "kospi_up_count": 148,
       "kospi_down_count": 104,
-      "kosdaq_up_avg_delta": -0.5,
+      "kosdaq_up_avg_delta": -0.52,
       "kosdaq_down_avg_delta": 0.57,
       "kosdaq_up_count": 132,
       "kosdaq_down_count": 120,
       "drop_days_count": 64,
       "drop_days_avg_delta": 1.68,
-      "summary": "최근 1년 (252거래일) 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +1.20%p 상승한 반면, 상승일에는 평균 -0.82%p 하락했습니다 (피어슨 상관계수 r = -0.2864, 표본 252일)."
+      "summary": "최근 1년 (252거래일) 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +1.20%p 상승한 반면, 상승일에는 평균 -0.84%p 하락했습니다 (피어슨 상관계수 r = -0.2857, 표본 252일)."
     },
     "ALL": {
       "period_key": "ALL",
       "label": "전체 기간",
-      "sample_count": 1258,
-      "corr_kospi": -0.2077,
-      "corr_kosdaq": -0.0544,
-      "corr_abs_kospi": 0.1577,
-      "corr_abs_kosdaq": 0.0855,
+      "sample_count": 1259,
+      "corr_kospi": -0.2071,
+      "corr_kosdaq": -0.0545,
+      "corr_abs_kospi": 0.1548,
+      "corr_abs_kosdaq": 0.0839,
       "kospi_up_avg_delta": -0.27,
       "kospi_down_avg_delta": 0.34,
-      "kospi_up_count": 679,
+      "kospi_up_count": 680,
       "kospi_down_count": 579,
       "kosdaq_up_avg_delta": -0.07,
       "kosdaq_down_avg_delta": 0.1,
-      "kosdaq_up_count": 657,
+      "kosdaq_up_count": 658,
       "kosdaq_down_count": 600,
       "drop_days_count": 142,
       "drop_days_avg_delta": 1.28,
-      "summary": "전체 기간 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +0.34%p 상승한 반면, 상승일에는 평균 -0.27%p 하락했습니다 (피어슨 상관계수 r = -0.2077, 표본 1258일)."
+      "summary": "전체 기간 동안 코스피 하락일에는 개인 순매수 집중도가 평균 +0.34%p 상승한 반면, 상승일에는 평균 -0.27%p 하락했습니다 (피어슨 상관계수 r = -0.2071, 표본 1259일)."
     }
   },
   "history": [
@@ -28066,6 +28063,22 @@
       "top_pct_1y": 54.8,
       "diff_from_med_1y": -2.67,
       "sample_count_1y": 252
+    },
+    {
+      "date": "2026-11-24",
+      "concentration": 58.15,
+      "delta": -0.35,
+      "top10_sum": 3824054862600.0,
+      "total_pos": 6575968960508.0,
+      "headline": "삼성전기",
+      "top1_share": 21.93,
+      "top1_name": "삼성전기",
+      "median_1y": 61.17,
+      "min_1y": 25.98,
+      "max_1y": 94.24,
+      "top_pct_1y": 55.6,
+      "diff_from_med_1y": -3.02,
+      "sample_count_1y": 252
     }
   ],
   "details": {
@@ -28530,360 +28543,6 @@
         "new_val": -141548616000.0,
         "drop_val": 1501597440000.0,
         "drop_date": "2025-11-14"
-      }
-    },
-    "2026-04-14": {
-      "date": "2026-04-14",
-      "concentration": 54.03,
-      "delta": -1.15,
-      "top10_sum": 8441319863600.0,
-      "total_pos": 15622937318715.0,
-      "median_1y": 45.72,
-      "min_1y": 25.98,
-      "max_1y": 81.92,
-      "top_pct_1y": 33.7,
-      "diff_from_med_1y": 8.31,
-      "sample_count_1y": 252,
-      "summary": "개인 순매수 집중도가 전일 대비 -1.1%p 변화한 54.0%를 기록했습니다. SK하이닉스의 경우 당일 순매매보다 20거래일 전 대규모 순매수 기록(2,243억원)이 계산 대상에서 제외된 영향이 컸습니다.",
-      "top10": [
-        {
-          "rank": 1,
-          "code": "005930",
-          "name": "삼성전자",
-          "market": "KOSPI",
-          "sector": "반도체",
-          "net_val": 3910340979500.0,
-          "share": 25.03,
-          "diff_share": -2.01,
-          "is_new": false
-        },
-        {
-          "rank": 2,
-          "code": "005380",
-          "name": "현대차",
-          "market": "KOSPI",
-          "sector": "자동차/부품",
-          "net_val": 1449442858000.0,
-          "share": 9.28,
-          "diff_share": 0.36,
-          "is_new": false
-        },
-        {
-          "rank": 3,
-          "code": "000270",
-          "name": "기아",
-          "market": "KOSPI",
-          "sector": "자동차/부품",
-          "net_val": 526347656700.0,
-          "share": 3.37,
-          "diff_share": 0.03,
-          "is_new": false
-        },
-        {
-          "rank": 4,
-          "code": "329180",
-          "name": "HD현대중공업",
-          "market": "KOSPI",
-          "sector": "기타",
-          "net_val": 444780431000.0,
-          "share": 2.85,
-          "diff_share": 0.18,
-          "is_new": false
-        },
-        {
-          "rank": 5,
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "market": "KOSPI",
-          "sector": "기타",
-          "net_val": 425292025800.0,
-          "share": 2.72,
-          "diff_share": 2.72,
-          "is_new": true
-        },
-        {
-          "rank": 6,
-          "code": "352820",
-          "name": "하이브",
-          "market": "KOSPI",
-          "sector": "기타",
-          "net_val": 380900480500.0,
-          "share": 2.44,
-          "diff_share": 0.43,
-          "is_new": false
-        },
-        {
-          "rank": 7,
-          "code": "035420",
-          "name": "NAVER",
-          "market": "KOSPI",
-          "sector": "플랫폼/소프트웨어",
-          "net_val": 364043061400.0,
-          "share": 2.33,
-          "diff_share": 0.29,
-          "is_new": false
-        },
-        {
-          "rank": 8,
-          "code": "028050",
-          "name": "삼성E&A",
-          "market": "KOSPI",
-          "sector": "기타",
-          "net_val": 359635576000.0,
-          "share": 2.3,
-          "diff_share": 0.02,
-          "is_new": false
-        },
-        {
-          "rank": 9,
-          "code": "277810",
-          "name": "레인보우로보틱스",
-          "market": "KOSDAQ",
-          "sector": "로봇/AI",
-          "net_val": 309688503000.0,
-          "share": 1.98,
-          "diff_share": 0.14,
-          "is_new": false
-        },
-        {
-          "rank": 10,
-          "code": "086520",
-          "name": "에코프로",
-          "market": "KOSDAQ",
-          "sector": "2차전지",
-          "net_val": 270848291700.0,
-          "share": 1.73,
-          "diff_share": 1.73,
-          "is_new": true
-        }
-      ],
-      "contribs": [
-        {
-          "code": "000660",
-          "name": "SK하이닉스",
-          "sector": "반도체",
-          "contrib": -3.41,
-          "share_now": 0.0,
-          "share_prev": 3.41,
-          "in_top10": false
-        },
-        {
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "sector": "기타",
-          "contrib": 2.72,
-          "share_now": 2.72,
-          "share_prev": 0.0,
-          "in_top10": true
-        },
-        {
-          "code": "005930",
-          "name": "삼성전자",
-          "sector": "반도체",
-          "contrib": -2.01,
-          "share_now": 25.03,
-          "share_prev": 27.04,
-          "in_top10": true
-        },
-        {
-          "code": "086520",
-          "name": "에코프로",
-          "sector": "2차전지",
-          "contrib": 1.73,
-          "share_now": 1.73,
-          "share_prev": 0.0,
-          "in_top10": true
-        },
-        {
-          "code": "015760",
-          "name": "한국전력",
-          "sector": "기타",
-          "contrib": -1.63,
-          "share_now": 0.0,
-          "share_prev": 1.63,
-          "in_top10": false
-        },
-        {
-          "code": "352820",
-          "name": "하이브",
-          "sector": "기타",
-          "contrib": 0.43,
-          "share_now": 2.44,
-          "share_prev": 2.01,
-          "in_top10": true
-        }
-      ],
-      "sector_shares": [
-        {
-          "sector": "기타",
-          "amount": 4317518165334.0,
-          "share": 27.64
-        },
-        {
-          "sector": "반도체",
-          "amount": 4214907465023.0,
-          "share": 26.98
-        },
-        {
-          "sector": "자동차/부품",
-          "amount": 2045941402800.0,
-          "share": 13.1
-        },
-        {
-          "sector": "바이오/제약",
-          "amount": 1099309588317.0,
-          "share": 7.04
-        },
-        {
-          "sector": "플랫폼/소프트웨어",
-          "amount": 883249778929.0,
-          "share": 5.65
-        },
-        {
-          "sector": "금융/지주",
-          "amount": 763618799814.0,
-          "share": 4.89
-        },
-        {
-          "sector": "기계/중공업",
-          "amount": 710563058804.0,
-          "share": 4.55
-        },
-        {
-          "sector": "2차전지",
-          "amount": 428831234625.0,
-          "share": 2.74
-        }
-      ],
-      "sector_shift": [
-        {
-          "sector": "기타",
-          "current_share": 27.64,
-          "prior_share": 9.34,
-          "diff": 18.29
-        },
-        {
-          "sector": "자동차/부품",
-          "current_share": 13.1,
-          "prior_share": 6.68,
-          "diff": 6.41
-        },
-        {
-          "sector": "바이오/제약",
-          "current_share": 7.04,
-          "prior_share": 1.45,
-          "diff": 5.58
-        },
-        {
-          "sector": "기계/중공업",
-          "current_share": 4.55,
-          "prior_share": 2.53,
-          "diff": 2.02
-        },
-        {
-          "sector": "로봇/AI",
-          "current_share": 2.32,
-          "prior_share": 0.32,
-          "diff": 2.0
-        },
-        {
-          "sector": "2차전지",
-          "current_share": 2.74,
-          "prior_share": 1.43,
-          "diff": 1.32
-        }
-      ],
-      "stock_gainers": [
-        {
-          "code": "005380",
-          "name": "현대차",
-          "sector": "자동차/부품",
-          "current_share": 9.28,
-          "prior_share": 5.25,
-          "diff": 4.03
-        },
-        {
-          "code": "329180",
-          "name": "HD현대중공업",
-          "sector": "기타",
-          "current_share": 2.85,
-          "prior_share": 0.0,
-          "diff": 2.85
-        },
-        {
-          "code": "010120",
-          "name": "LS ELECTRIC",
-          "sector": "기타",
-          "current_share": 2.72,
-          "prior_share": 0.04,
-          "diff": 2.69
-        },
-        {
-          "code": "000270",
-          "name": "기아",
-          "sector": "자동차/부품",
-          "current_share": 3.37,
-          "prior_share": 0.88,
-          "diff": 2.49
-        },
-        {
-          "code": "352820",
-          "name": "하이브",
-          "sector": "기타",
-          "current_share": 2.44,
-          "prior_share": 0.09,
-          "diff": 2.35
-        }
-      ],
-      "stock_losers": [
-        {
-          "code": "005930",
-          "name": "삼성전자",
-          "sector": "반도체",
-          "current_share": 25.03,
-          "prior_share": 47.02,
-          "diff": -21.99
-        },
-        {
-          "code": "000660",
-          "name": "SK하이닉스",
-          "sector": "반도체",
-          "current_share": 0.0,
-          "prior_share": 11.61,
-          "diff": -11.61
-        },
-        {
-          "code": "079550",
-          "name": "LIG디펜스앤에어로스페이스",
-          "sector": "기타",
-          "current_share": 0.0,
-          "prior_share": 1.71,
-          "diff": -1.71
-        },
-        {
-          "code": "010950",
-          "name": "S-Oil",
-          "sector": "화학/소재",
-          "current_share": 0.0,
-          "prior_share": 1.49,
-          "diff": -1.49
-        },
-        {
-          "code": "279570",
-          "name": "케이뱅크",
-          "sector": "금융/지주",
-          "current_share": 0.1,
-          "prior_share": 1.39,
-          "diff": -1.28
-        }
-      ],
-      "drop_effect": {
-        "is_dominant": true,
-        "code": "000660",
-        "name": "SK하이닉스",
-        "new_val": -1197833734000.0,
-        "drop_val": 224278550000.0,
-        "drop_date": "2026-03-17"
       }
     },
     "2026-04-15": {
@@ -31139,15 +30798,6 @@
           "in_top10": false
         },
         {
-          "code": "042660",
-          "name": "한화오션",
-          "sector": "기타",
-          "contrib": 2.21,
-          "share_now": 2.21,
-          "share_prev": 0.0,
-          "in_top10": true
-        },
-        {
           "code": "277810",
           "name": "레인보우로보틱스",
           "sector": "로봇/AI",
@@ -31155,6 +30805,15 @@
           "share_now": 0.0,
           "share_prev": 2.21,
           "in_top10": false
+        },
+        {
+          "code": "042660",
+          "name": "한화오션",
+          "sector": "기타",
+          "contrib": 2.21,
+          "share_now": 2.21,
+          "share_prev": 0.0,
+          "in_top10": true
         },
         {
           "code": "015760",
@@ -31992,11 +31651,11 @@
           "diff": 2.38
         },
         {
-          "code": "000250",
-          "name": "삼천당제약",
+          "code": "207940",
+          "name": "삼성바이오로직스",
           "sector": "바이오/제약",
-          "current_share": 2.36,
-          "prior_share": 0.04,
+          "current_share": 2.46,
+          "prior_share": 0.14,
           "diff": 2.32
         }
       ],
@@ -32331,19 +31990,19 @@
           "diff": 2.96
         },
         {
-          "code": "352820",
-          "name": "하이브",
-          "sector": "기타",
-          "current_share": 3.28,
-          "prior_share": 0.75,
-          "diff": 2.53
-        },
-        {
           "code": "207940",
           "name": "삼성바이오로직스",
           "sector": "바이오/제약",
           "current_share": 2.62,
           "prior_share": 0.09,
+          "diff": 2.53
+        },
+        {
+          "code": "352820",
+          "name": "하이브",
+          "sector": "기타",
+          "current_share": 3.28,
+          "prior_share": 0.75,
           "diff": 2.53
         }
       ],
@@ -34469,19 +34128,19 @@
           "diff": -5.41
         },
         {
-          "code": "006800",
-          "name": "미래에셋증권",
-          "sector": "금융/지주",
-          "current_share": 0.49,
-          "prior_share": 1.76,
-          "diff": -1.27
-        },
-        {
           "code": "277810",
           "name": "레인보우로보틱스",
           "sector": "로봇/AI",
           "current_share": 0.06,
           "prior_share": 1.34,
+          "diff": -1.27
+        },
+        {
+          "code": "006800",
+          "name": "미래에셋증권",
+          "sector": "금융/지주",
+          "current_share": 0.49,
+          "prior_share": 1.76,
           "diff": -1.27
         }
       ],
@@ -37180,21 +36839,21 @@
           "diff": -0.45
         },
         {
-          "sector": "철강/금속",
-          "current_share": 1.13,
-          "prior_share": 2.0,
-          "diff": -0.88
-        },
-        {
           "sector": "화학/소재",
           "current_share": 1.82,
           "prior_share": 2.7,
           "diff": -0.88
         },
         {
-          "sector": "금융/지주",
-          "current_share": 5.07,
-          "prior_share": 6.13,
+          "sector": "철강/금속",
+          "current_share": 1.13,
+          "prior_share": 2.0,
+          "diff": -0.88
+        },
+        {
+          "sector": "2차전지",
+          "current_share": 2.39,
+          "prior_share": 3.44,
           "diff": -1.06
         }
       ],
@@ -37803,12 +37462,12 @@
           "in_top10": true
         },
         {
-          "code": "042660",
-          "name": "한화오션",
+          "code": "010140",
+          "name": "삼성중공업",
           "sector": "기타",
-          "contrib": -0.15,
-          "share_now": 1.4,
-          "share_prev": 1.55,
+          "contrib": 0.15,
+          "share_now": 1.95,
+          "share_prev": 1.8,
           "in_top10": true
         }
       ],
@@ -41406,15 +41065,15 @@
           "diff": -0.17
         },
         {
-          "sector": "철강/금속",
-          "current_share": 0.61,
-          "prior_share": 2.54,
-          "diff": -1.93
-        },
-        {
           "sector": "기계/중공업",
           "current_share": 8.59,
           "prior_share": 10.52,
+          "diff": -1.93
+        },
+        {
+          "sector": "철강/금속",
+          "current_share": 0.61,
+          "prior_share": 2.54,
           "diff": -1.93
         }
       ],
@@ -41824,19 +41483,19 @@
           "diff": -5.94
         },
         {
-          "code": "207940",
-          "name": "삼성바이오로직스",
-          "sector": "바이오/제약",
-          "current_share": 0.18,
-          "prior_share": 3.22,
-          "diff": -3.03
-        },
-        {
           "code": "047810",
           "name": "한국항공우주",
           "sector": "기계/중공업",
           "current_share": 0.0,
           "prior_share": 3.03,
+          "diff": -3.03
+        },
+        {
+          "code": "207940",
+          "name": "삼성바이오로직스",
+          "sector": "바이오/제약",
+          "current_share": 0.18,
+          "prior_share": 3.22,
           "diff": -3.03
         },
         {
@@ -42738,13 +42397,13 @@
           "in_top10": false
         },
         {
-          "code": "036930",
-          "name": "주성엔지니어링",
-          "sector": "기계/중공업",
-          "contrib": 1.04,
-          "share_now": 1.04,
-          "share_prev": 0.0,
-          "in_top10": true
+          "code": "010140",
+          "name": "삼성중공업",
+          "sector": "기타",
+          "contrib": -1.04,
+          "share_now": 0.0,
+          "share_prev": 1.04,
+          "in_top10": false
         }
       ],
       "sector_shares": [
@@ -43791,21 +43450,21 @@
           "in_top10": true
         },
         {
-          "code": "012330",
-          "name": "현대모비스",
-          "sector": "자동차/부품",
-          "contrib": 0.82,
-          "share_now": 5.04,
-          "share_prev": 4.22,
-          "in_top10": true
-        },
-        {
           "code": "034020",
           "name": "두산에너빌리티",
           "sector": "기계/중공업",
           "contrib": 0.82,
           "share_now": 2.64,
           "share_prev": 1.82,
+          "in_top10": true
+        },
+        {
+          "code": "012330",
+          "name": "현대모비스",
+          "sector": "자동차/부품",
+          "contrib": 0.82,
+          "share_now": 5.04,
+          "share_prev": 4.22,
           "in_top10": true
         }
       ],
@@ -44311,19 +43970,19 @@
           "diff": -1.49
         },
         {
-          "code": "207940",
-          "name": "삼성바이오로직스",
-          "sector": "바이오/제약",
-          "current_share": 0.16,
-          "prior_share": 1.41,
-          "diff": -1.25
-        },
-        {
           "code": "042660",
           "name": "한화오션",
           "sector": "기타",
           "current_share": 0.26,
           "prior_share": 1.51,
+          "diff": -1.25
+        },
+        {
+          "code": "207940",
+          "name": "삼성바이오로직스",
+          "sector": "바이오/제약",
+          "current_share": 0.16,
+          "prior_share": 1.41,
           "diff": -1.25
         }
       ],
@@ -44508,12 +44167,12 @@
           "in_top10": true
         },
         {
-          "code": "012330",
-          "name": "현대모비스",
-          "sector": "자동차/부품",
+          "code": "034020",
+          "name": "두산에너빌리티",
+          "sector": "기계/중공업",
           "contrib": -0.34,
-          "share_now": 4.13,
-          "share_prev": 4.47,
+          "share_now": 2.3,
+          "share_prev": 2.64,
           "in_top10": true
         }
       ],
@@ -45986,9 +45645,9 @@
           "diff": 0.71
         },
         {
-          "sector": "로봇/AI",
-          "current_share": 0.72,
-          "prior_share": 0.8,
+          "sector": "2차전지",
+          "current_share": 1.76,
+          "prior_share": 1.84,
           "diff": -0.07
         }
       ],
@@ -46776,11 +46435,11 @@
           "diff": -1.27
         },
         {
-          "code": "006800",
-          "name": "미래에셋증권",
-          "sector": "금융/지주",
-          "current_share": 0.0,
-          "prior_share": 1.09,
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "sector": "기타",
+          "current_share": 0.39,
+          "prior_share": 1.48,
           "diff": -1.09
         }
       ],
@@ -47637,15 +47296,6 @@
           "in_top10": true
         },
         {
-          "code": "066570",
-          "name": "LG전자",
-          "sector": "기계/중공업",
-          "contrib": -1.05,
-          "share_now": 0.0,
-          "share_prev": 1.05,
-          "in_top10": false
-        },
-        {
           "code": "402340",
           "name": "SK스퀘어",
           "sector": "금융/지주",
@@ -47653,6 +47303,15 @@
           "share_now": 6.14,
           "share_prev": 5.09,
           "in_top10": true
+        },
+        {
+          "code": "066570",
+          "name": "LG전자",
+          "sector": "기계/중공업",
+          "contrib": -1.05,
+          "share_now": 0.0,
+          "share_prev": 1.05,
+          "in_top10": false
         },
         {
           "code": "010120",
@@ -48027,12 +47686,12 @@
           "in_top10": true
         },
         {
-          "code": "042700",
-          "name": "한미반도체",
-          "sector": "반도체",
-          "contrib": -0.08,
-          "share_now": 1.21,
-          "share_prev": 1.29,
+          "code": "042660",
+          "name": "한화오션",
+          "sector": "기타",
+          "contrib": 0.08,
+          "share_now": 0.77,
+          "share_prev": 0.69,
           "in_top10": true
         }
       ],
@@ -49089,12 +48748,12 @@
           "in_top10": true
         },
         {
-          "code": "005380",
-          "name": "현대차",
-          "sector": "자동차/부품",
+          "code": "010120",
+          "name": "LS ELECTRIC",
+          "sector": "기타",
           "contrib": -0.1,
-          "share_now": 2.4,
-          "share_prev": 2.5,
+          "share_now": 0.62,
+          "share_prev": 0.72,
           "in_top10": true
         }
       ],
@@ -50836,21 +50495,21 @@
           "in_top10": true
         },
         {
-          "code": "042700",
-          "name": "한미반도체",
-          "sector": "반도체",
-          "contrib": -0.13,
-          "share_now": 1.26,
-          "share_prev": 1.39,
-          "in_top10": true
-        },
-        {
           "code": "403870",
           "name": "HPSP",
           "sector": "기계/중공업",
           "contrib": -0.13,
           "share_now": 0.68,
           "share_prev": 0.81,
+          "in_top10": true
+        },
+        {
+          "code": "042700",
+          "name": "한미반도체",
+          "sector": "반도체",
+          "contrib": -0.13,
+          "share_now": 1.26,
+          "share_prev": 1.39,
           "in_top10": true
         }
       ],
@@ -51526,15 +51185,6 @@
           "in_top10": true
         },
         {
-          "code": "005380",
-          "name": "현대차",
-          "sector": "자동차/부품",
-          "contrib": -0.67,
-          "share_now": 0.0,
-          "share_prev": 0.67,
-          "in_top10": false
-        },
-        {
           "code": "402340",
           "name": "SK스퀘어",
           "sector": "금융/지주",
@@ -51542,6 +51192,15 @@
           "share_now": 4.38,
           "share_prev": 5.05,
           "in_top10": true
+        },
+        {
+          "code": "005380",
+          "name": "현대차",
+          "sector": "자동차/부품",
+          "contrib": -0.67,
+          "share_now": 0.0,
+          "share_prev": 0.67,
+          "in_top10": false
         },
         {
           "code": "240810",
@@ -52252,15 +51911,6 @@
           "in_top10": true
         },
         {
-          "code": "042700",
-          "name": "한미반도체",
-          "sector": "반도체",
-          "contrib": 0.38,
-          "share_now": 0.78,
-          "share_prev": 0.4,
-          "in_top10": true
-        },
-        {
           "code": "298040",
           "name": "효성중공업",
           "sector": "기타",
@@ -52268,6 +51918,15 @@
           "share_now": 0.0,
           "share_prev": 0.38,
           "in_top10": false
+        },
+        {
+          "code": "042700",
+          "name": "한미반도체",
+          "sector": "반도체",
+          "contrib": 0.38,
+          "share_now": 0.78,
+          "share_prev": 0.4,
+          "in_top10": true
         }
       ],
       "sector_shares": [
@@ -56241,19 +55900,19 @@
           "diff": 1.4
         },
         {
-          "code": "011070",
-          "name": "LG이노텍",
-          "sector": "전자부품/IT",
-          "current_share": 0.85,
-          "prior_share": 0.0,
-          "diff": 0.85
-        },
-        {
           "code": "277810",
           "name": "레인보우로보틱스",
           "sector": "로봇/AI",
           "current_share": 0.98,
           "prior_share": 0.13,
+          "diff": 0.85
+        },
+        {
+          "code": "011070",
+          "name": "LG이노텍",
+          "sector": "전자부품/IT",
+          "current_share": 0.85,
+          "prior_share": 0.0,
           "diff": 0.85
         },
         {
@@ -56835,12 +56494,12 @@
           "in_top10": false
         },
         {
-          "code": "095610",
-          "name": "테스",
-          "sector": "기계/중공업",
+          "code": "277810",
+          "name": "레인보우로보틱스",
+          "sector": "로봇/AI",
           "contrib": 0.35,
-          "share_now": 0.97,
-          "share_prev": 0.62,
+          "share_now": 1.16,
+          "share_prev": 0.81,
           "in_top10": true
         }
       ],
@@ -57180,15 +56839,6 @@
           "in_top10": false
         },
         {
-          "code": "080220",
-          "name": "제주반도체",
-          "sector": "반도체",
-          "contrib": 0.67,
-          "share_now": 0.67,
-          "share_prev": 0.0,
-          "in_top10": true
-        },
-        {
           "code": "010060",
           "name": "OCI홀딩스",
           "sector": "금융/지주",
@@ -57196,6 +56846,15 @@
           "share_now": 0.0,
           "share_prev": 0.67,
           "in_top10": false
+        },
+        {
+          "code": "080220",
+          "name": "제주반도체",
+          "sector": "반도체",
+          "contrib": 0.67,
+          "share_now": 0.67,
+          "share_prev": 0.0,
+          "in_top10": true
         }
       ],
       "sector_shares": [
@@ -63338,7 +62997,7 @@
       "top_pct_1y": 84.1,
       "diff_from_med_1y": -26.2,
       "sample_count_1y": 252,
-      "summary": "개인 순매수 집중도가 전일 대비 +1.4%p 상승한 33.7%를 기록했습니다. 삼성전기(+1.5%p)과 HLB(+1.2%p)의 순매수 비중이 확대되면서 상위 10종목 집중도가 높아졌습니다.",
+      "summary": "개인 순매수 집중도가 전일 대비 +1.4%p 상승한 33.7%를 기록했습니다. 삼성전기(+1.5%p)과 한화에어로스페이스(+1.2%p)의 순매수 비중이 확대되면서 상위 10종목 집중도가 높아졌습니다.",
       "top10": [
         {
           "rank": 1,
@@ -63471,18 +63130,18 @@
           "in_top10": false
         },
         {
-          "code": "028300",
-          "name": "HLB",
-          "sector": "바이오/제약",
+          "code": "012450",
+          "name": "한화에어로스페이스",
+          "sector": "기계/중공업",
           "contrib": 1.19,
           "share_now": 1.19,
           "share_prev": 0.0,
           "in_top10": true
         },
         {
-          "code": "012450",
-          "name": "한화에어로스페이스",
-          "sector": "기계/중공업",
+          "code": "028300",
+          "name": "HLB",
+          "sector": "바이오/제약",
           "contrib": 1.19,
           "share_now": 1.19,
           "share_prev": 0.0,
@@ -64718,11 +64377,11 @@
           "diff": -0.74
         },
         {
-          "code": "402340",
-          "name": "SK스퀘어",
-          "sector": "금융/지주",
-          "current_share": 0.0,
-          "prior_share": 0.68,
+          "code": "336260",
+          "name": "두산퓨얼셀",
+          "sector": "기타",
+          "current_share": 0.09,
+          "prior_share": 0.77,
           "diff": -0.68
         }
       ],
@@ -72966,15 +72625,6 @@
           "in_top10": true
         },
         {
-          "code": "010140",
-          "name": "삼성중공업",
-          "sector": "기타",
-          "contrib": 1.85,
-          "share_now": 1.85,
-          "share_prev": 0.0,
-          "in_top10": true
-        },
-        {
           "code": "402340",
           "name": "SK스퀘어",
           "sector": "금융/지주",
@@ -72982,6 +72632,15 @@
           "share_now": 0.0,
           "share_prev": 1.85,
           "in_top10": false
+        },
+        {
+          "code": "010140",
+          "name": "삼성중공업",
+          "sector": "기타",
+          "contrib": 1.85,
+          "share_now": 1.85,
+          "share_prev": 0.0,
+          "in_top10": true
         },
         {
           "code": "000150",
@@ -76499,18 +76158,18 @@
           "in_top10": true
         },
         {
-          "code": "353200",
-          "name": "대덕전자",
-          "sector": "전자부품/IT",
+          "code": "006400",
+          "name": "삼성SDI",
+          "sector": "2차전지",
           "contrib": 1.44,
           "share_now": 1.44,
           "share_prev": 0.0,
           "in_top10": true
         },
         {
-          "code": "006400",
-          "name": "삼성SDI",
-          "sector": "2차전지",
+          "code": "353200",
+          "name": "대덕전자",
+          "sector": "전자부품/IT",
           "contrib": 1.44,
           "share_now": 1.44,
           "share_prev": 0.0,
@@ -80379,21 +80038,21 @@
           "in_top10": true
         },
         {
-          "code": "009150",
-          "name": "삼성전기",
-          "sector": "전자부품/IT",
-          "contrib": -0.51,
-          "share_now": 17.98,
-          "share_prev": 18.49,
-          "in_top10": true
-        },
-        {
           "code": "006400",
           "name": "삼성SDI",
           "sector": "2차전지",
           "contrib": -0.51,
           "share_now": 4.16,
           "share_prev": 4.67,
+          "in_top10": true
+        },
+        {
+          "code": "009150",
+          "name": "삼성전기",
+          "sector": "전자부품/IT",
+          "contrib": -0.51,
+          "share_now": 17.98,
+          "share_prev": 18.49,
           "in_top10": true
         },
         {
@@ -81098,21 +80757,21 @@
           "in_top10": true
         },
         {
-          "code": "353200",
-          "name": "대덕전자",
-          "sector": "전자부품/IT",
-          "contrib": 0.14,
-          "share_now": 3.29,
-          "share_prev": 3.15,
-          "in_top10": true
-        },
-        {
           "code": "006400",
           "name": "삼성SDI",
           "sector": "2차전지",
           "contrib": -0.14,
           "share_now": 2.85,
           "share_prev": 2.99,
+          "in_top10": true
+        },
+        {
+          "code": "353200",
+          "name": "대덕전자",
+          "sector": "전자부품/IT",
+          "contrib": 0.14,
+          "share_now": 3.29,
+          "share_prev": 3.15,
           "in_top10": true
         }
       ],
@@ -81288,6 +80947,353 @@
         "drop_val": 69212007000.0,
         "drop_date": "2026-10-26"
       }
+    },
+    "2026-11-24": {
+      "date": "2026-11-24",
+      "concentration": 58.15,
+      "delta": -0.35,
+      "top10_sum": 3824054862600.0,
+      "total_pos": 6575968960508.0,
+      "median_1y": 61.17,
+      "min_1y": 25.98,
+      "max_1y": 94.24,
+      "top_pct_1y": 55.6,
+      "diff_from_med_1y": -3.02,
+      "sample_count_1y": 252,
+      "summary": "개인 순매수 집중도가 전일 대비 -0.3%p 하락한 58.1%를 기록했습니다. 삼성전자, 삼성SDI 등의 비중이 축소되며 순매수 대상이 여러 종목으로 분산되었습니다.",
+      "top10": [
+        {
+          "rank": 1,
+          "code": "009150",
+          "name": "삼성전기",
+          "market": "KOSPI",
+          "sector": "전자부품/IT",
+          "net_val": 1442058760000.0,
+          "share": 21.93,
+          "diff_share": 2.03,
+          "is_new": false
+        },
+        {
+          "rank": 2,
+          "code": "005930",
+          "name": "삼성전자",
+          "market": "KOSPI",
+          "sector": "반도체",
+          "net_val": 980530108100.0,
+          "share": 14.91,
+          "diff_share": -2.86,
+          "is_new": false
+        },
+        {
+          "rank": 3,
+          "code": "353200",
+          "name": "대덕전자",
+          "market": "KOSPI",
+          "sector": "전자부품/IT",
+          "net_val": 238331158600.0,
+          "share": 3.62,
+          "diff_share": 0.33,
+          "is_new": false
+        },
+        {
+          "rank": 4,
+          "code": "034020",
+          "name": "두산에너빌리티",
+          "market": "KOSPI",
+          "sector": "기계/중공업",
+          "net_val": 220162067850.0,
+          "share": 3.35,
+          "diff_share": 0.06,
+          "is_new": false
+        },
+        {
+          "rank": 5,
+          "code": "222800",
+          "name": "심텍",
+          "market": "KOSDAQ",
+          "sector": "전자부품/IT",
+          "net_val": 208135413000.0,
+          "share": 3.17,
+          "diff_share": 0.38,
+          "is_new": false
+        },
+        {
+          "rank": 6,
+          "code": "009830",
+          "name": "한화솔루션",
+          "market": "KOSPI",
+          "sector": "화학/소재",
+          "net_val": 188267342150.0,
+          "share": 2.86,
+          "diff_share": -0.03,
+          "is_new": false
+        },
+        {
+          "rank": 7,
+          "code": "036930",
+          "name": "주성엔지니어링",
+          "market": "KOSDAQ",
+          "sector": "기계/중공업",
+          "net_val": 153521469600.0,
+          "share": 2.33,
+          "diff_share": 0.06,
+          "is_new": false
+        },
+        {
+          "rank": 8,
+          "code": "007660",
+          "name": "이수페타시스",
+          "market": "KOSPI",
+          "sector": "전자부품/IT",
+          "net_val": 148572160100.0,
+          "share": 2.26,
+          "diff_share": 0.54,
+          "is_new": false
+        },
+        {
+          "rank": 9,
+          "code": "096770",
+          "name": "SK이노베이션",
+          "market": "KOSPI",
+          "sector": "2차전지",
+          "net_val": 139066917200.0,
+          "share": 2.11,
+          "diff_share": 0.39,
+          "is_new": false
+        },
+        {
+          "rank": 10,
+          "code": "006400",
+          "name": "삼성SDI",
+          "market": "KOSPI",
+          "sector": "2차전지",
+          "net_val": 105409466000.0,
+          "share": 1.6,
+          "diff_share": -1.25,
+          "is_new": false
+        }
+      ],
+      "contribs": [
+        {
+          "code": "005930",
+          "name": "삼성전자",
+          "sector": "반도체",
+          "contrib": -2.86,
+          "share_now": 14.91,
+          "share_prev": 17.77,
+          "in_top10": true
+        },
+        {
+          "code": "009150",
+          "name": "삼성전기",
+          "sector": "전자부품/IT",
+          "contrib": 2.03,
+          "share_now": 21.93,
+          "share_prev": 19.9,
+          "in_top10": true
+        },
+        {
+          "code": "006400",
+          "name": "삼성SDI",
+          "sector": "2차전지",
+          "contrib": -1.25,
+          "share_now": 1.6,
+          "share_prev": 2.85,
+          "in_top10": true
+        },
+        {
+          "code": "007660",
+          "name": "이수페타시스",
+          "sector": "전자부품/IT",
+          "contrib": 0.54,
+          "share_now": 2.26,
+          "share_prev": 1.72,
+          "in_top10": true
+        },
+        {
+          "code": "096770",
+          "name": "SK이노베이션",
+          "sector": "2차전지",
+          "contrib": 0.39,
+          "share_now": 2.11,
+          "share_prev": 1.72,
+          "in_top10": true
+        },
+        {
+          "code": "222800",
+          "name": "심텍",
+          "sector": "전자부품/IT",
+          "contrib": 0.38,
+          "share_now": 3.17,
+          "share_prev": 2.79,
+          "in_top10": true
+        }
+      ],
+      "sector_shares": [
+        {
+          "sector": "전자부품/IT",
+          "amount": 2263235254232.0,
+          "share": 34.42
+        },
+        {
+          "sector": "반도체",
+          "amount": 1405780654622.0,
+          "share": 21.38
+        },
+        {
+          "sector": "기계/중공업",
+          "amount": 933748108778.0,
+          "share": 14.2
+        },
+        {
+          "sector": "기타",
+          "amount": 497046867755.0,
+          "share": 7.56
+        },
+        {
+          "sector": "화학/소재",
+          "amount": 408559797343.0,
+          "share": 6.21
+        },
+        {
+          "sector": "2차전지",
+          "amount": 391865800260.0,
+          "share": 5.96
+        },
+        {
+          "sector": "금융/지주",
+          "amount": 177286785178.0,
+          "share": 2.7
+        },
+        {
+          "sector": "플랫폼/소프트웨어",
+          "amount": 145427915271.0,
+          "share": 2.21
+        }
+      ],
+      "sector_shift": [
+        {
+          "sector": "전자부품/IT",
+          "current_share": 34.42,
+          "prior_share": 6.89,
+          "diff": 27.52
+        },
+        {
+          "sector": "화학/소재",
+          "current_share": 6.21,
+          "prior_share": 0.89,
+          "diff": 5.32
+        },
+        {
+          "sector": "2차전지",
+          "current_share": 5.96,
+          "prior_share": 1.73,
+          "diff": 4.22
+        },
+        {
+          "sector": "기계/중공업",
+          "current_share": 14.2,
+          "prior_share": 10.49,
+          "diff": 3.71
+        },
+        {
+          "sector": "철강/금속",
+          "current_share": 1.99,
+          "prior_share": 1.43,
+          "diff": 0.56
+        },
+        {
+          "sector": "플랫폼/소프트웨어",
+          "current_share": 2.21,
+          "prior_share": 1.65,
+          "diff": 0.56
+        }
+      ],
+      "stock_gainers": [
+        {
+          "code": "009150",
+          "name": "삼성전기",
+          "sector": "전자부품/IT",
+          "current_share": 21.93,
+          "prior_share": 4.1,
+          "diff": 17.83
+        },
+        {
+          "code": "353200",
+          "name": "대덕전자",
+          "sector": "전자부품/IT",
+          "current_share": 3.62,
+          "prior_share": 0.0,
+          "diff": 3.62
+        },
+        {
+          "code": "009830",
+          "name": "한화솔루션",
+          "sector": "화학/소재",
+          "current_share": 2.86,
+          "prior_share": 0.0,
+          "diff": 2.86
+        },
+        {
+          "code": "222800",
+          "name": "심텍",
+          "sector": "전자부품/IT",
+          "current_share": 3.17,
+          "prior_share": 0.75,
+          "diff": 2.41
+        },
+        {
+          "code": "036930",
+          "name": "주성엔지니어링",
+          "sector": "기계/중공업",
+          "current_share": 2.33,
+          "prior_share": 0.1,
+          "diff": 2.23
+        }
+      ],
+      "stock_losers": [
+        {
+          "code": "005930",
+          "name": "삼성전자",
+          "sector": "반도체",
+          "current_share": 14.91,
+          "prior_share": 37.35,
+          "diff": -22.44
+        },
+        {
+          "code": "000660",
+          "name": "SK하이닉스",
+          "sector": "반도체",
+          "current_share": 0.0,
+          "prior_share": 14.75,
+          "diff": -14.75
+        },
+        {
+          "code": "402340",
+          "name": "SK스퀘어",
+          "sector": "금융/지주",
+          "current_share": 0.0,
+          "prior_share": 3.72,
+          "diff": -3.72
+        },
+        {
+          "code": "298040",
+          "name": "효성중공업",
+          "sector": "기타",
+          "current_share": 0.0,
+          "prior_share": 3.24,
+          "diff": -3.24
+        },
+        {
+          "code": "005380",
+          "name": "현대차",
+          "sector": "자동차/부품",
+          "current_share": 0.0,
+          "prior_share": 1.3,
+          "diff": -1.3
+        }
+      ],
+      "drop_effect": null
     }
   }
 }
