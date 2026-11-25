@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25 15:08:42",
+  "generated_at": "2026-11-25 19:12:05",
   "section3_estimation_method_comparison": {
     "methods": {
       "plan_a": "A안 (공식 대표): 일별 순매수수량 × 당일 정규장 종가",
@@ -499,7 +499,7 @@
           "intensity_b": 13.6617,
           "net_a_eok": 247.05,
           "net_b_eok": 248.59,
-          "avg_marcap_36m_eok": 1819.5786780134683,
+          "avg_marcap_36m_eok": 1819.578678013468,
           "end_marcap_eok": 4925.401481
         },
         {
@@ -603,7 +603,7 @@
           "intensity_b": 11.9979,
           "net_a_eok": 4650.04,
           "net_b_eok": 5198.46,
-          "avg_marcap_36m_eok": 43327.92062259209,
+          "avg_marcap_36m_eok": 43327.92062259208,
           "end_marcap_eok": 36124.0472384
         },
         {
@@ -1229,7 +1229,7 @@
           "intensity_a": 13.5771,
           "net_b_eok": 248.59,
           "net_a_eok": 247.05,
-          "avg_marcap_36m_eok": 1819.5786780134683,
+          "avg_marcap_36m_eok": 1819.578678013468,
           "end_marcap_eok": 4925.401481
         },
         {
@@ -1359,7 +1359,7 @@
           "intensity_a": 10.7322,
           "net_b_eok": 5198.46,
           "net_a_eok": 4650.04,
-          "avg_marcap_36m_eok": 43327.92062259209,
+          "avg_marcap_36m_eok": 43327.92062259208,
           "end_marcap_eok": 36124.0472384
         },
         {
@@ -2000,33 +2000,33 @@
     ],
     "index_performance_comparison": {
       "plan_a_index": {
-        "current": 795.78,
-        "daily_change_pt": 51.95,
-        "daily_change_pct": 6.98,
-        "total_return_pct": -20.42,
+        "current": 769.67,
+        "daily_change_pt": -26.11,
+        "daily_change_pct": -3.28,
+        "total_return_pct": -23.03,
         "mdd_pct": -57.83,
-        "ann_volatility_pct": 38.97,
-        "corr_kospi": 0.7632,
+        "ann_volatility_pct": 39.0,
+        "corr_kospi": 0.7639,
         "corr_kosdaq": 0.9389,
         "high": 1764.01,
         "low": 743.83
       },
       "plan_b_index": {
-        "current": 909.92,
-        "daily_change_pt": 60.63,
-        "daily_change_pct": 7.14,
-        "total_return_pct": -9.01,
+        "current": 875.98,
+        "daily_change_pt": -33.94,
+        "daily_change_pct": -3.73,
+        "total_return_pct": -12.4,
         "mdd_pct": -58.03,
-        "ann_volatility_pct": 40.34,
-        "corr_kospi": 0.7627,
-        "corr_kosdaq": 0.94,
+        "ann_volatility_pct": 40.39,
+        "corr_kospi": 0.7637,
+        "corr_kosdaq": 0.9399,
         "high": 2023.56,
         "low": 788.31
       },
-      "final_index_diff_b_minus_a_pt": 114.14,
-      "total_return_diff_b_minus_a_pctp": 11.41,
-      "daily_return_correlation_a_vs_b": 0.99391,
-      "stability_evaluation": "9개 분기 전체 적격 후보군에서 A안과 B안으로 상위 50개를 각각 독립 선정한 결과, 2026 Q4 공통 종목은 47/50개(94.0%)이며 9개 분기 평균 공통 종목 수는 46.3/50개(92.7%)입니다. 전체 기간 누적 수익률은 A안 -20.42%(795.78pt) vs B안 -9.01%(909.92pt)로 수익률 차이는 11.41%p, 일간 수익률 상관계수는 0.99391입니다. 45~55위 경계 구간에서는 단가 가정에 따라 3~5개 종목이 교체될 수 있으므로 지수값을 잠정치로 명시하되, 코스피(+87.79%)·코스닥(-15.47%)·비슷한 주식 50개(-3.50%)·외국인(+17.51%)·기관(+15.34%)과의 상대적 성과 순서와 핵심 결론은 A안과 B안 모두 동일하게 유지됩니다."
+      "final_index_diff_b_minus_a_pt": 106.31,
+      "total_return_diff_b_minus_a_pctp": 10.63,
+      "daily_return_correlation_a_vs_b": 0.99392,
+      "stability_evaluation": "9개 분기 전체 적격 후보군에서 A안과 B안으로 상위 50개를 각각 독립 선정한 결과, 2026 Q4 공통 종목은 47/50개(94.0%)이며 9개 분기 평균 공통 종목 수는 46.3/50개(92.7%)입니다. 전체 기간 누적 수익률은 A안 -23.03%(769.67pt) vs B안 -12.40%(875.98pt)로 수익률 차이는 10.63%p, 일간 수익률 상관계수는 0.99392입니다. 45~55위 경계 구간에서는 단가 가정에 따라 3~5개 종목이 교체될 수 있으므로 지수값을 잠정치로 명시하되, 코스피(+87.79%)·코스닥(-15.47%)·비슷한 주식 50개(-3.50%)·외국인(+17.51%)·기관(+15.34%)과의 상대적 성과 순서와 핵심 결론은 A안과 B안 모두 동일하게 유지됩니다."
     }
   },
   "section4_historical_marcap_verification": {
@@ -2254,18 +2254,18 @@
     },
     "risk_exposure": {
       "ann_volatility_pct": {
-        "gaemi_pure": 38.97,
-        "matched_50": 35.06
+        "gaemi_pure": 39.0,
+        "matched_50": 35.05
       },
       "corr_kospi": {
-        "gaemi_pure": 0.7632,
-        "matched_50": 0.7533
+        "gaemi_pure": 0.7639,
+        "matched_50": 0.7521
       },
       "corr_kosdaq": {
         "gaemi_pure": 0.9389,
         "matched_50": 0.948
       },
-      "corr_between_pure_and_matched": 0.9364
+      "corr_between_pure_and_matched": 0.9361
     },
     "size_bucket_comparison": [
       {

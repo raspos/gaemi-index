@@ -29,10 +29,10 @@
       "원텍",
       "하이브"
     ],
-    "krx_pure_final_index": 795.78,
-    "krx_pure_total_return_pct": -20.42,
-    "combined_pure_final_index": 808.96,
-    "combined_pure_total_return_pct": -19.1,
+    "krx_pure_final_index": 769.67,
+    "krx_pure_total_return_pct": -23.03,
+    "combined_pure_final_index": 784.67,
+    "combined_pure_total_return_pct": -21.53,
     "policy": "2025.03 NXT 출범 전후 36개월 집계 기준의 시계열 연속성을 위해 대표지수는 KRX 정규장 기준으로 산출하고, KRX+NXT 통합 지수를 비교지수로 함께 제공"
   },
   "audit_0_4_historical_marcap_and_recalculation": {

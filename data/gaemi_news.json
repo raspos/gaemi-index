@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-11-25T15:11:37.753951+09:00",
-  "last_success_at": "2026-11-25T15:11:37.753951+09:00",
+  "last_updated": "2026-11-26T04:12:48.571360+09:00",
+  "last_success_at": "2026-11-26T04:12:48.571360+09:00",
   "last_status": "success",
-  "status_message": "정상 수집 및 병합 (+56건 추가)",
+  "status_message": "정상 수집 및 병합 (+0건 추가)",
   "total_articles": 278,
   "outlets_monitored_count": 47,
   "outlets_collected_count": 42,

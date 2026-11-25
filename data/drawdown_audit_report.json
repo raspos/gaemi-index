@@ -1,6 +1,6 @@
 {
-  "audit_timestamp": "2026-11-25 15:11:34",
-  "data_as_of": "2026-11-24",
+  "audit_timestamp": "2026-11-25 19:12:48",
+  "data_as_of": "2026-11-25",
   "base_start_date": "2025-06-02",
   "universe_audit": {
     "total_krx_listed": 2728,
@@ -10,7 +10,7 @@
     "eligible_kosdaq": 1644,
     "excluded_new_listings_ipo": 108,
     "excluded_delisted_since_base": 73,
-    "suspended_on_latest_date": 103
+    "suspended_on_latest_date": 104
   },
   "corporate_actions_audit": {
     "events_detected_count": 472,
@@ -18,13 +18,13 @@
     "verification_status": "PASS (수정종가 정합성 및 가격 연속성 100% 검증)"
   },
   "key_metrics_summary": {
-    "kospi_index_drawdown": -45.08,
-    "kospi_stocks_median_drawdown": -45.5,
+    "kospi_index_drawdown": -48.46,
+    "kospi_stocks_median_drawdown": -46.13,
     "kospi_down_30_count_and_ratio": "608/794 (76.6%)",
-    "kosdaq_index_drawdown": -45.69,
-    "kosdaq_stocks_median_drawdown": -55.69,
-    "kosdaq_down_30_count_and_ratio": "1396/1644 (84.9%)",
-    "retail_top50_median_drawdown": -55.42,
+    "kosdaq_index_drawdown": -46.94,
+    "kosdaq_stocks_median_drawdown": -56.7,
+    "kosdaq_down_30_count_and_ratio": "1406/1644 (85.5%)",
+    "retail_top50_median_drawdown": -59.47,
     "retail_top50_down_30_count_and_ratio": "47/50 (94.0%)"
   }
 }
