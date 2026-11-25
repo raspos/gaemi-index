@@ -3,6 +3,9 @@
 
   const THEME_STORAGE_KEY = "gaemi_theme";
   let DATA = window.GAEMI_DATA || null;
+  let CONC_DATA = window.GAEMI_CONCENTRATION || null;
+  let DD_DATA = window.GAEMI_DRAWDOWN || null;
+  let NEWS_DATA = window.GAEMI_NEWS || null;
   let mainChart = null;
   let captureChart = null;
   let episodeChart = null;
@@ -12,7 +15,8 @@
 
   const INDEX_STORAGE_KEY = "gaemi_selected_index";
   const state = {
-    activeTab: "sec-01",
+    activeTab: "tab-now",
+    researchSubTab: "res-conc",
     selectedIndex: "50", // "50" | "100"
     period: "ALL", // ALL | 1Y | 6M | 3M | YTD
     selectedEpisodeId: null,
@@ -134,29 +138,50 @@
     };
   }
 
-  // PHASE 4 Section 6: 현재 활성화된 탭의 차트만 즉시 렌더링(다른 탭으로 이동할 때 activateTab에서 렌더링)
+  // 현재 활성화된 탭/서브탭의 차트 및 데이터 즉시 재렌더링
   function refreshActiveChart() {
-    if (state.activeTab === "tab-conc") {
-      renderDrawdownTimeseriesChart();
-      renderConcentrationChart();
-    } else if (!DATA) {
-      return;
-    } else if (state.activeTab === "tab-scorecard" || state.activeTab === "sec-01") {
-      renderSection01();
-    } else if (state.activeTab === "sec-02") {
-      renderStockDetailPanel();
-    } else if (state.activeTab === "sec-04") {
-      renderSection04();
+    if (state.activeTab === "tab-now") {
+      renderNowTab();
+    } else if (state.activeTab === "tab-stocks") {
+      renderBoughtTab();
+      renderMovementTab();
+    } else if (state.activeTab === "tab-research") {
+      if (state.researchSubTab === "res-conc") {
+        renderConcentrationChart();
+      } else if (state.researchSubTab === "res-drawdown") {
+        renderDrawdownTimeseriesChart();
+      } else if (state.researchSubTab === "res-scorecard") {
+        renderSection01();
+      }
     }
   }
 
   function activateTab(tabId, updateHash = true) {
-    const validTabs = ["tab-conc", "tab-bought", "tab-movement", "tab-scorecard", "tab-method", "sec-01", "sec-02", "sec-03", "sec-04", "sec-05", "sec-footer"];
-    const target = validTabs.includes(tabId) ? tabId : "tab-conc";
+    let target = tabId;
+    if (tabId === "tab-conc" || tabId === "sec-01" || tabId === "tab-now") {
+      target = "tab-now";
+    } else if (tabId === "tab-bought" || tabId === "tab-movement" || tabId === "tab-stocks") {
+      target = "tab-stocks";
+    } else if (tabId === "tab-scorecard" || tabId === "sec-04" || tabId === "tab-research") {
+      target = "tab-research";
+      if (tabId === "tab-scorecard") {
+        state.researchSubTab = "res-scorecard";
+      }
+    } else if (tabId === "tab-method") {
+      const modal = document.getElementById("methodModal");
+      if (modal) modal.hidden = false;
+      return;
+    }
+
+    const validTabs = ["tab-now", "tab-stocks", "tab-research"];
+    if (!validTabs.includes(target)) {
+      target = "tab-now";
+    }
     state.activeTab = target;
 
     document.querySelectorAll('#tabs button[role="tab"]').forEach((btn) => {
-      const isSel = btn.getAttribute("data-tab") === target;
+      const bTab = btn.getAttribute("data-tab");
+      const isSel = (bTab === target) || (target === "tab-now" && bTab === "tab-conc") || (target === "tab-stocks" && bTab === "tab-bought");
       btn.setAttribute("aria-selected", isSel ? "true" : "false");
     });
 
@@ -172,22 +197,138 @@
       history.replaceState(null, "", `#${target}`);
     }
 
-    if (target === "tab-conc") {
-      renderDrawdownHero();
+    if (target === "tab-now") {
+      renderNowTab();
+    } else if (target === "tab-stocks") {
+      renderBoughtTab();
+      renderMovementTab();
+    } else if (target === "tab-research") {
+      activateResearchSubTab(state.researchSubTab || "res-conc");
+    }
+  }
+
+  function activateResearchSubTab(subTabId) {
+    const validSubTabs = ["res-conc", "res-drawdown", "res-market", "res-scorecard"];
+    const target = validSubTabs.includes(subTabId) ? subTabId : "res-conc";
+    state.researchSubTab = target;
+
+    document.querySelectorAll("#researchSubTabs button").forEach((btn) => {
+      const isSel = btn.getAttribute("data-rtab") === target;
+      btn.classList.toggle("on", isSel);
+      btn.setAttribute("aria-selected", isSel ? "true" : "false");
+    });
+
+    document.querySelectorAll(".research-panel").forEach((panel) => {
+      if (panel.id === target) {
+        panel.removeAttribute("hidden");
+      } else {
+        panel.setAttribute("hidden", "");
+      }
+    });
+
+    if (target === "res-conc") {
+      renderConcentrationHero();
+      renderConcentrationChart();
+    } else if (target === "res-drawdown") {
       renderDrawdownDistribution();
       renderRetailTop50Drawdown();
       renderDrawdownTimeseriesChart();
-      renderConcentrationHero();
-      renderConcentrationChart();
-    } else if (target === "tab-bought") {
-      renderBoughtTab();
-    } else if (target === "tab-movement") {
-      renderMovementTab();
-    } else if (target === "tab-scorecard") {
+    } else if (target === "res-market") {
+      renderMarketRelations();
+    } else if (target === "res-scorecard") {
       renderSection01();
-    } else if (target === "tab-method") {
-      // methodology
     }
+  }
+
+  function renderNowTab() {
+    renderConcentrationHero();
+    renderNowTop5();
+    renderDrawdownHero();
+    renderMainComparisonBars();
+    renderMainNews();
+  }
+
+  function renderNowTop5() {
+    const tbody = document.getElementById("main-top5-tbody");
+    if (!tbody) return;
+    let list = [];
+    if (DD_DATA && DD_DATA.retail_top50_drawdown && DD_DATA.retail_top50_drawdown.stocks) {
+      list = DD_DATA.retail_top50_drawdown.stocks.slice(0, 5);
+    } else if (CONC_DATA && CONC_DATA.latest && CONC_DATA.latest.top10) {
+      list = CONC_DATA.latest.top10.slice(0, 5);
+    }
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="4" class="c" style="padding:16px;color:var(--ink-3)">데이터 로딩 중...</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = list.map((s, idx) => {
+      const netVal = s.net_buy_20d !== undefined ? formatWon(s.net_buy_20d) : (s.net_val ? formatWon(s.net_val) : "-");
+      const dd = s.drawdown_pct !== undefined ? `${s.drawdown_pct.toFixed(1)}%` : "-";
+      return `
+        <tr data-code="${s.code}">
+          <td class="now-rank-col">${idx + 1}</td>
+          <td>
+            <span class="now-stock-name">${s.name}</span>
+            <span class="now-stock-market">${s.market || ""}</span>
+          </td>
+          <td class="r">${netVal}</td>
+          <td class="r now-dd-col">${dd}</td>
+        </tr>
+      `;
+    }).join("");
+
+    tbody.querySelectorAll("tr").forEach((row) => {
+      row.addEventListener("click", () => {
+        activateTab("tab-stocks");
+        const code = row.getAttribute("data-code");
+        const sInput = document.getElementById("stockSearchInput");
+        if (sInput && code) {
+          sInput.value = code;
+          renderBoughtTab(undefined, code);
+        }
+      });
+    });
+  }
+
+  function renderMainComparisonBars() {
+    if (!DD_DATA || !DD_DATA.market_summary || !DD_DATA.retail_top50_drawdown) return;
+    const ms = DD_DATA.market_summary;
+    const r50 = DD_DATA.retail_top50_drawdown;
+
+    const kMed = ms.KOSPI ? ms.KOSPI.median_drawdown_pct : -45.5;
+    const qMed = ms.KOSDAQ ? ms.KOSDAQ.median_drawdown_pct : -55.7;
+    const rMed = r50.median_drawdown_pct !== undefined ? r50.median_drawdown_pct : -55.4;
+
+    const barK = document.getElementById("main-bar-kospi");
+    const valK = document.getElementById("main-val-kospi");
+    const barQ = document.getElementById("main-bar-kosdaq");
+    const valQ = document.getElementById("main-val-kosdaq");
+    const barR = document.getElementById("main-bar-retail");
+    const valR = document.getElementById("main-val-retail");
+
+    if (barK) barK.style.width = `${Math.min(100, Math.abs(kMed))}%`;
+    if (valK) valK.textContent = `${kMed.toFixed(1)}%`;
+    if (barQ) barQ.style.width = `${Math.min(100, Math.abs(qMed))}%`;
+    if (valQ) valQ.textContent = `${qMed.toFixed(1)}%`;
+    if (barR) barR.style.width = `${Math.min(100, Math.abs(rMed))}%`;
+    if (valR) valR.textContent = `${rMed.toFixed(1)}%`;
+  }
+
+  function renderMainNews() {
+    const listEl = document.getElementById("main-news-list");
+    if (!NEWS_DATA) NEWS_DATA = window.GAEMI_NEWS;
+    if (!listEl || !NEWS_DATA || !NEWS_DATA.articles) return;
+    const top2 = NEWS_DATA.articles.slice(0, 2);
+    listEl.innerHTML = top2.map((a) => `
+      <div class="main-news-item">
+        <a class="main-news-title" href="${a.link}" target="_blank" rel="noopener">${a.title}</a>
+        <div class="main-news-meta">
+          <span>${a.outlet_name}</span>
+          <span>·</span>
+          <span>${a.date} ↗</span>
+        </div>
+      </div>
+    `).join("");
   }
 
   function fmtNum(n, d = 2) {
@@ -2260,6 +2401,68 @@
       }, 1500);
     });
 
+    // 메인 화면 (지금) 전용 링크 및 버튼 이벤트
+    const gotoStocksBtn = document.getElementById("gotoStocksBtn");
+    if (gotoStocksBtn) {
+      gotoStocksBtn.addEventListener("click", () => activateTab("tab-stocks", true));
+    }
+
+    const gotoDdBtn = document.getElementById("gotoDrawdownResearchBtn");
+    if (gotoDdBtn) {
+      gotoDdBtn.addEventListener("click", () => {
+        activateTab("tab-research", true);
+        activateResearchSubTab("res-drawdown");
+      });
+    }
+
+    // 리서치 서브 탭 전환
+    document.querySelectorAll("#researchSubTabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const rtab = btn.getAttribute("data-rtab");
+        if (rtab) activateResearchSubTab(rtab);
+      });
+    });
+
+    // 전체 기사 모달 열기/닫기
+    const openNewsBtn = document.getElementById("openFullNewsBtn");
+    const closeNewsBtn = document.getElementById("closeFullNewsModalBtn");
+    const newsModal = document.getElementById("fullNewsModal");
+    if (openNewsBtn && newsModal) {
+      openNewsBtn.addEventListener("click", () => {
+        newsModal.hidden = false;
+        renderFullNews();
+      });
+    }
+    if (closeNewsBtn && newsModal) {
+      closeNewsBtn.addEventListener("click", () => {
+        newsModal.hidden = true;
+      });
+    }
+
+    // 데이터·산출 방법 모달 열기/닫기
+    const openMethodBtn = document.getElementById("openMethodModalBtn");
+    const closeMethodBtn = document.getElementById("closeMethodModalBtn");
+    const methodModal = document.getElementById("methodModal");
+    if (openMethodBtn && methodModal) {
+      openMethodBtn.addEventListener("click", () => {
+        methodModal.hidden = false;
+      });
+    }
+    if (closeMethodBtn && methodModal) {
+      closeMethodBtn.addEventListener("click", () => {
+        methodModal.hidden = true;
+      });
+    }
+
+    // 모달 배경 클릭 시 닫기
+    [newsModal, methodModal].forEach((m) => {
+      if (m) {
+        m.addEventListener("click", (e) => {
+          if (e.target === m) m.hidden = true;
+        });
+      }
+    });
+
     // 전체 테이블 행 클릭 시 종목 상세로 연결
     document.body.addEventListener("click", (e) => {
       const tr = e.target.closest("tr.clickable");
@@ -2308,7 +2511,8 @@
     renderBoughtTab('20d');
     renderMovementTab();
     const initHash = (window.location.hash || "").replace("#", "");
-    const defaultTab = ["tab-conc", "tab-bought", "tab-movement", "tab-scorecard", "tab-method"].includes(initHash) ? initHash : "tab-conc";
+    const validHashes = ["tab-now", "tab-stocks", "tab-research", "tab-conc", "tab-bought", "tab-movement", "tab-scorecard", "tab-method"];
+    const defaultTab = validHashes.includes(initHash) ? initHash : "tab-now";
     activateTab(defaultTab, false);
   }
 
@@ -2336,7 +2540,7 @@
   // ==========================================================
   // BOK WATCH STYLE GAEMI CONCENTRATION MODULE (PHASE 9 REBOOT)
   // ==========================================================
-  let CONC_DATA = window.GAEMI_CONCENTRATION || null;
+  if (!CONC_DATA) CONC_DATA = window.GAEMI_CONCENTRATION || null;
   state.concRange = 90;
   state.selectedConcDate = null;
   state.boughtPeriod = "20d";
@@ -3105,11 +3309,7 @@
   function renderNewsSection(targetDate) {
     const NEWS_DATA = window.GAEMI_NEWS;
     if (!NEWS_DATA) return;
-    const grid = document.getElementById("newsCardGrid");
-    if (!grid) return;
 
-    const titleEl = document.getElementById("news-section-title");
-    const subEl = document.getElementById("news-section-sub");
     const pillEl = document.getElementById("news-outlets-pill");
     const updatedEl = document.getElementById("news-last-updated");
 
@@ -3121,55 +3321,47 @@
       updatedEl.textContent = `최근 수집: ${d}`;
     }
 
-    let articles = [];
-    const isSpecificDate = Boolean(targetDate && CONC_DATA && targetDate !== CONC_DATA.as_of_date);
+    renderMainNews();
+  }
 
-    if (isSpecificDate && NEWS_DATA.by_date && NEWS_DATA.by_date[targetDate] && NEWS_DATA.by_date[targetDate].length > 0) {
-      articles = NEWS_DATA.by_date[targetDate].slice(0, 6);
-      if (titleEl) titleEl.textContent = `${targetDate} 관련 뉴스`;
-      if (subEl) subEl.textContent = `${targetDate} 당시 개인 순매수 및 시장 관련 보도 (${articles.length}건)`;
-    } else {
-      articles = (NEWS_DATA.articles || []).slice(0, 6);
-      if (titleEl) titleEl.textContent = "관련 뉴스";
-      if (subEl) subEl.textContent = "47개 언론사 화이트리스트 기반 개인 순매수·수급 보도";
-    }
+  function renderFullNews() {
+    const NEWS_DATA = window.GAEMI_NEWS;
+    const fullList = document.getElementById("newsFullList");
+    const outFilter = document.getElementById("newsOutletFilter");
+    const stockFilter = document.getElementById("newsStockFilter");
+    const secFilter = document.getElementById("newsSectorFilter");
+    if (!NEWS_DATA || !fullList) return;
 
-    if (!articles.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1;padding:24px;text-align:center;font-size:13px;color:var(--ink-3);background:var(--surface-2);border-radius:6px;border:1px dashed var(--line);">수집된 관련 기사가 없습니다.</div>`;
+    const oVal = outFilter ? outFilter.value : "all";
+    const sVal = stockFilter ? stockFilter.value : "all";
+    const secVal = secFilter ? secFilter.value : "all";
+
+    const filtered = (NEWS_DATA.articles || []).filter((a) => {
+      if (oVal !== "all" && a.outlet_name !== oVal) return false;
+      if (sVal !== "all" && !(a.stocks || []).includes(sVal)) return false;
+      if (secVal !== "all" && !(a.sectors || []).includes(secVal)) return false;
+      return true;
+    });
+
+    if (!filtered.length) {
+      fullList.innerHTML = `<div style="padding:16px;text-align:center;font-size:12.5px;color:var(--ink-3);">조건에 맞는 기사가 없습니다.</div>`;
       return;
     }
 
-    grid.innerHTML = articles.map((art) => {
-      const stockTags = (art.stocks || []).map((s) => `<span class="news-tag stock">#${s}</span>`).join("");
-      const secTags = (art.sectors || []).map((s) => `<span class="news-tag sec">#${s}</span>`).join("");
-      const kwTags = (art.keywords || []).slice(0, 2).map((k) => `<span class="news-tag">#${k}</span>`).join("");
-      return `
-        <a class="news-card" href="${art.link}" target="_blank" rel="noopener" title="${art.outlet_name} 원문 보기">
-          <div>
-            <div class="news-tags">${stockTags}${secTags}${kwTags}</div>
-            <h4 class="news-title">${art.title}</h4>
-            <p class="news-summary">${art.summary || ""}</p>
-          </div>
-          <div class="news-meta">
-            <span class="news-outlet">${art.outlet_name}</span>
-            <span class="news-time">${art.date} ${art.time} ↗</span>
-          </div>
-        </a>
-      `;
-    }).join("");
+    fullList.innerHTML = filtered.map((a) => `
+      <a class="news-full-item" href="${a.link}" target="_blank" rel="noopener" style="display:block;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;">
+        <span class="n-title" style="display:block;font-size:14px;font-weight:600;color:var(--ink);">${a.title}</span>
+        <span class="n-meta" style="display:block;font-size:12px;color:var(--ink-3);margin-top:4px;">${a.outlet_name} · ${a.date} ↗</span>
+      </a>
+    `).join("");
   }
 
   function initNewsFullViewer() {
     const NEWS_DATA = window.GAEMI_NEWS;
     if (!NEWS_DATA) return;
-    const btn = document.getElementById("toggleAllNewsBtn");
-    const wrap = document.getElementById("newsFullWrap");
     const outFilter = document.getElementById("newsOutletFilter");
     const stockFilter = document.getElementById("newsStockFilter");
     const secFilter = document.getElementById("newsSectorFilter");
-    const fullList = document.getElementById("newsFullList");
-
-    if (!btn || !wrap || !fullList) return;
 
     // Populate filter dropdowns
     if (outFilter && NEWS_DATA.outlets_collected_names) {
@@ -3193,47 +3385,15 @@
         Array.from(allSecs).sort().map((s) => `<option value="${s}">${s}</option>`).join("");
     }
 
-    const renderFull = () => {
-      const oVal = outFilter ? outFilter.value : "all";
-      const sVal = stockFilter ? stockFilter.value : "all";
-      const secVal = secFilter ? secFilter.value : "all";
-
-      const filtered = (NEWS_DATA.articles || []).filter((a) => {
-        if (oVal !== "all" && a.outlet_name !== oVal) return false;
-        if (sVal !== "all" && !(a.stocks || []).includes(sVal)) return false;
-        if (secVal !== "all" && !(a.sectors || []).includes(secVal)) return false;
-        return true;
-      });
-
-      if (!filtered.length) {
-        fullList.innerHTML = `<div style="padding:16px;text-align:center;font-size:12.5px;color:var(--ink-3);">조건에 맞는 기사가 없습니다.</div>`;
-        return;
-      }
-
-      fullList.innerHTML = filtered.map((a) => `
-        <a class="news-full-item" href="${a.link}" target="_blank" rel="noopener">
-          <span class="n-title">${a.title}</span>
-          <span class="n-meta">${a.outlet_name} · ${a.date} ↗</span>
-        </a>
-      `).join("");
-    };
-
-    btn.addEventListener("click", () => {
-      const isHidden = wrap.hidden;
-      wrap.hidden = !isHidden;
-      btn.textContent = isHidden ? "기사 닫기" : "전체 기사 보기";
-      if (isHidden) renderFull();
-    });
-
     [outFilter, stockFilter, secFilter].forEach((sel) => {
-      if (sel) sel.addEventListener("change", renderFull);
+      if (sel) sel.addEventListener("change", renderFullNews);
     });
   }
 
   // ==========================================================
   // PEAK DRAWDOWN MODULE (고점 대비 낙폭 분석 전면 개편)
   // ==========================================================
-  let DD_DATA = window.GAEMI_DRAWDOWN || null;
+  if (!DD_DATA) DD_DATA = window.GAEMI_DRAWDOWN || null;
   let ddTsChart = null;
 
   function initDrawdownModule() {

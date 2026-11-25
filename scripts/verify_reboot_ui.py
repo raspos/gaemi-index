@@ -1,12 +1,12 @@
 """
 scripts/verify_reboot_ui.py
 
-개미 지수(GAEMI INDEX) 전면 재기획 웹 UI 및 모바일 반응형 검증 스크립트
+개미 지수 (GAEMI INDEX) UI·UX 전면 재설계 종합 검증 스크립트
 - 검증 해상도: 320x800, 390x844, 768x1024, 1280x960
 - 테마: Light & Dark
 - 스크린샷 아티팩트 저장 (8장)
-- BOK WATCH형 차트, 변곡점, 이벤트 줄, 날짜 인스펙터, 5개 탭 전수 점검
-- 가로 넘침(overflow), WCAG AA 명도 대비, 콘솔 에러 전무 검증
+- 3개 대메뉴 [ 지금 ] [ 종목 ] [ 리서치 ] 및 리서치 4개 서브탭, 모달 전수 점검
+- 가로 넘침(overflow) 전무, 콘솔 에러 전무 검증
 """
 
 import os
@@ -22,7 +22,7 @@ URL = "http://localhost:8080"
 
 
 def run_verification():
-    print("=== 개미 지수 (GAEMI INDEX) UI 종합 검증 시작 ===")
+    print("=== 개미 지수 (GAEMI INDEX) 전면 재설계 UI 종합 검증 시작 ===")
     viewports = [
         {"name": "mobile_320", "width": 320, "height": 800},
         {"name": "mobile_390", "width": 390, "height": 844},
@@ -46,7 +46,7 @@ def run_verification():
             for theme in ["light", "dark"]:
                 test_name = f"{vp['name']}_{theme}"
                 print(f"\n[검증 진행] {test_name} ({vp['width']}x{vp['height']})...")
-                
+
                 context = browser.new_context(
                     viewport={"width": vp["width"], "height": vp["height"]},
                     color_scheme=theme
@@ -69,52 +69,80 @@ def run_verification():
                     page.click("#themeBtn")
                     page.wait_for_timeout(100)
 
-                # 1. 고점 대비 낙폭 대표 지표 및 집중도 확인
-                idx_dd_val = page.inner_text("#dd-idx-val").strip()
-                med_dd_val = page.inner_text("#dd-median-val").strip()
-                d30_val = page.inner_text("#dd-d30-val").strip()
+                # ========================================================
+                # 1. 메인 화면 [ 지금 ] (tab-now) 3대 핵심 영역 검증
+                # ========================================================
+                # SECTION 01: 개미들은 무엇을 사고 있나
                 conc_val = page.inner_text("#hero-conc-val").strip()
                 conc_delta = page.inner_text("#hero-conc-delta").strip()
-                dist_badge = page.inner_text("#hero-dist-badge").strip()
-                
-                dd_hero_ok = ("-45." in idx_dd_val) and ("-45." in med_dd_val) and ("76." in d30_val)
-                conc_ok = ("58." in conc_val) and ("%" in conc_delta)
-                dist_ok = ("상위" in dist_badge and "%" in dist_badge)
+                top5_rows_cnt = page.locator("#main-top5-tbody tr").count()
+                now_sec1_ok = ("58." in conc_val) and ("%" in conc_delta) and (top5_rows_cnt == 5)
+
+                # SECTION 02: 한국 증시, 얼마나 떨어졌나
+                d30_val = page.inner_text("#dd-d30-val").strip()
+                idx_dd_val = page.inner_text("#dd-idx-val").strip()
+                med_dd_val = page.inner_text("#dd-median-val").strip()
+                now_sec2_kospi_ok = ("76." in d30_val) and ("-45." in idx_dd_val) and ("-45." in med_dd_val)
 
                 # KOSDAQ 시장 전환 테스트
                 page.click('#ddMarketSwitch button[data-mkt="KOSDAQ"]')
                 page.wait_for_timeout(100)
-                kq_idx_dd = page.inner_text("#dd-idx-val").strip()
-                kq_med_dd = page.inner_text("#dd-median-val").strip()
-                dd_mkt_switch_ok = ("-45.7" in kq_idx_dd) and ("-55." in kq_med_dd)
+                kq_d30_val = page.inner_text("#dd-d30-val").strip()
+                kq_med_val = page.inner_text("#dd-median-val").strip()
+                now_sec2_kosdaq_ok = ("84." in kq_d30_val) and ("-55." in kq_med_val)
+
+                # KOSPI 복귀
                 page.click('#ddMarketSwitch button[data-mkt="KOSPI"]')
                 page.wait_for_timeout(100)
 
-                # 1-1. 낙폭 구간별 분포 (고점에서 멀어진 주식들) 5개 구간 확인
-                dist_rows_cnt = page.locator("#distBarList .dist-row").count()
-                dist_bar_ok = dist_rows_cnt == 5
+                # SECTION 03: 개미가 사는 종목은 얼마나 떨어졌나 (비교 막대)
+                bar_r_val = page.inner_text("#main-val-retail").strip()
+                now_sec3_ok = ("-55." in bar_r_val)
 
-                # 구간 클릭 인터랙션 테스트
-                page.click('#distBarList .dist-row[data-bidx="4"]')
-                page.wait_for_timeout(100)
-                bucket_visible = page.evaluate("() => !document.getElementById('bucketStocksWrap').hidden")
-                page.click("#closeBucketStocksBtn")
-                page.wait_for_timeout(100)
+                # 관련 뉴스 (최소화: 2건 텍스트 리스트)
+                main_news_cnt = page.locator("#main-news-list .main-news-item").count()
+                news_pill = page.inner_text("#news-outlets-pill").strip()
+                now_news_ok = (main_news_cnt == 2) and ("개사" in news_pill)
 
-                # 1-2. 개인 순매수 상위 50종목 낙폭 비교 카드 확인
-                retail_box_cnt = page.locator("#comp-box-retail").count()
-                retail_top10_cnt = page.locator("#retail-top10-drawdown-tbody tr").count()
-                retail_top50_ok = retail_box_cnt >= 1 and retail_top10_cnt == 10
+                # 가로 넘침(Overflow) 검사 (메인 화면 기준)
+                overflow_info = page.evaluate("""() => {
+                    return {
+                        docWidth: document.documentElement.scrollWidth,
+                        winWidth: window.innerWidth,
+                        overflow: document.documentElement.scrollWidth > window.innerWidth
+                    };
+                }""")
+                overflow_ok = not overflow_info["overflow"]
 
-                # 1-3. 고점에서 멀어진 주식들 시계열 차트 확인
-                ts_chart_cnt = page.locator("#ddTimeseriesChart").count()
-                ts_chart_ok = ts_chart_cnt >= 1
-
-                # 2. BOK WATCH SVG 차트 렌더링 확인
-                chart_svg_cnt = page.locator("#concentrationChart svg").count()
-                chart_ok = chart_svg_cnt >= 1
+                # ========================================================
+                # 2. [ 종목 ] 탭 (tab-stocks) 검증
+                # ========================================================
+                page.click('#tabs button[data-tab="tab-stocks"]')
+                page.wait_for_timeout(150)
+                stocks_visible = page.evaluate("() => !document.getElementById('tab-stocks').hidden")
                 
-                # 차트 내 패스 및 요소 검증
+                # 종목 검색 테스트
+                page.fill("#stockSearchInput", "삼성전자")
+                page.wait_for_timeout(100)
+                search_res_cnt = page.locator("#bought-ranking-tbody tr").count()
+                search_ok = search_res_cnt >= 1
+                page.fill("#stockSearchInput", "")
+                page.wait_for_timeout(100)
+
+                # 업종 이동 바 및 증감 테이블
+                sector_bars_cnt = page.locator("#sectorBarList .sector-bar-row").count()
+                sector_shift_cnt = page.locator("#sector-shift-tbody tr").count()
+                stocks_tab_ok = stocks_visible and search_ok and (sector_bars_cnt >= 5) and (sector_shift_cnt >= 1)
+
+                # ========================================================
+                # 3. [ 리서치 ] 탭 (tab-research) 및 4개 서브탭 검증
+                # ========================================================
+                page.click('#tabs button[data-tab="tab-research"]')
+                page.wait_for_timeout(150)
+                research_visible = page.evaluate("() => !document.getElementById('tab-research').hidden")
+
+                # 서브탭 1: 집중도 (BOK WATCH 차트 및 요인 분해)
+                chart_svg_cnt = page.locator("#concentrationChart svg").count()
                 chart_elements = page.evaluate("""() => {
                     const svg = document.querySelector('#concentrationChart svg');
                     if (!svg) return { paths: 0, lines: 0, texts: 0, width: 0 };
@@ -130,107 +158,96 @@ def run_verification():
                 }""")
                 expected_min_w = min(vp["width"], 1180) - 90
                 svg_rich_ok = chart_elements["paths"] >= 2 and chart_elements["texts"] >= 5 and chart_elements["width"] >= expected_min_w
+                top10_rows = page.locator("#top10-tbody tr").count()
+                top10_ok = top10_rows == 10
+                decomp_title = page.inner_text("#inspect-date-title").strip()
+                decomp_ok = len(decomp_title) > 0
 
-                # 3. 시장과 개미의 관계 (상관관계 분석 및 기간 전환)
+                # 서브탭 2: 낙폭 (구간 분포, 3단 비교 카드, 일별 시계열)
+                page.click('#researchSubTabs button[data-rtab="res-drawdown"]')
+                page.wait_for_timeout(150)
+                dist_rows_cnt = page.locator("#distBarList .dist-row").count()
+                dist_bar_ok = dist_rows_cnt == 5
+                page.click('#distBarList .dist-row[data-bidx="4"]')
+                page.wait_for_timeout(100)
+                bucket_visible = page.evaluate("() => !document.getElementById('bucketStocksWrap').hidden")
+                page.click("#closeBucketStocksBtn")
+                page.wait_for_timeout(100)
+
+                retail_box_cnt = page.locator("#comp-box-retail").count()
+                retail_top10_cnt = page.locator("#retail-top10-drawdown-tbody tr").count()
+                retail_top50_ok = retail_box_cnt >= 1 and retail_top10_cnt == 10
+                ts_chart_cnt = page.locator("#ddTimeseriesChart").count()
+                ts_chart_ok = ts_chart_cnt >= 1
+
+                # 서브탭 3: 시장 관계 (상관관계 분석)
+                page.click('#researchSubTabs button[data-rtab="res-market"]')
+                page.wait_for_timeout(150)
                 mkt_kospi_corr = page.inner_text("#m-kospi-corr").strip()
                 mkt_kosdaq_corr = page.inner_text("#m-kosdaq-corr").strip()
                 market_ok = ("-0.28" in mkt_kospi_corr or "-0.29" in mkt_kospi_corr) and ("-0.10" in mkt_kosdaq_corr)
-
-                # 60D 전환 테스트
                 page.click('#marketPeriodSwitch button[data-mperiod="60D"]')
                 page.wait_for_timeout(100)
                 mkt_60d_corr = page.inner_text("#m-kospi-corr").strip()
                 corr_period_switch_ok = ("-0.23" in mkt_60d_corr or "-0.24" in mkt_60d_corr or "-0.25" in mkt_60d_corr)
-                page.click('#marketPeriodSwitch button[data-mperiod="252D"]')
+
+                # 서브탭 4: 성적표 (하락장 성적표)
+                page.click('#researchSubTabs button[data-rtab="res-scorecard"]')
+                page.wait_for_timeout(150)
+                scorecard_ok = page.locator("#sc-gaemi-down-mean").count() >= 1
+
+                # ========================================================
+                # 4. 모달 기능 점검 (전체 기사 모달 & 데이터·산출 방법 모달)
+                # ========================================================
+                # 메인으로 복귀 후 모달 테스트
+                page.click('#tabs button[data-tab="tab-now"]')
+                page.wait_for_timeout(150)
+
+                # 전체 기사 모달
+                page.click("#openFullNewsBtn")
                 page.wait_for_timeout(100)
-
-                # 4. 관련 뉴스 (47개 매체 수집 및 카드 렌더링)
-                news_cards_cnt = page.locator("#newsCardGrid .news-card").count()
-                news_pill = page.inner_text("#news-outlets-pill").strip()
-                news_ok = (news_cards_cnt >= 4) and ("개사" in news_pill)
-
-                # 5. 가로 넘침(Overflow) 검사
-                overflow_info = page.evaluate("""() => {
-                    return {
-                        docWidth: document.documentElement.scrollWidth,
-                        winWidth: window.innerWidth,
-                        overflow: document.documentElement.scrollWidth > window.innerWidth
-                    };
-                }""")
-                overflow_ok = not overflow_info["overflow"]
-
-                # 6. 차트 인터랙션 (범위 전환 7일 -> 30일 -> 90일)
-                page.click('#concRangeSwitch button[data-range="30"]')
-                page.wait_for_timeout(150)
-                range_30_active = page.evaluate("() => document.querySelector('#concRangeSwitch button[data-range=\"30\"]').classList.contains('on')")
-                page.click('#concRangeSwitch button[data-range="90"]')
-                page.wait_for_timeout(150)
-
-                # 7. Top 10 테이블 행 수 확인
-                top10_rows = page.locator("#top10-tbody tr").count()
-                top10_ok = top10_rows == 10
-
-                # 8. 요인 분해 카드 확인
-                decomp_title = page.inner_text("#inspect-date-title").strip()
-                contrib_items = page.locator("#contrib-list .decomp-item").count()
-                decomp_ok = len(decomp_title) > 0 and contrib_items >= 2
-
-                # 9. 탭 전환 검증 (tab-bought, tab-movement, tab-scorecard, tab-method)
-                # Tab 2: 개미가 산 종목
-                page.click('#tabs button[data-tab="tab-bought"]')
-                page.wait_for_timeout(150)
-                bought_visible = page.evaluate("() => !document.getElementById('tab-bought').hidden")
-                page.fill("#stockSearchInput", "삼성전자")
+                news_modal_visible = page.evaluate("() => !document.getElementById('fullNewsModal').hidden")
+                page.click("#closeFullNewsModalBtn")
                 page.wait_for_timeout(100)
-                search_res_cnt = page.locator("#bought-ranking-tbody tr").count()
-                search_ok = search_res_cnt >= 1
-                page.fill("#stockSearchInput", "")
+                news_modal_hidden = page.evaluate("() => document.getElementById('fullNewsModal').hidden")
+                news_modal_ok = news_modal_visible and news_modal_hidden
 
-                # Tab 3: 개미의 이동
-                page.click('#tabs button[data-tab="tab-movement"]')
-                page.wait_for_timeout(150)
-                movement_visible = page.evaluate("() => !document.getElementById('tab-movement').hidden")
-                sector_bars_cnt = page.locator("#sectorBarList .sector-bar-row").count()
-                movement_ok = movement_visible and sector_bars_cnt >= 5
+                # 데이터·산출 방법 모달
+                page.click("#openMethodModalBtn")
+                page.wait_for_timeout(100)
+                method_modal_visible = page.evaluate("() => !document.getElementById('methodModal').hidden")
+                page.click("#closeMethodModalBtn")
+                page.wait_for_timeout(100)
+                method_modal_hidden = page.evaluate("() => document.getElementById('methodModal').hidden")
+                method_modal_ok = method_modal_visible and method_modal_hidden
 
-                # Tab 4: 개미의 성적표
-                page.click('#tabs button[data-tab="tab-scorecard"]')
-                page.wait_for_timeout(150)
-                scorecard_visible = page.evaluate("() => !document.getElementById('tab-scorecard').hidden")
-                scorecard_ok = scorecard_visible and page.locator("#sc-gaemi-down-mean").count() >= 1
-
-                # Tab 1 복귀
-                page.click('#tabs button[data-tab="tab-conc"]')
-                page.wait_for_timeout(150)
-                conc_tab_visible = page.evaluate("() => !document.getElementById('tab-conc').hidden")
-
-                # 스크린샷 캡처 (상단)
+                # 스크린샷 캡처 (메인 화면)
                 page.evaluate("() => window.scrollTo(0, 0)")
                 shot_name = f"gaemi_reboot_{test_name}.png"
                 shot_path = os.path.join(ARTIFACT_DIR, shot_name)
                 page.screenshot(path=shot_path, full_page=False)
 
                 checks = {
-                    "dd_hero_ok": dd_hero_ok,
-                    "dd_mkt_switch_ok": dd_mkt_switch_ok,
+                    "now_sec1_ok": now_sec1_ok,
+                    "now_sec2_kospi_ok": now_sec2_kospi_ok,
+                    "now_sec2_kosdaq_ok": now_sec2_kosdaq_ok,
+                    "now_sec3_ok": now_sec3_ok,
+                    "now_news_ok": now_news_ok,
+                    "overflow_ok": overflow_ok,
+                    "stocks_tab_ok": stocks_tab_ok,
+                    "research_visible": research_visible,
+                    "svg_rich_ok": svg_rich_ok,
+                    "top10_ok": top10_ok,
+                    "decomp_ok": decomp_ok,
                     "dist_bar_ok": dist_bar_ok,
                     "bucket_visible": bucket_visible,
                     "retail_top50_ok": retail_top50_ok,
                     "ts_chart_ok": ts_chart_ok,
-                    "conc_ok": conc_ok,
-                    "dist_ok": dist_ok,
-                    "chart_ok": chart_ok,
-                    "svg_rich_ok": svg_rich_ok,
                     "market_ok": market_ok,
                     "corr_period_switch_ok": corr_period_switch_ok,
-                    "news_ok": news_ok,
-                    "overflow_ok": overflow_ok,
-                    "top10_ok": top10_ok,
-                    "decomp_ok": decomp_ok,
-                    "search_ok": search_ok,
-                    "movement_ok": movement_ok,
                     "scorecard_ok": scorecard_ok,
-                    "conc_tab_visible": conc_tab_visible,
+                    "news_modal_ok": news_modal_ok,
+                    "method_modal_ok": method_modal_ok,
                     "no_console_errors": len(console_errors) == 0,
                 }
                 failed_checks = [k for k, v in checks.items() if not v]
@@ -246,16 +263,14 @@ def run_verification():
                     "theme": theme,
                     "conc_val": conc_val,
                     "conc_delta": conc_delta,
-                    "chart_elements": chart_elements,
                     "overflow": overflow_info["overflow"],
-                    "top10_rows": top10_rows,
                     "console_errors": console_errors,
                     "passed": test_pass,
                     "screenshot": shot_path
                 }
                 results["tests"].append(test_entry)
                 status_str = "PASS" if test_pass else "FAIL"
-                print(f"  -> 결과: {status_str} (집중도: {conc_val}, 차트: {chart_elements['paths']}paths, 가로넘침: {overflow_info['overflow']}, 콘솔에러: {len(console_errors)})")
+                print(f"  -> 결과: {status_str} (집중도: {conc_val}, 상위5행: {top5_rows_cnt}, 가로넘침: {overflow_info['overflow']}, 콘솔에러: {len(console_errors)})")
 
                 context.close()
 

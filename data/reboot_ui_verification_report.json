@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-25T15:20:23",
+  "timestamp": "2026-11-25T16:18:41",
   "tests": [
     {
       "name": "mobile_320_light",
@@ -7,16 +7,7 @@
       "theme": "light",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 300,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_mobile_320_light.png"
@@ -27,16 +18,7 @@
       "theme": "dark",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 300,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_mobile_320_dark.png"
@@ -47,16 +29,7 @@
       "theme": "light",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 332,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_mobile_390_light.png"
@@ -67,16 +40,7 @@
       "theme": "dark",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 332,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_mobile_390_dark.png"
@@ -87,16 +51,7 @@
       "theme": "light",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 702,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_tablet_768_light.png"
@@ -107,16 +62,7 @@
       "theme": "dark",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 702,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_tablet_768_dark.png"
@@ -127,16 +73,7 @@
       "theme": "light",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 1114,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_desktop_1280_light.png"
@@ -147,16 +84,7 @@
       "theme": "dark",
       "conc_val": "58.1%",
       "conc_delta": "-0.3%p",
-      "chart_elements": {
-        "paths": 2,
-        "lines": 14,
-        "texts": 17,
-        "circles": 113,
-        "width": 1114,
-        "height": 341
-      },
       "overflow": false,
-      "top10_rows": 10,
       "console_errors": [],
       "passed": true,
       "screenshot": "C:\\Users\\kimwo\\.gemini\\antigravity\\brain\\b8de2d09-6563-4cc5-9e7f-5158b4af6818\\gaemi_reboot_desktop_1280_dark.png"
