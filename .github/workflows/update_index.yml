@@ -69,6 +69,7 @@ jobs:
           python scripts/build_phase6_downside.py
           python scripts/build_phase7_expansion.py
           python scripts/build_concentration_metrics.py
+          python scripts/build_drawdown_analytics.py
 
       - name: Step 9-1. Fetch news from 47 verified outlets (incremental merge & fail-safe)
         env:

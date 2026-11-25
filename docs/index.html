@@ -35,34 +35,77 @@
       <p class="brand-sub" style="margin:0;font-size:12px;color:var(--ink-3);">개인투자자의 순매수가 어디에 집중되고, 그 구성이 어떻게 달라지는지 매일 기록합니다.</p>
     </div>
     <div class="tools">
-      <span class="asof-pill" id="header-asof">최신 2026-11-20 (최근 20거래일 추정 거래대금)</span>
+      <span class="asof-pill" id="header-asof">최신 2026-11-24 (2025.06.02 이후 고점 대비 낙폭 관측)</span>
       <button id="copyLinkBtn" type="button" aria-label="현재 화면 링크 복사">링크 복사</button>
       <button id="themeBtn" type="button" aria-label="라이트·다크 화면 테마 전환">테마</button>
     </div>
   </header>
 
-  <!-- 상단 고정 스코어 스트립: 개미 순매수 집중도 대표 지표 -->
-  <section class="top-strip" aria-label="개미 순매수 집중도 대표 지표">
-    <div class="score-strip">
-      <div class="tile hero conc-tile" style="grid-column: 1 / -1;">
+  <!-- 상단 고정 스코어 스트립: 고점 대비 낙폭 및 순매수 집중도 대표 지표 -->
+  <section class="top-strip" aria-label="고점 대비 낙폭 및 순매수 집중도 대표 지표">
+    <div class="score-strip dd-hero-grid">
+      <!-- 헤더 컨트롤: 시장 전환 (KOSPI / KOSDAQ) 및 기준 안내 -->
+      <div class="dd-control-bar">
+        <div class="dd-market-switch" id="ddMarketSwitch" role="group" aria-label="낙폭 분석 시장 선택">
+          <button type="button" class="on" data-mkt="KOSPI">KOSPI</button>
+          <button type="button" data-mkt="KOSDAQ">KOSDAQ</button>
+        </div>
+        <span class="dd-base-tag" style="font-size:12px;color:var(--ink-3);">2025년 6월 2일 이후 기간 최고 수정종가 기준 (최신 2026-11-24)</span>
+      </div>
+
+      <!-- 1. 지수 고점 대비 하락률 -->
+      <div class="tile dd-tile" id="dd-tile-index">
         <div class="tile-top">
-          <span class="tile-k">개미 순매수 집중도 (GAEMI CONCENTRATION)</span>
+          <span class="tile-k" id="dd-idx-name">코스피 지수 하락률</span>
+          <span class="tile-tag" id="dd-idx-peak-tag">최고점 9,114.55 (2026.06.22)</span>
+        </div>
+        <div class="dd-hero-num-wrap">
+          <span class="dd-hero-num down" id="dd-idx-val">-45.1%</span>
+        </div>
+        <div class="dd-hero-sub" id="dd-idx-sub">현재 지수 5,006.03</div>
+      </div>
+
+      <!-- 2. 개별 종목 낙폭 중앙값 (강조) -->
+      <div class="tile dd-tile highlight-tile" id="dd-tile-median">
+        <div class="tile-top">
+          <span class="tile-k" id="dd-median-name">개별 종목 낙폭 중앙값</span>
+          <span class="tile-tag">단순평균 아닌 중앙값</span>
+        </div>
+        <div class="dd-hero-num-wrap">
+          <span class="dd-hero-num down" id="dd-median-val">-45.5%</span>
+        </div>
+        <div class="dd-hero-sub" id="dd-median-sub">코스피 794개 종목의 최고점 대비 하락률 중앙값</div>
+      </div>
+
+      <!-- 3. 고점 대비 30% 이상 하락 종목 비율 -->
+      <div class="tile dd-tile" id="dd-tile-d30">
+        <div class="tile-top">
+          <span class="tile-k" id="dd-d30-name">30% 이상 하락 종목</span>
+          <span class="tile-tag" id="dd-d30-cnt-tag">608개 / 794개</span>
+        </div>
+        <div class="dd-hero-num-wrap">
+          <span class="dd-hero-num down" id="dd-d30-val">76.6%</span>
+        </div>
+        <div class="dd-hero-sub" id="dd-d30-sub">50% 이상 하락: 332개 (41.8%)</div>
+      </div>
+
+      <!-- 4. 개미 순매수 집중도 -->
+      <div class="tile dd-tile" id="dd-tile-conc">
+        <div class="tile-top">
+          <span class="tile-k">개미 순매수 집중도</span>
           <span class="tile-tag" id="hero-window-tag">최근 20거래일 기준</span>
         </div>
-        <div class="conc-hero-main" style="margin: 6px 0 8px; flex-wrap:wrap; gap:8px 12px; align-items:baseline;">
-          <span class="conc-hero-num" id="hero-conc-val">58.1%</span>
-          <span class="conc-hero-delta up" id="hero-conc-delta">+5.9%p</span>
-          <span class="conc-hero-dist-badge" id="hero-dist-badge" style="font-size:13px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);padding:3px 8px;border-radius:4px;">최근 1년 상위 55.6% 수준</span>
-          <span style="font-size:12.5px;color:var(--ink-3);margin-left:auto" id="hero-asof-date">2026-11-20 기준</span>
+        <div class="dd-hero-num-wrap">
+          <span class="dd-hero-num" id="hero-conc-val">58.1%</span>
+          <span class="conc-hero-delta down" id="hero-conc-delta" style="font-size:14px;margin-left:6px;">-0.3%p</span>
         </div>
-        <div class="conc-summary-box" id="hero-summary-text">
-          개인 순매수 집중도가 전일 대비 +5.9%p 상승한 58.1%를 기록했습니다. 삼성전자(+8.2%p)과 이수페타시스(+1.8%p)의 순매수 비중이 확대되면서 상위 10종목 집중도가 높아졌습니다.
-        </div>
-        <div class="tile-foot" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;">
-          <span>상위 10종목 순매수 합계: <strong id="hero-top10-sum" style="font-family:var(--font-mono)">4조 4,297억원</strong></span>
-          <span>양(+)의 순매수 전체 합계: <strong id="hero-total-pos" style="font-family:var(--font-mono)">7조 6,279억원</strong></span>
-          <span>최근 1년 중앙값: <strong id="hero-1y-median" style="font-family:var(--font-mono)">61.2%</strong> (범위 <span id="hero-1y-range">26.0% ~ 94.2%</span>)</span>
-        </div>
+        <div class="dd-hero-sub" id="hero-dist-badge">최근 1년 상위 55% 수준</div>
+      </div>
+
+      <!-- 시각적 격차 인디케이터 바 -->
+      <div class="dd-gap-strip" id="dd-gap-strip">
+        <span>지수 하락률(<strong id="gap-idx-val">-45.1%</strong>) 대비 개별 종목 낙폭 중앙값(<strong id="gap-med-val">-45.5%</strong>) 격차: <strong id="gap-diff-val" class="down">-0.4%p</strong></span>
+        <span style="color:var(--ink-3);" id="gap-guide-text">개별 종목들의 실제 낙폭이 지수보다 더 크게 나타나고 있습니다.</span>
       </div>
     </div>
   </section>
@@ -81,7 +124,146 @@
          TAB 1: 개미 지수 (Main Dashboard)
          ========================================== -->
     <section class="sec tab-panel" id="tab-conc" role="tabpanel" aria-labelledby="tab-btn-conc">
-      <!-- BOK WATCH형 인터랙티브 차트 -->
+      <!-- 1. 고점에서 멀어진 주식들 (Section V) -->
+      <div class="card" id="distSectionCard" style="margin-bottom:16px;">
+        <div class="sec-head" style="margin-bottom:8px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h2 class="sec-title" id="dist-section-title">고점에서 멀어진 주식들</h2>
+            <span style="font-size:12.5px;color:var(--ink-3)" id="dist-section-sub">2025년 6월 2일 이후 기간 최고 수정종가 대비 하락폭 구간별 종목 분포</span>
+          </div>
+          <div class="tile-tag" id="dist-total-tag">코스피 794개 종목</div>
+        </div>
+
+        <!-- 구간별 가로 막대 그래프 -->
+        <div class="dist-bar-list" id="distBarList"></div>
+
+        <!-- 선택 구간 종목 목록 (클릭 시 전개) -->
+        <div id="bucketStocksWrap" hidden style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <h3 style="font-size:13.5px;font-weight:700;margin:0" id="bucket-stocks-title">선택 구간 종목 목록</h3>
+            <button type="button" class="btn-sm" id="closeBucketStocksBtn">접기</button>
+          </div>
+          <div class="tbl-wrap" style="max-height:280px;overflow-y:auto;">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>종목명 (코드)</th>
+                  <th>시장</th>
+                  <th>업종</th>
+                  <th class="r">최신 수정종가</th>
+                  <th class="r">기간 최고 수정종가</th>
+                  <th class="r">고점 대비 하락률</th>
+                  <th class="r">2025.06.02 대비</th>
+                </tr>
+              </thead>
+              <tbody id="bucket-stocks-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 개미가 사는 종목은 고점에서 얼마나 떨어졌나 (Section VI) -->
+      <div class="card" id="top50DrawdownCard" style="margin-bottom:16px;">
+        <div class="sec-head" style="margin-bottom:8px">
+          <div>
+            <h2 class="sec-title">개미가 사는 종목은 고점에서 얼마나 떨어졌나</h2>
+            <span style="font-size:12.5px;color:var(--ink-3)">최근 20거래일 개인 순매수 상위 50종목 vs 시장 전체 낙폭 비교</span>
+          </div>
+        </div>
+
+        <!-- 3개 집단 비교 카드 (코스피 vs 코스닥 vs 개인 순매수 상위 50) -->
+        <div class="top50-comp-grid">
+          <!-- A. 코스피 전체 -->
+          <div class="top50-comp-box" id="comp-box-kospi">
+            <span class="top50-comp-title">A. 코스피 전체 (794개)</span>
+            <div class="top50-comp-med" id="comp-kospi-med">-45.5%</div>
+            <div class="top50-comp-rows">
+              <div>30% 이상 하락: <strong id="comp-kospi-d30">76.6% (608개)</strong></div>
+              <div>50% 이상 하락: <strong id="comp-kospi-d50">41.8% (332개)</strong></div>
+              <div style="color:var(--ink-3);margin-top:2px;">지수 자체 낙폭: -45.1%</div>
+            </div>
+          </div>
+
+          <!-- B. 코스닥 전체 -->
+          <div class="top50-comp-box" id="comp-box-kosdaq">
+            <span class="top50-comp-title">B. 코스닥 전체 (1,644개)</span>
+            <div class="top50-comp-med" id="comp-kosdaq-med">-55.7%</div>
+            <div class="top50-comp-rows">
+              <div>30% 이상 하락: <strong id="comp-kosdaq-d30">84.9% (1,396개)</strong></div>
+              <div>50% 이상 하락: <strong id="comp-kosdaq-d50">59.9% (985개)</strong></div>
+              <div style="color:var(--ink-3);margin-top:2px;">지수 자체 낙폭: -45.7%</div>
+            </div>
+          </div>
+
+          <!-- C. 개인 순매수 상위 50종목 -->
+          <div class="top50-comp-box highlight" id="comp-box-retail">
+            <span class="top50-comp-title" style="color:var(--hike)">C. 개인 순매수 상위 50종목</span>
+            <div class="top50-comp-med" id="comp-retail-med" style="color:var(--hike)">-55.4%</div>
+            <div class="top50-comp-rows">
+              <div>30% 이상 하락: <strong id="comp-retail-d30">94.0% (47개)</strong></div>
+              <div>50% 이상 하락: <strong id="comp-retail-d50">64.0% (32개)</strong></div>
+              <div style="color:var(--ink-3);margin-top:2px;">코스피 28개(중앙값 -60.1%) · 코스닥 22개(중앙값 -50.6%)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 핵심 요약 문장 자동 생성 박스 -->
+        <div class="conc-summary-box" id="retail-top50-summary-p" style="margin-bottom:12px;">
+          최근 20거래일 개인 순매수 상위 50종목의 고점 대비 낙폭 중앙값은 -55.4%입니다. 상위 50종목 가운데 30% 이상 하락한 종목은 47개(94.0%)이며, 50% 이상 하락한 종목도 32개(64.0%)에 달합니다.
+        </div>
+
+        <!-- 순매수 상위 주요 종목 낙폭 요약 테이블 (접이식) -->
+        <details class="more" id="retailTop10Details">
+          <summary>개인 순매수 상위 10종목 낙폭 상세 보기</summary>
+          <div style="padding-top:10px;">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th style="width:45px">순위</th>
+                    <th>종목명 (코드)</th>
+                    <th>시장</th>
+                    <th>업종</th>
+                    <th class="r">20거래일 순매수</th>
+                    <th class="r">최신 수정종가</th>
+                    <th class="r">고점 대비 하락률</th>
+                    <th class="r">2025.06.02 대비</th>
+                  </tr>
+                </thead>
+                <tbody id="retail-top10-drawdown-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- 3. 얼마나 많은 종목이 고점에서 멀어졌나 (Section VIII - 시계열) -->
+      <div class="card" id="ddTimeseriesCard" style="margin-bottom:16px;">
+        <div class="sec-head" style="margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h2 class="sec-title">얼마나 많은 종목이 고점에서 멀어졌나</h2>
+            <span style="font-size:12.5px;color:var(--ink-3)">2025년 6월 2일 이후 일별 고점 대비 낙폭 중앙값 및 취약 종목 비율 추이</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+            <div class="pcrange" id="ddTsMetricSwitch" role="group" aria-label="시계열 지표 선택">
+              <button type="button" class="on" data-metric="median">낙폭 중앙값</button>
+              <button type="button" data-metric="ratio">30%·50% 하락 비율</button>
+            </div>
+            <div class="pcrange" id="ddTsRangeSwitch" role="group" aria-label="시계열 기간 선택">
+              <button type="button" data-tsrange="30">30일</button>
+              <button type="button" class="on" data-tsrange="90">90일</button>
+              <button type="button" data-tsrange="365">1년</button>
+              <button type="button" data-tsrange="0">전체</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-wrap" style="height:280px;position:relative;">
+          <canvas id="ddTimeseriesChart" role="img" aria-label="고점 대비 낙폭 및 하락 종목 비율 시계열 그래프"></canvas>
+        </div>
+      </div>
+
+      <!-- 4. BOK WATCH형 인터랙티브 차트 (개미 순매수 집중도 추이) -->
       <div class="pcbox">
         <div class="pchead">
           <div>
@@ -272,7 +454,7 @@
         <div class="sec-head" style="margin-bottom:12px;flex-wrap:wrap;gap:8px">
           <div>
             <h2 class="sec-title">개미가 산 종목</h2>
-            <span style="font-size:12.5px;color:var(--ink-3)">기간별 개인 순매수 상위 종목 및 검색</span>
+            <span style="font-size:12.5px;color:var(--ink-3)">기간별 개인 순매수 상위 종목 및 고점 대비 낙폭 상세 분석</span>
           </div>
           <div class="pcrange" id="boughtPeriodSwitch" role="group" aria-label="순위 산출 기간">
             <button type="button" class="on" data-period="20d">최근 20거래일</button>
@@ -281,20 +463,33 @@
           </div>
         </div>
 
-        <div class="search-bar-wrap">
-          <input type="search" class="search-input" id="stockSearchInput" placeholder="종목명 또는 종목코드 6자리 검색..." aria-label="종목 검색">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px;">
+          <div class="search-bar-wrap" style="flex:1;min-width:240px;margin:0;">
+            <input type="search" class="search-input" id="stockSearchInput" placeholder="종목명 또는 종목코드 6자리 검색..." aria-label="종목 검색">
+          </div>
+          <div class="pcrange" id="boughtSortSwitch" role="group" aria-label="정렬 기준">
+            <button type="button" class="on" data-sort="netbuy">순매수 순</button>
+            <button type="button" data-sort="dd_desc">낙폭 큰 순</button>
+            <button type="button" data-sort="dd_asc">낙폭 작은 순</button>
+            <button type="button" data-sort="ret_desc">기준일 대비 상승 순</button>
+            <button type="button" data-sort="ret_asc">기준일 대비 하락 순</button>
+          </div>
         </div>
 
         <div class="tbl-wrap">
           <table class="tbl">
             <thead>
               <tr>
-                <th style="width:50px">순위</th>
+                <th style="width:45px">순위</th>
                 <th>종목명 (코드)</th>
                 <th>시장</th>
                 <th>업종</th>
-                <th class="r">추정 순매수대금</th>
-                <th class="r">비중</th>
+                <th class="r">20거래일 순매수</th>
+                <th class="r">최신 수정종가</th>
+                <th class="r">고점 대비 하락률</th>
+                <th class="r">2025.06.02 대비</th>
+                <th class="r">기간 최고 수정종가</th>
+                <th class="c">상태</th>
               </tr>
             </thead>
             <tbody id="bought-ranking-tbody"></tbody>
@@ -529,10 +724,21 @@
           </p>
         </div>
 
+        <div style="border-top:1px solid var(--line);padding-top:12px;margin-bottom:14px">
+          <h3 style="font-size:14px;font-weight:700;margin-bottom:6px">5. 고점 대비 낙폭 및 수정주가 산출 기준</h3>
+          <ul style="font-size:13px;color:var(--ink-2);line-height:1.6;padding-left:18px">
+            <li><strong>분석 시작일:</strong> 2025년 6월 2일부터 최신 거래일까지를 기본 관측 구간으로 설정합니다.</li>
+            <li><strong>기간 최고 수정종가:</strong> 해당 시작일 이후 기록한 최고 수정종가를 기준으로 각 종목의 낙폭을 계산합니다 (절대 역사상 최고가가 아닌 관측 구간 내 최고가).</li>
+            <li><strong>수정주가 정밀 복원:</strong> 액면분할, 액면병합, 무상증자, 감자, 유상증자 권리락 등 기업행동에 따른 가격 불연속을 KRX 일별 기준가 대비 종가 수익 배율로 역산 반영하여 왜곡을 차단합니다.</li>
+            <li><strong>비교 대상 유니버스:</strong> 2025년 6월 2일 이전 상장되어 현재까지 거래 중인 코스피 및 코스닥 보통주 2,438개 종목(KOSPI 794개, KOSDAQ 1,644개)을 대상으로 합니다 (신규 상장 108개, 상장폐지 73개 별도 집계 관리).</li>
+          </ul>
+        </div>
+
         <div style="border-top:1px solid var(--line);padding-top:12px">
-          <h3 style="font-size:14px;font-weight:700;margin-bottom:6px">5. 분석의 한계와 주의사항</h3>
+          <h3 style="font-size:14px;font-weight:700;margin-bottom:6px">6. 분석의 한계와 주의사항</h3>
           <ul style="font-size:12.5px;color:var(--ink-3);line-height:1.6;padding-left:18px">
             <li>본 지표는 개인투자자의 투자 심리(공포/탐욕)를 주관적으로 평가하거나 주식 매매 추천을 제공하지 않습니다.</li>
+            <li>개별 종목의 주가 낙폭 중앙값은 시장 지수의 가중평균 하락률과 산출 방식이 다르므로 직접적인 펀드 수익률과 일치하지 않습니다.</li>
             <li>삼성전자, SK하이닉스 등 대형주를 인위적으로 배제하지 않고 실제 관측된 자금 유입 사실을 그대로 반영합니다.</li>
             <li>개별 투자자의 전체 계좌 수익률이나 미실현 손익을 대변하지 않습니다.</li>
           </ul>
@@ -545,9 +751,10 @@
     개미 지수 (GAEMI INDEX) · <a href="https://raspos.github.io/databrew/" rel="noopener">DataBrew</a> WATCH SERIES
   </footer>
 
-  <script src="data/gaemi_concentration.js?v=20261123"></script>
-  <script src="data/gaemi_news.js?v=20261123"></script>
-  <script src="data/gaemi_data.js?v=20261122p8"></script>
-  <script src="app.js?v=20261123"></script>
+  <script src="data/gaemi_concentration.js?v=20261124"></script>
+  <script src="data/gaemi_drawdown.js?v=20261124"></script>
+  <script src="data/gaemi_news.js?v=20261124"></script>
+  <script src="data/gaemi_data.js?v=20261124"></script>
+  <script src="app.js?v=20261124"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
-  "verified_at": "2026-11-24 21:38:42",
+  "verified_at": "2026-11-25 15:22:04",
   "all_passed": true,
-  "total_tests": 7,
+  "total_tests": 8,
   "results": [
     {
       "test": "테스트 A (첫 실행 — 영속 샤드 원장 복구)",
@@ -36,7 +36,12 @@
     {
       "test": "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",
       "status": "PASS",
-      "detail": "검사 JSON 파일=10개 (NaN/Infinity=0건), 하락장 포착률=114.7%, 배포 번들 기준일=2026-11-24, 체크섬 일치=True"
+      "detail": "검사 JSON 파일=12개 (NaN/Infinity=0건), 하락장 포착률=114.7%, 배포 번들 기준일=2026-11-24, 체크섬 일치=True"
+    },
+    {
+      "test": "테스트 I (고점 대비 낙폭 분석 및 기업행동 수정종가 검증)",
+      "status": "PASS",
+      "detail": "기준일=2026-11-24, 적격 보통주=2438개 (KOSPI 794, KOSDAQ 1644), 순매수 50종목 낙폭 결합 완료, 일별 시계열=362일"
     }
   ]
 }

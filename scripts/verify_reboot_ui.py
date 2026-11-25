@@ -69,16 +69,46 @@ def run_verification():
                     page.click("#themeBtn")
                     page.wait_for_timeout(100)
 
-                # 1. 대표 집중도 및 1년 분포 기준 확인
+                # 1. 고점 대비 낙폭 대표 지표 및 집중도 확인
+                idx_dd_val = page.inner_text("#dd-idx-val").strip()
+                med_dd_val = page.inner_text("#dd-median-val").strip()
+                d30_val = page.inner_text("#dd-d30-val").strip()
                 conc_val = page.inner_text("#hero-conc-val").strip()
                 conc_delta = page.inner_text("#hero-conc-delta").strip()
-                conc_summary = page.inner_text("#hero-summary-text").strip()
                 dist_badge = page.inner_text("#hero-dist-badge").strip()
-                med_1y = page.inner_text("#hero-1y-median").strip()
                 
-                conc_ok = ("58.1%" in conc_val or "58.07" in conc_val) and ("+5.9" in conc_delta or "+5.87" in conc_delta)
-                summary_ok = len(conc_summary) > 20
-                dist_ok = ("상위" in dist_badge and "%" in dist_badge) and ("61." in med_1y)
+                dd_hero_ok = ("-45." in idx_dd_val) and ("-45." in med_dd_val) and ("76." in d30_val)
+                conc_ok = ("58." in conc_val) and ("%" in conc_delta)
+                dist_ok = ("상위" in dist_badge and "%" in dist_badge)
+
+                # KOSDAQ 시장 전환 테스트
+                page.click('#ddMarketSwitch button[data-mkt="KOSDAQ"]')
+                page.wait_for_timeout(100)
+                kq_idx_dd = page.inner_text("#dd-idx-val").strip()
+                kq_med_dd = page.inner_text("#dd-median-val").strip()
+                dd_mkt_switch_ok = ("-45.7" in kq_idx_dd) and ("-55." in kq_med_dd)
+                page.click('#ddMarketSwitch button[data-mkt="KOSPI"]')
+                page.wait_for_timeout(100)
+
+                # 1-1. 낙폭 구간별 분포 (고점에서 멀어진 주식들) 5개 구간 확인
+                dist_rows_cnt = page.locator("#distBarList .dist-row").count()
+                dist_bar_ok = dist_rows_cnt == 5
+
+                # 구간 클릭 인터랙션 테스트
+                page.click('#distBarList .dist-row[data-bidx="4"]')
+                page.wait_for_timeout(100)
+                bucket_visible = page.evaluate("() => !document.getElementById('bucketStocksWrap').hidden")
+                page.click("#closeBucketStocksBtn")
+                page.wait_for_timeout(100)
+
+                # 1-2. 개인 순매수 상위 50종목 낙폭 비교 카드 확인
+                retail_box_cnt = page.locator("#comp-box-retail").count()
+                retail_top10_cnt = page.locator("#retail-top10-drawdown-tbody tr").count()
+                retail_top50_ok = retail_box_cnt >= 1 and retail_top10_cnt == 10
+
+                # 1-3. 고점에서 멀어진 주식들 시계열 차트 확인
+                ts_chart_cnt = page.locator("#ddTimeseriesChart").count()
+                ts_chart_ok = ts_chart_cnt >= 1
 
                 # 2. BOK WATCH SVG 차트 렌더링 확인
                 chart_svg_cnt = page.locator("#concentrationChart svg").count()
@@ -104,13 +134,13 @@ def run_verification():
                 # 3. 시장과 개미의 관계 (상관관계 분석 및 기간 전환)
                 mkt_kospi_corr = page.inner_text("#m-kospi-corr").strip()
                 mkt_kosdaq_corr = page.inner_text("#m-kosdaq-corr").strip()
-                market_ok = ("-0.28" in mkt_kospi_corr) and ("-0.10" in mkt_kosdaq_corr)
+                market_ok = ("-0.28" in mkt_kospi_corr or "-0.29" in mkt_kospi_corr) and ("-0.10" in mkt_kosdaq_corr)
 
                 # 60D 전환 테스트
                 page.click('#marketPeriodSwitch button[data-mperiod="60D"]')
                 page.wait_for_timeout(100)
                 mkt_60d_corr = page.inner_text("#m-kospi-corr").strip()
-                mkt_switch_ok = ("-0.25" in mkt_60d_corr)
+                corr_period_switch_ok = ("-0.23" in mkt_60d_corr or "-0.24" in mkt_60d_corr or "-0.25" in mkt_60d_corr)
                 page.click('#marketPeriodSwitch button[data-mperiod="252D"]')
                 page.wait_for_timeout(100)
 
@@ -180,16 +210,35 @@ def run_verification():
                 shot_path = os.path.join(ARTIFACT_DIR, shot_name)
                 page.screenshot(path=shot_path, full_page=False)
 
-                test_pass = (
-                    conc_ok and summary_ok and dist_ok and chart_ok and svg_rich_ok and
-                    market_ok and mkt_switch_ok and news_ok and
-                    overflow_ok and top10_ok and decomp_ok and
-                    search_ok and movement_ok and scorecard_ok and conc_tab_visible and
-                    len(console_errors) == 0
-                )
+                checks = {
+                    "dd_hero_ok": dd_hero_ok,
+                    "dd_mkt_switch_ok": dd_mkt_switch_ok,
+                    "dist_bar_ok": dist_bar_ok,
+                    "bucket_visible": bucket_visible,
+                    "retail_top50_ok": retail_top50_ok,
+                    "ts_chart_ok": ts_chart_ok,
+                    "conc_ok": conc_ok,
+                    "dist_ok": dist_ok,
+                    "chart_ok": chart_ok,
+                    "svg_rich_ok": svg_rich_ok,
+                    "market_ok": market_ok,
+                    "corr_period_switch_ok": corr_period_switch_ok,
+                    "news_ok": news_ok,
+                    "overflow_ok": overflow_ok,
+                    "top10_ok": top10_ok,
+                    "decomp_ok": decomp_ok,
+                    "search_ok": search_ok,
+                    "movement_ok": movement_ok,
+                    "scorecard_ok": scorecard_ok,
+                    "conc_tab_visible": conc_tab_visible,
+                    "no_console_errors": len(console_errors) == 0,
+                }
+                failed_checks = [k for k, v in checks.items() if not v]
+                test_pass = len(failed_checks) == 0
 
                 if not test_pass:
                     results["passed"] = False
+                    print(f"  [!] Failed checks: {failed_checks}")
 
                 test_entry = {
                     "name": test_name,

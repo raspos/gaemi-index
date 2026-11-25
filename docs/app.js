@@ -28,6 +28,11 @@
     selectedStock: "417200",
     invListMode: "IND", // IND | FRG | ORG | DIV_IND | DIV_OTH
     selectedQuarter: null,
+    ddMarket: "KOSPI", // "KOSPI" | "KOSDAQ"
+    ddTsRange: 90,
+    ddTsMetric: "median",
+    boughtSort: "netbuy",
+    selectedBucketRange: null,
   };
 
   function initSelectedIndex() {
@@ -132,6 +137,7 @@
   // PHASE 4 Section 6: 현재 활성화된 탭의 차트만 즉시 렌더링(다른 탭으로 이동할 때 activateTab에서 렌더링)
   function refreshActiveChart() {
     if (state.activeTab === "tab-conc") {
+      renderDrawdownTimeseriesChart();
       renderConcentrationChart();
     } else if (!DATA) {
       return;
@@ -167,6 +173,10 @@
     }
 
     if (target === "tab-conc") {
+      renderDrawdownHero();
+      renderDrawdownDistribution();
+      renderRetailTop50Drawdown();
+      renderDrawdownTimeseriesChart();
       renderConcentrationHero();
       renderConcentrationChart();
     } else if (target === "tab-bought") {
@@ -2286,6 +2296,7 @@
     initQuarterSelect();
     bindEvents();
     initConcentrationEvents();
+    initDrawdownModule();
     renderConcentrationHero();
     renderConcentrationChart(90);
     renderMarketRelations("252D");
@@ -2820,45 +2831,84 @@
     renderNewsSection(dateStr);
   }
 
-  function renderBoughtTab(period, query) {
-    if (!CONC_DATA || !CONC_DATA.latest) return;
+  function renderBoughtTab(period, query, sortMode) {
     if (period) state.boughtPeriod = period;
     if (query !== undefined) state.boughtSearch = query;
+    if (sortMode) state.boughtSort = sortMode;
 
     const p = state.boughtPeriod;
     const q = (state.boughtSearch || "").trim().toLowerCase();
+    const sort = state.boughtSort;
 
     const tbody = document.getElementById("bought-ranking-tbody");
     if (!tbody) return;
 
     let items = [];
-    if (p === "20d") {
-      items = CONC_DATA.latest.top10 || [];
-    } else if (p === "5d") {
-      items = CONC_DATA.latest.top_5d || [];
-    } else if (p === "1d") {
-      items = CONC_DATA.latest.top_1d || [];
+    if (DD_DATA && DD_DATA.stocks && DD_DATA.stocks.length) {
+      items = DD_DATA.stocks.slice();
+      if (!q && p === "20d") {
+        // 기본 20d에서는 순매수 상위 50종목 우선 노출
+        items = items.slice(0, 50);
+      }
+    } else if (CONC_DATA && CONC_DATA.latest) {
+      if (p === "20d") items = CONC_DATA.latest.top10 || [];
+      else if (p === "5d") items = CONC_DATA.latest.top_5d || [];
+      else if (p === "1d") items = CONC_DATA.latest.top_1d || [];
     }
 
     if (q) {
-      items = items.filter((it) => it.name.toLowerCase().includes(q) || it.code.includes(q));
+      if (DD_DATA && DD_DATA.stocks) {
+        items = DD_DATA.stocks.filter((it) => it.name.toLowerCase().includes(q) || it.code.includes(q));
+      } else {
+        items = items.filter((it) => it.name.toLowerCase().includes(q) || it.code.includes(q));
+      }
+    }
+
+    // 정렬 적용
+    if (sort === "netbuy") {
+      items.sort((a, b) => (b.net_buy_20d || 0) - (a.net_buy_20d || 0));
+    } else if (sort === "dd_desc") {
+      items.sort((a, b) => (a.drawdown_pct || 0) - (b.drawdown_pct || 0));
+    } else if (sort === "dd_asc") {
+      items.sort((a, b) => (b.drawdown_pct || 0) - (a.drawdown_pct || 0));
+    } else if (sort === "ret_desc") {
+      items.sort((a, b) => (b.return_since_base_pct || 0) - (a.return_since_base_pct || 0));
+    } else if (sort === "ret_asc") {
+      items.sort((a, b) => (a.return_since_base_pct || 0) - (b.return_since_base_pct || 0));
     }
 
     if (!items.length) {
-      tbody.innerHTML = `<tr><td colspan="6" class="c" style="padding:20px;color:var(--ink-3)">검색 결과가 없습니다.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="10" class="c" style="padding:20px;color:var(--ink-3)">검색 결과가 없습니다.</td></tr>`;
       return;
     }
 
-    tbody.innerHTML = items.map((it) => `
-      <tr>
-        <td style="font-weight:700;text-align:center">${it.rank}</td>
-        <td><strong>${it.name}</strong> <small style="color:var(--ink-3)">${it.code}</small></td>
-        <td>${it.market || "-"}</td>
-        <td><span class="tile-tag">${it.sector || "기타"}</span></td>
-        <td class="r" style="font-family:var(--font-mono)">${formatWon(it.net_val)}</td>
-        <td class="r" style="font-family:var(--font-mono);font-weight:700">${it.share ? it.share.toFixed(1) + '%' : '-'}</td>
-      </tr>
-    `).join("");
+    tbody.innerHTML = items.map((it, idx) => {
+      const dd = it.drawdown_pct !== undefined ? `${it.drawdown_pct.toFixed(1)}%` : "-";
+      const ret = it.return_since_base_pct !== undefined ? `${it.return_since_base_pct >= 0 ? '+' : ''}${it.return_since_base_pct.toFixed(1)}%` : "-";
+      const retClass = it.return_since_base_pct >= 0 ? "up" : "down";
+      const peak = it.peak_adj_close ? formatWon(it.peak_adj_close) : "-";
+      const peakDt = it.peak_date ? ` (${it.peak_date})` : "";
+      const netVal = it.net_buy_20d !== undefined ? formatWon(it.net_buy_20d) : (it.net_val ? formatWon(it.net_val) : "-");
+      const latestClose = it.latest_adj_close ? formatWon(it.latest_adj_close) : "-";
+      const statusTag = it.is_suspended
+        ? `<span class="tile-tag" style="color:var(--del-ink)">거래정지</span>`
+        : `<span class="tile-tag" style="color:var(--add-ink)">정상</span>`;
+
+      return `
+        <tr>
+          <td style="font-weight:700;text-align:center">${idx + 1}</td>
+          <td><strong>${it.name}</strong> <small style="color:var(--ink-3)">${it.code}</small></td>
+          <td>${it.market || "-"}</td>
+          <td><span class="tile-tag">${it.industry || it.sector || "기타"}</span></td>
+          <td class="r" style="font-family:var(--font-mono)">${netVal}</td>
+          <td class="r" style="font-family:var(--font-mono)">${latestClose}</td>
+          <td class="r down" style="font-family:var(--font-mono);font-weight:700">${dd}</td>
+          <td class="r ${retClass}" style="font-family:var(--font-mono);font-weight:700">${ret}</td>
+          <td class="r" style="font-family:var(--font-mono)">${peak}<small style="color:var(--ink-3)">${peakDt}</small></td>
+          <td class="c">${statusTag}</td>
+        </tr>
+      `;
+    }).join("");
   }
 
   function renderMovementTab() {
@@ -2947,6 +2997,15 @@
         document.querySelectorAll("#boughtPeriodSwitch button").forEach((b) => b.classList.remove("on"));
         btn.classList.add("on");
         renderBoughtTab(btn.getAttribute("data-period"));
+      });
+    });
+
+    // 개미가 산 종목 정렬 스위치
+    document.querySelectorAll("#boughtSortSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#boughtSortSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        renderBoughtTab(undefined, undefined, btn.getAttribute("data-sort"));
       });
     });
 
@@ -3168,6 +3227,494 @@
 
     [outFilter, stockFilter, secFilter].forEach((sel) => {
       if (sel) sel.addEventListener("change", renderFull);
+    });
+  }
+
+  // ==========================================================
+  // PEAK DRAWDOWN MODULE (고점 대비 낙폭 분석 전면 개편)
+  // ==========================================================
+  let DD_DATA = window.GAEMI_DRAWDOWN || null;
+  let ddTsChart = null;
+
+  function initDrawdownModule() {
+    if (!DD_DATA) {
+      fetch("data/gaemi_drawdown.json")
+        .then((r) => r.json())
+        .then((d) => {
+          DD_DATA = d;
+          setupDrawdownUI();
+        })
+        .catch(() => {});
+      return;
+    }
+    setupDrawdownUI();
+  }
+
+  function setupDrawdownUI() {
+    renderDrawdownHero();
+    renderDrawdownDistribution();
+    renderRetailTop50Drawdown();
+    renderDrawdownTimeseriesChart();
+
+    // 1. 시장 전환 스위치 (KOSPI / KOSDAQ)
+    document.querySelectorAll("#ddMarketSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#ddMarketSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        state.ddMarket = btn.getAttribute("data-mkt") || "KOSPI";
+        state.selectedBucketRange = null;
+        const bucketWrap = document.getElementById("bucketStocksWrap");
+        if (bucketWrap) bucketWrap.hidden = true;
+        renderDrawdownHero();
+        renderDrawdownDistribution();
+        renderDrawdownTimeseriesChart();
+      });
+    });
+
+    // 2. 구간 종목 목록 닫기 버튼
+    const closeBucketBtn = document.getElementById("closeBucketStocksBtn");
+    if (closeBucketBtn) {
+      closeBucketBtn.addEventListener("click", () => {
+        const bucketWrap = document.getElementById("bucketStocksWrap");
+        if (bucketWrap) bucketWrap.hidden = true;
+        document.querySelectorAll("#distBarList .dist-row").forEach((r) => r.classList.remove("active"));
+        state.selectedBucketRange = null;
+      });
+    }
+
+    // 3. 시계열 지표 스위치 (낙폭 중앙값 vs 30%·50% 하락 비율)
+    document.querySelectorAll("#ddTsMetricSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#ddTsMetricSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        state.ddTsMetric = btn.getAttribute("data-metric") || "median";
+        renderDrawdownTimeseriesChart();
+      });
+    });
+
+    // 4. 시계열 기간 스위치 (30일, 90일, 1년, 전체)
+    document.querySelectorAll("#ddTsRangeSwitch button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#ddTsRangeSwitch button").forEach((b) => b.classList.remove("on"));
+        btn.classList.add("on");
+        state.ddTsRange = parseInt(btn.getAttribute("data-tsrange"), 10);
+        renderDrawdownTimeseriesChart();
+      });
+    });
+
+    // 5. 창 크기 변경 시 차트 재렌더링
+    window.addEventListener("resize", () => {
+      if (state.activeTab === "tab-conc") {
+        renderDrawdownTimeseriesChart();
+      }
+    });
+  }
+
+  function renderDrawdownHero() {
+    if (!DD_DATA || !DD_DATA.benchmarks || !DD_DATA.market_summary) return;
+    const mkt = state.ddMarket; // "KOSPI" | "KOSDAQ"
+    const bm = DD_DATA.benchmarks[mkt];
+    const mktStats = DD_DATA.market_summary[mkt];
+    if (!bm || !mktStats) return;
+
+    // Tile 1: 지수 고점 대비 하락률
+    const idxNameEl = document.getElementById("dd-idx-name");
+    const idxValEl = document.getElementById("dd-idx-val");
+    const idxPeakEl = document.getElementById("dd-idx-peak-tag");
+    const idxSubEl = document.getElementById("dd-idx-sub");
+
+    if (idxNameEl) idxNameEl.textContent = `${mkt === "KOSPI" ? "코스피" : "코스닥"} 지수 하락률`;
+    if (idxValEl) {
+      idxValEl.textContent = `${bm.drawdown_pct.toFixed(1)}%`;
+      idxValEl.className = "dd-hero-num down";
+    }
+    if (idxPeakEl) {
+      idxPeakEl.textContent = `최고점 ${bm.peak_val.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${bm.peak_date})`;
+    }
+    if (idxSubEl) {
+      idxSubEl.textContent = `현재 지수 ${bm.latest.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // Tile 2: 개별 종목 낙폭 중앙값
+    const medNameEl = document.getElementById("dd-median-name");
+    const medValEl = document.getElementById("dd-median-val");
+    const medSubEl = document.getElementById("dd-median-sub");
+
+    if (medNameEl) medNameEl.textContent = `${mkt === "KOSPI" ? "코스피" : "코스닥"} 개별 종목 낙폭 중앙값`;
+    if (medValEl) {
+      medValEl.textContent = `${mktStats.median_drawdown_pct.toFixed(1)}%`;
+      medValEl.className = "dd-hero-num down";
+    }
+    if (medSubEl) {
+      medSubEl.textContent = `${mkt === "KOSPI" ? "코스피" : "코스닥"} ${mktStats.total_stocks}개 종목의 최고점 대비 하락률 중앙값`;
+    }
+
+    // Tile 3: 30% 이상 하락 종목
+    const d30NameEl = document.getElementById("dd-d30-name");
+    const d30ValEl = document.getElementById("dd-d30-val");
+    const d30CntEl = document.getElementById("dd-d30-cnt-tag");
+    const d30SubEl = document.getElementById("dd-d30-sub");
+
+    if (d30NameEl) d30NameEl.textContent = "30% 이상 하락 종목";
+    if (d30ValEl) d30ValEl.textContent = `${mktStats.down_30_pct.toFixed(1)}%`;
+    if (d30CntEl) d30CntEl.textContent = `${mktStats.down_30_count}개 / ${mktStats.total_stocks}개`;
+    if (d30SubEl) {
+      d30SubEl.textContent = `50% 이상 하락: ${mktStats.down_50_count}개 (${mktStats.down_50_pct.toFixed(1)}%)`;
+    }
+
+    // 시각적 격차 인디케이터
+    const gapIdxEl = document.getElementById("gap-idx-val");
+    const gapMedEl = document.getElementById("gap-med-val");
+    const gapDiffEl = document.getElementById("gap-diff-val");
+    const gapGuideEl = document.getElementById("gap-guide-text");
+
+    const gapDiff = mktStats.median_drawdown_pct - bm.drawdown_pct;
+    if (gapIdxEl) gapIdxEl.textContent = `${bm.drawdown_pct.toFixed(1)}%`;
+    if (gapMedEl) gapMedEl.textContent = `${mktStats.median_drawdown_pct.toFixed(1)}%`;
+    if (gapDiffEl) {
+      const sign = gapDiff >= 0.05 ? "+" : "";
+      gapDiffEl.textContent = `${sign}${gapDiff.toFixed(1)}%p`;
+      gapDiffEl.className = gapDiff <= -0.05 ? "down" : "mono";
+    }
+    if (gapGuideEl) {
+      if (mkt === "KOSPI") {
+        gapGuideEl.textContent = "코스피 개별 종목들의 실제 낙폭이 지수보다 더 크게 나타나고 있습니다.";
+      } else {
+        gapGuideEl.textContent = "코스닥 개별 종목 낙폭 중앙값(-55.7%)은 지수 하락률(-45.7%)보다 -10.0%p 더 깊어 체감 하락이 극심합니다.";
+      }
+    }
+  }
+
+  function renderDrawdownDistribution() {
+    if (!DD_DATA || !DD_DATA.market_summary) return;
+    const mkt = state.ddMarket;
+    const mktStats = DD_DATA.market_summary[mkt];
+    if (!mktStats || !mktStats.distribution) return;
+
+    const titleEl = document.getElementById("dist-section-title");
+    const subEl = document.getElementById("dist-section-sub");
+    const totTag = document.getElementById("dist-total-tag");
+    const listEl = document.getElementById("distBarList");
+
+    if (titleEl) titleEl.textContent = `고점에서 멀어진 주식들 (${mkt})`;
+    if (subEl) subEl.textContent = `2025년 6월 2일 이후 기간 최고 수정종가 대비 하락폭 구간별 ${mkt} 종목 분포`;
+    if (totTag) totTag.textContent = `${mkt} ${mktStats.total_stocks}개 종목`;
+
+    if (!listEl) return;
+    const buckets = mktStats.distribution;
+
+    listEl.innerHTML = buckets.map((b, idx) => {
+      const isActive = state.selectedBucketRange === idx ? " active" : "";
+      return `
+        <div class="dist-row${isActive}" data-bidx="${idx}" role="button" tabindex="0" aria-label="${b.label}: ${b.count}개, ${b.pct.toFixed(1)}%">
+          <span class="dist-label">${b.label}</span>
+          <div class="dist-track">
+            <div class="dist-fill" style="width:${Math.min(100, b.pct)}%"></div>
+          </div>
+          <div class="dist-meta">
+            <strong>${b.pct.toFixed(1)}%</strong>
+            <span>(${b.count}개)</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // 행 클릭 이벤트: 해당 구간 종목 리스트 전개
+    listEl.querySelectorAll(".dist-row").forEach((row) => {
+      row.addEventListener("click", () => {
+        const bidx = parseInt(row.getAttribute("data-bidx"), 10);
+        listEl.querySelectorAll(".dist-row").forEach((r) => r.classList.remove("active"));
+        if (state.selectedBucketRange === bidx) {
+          state.selectedBucketRange = null;
+          const wrap = document.getElementById("bucketStocksWrap");
+          if (wrap) wrap.hidden = true;
+          return;
+        }
+        state.selectedBucketRange = bidx;
+        row.classList.add("active");
+        renderBucketStocks(bidx);
+      });
+    });
+  }
+
+  function renderBucketStocks(bidx) {
+    if (!DD_DATA || !DD_DATA.stocks) return;
+    const wrap = document.getElementById("bucketStocksWrap");
+    const tbody = document.getElementById("bucket-stocks-tbody");
+    const titleEl = document.getElementById("bucket-stocks-title");
+    if (!wrap || !tbody) return;
+
+    const mkt = state.ddMarket;
+    const mktStats = DD_DATA.market_summary[mkt];
+    const b = mktStats.distribution[bidx];
+    if (!b) return;
+
+    if (titleEl) {
+      titleEl.textContent = `${mkt} [${b.label}] 구간 종목 목록 (${b.count}개)`;
+    }
+
+    // Filter stocks
+    const matched = DD_DATA.stocks.filter((s) => {
+      if (s.market !== mkt) return false;
+      const dd = s.drawdown_pct;
+      if (bidx === 0) return dd <= 0 && dd > -10;
+      if (bidx === 1) return dd <= -10 && dd > -20;
+      if (bidx === 2) return dd <= -20 && dd > -30;
+      if (bidx === 3) return dd <= -30 && dd > -50;
+      if (bidx === 4) return dd <= -50;
+      return false;
+    });
+
+    matched.sort((a, b) => a.drawdown_pct - b.drawdown_pct);
+
+    tbody.innerHTML = matched.map((s) => `
+      <tr>
+        <td><strong>${s.name}</strong> <small style="color:var(--ink-3)">${s.code}</small></td>
+        <td>${s.market}</td>
+        <td><span class="tile-tag">${s.industry || "기타"}</span></td>
+        <td class="r" style="font-family:var(--font-mono)">${formatWon(s.latest_adj_close)}</td>
+        <td class="r" style="font-family:var(--font-mono)">${formatWon(s.peak_adj_close)} <small style="color:var(--ink-3)">(${s.peak_date})</small></td>
+        <td class="r down" style="font-family:var(--font-mono);font-weight:700">${s.drawdown_pct.toFixed(1)}%</td>
+        <td class="r ${s.return_since_base_pct >= 0 ? 'up' : 'down'}" style="font-family:var(--font-mono)">${s.return_since_base_pct >= 0 ? '+' : ''}${s.return_since_base_pct.toFixed(1)}%</td>
+      </tr>
+    `).join("");
+
+    wrap.hidden = false;
+  }
+
+  function renderRetailTop50Drawdown() {
+    if (!DD_DATA || !DD_DATA.retail_top50_drawdown || !DD_DATA.market_summary) return;
+    const r50 = DD_DATA.retail_top50_drawdown;
+    const ms = DD_DATA.market_summary;
+    const kStats = ms.KOSPI;
+    const qStats = ms.KOSDAQ;
+
+    // A. 코스피 전체
+    const kMedEl = document.getElementById("comp-kospi-med");
+    const kD30El = document.getElementById("comp-kospi-d30");
+    const kD50El = document.getElementById("comp-kospi-d50");
+    if (kMedEl) kMedEl.textContent = `${kStats.median_drawdown_pct.toFixed(1)}%`;
+    if (kD30El) kD30El.textContent = `${kStats.down_30_pct.toFixed(1)}% (${kStats.down_30_count}개)`;
+    if (kD50El) kD50El.textContent = `${kStats.down_50_pct.toFixed(1)}% (${kStats.down_50_count}개)`;
+
+    // B. 코스닥 전체
+    const qMedEl = document.getElementById("comp-kosdaq-med");
+    const qD30El = document.getElementById("comp-kosdaq-d30");
+    const qD50El = document.getElementById("comp-kosdaq-d50");
+    if (qMedEl) qMedEl.textContent = `${qStats.median_drawdown_pct.toFixed(1)}%`;
+    if (qD30El) qD30El.textContent = `${qStats.down_30_pct.toFixed(1)}% (${qStats.down_30_count}개)`;
+    if (qD50El) qD50El.textContent = `${qStats.down_50_pct.toFixed(1)}% (${qStats.down_50_count}개)`;
+
+    // C. 개인 순매수 상위 50종목
+    const rMedEl = document.getElementById("comp-retail-med");
+    const rD30El = document.getElementById("comp-retail-d30");
+    const rD50El = document.getElementById("comp-retail-d50");
+    if (rMedEl) rMedEl.textContent = `${r50.median_drawdown_pct.toFixed(1)}%`;
+    if (rD30El) rD30El.textContent = `${r50.down_30_pct.toFixed(1)}% (${r50.down_30_count}개)`;
+    if (rD50El) rD50El.textContent = `${r50.down_50_pct.toFixed(1)}% (${r50.down_50_count}개)`;
+
+    // 요약 문장 자동 생성 (Section VI)
+    const summaryEl = document.getElementById("retail-top50-summary-p");
+    if (summaryEl) {
+      summaryEl.textContent = `최근 20거래일 개인 순매수 상위 50종목의 고점 대비 낙폭 중앙값은 ${r50.median_drawdown_pct.toFixed(1)}%입니다. 상위 50종목 가운데 30% 이상 하락한 종목은 ${r50.down_30_count}개(${r50.down_30_pct.toFixed(1)}%)이며, 50% 이상 하락한 종목도 ${r50.down_50_count}개(${r50.down_50_pct.toFixed(1)}%)에 달합니다. 특히 코스피 상위 순매수 종목(28개)의 낙폭 중앙값은 ${r50.kospi_sub.median_drawdown_pct.toFixed(1)}%로 시장 전체 평균보다 훨씬 깊은 하락을 겪고 있습니다.`;
+    }
+
+    // Top 10 순매수 종목 낙폭 요약 테이블
+    const t10Tbody = document.getElementById("retail-top10-drawdown-tbody");
+    if (t10Tbody && r50.stocks) {
+      const top10 = r50.stocks.slice(0, 10);
+      t10Tbody.innerHTML = top10.map((s, idx) => `
+        <tr>
+          <td style="font-weight:700;text-align:center">${idx + 1}</td>
+          <td><strong>${s.name}</strong> <small style="color:var(--ink-3)">${s.code}</small></td>
+          <td>${s.market}</td>
+          <td><span class="tile-tag">${s.industry || "기타"}</span></td>
+          <td class="r" style="font-family:var(--font-mono)">${formatWon(s.net_buy_20d)}</td>
+          <td class="r" style="font-family:var(--font-mono)">${formatWon(s.latest_adj_close)}</td>
+          <td class="r down" style="font-family:var(--font-mono);font-weight:700">${s.drawdown_pct.toFixed(1)}%</td>
+          <td class="r ${s.return_since_base_pct >= 0 ? 'up' : 'down'}" style="font-family:var(--font-mono);font-weight:700">${s.return_since_base_pct >= 0 ? '+' : ''}${s.return_since_base_pct.toFixed(1)}%</td>
+        </tr>
+      `).join("");
+    }
+  }
+
+  function renderDrawdownTimeseriesChart() {
+    const canvas = document.getElementById("ddTimeseriesChart");
+    if (!canvas || !DD_DATA || !DD_DATA.timeseries || !window.Chart) return;
+
+    if (ddTsChart) {
+      ddTsChart.destroy();
+      ddTsChart = null;
+    }
+
+    const ts = DD_DATA.timeseries;
+    if (!ts.length) return;
+
+    const rng = state.ddTsRange; // 30, 90, 365, 0
+    let filtered = ts;
+    if (rng > 0) {
+      filtered = ts.slice(-rng);
+    }
+
+    const labels = filtered.map((d) => d.date.slice(5)); // MM-DD
+    const dark = isDarkMode();
+    const gridColor = dark ? "rgba(240, 239, 236, 0.08)" : "rgba(90, 89, 84, 0.12)";
+    const textColor = dark ? "#cbc9bf" : "#43423f";
+
+    let datasets = [];
+    if (state.ddTsMetric === "median") {
+      // 낙폭 중앙값 모드: 코스피/코스닥 종목 중앙값 vs 지수 낙폭
+      datasets = [
+        {
+          label: "코스피 종목 낙폭 중앙값",
+          data: filtered.map((d) => d.kospi_median_dd),
+          borderColor: dark ? "#f0efec" : "#161615",
+          backgroundColor: dark ? "rgba(240, 239, 236, 0.08)" : "rgba(22, 22, 21, 0.06)",
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15
+        },
+        {
+          label: "코스닥 종목 낙폭 중앙값",
+          data: filtered.map((d) => d.kosdaq_median_dd),
+          borderColor: dark ? "#5ca5ff" : "#1862c4",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15
+        },
+        {
+          label: "코스피 지수 하락률",
+          data: filtered.map((d) => d.kospi_index_dd),
+          borderColor: dark ? "#888780" : "#8a8984",
+          borderDash: [4, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0.15
+        },
+        {
+          label: "코스닥 지수 하락률",
+          data: filtered.map((d) => d.kosdaq_index_dd),
+          borderColor: dark ? "#3b82f6" : "#60a5fa",
+          borderDash: [4, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0.15
+        }
+      ];
+    } else {
+      // 30%·50% 하락 비율 모드
+      datasets = [
+        {
+          label: "코스닥 30% 이상 하락 비율",
+          data: filtered.map((d) => d.kosdaq_d30_pct),
+          borderColor: "#ff814f",
+          backgroundColor: "rgba(255, 129, 79, 0.08)",
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15
+        },
+        {
+          label: "코스피 30% 이상 하락 비율",
+          data: filtered.map((d) => d.kospi_d30_pct),
+          borderColor: dark ? "#5ca5ff" : "#1862c4",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          tension: 0.15
+        },
+        {
+          label: "코스닥 50% 이상 하락 비율",
+          data: filtered.map((d) => d.kosdaq_d50_pct),
+          borderColor: "#c490ff",
+          borderDash: [3, 3],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0.15
+        },
+        {
+          label: "코스피 50% 이상 하락 비율",
+          data: filtered.map((d) => d.kospi_d50_pct),
+          borderColor: "#0d7a5f",
+          borderDash: [3, 3],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0.15
+        }
+      ];
+    }
+
+    const ctx = canvas.getContext("2d");
+    ddTsChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: "index",
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            labels: {
+              boxWidth: 12,
+              color: textColor,
+              font: {
+                size: 11.5,
+                family: "var(--font-sans)"
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: dark ? "rgba(252, 252, 251, 0.96)" : "rgba(18, 18, 17, 0.94)",
+            titleColor: dark ? "#121211" : "#f6f6f4",
+            bodyColor: dark ? "#121211" : "#f6f6f4",
+            borderColor: dark ? "#dcdbd6" : "#34342f",
+            borderWidth: 1,
+            callbacks: {
+              title: (items) => {
+                const idx = items[0].dataIndex;
+                return filtered[idx].date;
+              },
+              label: (item) => {
+                return ` ${item.dataset.label}: ${item.parsed.y.toFixed(1)}%`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: gridColor },
+            ticks: {
+              color: textColor,
+              maxTicksLimit: 8,
+              font: { size: 10.5, family: "var(--font-mono)" }
+            }
+          },
+          y: {
+            grid: { color: gridColor },
+            ticks: {
+              color: textColor,
+              callback: (v) => `${v}%`,
+              font: { size: 10.5, family: "var(--font-mono)" }
+            }
+          }
+        }
+      }
     });
   }
 

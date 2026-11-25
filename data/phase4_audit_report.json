@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24 21:37:43",
+  "generated_at": "2026-11-25 15:08:42",
   "section3_estimation_method_comparison": {
     "methods": {
       "plan_a": "A안 (공식 대표): 일별 순매수수량 × 당일 정규장 종가",
@@ -499,7 +499,7 @@
           "intensity_b": 13.6617,
           "net_a_eok": 247.05,
           "net_b_eok": 248.59,
-          "avg_marcap_36m_eok": 1819.578678013468,
+          "avg_marcap_36m_eok": 1819.5786780134683,
           "end_marcap_eok": 4925.401481
         },
         {
@@ -603,7 +603,7 @@
           "intensity_b": 11.9979,
           "net_a_eok": 4650.04,
           "net_b_eok": 5198.46,
-          "avg_marcap_36m_eok": 43327.92062259208,
+          "avg_marcap_36m_eok": 43327.92062259209,
           "end_marcap_eok": 36124.0472384
         },
         {
@@ -1229,7 +1229,7 @@
           "intensity_a": 13.5771,
           "net_b_eok": 248.59,
           "net_a_eok": 247.05,
-          "avg_marcap_36m_eok": 1819.578678013468,
+          "avg_marcap_36m_eok": 1819.5786780134683,
           "end_marcap_eok": 4925.401481
         },
         {
@@ -1359,7 +1359,7 @@
           "intensity_a": 10.7322,
           "net_b_eok": 5198.46,
           "net_a_eok": 4650.04,
-          "avg_marcap_36m_eok": 43327.92062259208,
+          "avg_marcap_36m_eok": 43327.92062259209,
           "end_marcap_eok": 36124.0472384
         },
         {

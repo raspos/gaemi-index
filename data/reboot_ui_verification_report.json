@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-11-23T11:01:05",
+  "timestamp": "2026-11-25T15:20:23",
   "tests": [
     {
       "name": "mobile_320_light",
       "viewport": "320x800",
       "theme": "light",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 300,
         "height": 341
       },
@@ -26,12 +26,12 @@
       "viewport": "320x800",
       "theme": "dark",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 300,
         "height": 341
       },
@@ -46,12 +46,12 @@
       "viewport": "390x844",
       "theme": "light",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 332,
         "height": 341
       },
@@ -66,12 +66,12 @@
       "viewport": "390x844",
       "theme": "dark",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 332,
         "height": 341
       },
@@ -86,14 +86,14 @@
       "viewport": "768x1024",
       "theme": "light",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 702,
-        "height": 359
+        "height": 341
       },
       "overflow": false,
       "top10_rows": 10,
@@ -106,14 +106,14 @@
       "viewport": "768x1024",
       "theme": "dark",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 702,
-        "height": 359
+        "height": 341
       },
       "overflow": false,
       "top10_rows": 10,
@@ -126,12 +126,12 @@
       "viewport": "1280x960",
       "theme": "light",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 1114,
         "height": 341
       },
@@ -146,12 +146,12 @@
       "viewport": "1280x960",
       "theme": "dark",
       "conc_val": "58.1%",
-      "conc_delta": "+5.9%p",
+      "conc_delta": "-0.3%p",
       "chart_elements": {
         "paths": 2,
         "lines": 14,
         "texts": 17,
-        "circles": 114,
+        "circles": 113,
         "width": 1114,
         "height": 341
       },

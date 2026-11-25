@@ -123,6 +123,8 @@ def run_verification():
         os.path.join(DATA_DIR, "phase7_expansion_analysis.json"),
         os.path.join(DATA_DIR, "market_differentiation.json"),
         os.path.join(DATA_DIR, "investor_comparison.json"),
+        os.path.join(DATA_DIR, "gaemi_drawdown.json"),
+        os.path.join(DATA_DIR, "drawdown_audit_report.json"),
         os.path.join(DOCS_DIR, "data", "gaemi_data.json"),
     ]
     bad_tokens_found = []
@@ -159,6 +161,29 @@ def run_verification():
         "테스트 H (JSON 유효성 NaN/Infinity 0건, PHASE 6 하락장 포착률 및 매니페스트 버전 일치)",
         len(bad_tokens_found) == 0 and version_aligned,
         f"검사 JSON 파일={len(json_files)}개 (NaN/Infinity=0건), 하락장 포착률={p6_cap}%, 배포 번들 기준일={manifest['data_as_of']}, 체크섬 일치={version_aligned}"
+    )
+
+    # --- 테스트 I: 고점 대비 낙폭(Drawdown) 분석 무결성 및 기준일 일치 검증 ---
+    dd_path = os.path.join(DATA_DIR, "gaemi_drawdown.json")
+    dd_data = json.load(open(dd_path, encoding="utf-8")) if os.path.exists(dd_path) else {}
+    dd_audit_path = os.path.join(DATA_DIR, "drawdown_audit_report.json")
+    dd_audit = json.load(open(dd_audit_path, encoding="utf-8")) if os.path.exists(dd_audit_path) else {}
+
+    dd_ok = (
+        dd_data.get("data_as_of") == manifest["data_as_of"] and
+        dd_data.get("base_start_date") == "2025-06-02" and
+        "KOSPI" in dd_data.get("benchmarks", {}) and
+        "KOSDAQ" in dd_data.get("benchmarks", {}) and
+        dd_data.get("market_summary", {}).get("KOSPI", {}).get("total_stocks") == 794 and
+        dd_data.get("market_summary", {}).get("KOSDAQ", {}).get("total_stocks") == 1644 and
+        len(dd_data.get("retail_top50_drawdown", {}).get("stocks", [])) == 50 and
+        len(dd_data.get("timeseries", [])) >= 360 and
+        "PASS" in dd_audit.get("corporate_actions_audit", {}).get("verification_status", "")
+    )
+    check(
+        "테스트 I (고점 대비 낙폭 분석 및 기업행동 수정종가 검증)",
+        dd_ok,
+        f"기준일={dd_data.get('data_as_of')}, 적격 보통주={len(dd_data.get('stocks', []))}개 (KOSPI 794, KOSDAQ 1644), 순매수 50종목 낙폭 결합 완료, 일별 시계열={len(dd_data.get('timeseries', []))}일"
     )
 
     report = {
